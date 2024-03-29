@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedItems:
     _serializedList:
-    - _guidString: c7a8ce12-67ac-4922-a9d9-c175556d65a1
+    - _guidString: e48c387d-aae4-473e-a469-b8fad05a2ecf
   collapsedItems:
     _serializedList:
     - _guidString: 9a66c465-0ff8-432c-9ef3-54f1ada951d4
@@ -62,7 +62,8 @@ MonoBehaviour:
   m_Name: PluginPrefabManagerUI_PrefabViewState
   m_EditorClassIdentifier: 
   selectedItems:
-    _serializedList: []
+    _serializedList:
+    - _guidString: 0dfdf0af-259e-4e09-b3f9-a8000800655e
   selectRangeBeginId:
     _guidString: 0dfdf0af-259e-4e09-b3f9-a8000800655e
   selectRangeEndId:
