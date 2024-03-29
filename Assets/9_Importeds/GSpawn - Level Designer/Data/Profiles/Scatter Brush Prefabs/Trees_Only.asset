@@ -62,7 +62,7 @@ MonoBehaviour:
     _texture: {fileID: 0}
     _yaw: 0
     _pitch: 0
-  _uiSelected: 1
+  _uiSelected: 0
   _used: 1
   _spawnChance: 0.4
   _volumeRadius: 1
@@ -251,7 +251,7 @@ MonoBehaviour:
     _texture: {fileID: 0}
     _yaw: 0
     _pitch: 0
-  _uiSelected: 1
+  _uiSelected: 0
   _used: 1
   _spawnChance: 0.4
   _volumeRadius: 1
