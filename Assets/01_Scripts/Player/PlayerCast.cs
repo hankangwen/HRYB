@@ -605,8 +605,27 @@ public class PlayerCast : CastModule
 			default:
 				break;
 		}
+		SetCooldownWhole(1);
 	}
-	
+
+
+	public void SetCooldownTo(SkillSlotInfo info, float amt)
+	{
+		nowSkillSlot[((int)info)].CurCooledTime = nowSkillSlot[((int)info)].skInfo.cooldown - amt;
+	}
+
+	public void SetCooldownTo(int info, float amt)
+	{
+		nowSkillSlot[info].CurCooledTime = nowSkillSlot[info].skInfo.cooldown - amt;
+	}
+
+	public void SetCooldownWhole(float amt)
+	{
+		for (int i = ((int)SkillSlotInfo.One); i < ((int)SkillSlotInfo.Max); i++)
+		{
+			SetCooldownTo(i, amt);
+		}
+	}
 
 	internal void ActualSkillOperate(SkillSlotInfo at)
 	{
