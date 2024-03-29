@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skills/Infos/EnhanceSelf")]
 public class EnhanceSelf : Leaf
 {
-	public List<StatusEffectApplyData> data;
 
 	public override void UpdateStatus()
 	{
@@ -19,9 +18,9 @@ public class EnhanceSelf : Leaf
 
 	internal override void MyOperation(Actor self)
 	{
-		for (int i = 0; i < data.Count; i++)
+		for (int i = 0; i < statEff.Count; i++)
 		{
-			StatusEffects.ApplyStat(self, self, data[i].id, data[i].duration, level);
+			StatusEffects.ApplyStat(self, self, statEff[i].id, statEff[i].duration, level);
 		}
 	}
 }

@@ -39,7 +39,8 @@ public class ChargeCastRoot : SkillRoot
 		{
 			self.life.superArmor = true;
 		}
-
+		GameManager.instance.uiManager.interingUI.On();
+		GameManager.instance.uiManager.interingUI.SetGaugeValue(0);
 		if (isPlayAnim)
 		{
 			if (self.anim is PlayerAnim pa)
@@ -86,7 +87,7 @@ public class ChargeCastRoot : SkillRoot
 			childs[i].Operate(self);
 		}
 		charging  = true;
-		GameManager.instance.uiManager.interingUI.On();
+		
 		chargeStartSec = Time.time;
 
 		Transform t = owner.transform.Find(chargeEffectShowPos);

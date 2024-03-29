@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: OnNextHitIce
   m_EditorClassIdentifier: 
   animClip: {fileID: 0}
+  animClipLoopings: {fileID: 0}
   animClipDisop: {fileID: 0}
   audioClipName: 
   tags:
     value: 2
-  level: 1
-  data:
+  level: 4
+  statEff:
   - id: 5
-    power: 1
-    duration: -1
+    power: 2
+    duration: 10
