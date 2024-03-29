@@ -13,7 +13,7 @@ public class JangsungLifeModule : LifeModule
 
 	public void BarrierON()
 	{
-		_objs = Instantiate(_barrierEffect, _visualPos);
+		_objs = Instantiate(_barrierEffect, transform);
 		_isBarrier = true;
 	}
 
@@ -41,7 +41,6 @@ public class JangsungLifeModule : LifeModule
 					if (!(isImmune))
 					{
 						DamageYYBase(data);
-						
 						_hitEvent?.Invoke();
 						
 						GetActor().anim.SetHitTrigger();

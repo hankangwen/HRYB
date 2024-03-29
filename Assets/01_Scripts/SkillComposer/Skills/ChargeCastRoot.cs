@@ -39,7 +39,8 @@ public class ChargeCastRoot : SkillRoot
 		{
 			self.life.superArmor = true;
 		}
-
+		GameManager.instance.uiManager.interingUI.On();
+		GameManager.instance.uiManager.interingUI.SetGaugeValue(0);
 		if (isPlayAnim)
 		{
 			if (self.anim is PlayerAnim pa)
@@ -86,7 +87,7 @@ public class ChargeCastRoot : SkillRoot
 			childs[i].Operate(self);
 		}
 		charging  = true;
-		GameManager.instance.uiManager.interingUI.On();
+		
 		chargeStartSec = Time.time;
 
 		Transform t = owner.transform.Find(chargeEffectShowPos);
@@ -102,16 +103,14 @@ public class ChargeCastRoot : SkillRoot
 
 	internal override void MyDisoperation(Actor self)
 	{
+		for (int i = 0; i < childs.Count; i++)
+		{
+			ActualDisoperateAt(self, i);
+		}
 		if (prepared)
 		{
+			//GameManager.instance.camManager.FreezeCamX();
 			GameManager.instance.StartCoroutine(DelDisoperate(self));
-		}
-		else
-		{
-			for (int i = 0; i < childs.Count; i++)
-			{
-				ActualDisoperateAt(self, i);
-			}
 		}
 		GameManager.instance.uiManager.interingUI.Off();
 		Debug.Log("충전종료, 스킬을 사용했는가? : " + prepared);
@@ -154,7 +153,7 @@ public class ChargeCastRoot : SkillRoot
 		{
 			self.life.superArmor = false;
 		}
-		
+		//GameManager.instance.camManager.UnfreezeCamX();
 	}
 
 	public override void SetAnimations(Actor to, SkillSlotInfo info)

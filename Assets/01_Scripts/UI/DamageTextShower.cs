@@ -5,17 +5,22 @@ using UnityEngine;
 
 public class DamageTextShower : MonoBehaviour
 {
+
 	public float showTime;
 
 	public float appearNoiseScale = 0.4f;
+	public float textInvalidRotation = 140f;
 
 	public Gradient whiteDmgColor;
 	public Gradient blackDmgColor;
+
+	public List<Color> channelColors;
 
 	public float maxAmtWhite;
 	public float maxAmtBlack;
 
 	public float maxAmtDist;
+
 
 	public AnimationCurve yAccelMovement;
 	public AnimationCurve alphaMovement;
@@ -41,11 +46,12 @@ public class DamageTextShower : MonoBehaviour
 		}
 	}
 
-	public void GenerateDamageText(Vector3 pos, float damage, YYInfo info)
+	public void GenerateDamageText(Vector3 pos, float damage, YYInfo info, DamageChannel channel = DamageChannel.Normal, float sizeMod = 1)
 	{
+		damage = Mathf.Round(damage * 100) / 100f;
 		DamageText dt = PoolManager.GetObject("DamageText", transform).GetComponent<DamageText>();
 		pos += (Vector3)UnityEngine.Random.insideUnitCircle * appearNoiseScale;
-		dt.SetInfo(damage, info, pos);
+		dt.SetInfo(damage, info, pos, channel, sizeMod);
 		damageTexts.Add(dt);
 		StartCoroutine(DelReturnDamageText(dt));
 	}

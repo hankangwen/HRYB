@@ -267,6 +267,8 @@ public class PlayerInven : MonoBehaviour
 	public Vector3 swapEffectRot;
 	public Vector3 swapEffectScale;
 
+	public float changeCool;
+
 	bool clickWood = false;
 	bool clickFire = false;
 	bool clickEarth = false;
@@ -276,6 +278,8 @@ public class PlayerInven : MonoBehaviour
 	public PlayerForm stat = PlayerForm.Magic;
 	public int curHolding = 0;
 	PlayerAnimActions animActions;
+
+	float prevChange;
 	
 	public ItemAmountPair CurHoldingItem 
 	{ 
@@ -303,6 +307,7 @@ public class PlayerInven : MonoBehaviour
 	{
 		inven = new Inventory(cap);
 		animActions = GetComponentInChildren<PlayerAnimActions>();
+		prevChange = -changeCool;
 	}
 
 	private void Start()
@@ -530,35 +535,42 @@ public class PlayerInven : MonoBehaviour
 
 	public void SwitchHand(InputAction.CallbackContext context)
 	{
+		if((GameManager.instance.pActor.move as PlayerMove).NoInput.Paused || GameManager.instance.pActor.move.moveModuleStat.Paused)
+			return;
 		if (context.performed)
 		{
-			if((GameManager.instance.pActor.move as PlayerMove).isGrounded 
-				&& !clickWood && !clickFire && !clickMetal && !clickWater && !clickEarth)
+			if(Time.time - prevChange >= changeCool)
 			{
-				switch (stat)
+				if ((GameManager.instance.pActor.move as PlayerMove).isGrounded
+				&& !clickWood && !clickFire && !clickMetal && !clickWater && !clickEarth)
 				{
-					case PlayerForm.Yoho:
-						if ((GameManager.instance.pActor.atk is PlayerAttack atk) &&
-							!atk.clickL && !atk.clickR)
-						{
-							stat = PlayerForm.Magic;
-						}
-						break;
-					case PlayerForm.Magic:
-						if ((GameManager.instance.pActor.atk is PlayerAttack tk) &&
-							!tk.clickL && !tk.clickR)
-						{
-							stat = PlayerForm.Yoho;
-						}
-						break;
-					default:
-						break;
+					switch (stat)
+					{
+						case PlayerForm.Yoho:
+							if ((GameManager.instance.pActor.atk is PlayerAttack atk) &&
+								!atk.clickL && !atk.clickR)
+							{
+								stat = PlayerForm.Magic;
+							}
+							break;
+						case PlayerForm.Magic:
+							if ((GameManager.instance.pActor.atk is PlayerAttack tk) &&
+								!tk.clickL && !tk.clickR)
+							{
+								stat = PlayerForm.Yoho;
+							}
+							break;
+						default:
+							break;
+					}
+					GameObject obj = PoolManager.GetObject(swapEffectName, transform, 1.5f);
+					obj.transform.rotation = Quaternion.Euler(swapEffectRot);
+					obj.transform.localScale = swapEffectScale;
+					RefreshStat();
+					prevChange = Time.time;
 				}
-				GameObject obj = PoolManager.GetObject(swapEffectName, transform, 1.5f);
-				obj.transform.rotation = Quaternion.Euler(swapEffectRot);
-				obj.transform.localScale = swapEffectScale;
-				RefreshStat();
 			}
+			
 		}
 	}
 
