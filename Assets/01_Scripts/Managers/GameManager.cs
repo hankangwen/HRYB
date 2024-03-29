@@ -370,6 +370,8 @@ public class GameManager : MonoBehaviour
 		player.layer = LayerMask.NameToLayer("Player");
 		//GameManager.instance.pinp.ActivateInput();
 		EnableCtrl(ControlModuleMode.Animated);
+
+		
 	}
 	
 	public void DisableCtrl(ControlModuleMode mode)
@@ -384,6 +386,8 @@ public class GameManager : MonoBehaviour
 		Debug.Log("*)*)*)*)*)*)");
 		(pActor.move as PlayerMove).moveModuleStat.Pause(mode, false);
 		pActor.atk.attackModuleStat.Pause(mode, false);
+
+		(pActor.atk as PlayerAttack).HandleRemoveCall();
 	}
 
 

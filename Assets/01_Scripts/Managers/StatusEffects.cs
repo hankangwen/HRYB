@@ -381,7 +381,7 @@ public class StatusEffects
 				}
 				else
 				{
-					atk.statEff.Add(new StatusEffectApplyData(StatEffID.Slow, (10 + 5 * (power * (power - 1) / 2)) * 0.01f, 5)); //더하긴 했는데, 언제 지우지?
+					atk.statEff.Add(new StatusEffectApplyData(StatEffID.Slow, (10 + 5 * (power * (power - 1) / 2)) * 0.01f, 7)); //더하긴 했는데, 언제 지우지?
 					//lastEnhancedSkill = atk;
 				}
 				Debug.Log("REMOVING STAT : " + self.life.name);

@@ -17,8 +17,8 @@ MonoBehaviour:
   animClipDisop: {fileID: 0}
   audioClipName: 
   tags:
-    value: 4
-  level: 0
+    value: 5
+  level: 4
   statEff:
   - id: 0
     power: 1
