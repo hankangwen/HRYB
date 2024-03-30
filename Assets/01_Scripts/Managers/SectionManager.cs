@@ -36,7 +36,7 @@ public class SectionManager : MonoBehaviour
 				Debug.Log("TIMELINED");
 				GameManager.instance.timeliner2.Play();
 				StartCoroutine(GameManager.instance.DelInputCtrl((float)GameManager.instance.timeliner2.duration));
-				GameManager.instance.qManager.NextIf(Quests.ESCAPECAVE);
+				//GameManager.instance.qManager.NextIf(Quests.ESCAPECAVE);
 			}
 		}
 		

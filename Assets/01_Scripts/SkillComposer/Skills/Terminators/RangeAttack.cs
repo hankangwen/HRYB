@@ -17,7 +17,7 @@ public class RangeAttack : AttackBase
 	public bool isOffsetRandom;
 	public Vector2 randomOffsetRange;
 
-	public Vector2 decalScale;
+	public Vector3 decalScale;
 
 	public float totalRemainSec;
 	public bool isOnce;
@@ -43,6 +43,7 @@ public class RangeAttack : AttackBase
 			DamageArea ar = PoolManager.GetObject(prefName, targetPt, Quaternion.Euler(rotationOffset)).GetComponent<DamageArea>();
 			ar.transform.localScale = scaleOffset;
 			ar.SetInfo(totalRemainSec ,self.atk.Damage * damageMult, isOnce, checkGap, checkDur, self, statEff);
+			GameManager.instance.audioPlayer.PlayPoint(audioClipName, targetPt);
 		}
 		catch
 		{
@@ -59,7 +60,7 @@ public class RangeAttack : AttackBase
 			if (!rngDecal)
 			{
 				rngDecal = PoolManager.GetObject(rangeName, targetPt, Quaternion.Euler(90,0, 0));
-				rngDecal.transform.localScale = Vector3.right * decalScale.x + Vector3.up * decalScale.y + Vector3.forward;
+				rngDecal.transform.localScale = Vector3.right * decalScale.x + Vector3.up * decalScale.y + Vector3.forward * decalScale.z;
 			}
 			Vector3 dir = (relatedTransform.rotation * (Vector3.forward * maxDistance + actualOffset)).normalized;
 			//Debug.DrawRay(relatedTransform.position, dir, Color.cyan, 1000f);

@@ -239,7 +239,7 @@ public class GameManager : MonoBehaviour
 
 	public CraftManager craftManager;
 	public UIManager uiManager;
-	public QuestManager qManager;
+	//public QuestManager qManager;
 	public SectionManager sManager;
 	public SkillLoader skillLoader;
 	
@@ -325,7 +325,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		qManager.NextQuest();
+		//qManager.NextQuest();
 	}
 
 	public void LockCursor()
