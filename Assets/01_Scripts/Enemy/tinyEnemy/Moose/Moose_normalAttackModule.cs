@@ -49,7 +49,12 @@ public class Moose_normalAttackModule : EnemyAttackModule
 
 	public override void OnAnimationEnd()
 	{
-		_nowCols.End();
+
+		if (_nowCols != null)
+		{
+			_nowCols.End();
+			_nowCols = null;
+		}
 	}
 
 	public override void OnAnimationSound()
@@ -64,6 +69,13 @@ public class Moose_normalAttackModule : EnemyAttackModule
 
 	public override void Attack()
 	{
+
+
+		if (_nowCols != null)
+		{
+			_nowCols.End();
+			_nowCols = null;
+		}
 		GameObject obj = PoolManager.GetObject($"Moose_noraml_Attack", transform);
 		
 		if (obj.TryGetComponent(out ColliderCast cols))
