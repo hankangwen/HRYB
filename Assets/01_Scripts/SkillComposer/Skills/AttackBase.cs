@@ -10,9 +10,12 @@ public abstract class AttackBase : Leaf
 
 	protected Transform relatedTransform;
 
+	List<StatusEffectApplyData> originalEff;
+
 	protected virtual void OnValidate()
 	{
 		relatedTransform = GameObject.Find(relateTrmName)?.transform;
+		originalEff = new List<StatusEffectApplyData>(statEff);
 		if(relatedTransform == null)
 		{
 			Debug.Log($"NO TRANSFORM FOUND IN SUCH NAME : {relateTrmName}");
@@ -58,6 +61,8 @@ public abstract class AttackBase : Leaf
 		{
 			StatusEffects.ApplyStat(to, by, statEff[i].id, statEff[i].duration, statEff[i].power);
 		}
+
+		statEff = new List<StatusEffectApplyData>( originalEff);
 	}
 	
 	
@@ -90,6 +95,8 @@ public abstract class AttackBase : Leaf
 		{
 			StatusEffects.ApplyStat(to, by, statEff[i].id, statEff[i].duration, statEff[i].power);
 		}
+
+		statEff = originalEff;
 	}
 	
 }

@@ -401,7 +401,7 @@ public class PoolManager : MonoBehaviour
 			obj.transform.rotation = Quaternion.identity;
 			obj.transform.localScale = Vector3.one;
 			
-			Debug.Log("RETURNED : " + obj.name);
+			//Debug.Log("RETURNED : " + obj.name);
 			st.data.Push(obj);
 		}
 		else

@@ -19,7 +19,10 @@ MonoBehaviour:
   tags:
     value: 1
   level: 0
-  statEff: []
+  statEff:
+  - id: 10
+    power: 1
+    duration: 10
   damageMult: 2.5
   relateTrmName: Main Camera (1)
   rangeName: PlayerDecalObject
