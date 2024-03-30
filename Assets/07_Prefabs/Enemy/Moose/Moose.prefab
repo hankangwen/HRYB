@@ -157,8 +157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImmune: 0
   initYinYang:
-    black: 200
-    white: 200
+    black: 420
+    white: 420
   initAdequity:
     black: 1
     white: 1

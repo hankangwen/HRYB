@@ -1,4 +1,4 @@
-using System.Collections;
+          using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -17,8 +17,10 @@ public class JangsungManAI : AISetter
 
 	public void DieEvent()
 	{
-		self.anim.ResetStatus();
+		//self.anim.ResetStatus();
 		StopExamine();
+		JangSungMoveModule _jsMoveModule = self.move as JangSungMoveModule;
+		_jsMoveModule.ResetDest();
 	}
 
     protected override void StartInvoke()
