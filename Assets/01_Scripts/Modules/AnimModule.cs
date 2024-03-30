@@ -8,7 +8,7 @@ public class AnimModule : Module
 
 	protected readonly int moveHash = Animator.StringToHash("Move");
 	protected readonly int idleHash = Animator.StringToHash("Idle");
-	
+
 	protected readonly int attackHash = Animator.StringToHash("Attack");
 	protected readonly int moveXHash = Animator.StringToHash("MoveX");
 	protected readonly int moveYHash = Animator.StringToHash("MoveY");
@@ -93,19 +93,20 @@ public class AnimModule : Module
 		//	}
 		//}
 
-		for(int i =0 ; i< from.Count; i++)
+		for (int i = 0; i < from.Count; i++)
 		{
-			if(i < to.Count)
+			if (i < to.Count)
 			{
 				ctrl[$"{from[i]}"] = to[i];
 			}
 		}
 		anim.runtimeAnimatorController = ctrl;
-		
+
 	}
-	
+
 	public void StartExampled()
-	{
-		self._ai.StartExamine();
+	{ 
+		if(self.AI != null)
+			self.AI.StartExamine();
 	}
 }

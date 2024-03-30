@@ -1,8 +1,15 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/00_Scenes/Official_World_Design/Official_World/Pave Volume.asset.meta
+guid: 8441ab3c6942bd04c8dd5acf3d00fd7e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+========
 guid: 2f4f68f005f3c0b4da3b05f40bc35865
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 7400000
+>>>>>>>> NewMain:Assets/02_Animations/Animations/PAnim/Anims/ScreamEnd.anim.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 

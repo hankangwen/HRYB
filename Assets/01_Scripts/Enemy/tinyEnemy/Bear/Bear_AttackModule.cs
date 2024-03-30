@@ -70,7 +70,7 @@ public class Bear_AttackModule : EnemyAttackModule
 
 
 						obj.transform.position = _firePos.transform.position;
-						obj.transform.LookAt(self.ai.player.transform);
+						obj.transform.LookAt(self.AI.player.transform);
 						obj.transform.parent = null;
 					
 						_nowCols.Now(transform, (_life) =>
@@ -141,7 +141,7 @@ public class Bear_AttackModule : EnemyAttackModule
 
 	public override void OnAnimationStop()
 	{
-		self.ai.StartExamine();
+		self.AI.StartExamine();
 	}
 
 	public override void ResetAttackRange(int idx)

@@ -290,6 +290,10 @@ public class PlayerAnimActions : MonoBehaviour
 					{
 						playerSound.FootStepSound(GroundType.Sand, evt.stringParameter);
 					}
+					else if (layerName.Contains("Dirt"))
+					{
+						playerSound.FootStepSound(GroundType.Dirt, evt.stringParameter);
+					}
 					else
 					{
 						playerSound.FootStepSound(GroundType.Stone, evt.stringParameter);
@@ -327,5 +331,10 @@ public class PlayerAnimActions : MonoBehaviour
 	{
 		if ((self.cast as PlayerCast).NowSkillUse != null)
 			(self.cast as PlayerCast).NowSkillUse.OnAnimationEnd(self, evt);
+	}
+
+	public void StartMove()
+	{
+		GameManager.instance.EnableCtrl();
 	}
 }

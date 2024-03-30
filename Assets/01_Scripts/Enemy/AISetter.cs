@@ -23,6 +23,7 @@ public abstract class AISetter : MonoBehaviour
 	protected Selecter head;
 	
 	protected bool stopped = false;
+	float stopEnAble = 0f;
 
 	public virtual void LookAt(Transform t)
 	{
@@ -53,7 +54,18 @@ public abstract class AISetter : MonoBehaviour
 	    if (!stopped && head != null)
 	    {
 		    head.Examine();
+			stopEnAble = 0;
 	    }
+		else
+		{
+			stopEnAble += Time.deltaTime;
+		}
+
+		if(stopEnAble >= 0.5f)
+		{
+			StartExamine();
+		}
+
 	    UpdateInvoke();
     }
 
@@ -65,7 +77,9 @@ public abstract class AISetter : MonoBehaviour
     public void StopExamine()
     {
 	    stopped = true;
-    }
+		stopEnAble = 0;
+
+	}
 
     public virtual void StartExamine()
     {
