@@ -218,8 +218,13 @@ public class LifeModule : Module
 		
 		if (appliedDebuff.ContainsValue(new AppliedStatus(eff, 0)))
 		{
+			//foreach (var item in appliedDebuff)
+			//{
+			//	Debug.Log($"Before Naturla Removal ==> {item.Key} : {item.Value}");
+			//}
+
 			Dictionary<string, AppliedStatus> statCopy = new Dictionary<string, AppliedStatus>(appliedDebuff);
-			foreach (var item in statCopy)
+			foreach (var item in appliedDebuff)
 			{
 				if(item.Value.eff.Equals(eff))
 				{
@@ -232,6 +237,11 @@ public class LifeModule : Module
 
 			}
 			appliedDebuff = statCopy;
+
+			//foreach (var item in appliedDebuff)
+			//{
+			//	Debug.Log($"After Natural Removal ==> {item.Key} : {item.Value}");
+			//}
 		}
 		
 	}
@@ -247,10 +257,15 @@ public class LifeModule : Module
 
 	public void RemoveAllStatEff(StatEffID id, int count = -1)
 	{
-		Dictionary<string, AppliedStatus> debuffCopy = new Dictionary<string, AppliedStatus>();
+		Dictionary<string, AppliedStatus> debuffCopy = new Dictionary<string, AppliedStatus>(appliedDebuff);
+		//foreach (var item in appliedDebuff)
+		//{
+		//	Debug.Log($"Before Force Removal ==> {item.Key} : {item.Value}");
+		//}
+
 		foreach (var item in appliedDebuff)
 		{
-			if (((StatusEffect)GameManager.instance.statEff.idStatEffPairs[((int)id)]).Equals(item.Value))
+			if (((StatusEffect)GameManager.instance.statEff.idStatEffPairs[((int)id)]).Equals(item.Value.eff))
 			{
 				if(count > 0 || count == -1)
 				{
@@ -258,15 +273,18 @@ public class LifeModule : Module
 					stat.dur = 0;
 					debuffCopy[item.Key] = stat;
 					Debug.Log("지속시간 0으로 : " + stat.eff.name);
-					--count;
+					if(count > 0)
+						--count;
 				}
 				
 			}
-			else
-			{
-				debuffCopy[item.Key] = item.Value;
-			}
 		}
+		appliedDebuff = debuffCopy;
+
+		//foreach (var item in appliedDebuff)
+		//{
+		//	Debug.Log($"After Force Removal ==> {item.Key} : {item.Value}");
+		//}
 	}
 
 	protected virtual void DamageYYBase(YinYang data)
