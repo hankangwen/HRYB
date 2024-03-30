@@ -27,13 +27,13 @@ MonoBehaviour:
   relateTrmName: Main Camera (1)
   rangeName: PlayerDecalObject
   prefName: Lightning strike 2
-  maxDistance: 10
+  maxDistance: 15
   offSet: {x: 2, y: -2, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
   scaleOffset: {x: 1, y: 1, z: 1}
   isOffsetRandom: 0
   randomOffsetRange: {x: 0, y: 0}
-  decalScale: {x: 2, y: 2}
+  decalScale: {x: 2, y: 2, z: 2}
   totalRemainSec: 0.9
   isOnce: 0
   checkGap: 0.4
