@@ -32,7 +32,7 @@ public class MooseAI : AISetter
 		//self.anim.ResetStatus();
 		StopExamine();
 		MooseMoveModule _moveModule = self.move as MooseMoveModule;
-		GetComponent<BoxCollider>().isTrigger = true;
+		GetComponent<BoxCollider>().enabled = false;
 		_moveModule.StopMove();
 	}
     	

@@ -41,7 +41,7 @@ public class YohoNormalAttack : AttackBase
 
 	public override void OnAnimationStart(Actor self, AnimationEvent evt)
 	{
-		GameManager.instance.DisableCtrl();
+		GameManager.instance.DisableCtrl(false);
 		
 		
 	}
@@ -131,6 +131,7 @@ public class YohoNormalAttack : AttackBase
 			_cols.End();
 			//_cols = null;
 		}
+		self.move.forceDir = new Vector3(0, self.move.forceDir.y, 0);
 	}
 	
 	

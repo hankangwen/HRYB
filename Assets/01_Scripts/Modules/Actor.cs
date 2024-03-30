@@ -21,13 +21,17 @@ public class Actor : MonoBehaviour
 	public Action<Actor> updateActs;
 	public AISetter _ai;
 
-	public AISetter ai
+	public AISetter AI
 	{
 		get
 		{
-			if(_ai == null)
+			if(_ai == null && TryGetComponent(out AISetter value))
 			{
-				_ai = GetComponent<AISetter>();
+				_ai = value;
+			}
+			else if (_ai == null)
+			{
+				return null;	
 			}
 
 			return _ai;

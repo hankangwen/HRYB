@@ -325,7 +325,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		qManager.NextQuest();
+		//qManager.NextQuest();
 	}
 
 	public void LockCursor()
@@ -354,9 +354,13 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	public void DisableCtrl()
+	public void DisableCtrl(bool _isChangeLayer = false)
 	{ 
-		player.layer = LayerMask.NameToLayer("PlayerAttacker");
+		if(_isChangeLayer)
+		{
+			player.layer = LayerMask.NameToLayer("PlayerAttacker");
+
+		}
 		Debug.Log("(!(!(!");
 		//pinp.DeactivateInput();
 		pActor.move.moveDir = Vector3.zero;
