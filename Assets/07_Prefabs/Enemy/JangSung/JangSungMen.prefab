@@ -207,7 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
   _friend: {fileID: 0}
-  _isStart: 1
+  _isStart: 0
 --- !u!114 &3885280090406563638
 MonoBehaviour:
   m_ObjectHideFlags: 0

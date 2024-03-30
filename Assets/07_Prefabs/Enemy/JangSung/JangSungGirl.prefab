@@ -372,7 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
   _friend: {fileID: 0}
-  _isStart: 1
+  _isStart: 0
 --- !u!95 &2717952637745010415
 Animator:
   serializedVersion: 5
