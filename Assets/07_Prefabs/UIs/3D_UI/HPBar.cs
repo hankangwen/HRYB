@@ -21,13 +21,18 @@ public class HPBar : MonoBehaviour
 	{
 		_hpBar.fillAmount = lf.yy.white / lf.initYinYang.white;
 
-		if(lf.yy.white == lf.initYinYang.white || lf.yy.white <= 0)
+		if(lf.yy.white >= lf.initYinYang.white || lf.yy.white <= 0)
 		{
 			this.GetComponentInParent<Canvas>().enabled = false;
 		}
 		else
 		{
 			this.GetComponentInParent<Canvas>().enabled = true;
+		}
+
+		if(lf.yy.white <= 0)
+		{
+			Destroy(this);
 		}
 	}
 }

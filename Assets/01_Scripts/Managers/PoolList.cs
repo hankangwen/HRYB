@@ -7,7 +7,6 @@ public class PoolData
 {
     public GameObject obj;
     public int num;
-	public bool isCanvasElement;
 }
 
 
