@@ -6,7 +6,6 @@ public class Wolf_normalAttackModule : EnemyAttackModule
 {
 	private bool left = false;
 
-	
 	public override void SetAttackRange(int idx)
 	{
 
@@ -50,13 +49,18 @@ public class Wolf_normalAttackModule : EnemyAttackModule
 		{
 			_life.DamageYY(new YinYang(20,0), DamageType.DirectHit);
 		});
-		EffectObject eff =  PoolManager.GetEffect($"Wolf_noraml_Attack{a}", transform.GetChild(0));
+		EffectObject eff =  PoolManager.GetEffect($"Wolf_noraml_Attack{a}", transform);
 		eff.Begin();
 	}
 
 	public override void OnAnimationEnd()
 	{
-		_nowCols.End();
+		if(_nowCols != null)
+		{
+
+			_nowCols.End();
+			_nowCols = null;
+		}
 	}
 
 	public override void OnAnimationSound()
@@ -73,17 +77,14 @@ public class Wolf_normalAttackModule : EnemyAttackModule
 	{
 		left = !left;
 		int a = left ? 1 : 2;
-<<<<<<< Updated upstream
-		
-		GameObject obj = PoolManager.GetObject($"Wolf_noraml_Attack", transform);
-		
-		if (obj.TryGetComponent(out ColliderCast cols))
+
+		if (_nowCols != null)
 		{
-			_nowCols = cols;
+			_nowCols.End();
+			_nowCols = null;
 		}
-=======
->>>>>>> Stashed changes
-		
+
+	
 		
 		//GetActor().anim.SetAttackTrigger();
 		
