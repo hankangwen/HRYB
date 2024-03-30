@@ -64,7 +64,7 @@ public class Moose_normalAttackModule : EnemyAttackModule
 
 	public override void OnAnimationStop()
 	{
-		self.ai.StartExamine();
+		self.AI.StartExamine();
 	}
 
 	public override void Attack()

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -53,40 +51,53 @@ public class EnemyMoveModule : MoveModule
 
 	public override void FixedUpdate()
 	{
-		ForceCalc();
-		GravityCalc();
-//		Debug.LogError("FORCEdIR	" + forceDir + "d : " + isGrounded);
-		Character.Move((forceDir) * Time.deltaTime);
-		if (_isCanMove != true)
+
+		if(GetActor().life.isDead == false)
 		{
-			if ((forceDir.y > 0) || isGrounded == false)
+			ForceCalc();
+			GravityCalc();
+			Character.Move((forceDir) * Time.deltaTime);
+			if (_isCanMove != true)
 			{
-				Character.enabled = true;
-				agent.enabled = false;
-			}
-			else
-			{
-				Character.enabled = false;
-				agent.enabled = true;
-				
-				if (_isMove == true && _target != null && agent.enabled == true)
+				if ((forceDir.y > 0) || isGrounded == false)
 				{
-
-					self.anim.SetMoveState(true);
-					//			Debug.LogError(_target.transform.position);
-					UnityEngine.AI.NavMesh.SamplePosition(_target.transform.position, out UnityEngine.AI.NavMeshHit hit, 1f, UnityEngine.AI.NavMesh.AllAreas);
-
-					agent.SetDestination(hit.position);
-					//agent.velocity = hit.position.normalized * speed;
-					Debug.Log($"Velocity : {agent.velocity}");
+					Character.enabled = true;
+					agent.enabled = false;
 				}
 				else
 				{
-					self.anim.SetMoveState(false);
-					StopMove();
+					Character.enabled = false;
+					agent.enabled = true;
+
+					if (_isMove == true && _target != null && agent.enabled == true)
+					{
+
+						self.anim.SetMoveState(true);
+						UnityEngine.AI.NavMesh.SamplePosition(_target.transform.position, out UnityEngine.AI.NavMeshHit hit, 1f, UnityEngine.AI.NavMesh.AllAreas);
+						agent.SetDestination(hit.position);
+					}
+					else
+					{
+						self.anim.SetMoveState(false);
+						StopMove();
+					}
 				}
 			}
 		}
+		else
+		{
+			if(agent.enabled)
+			{
+				StopMove();
+				agent.enabled = false;
+			}
+			Character.enabled = true;
+			ForceCalc();
+			GravityCalc();
+			Character.Move((forceDir) * Time.deltaTime);
+
+		}
+
 
 
 	}

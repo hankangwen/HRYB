@@ -29,7 +29,22 @@ public class Wolf_normalAttackModule : EnemyAttackModule
 	public override void OnAnimationEvent()
 	{
 		int a = left ? 2 : 1;
-		
+
+
+		if (_nowCols != null)
+		{
+			_nowCols.End();
+			_nowCols = null;
+		}
+
+
+		GameObject obj = PoolManager.GetObject($"Wolf_noraml_Attack", transform);
+
+		if (obj.TryGetComponent(out ColliderCast cols))
+		{
+			_nowCols = cols;
+		}
+
 		_nowCols.Now(transform,(_life) =>
 		{
 			_life.DamageYY(new YinYang(20,0), DamageType.DirectHit);
@@ -55,27 +70,21 @@ public class Wolf_normalAttackModule : EnemyAttackModule
 
 	public override void OnAnimationStop()
 	{
-		self.ai.StartExamine();
+		self.AI.StartExamine();
 	}
 
 	public override void Attack()
 	{
 		left = !left;
 		int a = left ? 1 : 2;
+
 		if (_nowCols != null)
 		{
 			_nowCols.End();
 			_nowCols = null;
 		}
 
-
-		GameObject obj = PoolManager.GetObject($"Wolf_noraml_Attack", transform);
-		
-		if (obj.TryGetComponent(out ColliderCast cols))
-		{
-			_nowCols = cols;
-		}
-		
+	
 		
 		//GetActor().anim.SetAttackTrigger();
 		

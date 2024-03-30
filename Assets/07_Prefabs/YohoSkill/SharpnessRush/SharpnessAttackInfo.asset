@@ -22,6 +22,6 @@ MonoBehaviour:
   statEff:
   - id: 10
     power: 0
-    duration: 5
-  damageMult: 0.6
+    duration: 2
+  damageMult: 0.7
   relateTrmName: 

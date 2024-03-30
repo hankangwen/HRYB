@@ -38,7 +38,7 @@ public class WolfAI : AISetter
 		//self.anim.ResetStatus();
 		StopExamine();
 		WolfMoveModule _moveModule = self.move as WolfMoveModule;
-		GetComponent<BoxCollider>().isTrigger = true;
+		GetComponent<BoxCollider>().enabled = false;
 		_moveModule.StopMove();
 	}
     	

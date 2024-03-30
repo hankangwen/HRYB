@@ -47,7 +47,7 @@ public class JangsungManAttackModule : EnemyAttackModule
 		else
 		{
 			Debug.LogWarning($"{obj.name} is Not  ColliderCast!!!!!");
-			self.ai.StartExamine();
+			self.AI.StartExamine();
 			return;
 		}
 
@@ -135,7 +135,7 @@ public class JangsungManAttackModule : EnemyAttackModule
 
 	public override void OnAnimationStop()
 	{
-		self.ai.StartExamine();	
+		self.AI.StartExamine();	
 		//Debug.LogWarning("Anim Stop!!!!");
 
 		GetActor().anim.Animators.SetBool(AttackStd, false); 

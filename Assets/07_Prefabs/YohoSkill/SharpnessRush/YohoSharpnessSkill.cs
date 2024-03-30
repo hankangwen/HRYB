@@ -25,7 +25,7 @@ public class YohoSharpnessSkill : AttackBase
 
 	public override void OnAnimationStart(Actor self, AnimationEvent evt)
 	{
-		GameManager.instance.DisableCtrl();
+		GameManager.instance.DisableCtrl(false);
 	}
 
 	public override void OnAnimationEvent(Actor self, AnimationEvent evt)

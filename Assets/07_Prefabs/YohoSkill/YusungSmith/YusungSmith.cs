@@ -28,7 +28,7 @@ public class YusungSmith : AttackBase
     public override void OnAnimationStart(Actor self, AnimationEvent evt )
     {
 	    // 이팩트 기타등등셋팅
-	    GameManager.instance.DisableCtrl();
+	    GameManager.instance.DisableCtrl(true);
     }
     public override void OnAnimationMove(Actor self, AnimationEvent evt)
     {
@@ -82,24 +82,22 @@ public class YusungSmith : AttackBase
 				    _life.GetActor().move.forceDir += dir*6 + new Vector3(0, 6, 0);
 				    
 
-			    }, (me, enemy) =>
-			    {
-				    RaycastHit ray;
-				    CameraManager.instance.ShakeCamFor(0.2f, 18, 18);
-				    if (Physics.Raycast(self.transform.position, Vector3.down, out ray, 100, 1 << 11))
-				    {
-					    GameObject obj = PoolManager.GetObject("YusungSmithEnd", self.transform);
-					    self.StartCoroutine(DeleteObj(obj, 9));
-					    obj.transform.parent = null;
-					    obj.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-					    obj.transform.position = ray.point;
-					    GameManager.instance.TimeFreeze(0.3f, 0.08f);
-				    }
-				    
-
 			    });
 		    }
-	    }
+
+			RaycastHit ray;
+			CameraManager.instance.ShakeCamFor(0.2f, 18, 18);
+			if (Physics.Raycast(self.transform.position, Vector3.down, out ray, 100, 1 << 11))
+			{
+				GameObject objss = PoolManager.GetObject("YusungSmithEnd", self.transform);
+				self.StartCoroutine(DeleteObj(obj, 9));
+				objss.transform.parent = null;
+				objss.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+				objss.transform.position = ray.point;
+				GameManager.instance.TimeFreeze(0.3f, 0.08f);
+			}
+
+		}
 	    else if (tt[0] == "EffectOne")
 	    {
 		    GameObject obj1 = PoolManager.GetObject("YusungSmithleft", self.transform);
