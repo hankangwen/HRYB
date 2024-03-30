@@ -24,4 +24,4 @@ MonoBehaviour:
   relateTrmName: ShootPos
   arrowPrefabName: MagicFireballR
   aMode: 1
-  angleJitterAmt: 15
+  angleJitterAmt: 0
