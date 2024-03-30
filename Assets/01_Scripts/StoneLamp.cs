@@ -49,7 +49,7 @@ public class StoneLamp : MonoBehaviour
 			l.enabled = true;
 			material.EnableKeyword("_EMISSION");
 			k= Mathf.Clamp(k + Time.deltaTime / lightTime,-2, 3);
-			Debug.Log(color * Mathf.Pow(2, Mathf.Lerp(-2, 3, k)));
+			//Debug.Log(color * Mathf.Pow(2, Mathf.Lerp(-2, 3, k)));
 			material.SetColor("_EmissionColor", color * Mathf.Pow(2, Mathf.Lerp(-2, 3, k)));
 
 			time += Time.deltaTime;
