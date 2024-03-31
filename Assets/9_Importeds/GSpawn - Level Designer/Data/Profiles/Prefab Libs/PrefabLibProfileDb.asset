@@ -69,6 +69,6 @@ MonoBehaviour:
   selectRangeEndId:
     _guidString: 0dfdf0af-259e-4e09-b3f9-a8000800655e
   hasSelectRange: 0
-  scrollOffset: {x: 0, y: 108}
+  scrollOffset: {x: 0, y: 54}
   vertScrollHighValue: NaN
   vertScrollLowValue: 0
