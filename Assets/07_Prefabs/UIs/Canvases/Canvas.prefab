@@ -7186,6 +7186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5858620060153936475}
   - component: {fileID: 3224159499658755240}
+  - component: {fileID: 4545609475570009974}
   m_Layer: 5
   m_Name: TitleLoad
   m_TagString: Untagged
@@ -7227,6 +7228,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadTime: 6
+--- !u!225 &4545609475570009974
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6877226744559133153}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6936595158076556457
 GameObject:
   m_ObjectHideFlags: 0

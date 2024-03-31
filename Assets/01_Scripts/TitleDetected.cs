@@ -8,12 +8,15 @@ public class TitleDetected : MonoBehaviour
 	public TitleLoader loader;
 
 
-	private void Start()
-	{ 
-	}
-
 	private void OnTriggerEnter(Collider other)
 	{
-		loader.Fade();
+		if(other.gameObject.layer == 6)
+		{
+			Debug.LogError("으악 사람이다!");
+			if(!loader.isFade)
+			{
+				loader.FadeInOut(text);
+			}
+		}
 	}
 }
