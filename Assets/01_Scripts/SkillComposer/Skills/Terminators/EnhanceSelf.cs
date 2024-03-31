@@ -22,5 +22,7 @@ public class EnhanceSelf : Leaf
 		{
 			StatusEffects.ApplyStat(self, self, statEff[i].id, statEff[i].duration, level);
 		}
+
+		GameManager.instance.audioPlayer.PlayPoint(audioClipName, self.transform.position);
 	}
 }
