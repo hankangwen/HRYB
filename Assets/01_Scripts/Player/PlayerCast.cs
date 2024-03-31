@@ -619,7 +619,7 @@ public class PlayerCast : CastModule
 
 	public void SetCooldownTo(int info, float amt)
 	{
-		if (nowSkillSlot[info] != null)
+		if (nowSkillSlot[info].skInfo != null)
 		{
 			nowSkillSlot[info].CurCooledTime = nowSkillSlot[info].skInfo.cooldown - amt;
 		}

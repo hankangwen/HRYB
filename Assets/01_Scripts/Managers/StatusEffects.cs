@@ -461,7 +461,7 @@ public class StatusEffects
 			//{
 			//	Debug.Log($"APPLIEDDEBUFF ==> {item.Key} : {item.Value.eff.name}");
 			//}
-			while(to.life.appliedDebuff[guid].dur < 0)
+			while (to.life.appliedDebuff[guid].dur < 0)
 			{
 				//Debug.Log( id + " : INFITITE : " + to.life.appliedDebuff[guid].dur);
 				yield return null;
@@ -475,7 +475,7 @@ public class StatusEffects
 
 			}
 			Debug.Log($"{guid} : {id} ENDED");
-			to.life.EndStaus((StatusEffect)GameManager.instance.statEff.idStatEffPairs[((int)id)], updateAct, power);
+			to.life.EndStaus(guid, updateAct, power);
 			if (effs.Count > 0)
 			{
 				for (int i = 0; i < effs.Count; i++)
