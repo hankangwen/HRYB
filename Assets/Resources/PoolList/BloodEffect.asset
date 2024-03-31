@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BloodEffect
   m_EditorClassIdentifier: 
   data:
-    obj: {fileID: 7614866355984412158, guid: d2b0231ff5dbfe848a23921c578f7012, type: 3}
+    obj: {fileID: 4505234940310587132, guid: ea88a037c2bb2e14799ff3497e440e75, type: 3}
     num: 10

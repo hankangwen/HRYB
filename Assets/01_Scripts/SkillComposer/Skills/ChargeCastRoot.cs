@@ -126,10 +126,10 @@ public class ChargeCastRoot : SkillRoot
 			chargeT += Time.deltaTime;
 			GameManager.instance.uiManager.interingUI.SetGaugeValue(chargeT / chargeThreshold);
 
-			if(chargeT > 0.5f)
-			{
-				owner.life.DamageYY(0, 5, DamageType.DirectHit);
-			}
+			//if(chargeT > 0.5f)
+			//{
+			//	owner.life.DamageYY(0, 5, DamageType.DirectHit);
+			//}
 			//Debug.Log($"충전중우 : {chargeT} / {chargeThreshold} = " + chargeT / chargeThreshold);
 		}
 		if (overcooked)
