@@ -10,6 +10,6 @@ public class JangsungVS : MonoBehaviour
 
     public void PlayerOnMove()
 	{
-		GameManager.instance.player.transform.position = tls.position;
+		GameManager.instance.player.GetComponent<PlayerMove>().PlayerTeleport(tls.transform.position);
 	}
 }
