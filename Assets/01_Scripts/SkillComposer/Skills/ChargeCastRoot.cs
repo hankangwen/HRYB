@@ -95,10 +95,12 @@ public class ChargeCastRoot : SkillRoot
 		if (t)
 		{
 			chargeEff = PoolManager.GetObject(chargeEffect, t);
+			GameManager.instance.audioPlayer.PlayPoint(audioClipName, self.transform.position);
 		}
 		else
 		{
 			chargeEff = PoolManager.GetObject(chargeEffect, owner.transform);
+			GameManager.instance.audioPlayer.PlayPoint(audioClipName, self.transform.position);
 		}
 	}
 

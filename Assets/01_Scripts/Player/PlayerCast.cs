@@ -611,12 +611,18 @@ public class PlayerCast : CastModule
 
 	public void SetCooldownTo(SkillSlotInfo info, float amt)
 	{
-		nowSkillSlot[((int)info)].CurCooledTime = nowSkillSlot[((int)info)].skInfo.cooldown - amt;
+		if (nowSkillSlot[((int)info)] != null)
+		{
+			nowSkillSlot[((int)info)].CurCooledTime = nowSkillSlot[((int)info)].skInfo.cooldown - amt;
+		}
 	}
 
 	public void SetCooldownTo(int info, float amt)
 	{
-		nowSkillSlot[info].CurCooledTime = nowSkillSlot[info].skInfo.cooldown - amt;
+		if (nowSkillSlot[info] != null)
+		{
+			nowSkillSlot[info].CurCooledTime = nowSkillSlot[info].skInfo.cooldown - amt;
+		}
 	}
 
 	public void SetCooldownWhole(float amt)

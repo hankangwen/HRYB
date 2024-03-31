@@ -73,7 +73,19 @@ public class PlayerMove : MoveModule
 	Transform target;
 	bool isLocked = false;
 
-
+	public override bool isGrounded
+	{
+		get
+		{
+			if (Physics.Raycast(transform.position + new Vector3(0, 0.1f, 0), Vector3.down, groundThreshold, (1 << GameManager.GROUNDLAYER) | (1 << GameManager.ENEMYLAYER)))
+			{
+				//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.cyan, 1000f);
+				return true;
+			}
+			//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.red, 1000f);
+			return false;
+		}
+	}
 
 	RaycastHit hitCache;
 
