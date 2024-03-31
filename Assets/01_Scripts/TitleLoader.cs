@@ -10,10 +10,7 @@ public class TitleLoader : MonoBehaviour
 	CanvasGroup canvasGroup;
 
 	public bool isFade = false;
-
-	[Header("실행 시간")]
 	public float fadeInOutTime;
-
 
 	private void Awake()
 	{
@@ -22,38 +19,44 @@ public class TitleLoader : MonoBehaviour
 	}
 
 	void Start()
-    {
+	{
 		canvasGroup.alpha = 0f;
-    }
+	}
 
 	public void FadeInOut(string text)
 	{
+		if (isFade) return;
+
 		isFade = true;
-		Debug.LogError(canvasGroup);
-		// Fade In
-
 		titleText.text = text;
-		float elapsedTime = 0f;
-		float fadeSpeed = 1f / fadeInOutTime;
 
-		while (elapsedTime < fadeInOutTime)
+		StartCoroutine(FadeInOutRoutine());
+	}
+
+	IEnumerator FadeInOutRoutine()
+	{
+		float elapsedTime = 0f;
+
+		// Fade In
+		while (elapsedTime <= fadeInOutTime)
 		{
-			Debug.LogError(canvasGroup.alpha);
-			canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime * fadeInOutTime);
 			elapsedTime += Time.deltaTime;
+			canvasGroup.alpha = Mathf.Clamp01(elapsedTime / fadeInOutTime);
+			yield return null;
 		}
 
 		canvasGroup.alpha = 1f;
 
+		// Wait for a moment
+		yield return new WaitForSeconds(1f);
 
 		// Fade Out
-		elapsedTime = 0f;
-
-		while (elapsedTime < fadeInOutTime)
+		elapsedTime = fadeInOutTime; // Reset elapsed time for fade out
+		while (elapsedTime >= 0f)
 		{
-			Debug.LogError(canvasGroup.alpha);
-			canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime * fadeInOutTime);
-			elapsedTime += Time.deltaTime;
+			elapsedTime -= Time.deltaTime;
+			canvasGroup.alpha = Mathf.Clamp01(elapsedTime / fadeInOutTime);
+			yield return null;
 		}
 
 		canvasGroup.alpha = 0f;

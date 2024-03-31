@@ -12,13 +12,20 @@ public class StoneLamp : MonoBehaviour
 	Color color;
 	float k = 0;
 
+	bool isText = false;
+
+	TitleLoader loader;
+
 	[Header("석등이 켜지는 거리")]
 	[SerializeField]
-	private float pDistance = 10;
+	private float pDistance = 3;
 
 	[Header("석등 켜지는 시간")]
 	[SerializeField]
 	private float lightTime = 3;
+
+	[Header("출력 텍스트")]
+	public string text;
 
 	float time;
 	Light l;
@@ -38,7 +45,11 @@ public class StoneLamp : MonoBehaviour
 
 	void Start()
     {
+		text = "[세이브 포인트 활성화]";
+		loader = GameObject.Find("TitleLoad").GetComponent<TitleLoader>();
 		l.enabled = false;
+		pDistance = 5;
+		isText = false;
 		material.DisableKeyword("_EMISSION");
     }
 
@@ -46,6 +57,12 @@ public class StoneLamp : MonoBehaviour
 	{
 		if(Vector3.Distance(GameManager.instance.player.transform.position, this.transform.position) < pDistance)
 		{
+			if(!isText && !loader.isFade)
+			{
+				loader.FadeInOut(text);
+				isText = true;
+			}
+			
 			l.enabled = true;
 			material.EnableKeyword("_EMISSION");
 			k= Mathf.Clamp(k + Time.deltaTime / lightTime,-2, 3);

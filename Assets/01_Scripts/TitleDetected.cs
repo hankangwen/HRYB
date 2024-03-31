@@ -7,16 +7,18 @@ public class TitleDetected : MonoBehaviour
 	public string text;
 	public TitleLoader loader;
 
+	private void Start()
+	{
+		loader = GameObject.Find("TitleLoad").GetComponent<TitleLoader>();
+	}
 
 	private void OnTriggerEnter(Collider other)
 	{
 		if(other.gameObject.layer == 6)
 		{
 			Debug.LogError("으악 사람이다!");
-			if(!loader.isFade)
-			{
-				loader.FadeInOut(text);
-			}
+			loader.FadeInOut(text);
+			
 		}
 	}
 }
