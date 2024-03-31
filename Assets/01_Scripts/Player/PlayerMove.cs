@@ -213,6 +213,20 @@ public class PlayerMove : MoveModule
 		
 	}
 
+	public void PlayerTeleport(Vector3 vec)
+	{
+		GameManager.instance.pinp.DeactivateInput();
+		GetActor().anim.ResetStatus();
+		moveDir = Vector3.zero;
+		forceDir = Vector3.zero;
+		transform.position = vec;
+		GameManager.instance.pinp.ActivateInput();
+		already.Clear();
+		ctrl.height = 2;
+		ctrl.radius = 0.5f;
+		ctrl.center = Vector3.up;
+	}
+
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Slash))
