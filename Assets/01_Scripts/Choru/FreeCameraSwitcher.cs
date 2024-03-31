@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -25,14 +26,20 @@ public class FreeCameraSwitcher : MonoBehaviour
 {
 	private Camera mainCam;
 	private Camera freeCam;
+	private Canvas canvas;
 	public CameraMode cameraMode = CameraMode.Default;
 	public FreeCameraMode freeCameraMode = FreeCameraMode.Default;
 	private KeyCode switchCameraModeKey = KeyCode.F8;
 	private KeyCode switchFreeCameraModeKey = KeyCode.F9;
+	private KeyCode uiToggleModeKey;
 
 	private PlayerInput input;
 	private void Awake()
 	{
+		uiToggleModeKey = KeyCode.F10;
+#if UNITY_EDITOR
+		uiToggleModeKey = KeyCode.F7;
+#endif
 		mainCam = Camera.main;
 
 		if(freeCam == null)
@@ -52,11 +59,21 @@ public class FreeCameraSwitcher : MonoBehaviour
 		{
 			input = GameObject.Find("Player").GetComponent<PlayerInput>();
 		}
+
+		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 	}
 	
 
     void Update()
     {
+		if(Input.GetKeyDown(uiToggleModeKey))
+		{
+			if (!canvas.enabled)
+				canvas.enabled = true;
+			else
+				canvas.enabled = false;
+		}
+
 		if (Input.GetKeyDown(switchCameraModeKey))
 		{
 			int idx = (int)cameraMode;
