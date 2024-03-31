@@ -220,7 +220,7 @@ public class LifeModule : Module
 		{
 			//foreach (var item in appliedDebuff)
 			//{
-			//	Debug.Log($"Before Naturla Removal ==> {item.Key} : {item.Value}");
+			//	Debug.Log($"before naturla removal ==> {item.Key} : {item.Value}");
 			//}
 
 			Dictionary<string, AppliedStatus> statCopy = new Dictionary<string, AppliedStatus>(appliedDebuff);
@@ -244,6 +244,28 @@ public class LifeModule : Module
 			//}
 		}
 		
+	}
+
+	public void EndStaus(string guid, Action<Actor> myUpdateAct, float power)
+	{
+		Debug.Log($"update act count : {GetActor().updateActs.GetInvocationList().Length}");
+
+		if (appliedDebuff.ContainsKey(guid))
+		{
+			//foreach (var item in appliedDebuff)
+			//{
+			//	Debug.Log($"before naturla removal ==> {item.Key} : {item.Value}");
+			//}
+
+			GetActor().updateActs -= myUpdateAct;
+			appliedDebuff[guid].eff.onEnded.Invoke(GetActor(), power);
+			appliedDebuff.Remove(guid);
+
+			//foreach (var item in appliedDebuff)
+			//{
+			//	Debug.Log($"After Natural Removal ==> {item.Key} : {item.Value}");
+			//}
+		}
 	}
 
 	public void RemoveStatEff(string guid)
