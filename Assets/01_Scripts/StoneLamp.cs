@@ -12,6 +12,8 @@ public class StoneLamp : MonoBehaviour
 	Color color;
 	float k = 0;
 
+	GameObject healEff;
+
 	bool isText = false;
 
 	TitleLoader loader;
@@ -73,6 +75,7 @@ public class StoneLamp : MonoBehaviour
 
 			if (time > 1)
 			{
+				healEff = PoolManager.GetObject("HealEffect", GameManager.instance.player.transform);
 				GameManager.instance.pActor.life.yy.white += GameManager.instance.pActor.life.initYinYang.white * 0.02f;
 				time = 0;
 			}
