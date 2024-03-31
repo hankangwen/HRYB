@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86543760e5c9a86429f31b073693729a, type: 3}
   m_Name: ExpFF
   m_EditorClassIdentifier: 
-  animClip: {fileID: 0}
+  animClip: {fileID: 7400000, guid: 5a140180fa64f1f439bb70c387b9e196, type: 2}
   animClipLoopings: {fileID: 0}
   animClipDisop: {fileID: 0}
   audioClipName: FoxFireExp

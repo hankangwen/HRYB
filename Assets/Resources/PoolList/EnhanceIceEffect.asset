@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EnhanceIceEffect
   m_EditorClassIdentifier: 
   data:
-    obj: {fileID: 3251814398790428511, guid: 2d0fb70573525854fa90bba37cf0a7c0, type: 3}
+    obj: {fileID: 1222155718541834, guid: 8b5b1225ff9b8d44fbf253dd1ca795a1, type: 3}
     num: 4
