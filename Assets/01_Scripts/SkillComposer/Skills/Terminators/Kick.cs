@@ -21,6 +21,8 @@ public class Kick : AttackBase
 	{
 		Debug.Log("!@!@!@!@!@!@");
 		(self.atk as PlayerAttack).onNextUse?.Invoke(relatedTransform.gameObject);
+
+
 	}
 
 	public override void UpdateStatus()	// ?? 스킬 시전중
@@ -37,6 +39,7 @@ public class Kick : AttackBase
 
 	internal override void MyOperation(Actor self) // 애니메이션? 이밴트
 	{
+		GameManager.instance.audioPlayer.PlayPoint(audioClipName, self.transform.position);
 		caster.Now( self.transform,life =>
 		{
 			if(life != null)

@@ -9,8 +9,7 @@ using System;
 
 public class PlayerMove : MoveModule
 {
-	
-
+	const string JUMPSOUNDCLIP = "DoJump";
 
 	internal CharacterController ctrl;
 
@@ -555,6 +554,7 @@ public class PlayerMove : MoveModule
 						prevJump = Time.time;
 						forceDir += Vector3.up * jumpPwer;
 						(GetActor().anim as PlayerAnim).SetJumpTrigger();
+						GameManager.instance.audioPlayer.PlayPoint(JUMPSOUNDCLIP, transform.position);
 					}
 				}
 			}

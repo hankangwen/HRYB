@@ -15,7 +15,7 @@ MonoBehaviour:
   animClip: {fileID: 7400000, guid: 39345a0ef52c334459b8ab37d90e3bc1, type: 2}
   animClipLoopings: {fileID: 7400000, guid: fd918019be5da0446871482d39c3cedb, type: 2}
   animClipDisop: {fileID: 7400000, guid: e4a17450638bcdd4d877868ca8fed7f4, type: 2}
-  audioClipName: Front_Explosion
+  audioClipName: FireWallUse
   tags:
     value: 1
   level: 0

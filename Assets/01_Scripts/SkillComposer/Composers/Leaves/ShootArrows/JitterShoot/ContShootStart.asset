@@ -15,7 +15,7 @@ MonoBehaviour:
   animClip: {fileID: 7400000, guid: 5631c7aa98eef644fa22b7734a0026af, type: 3}
   animClipLoopings: {fileID: 0}
   animClipDisop: {fileID: 0}
-  audioClipName: 
+  audioClipName: ContShoot1
   tags:
     value: 1
   level: 0
