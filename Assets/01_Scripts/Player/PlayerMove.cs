@@ -9,8 +9,7 @@ using System;
 
 public class PlayerMove : MoveModule
 {
-	
-
+	const string JUMPSOUNDCLIP = "DoJump";
 
 	internal CharacterController ctrl;
 
@@ -73,7 +72,19 @@ public class PlayerMove : MoveModule
 	Transform target;
 	bool isLocked = false;
 
-
+	public override bool isGrounded
+	{
+		get
+		{
+			if (Physics.Raycast(transform.position + new Vector3(0, 0.1f, 0), Vector3.down, groundThreshold, (1 << GameManager.GROUNDLAYER) | (1 << GameManager.ENEMYLAYER)))
+			{
+				//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.cyan, 1000f);
+				return true;
+			}
+			//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.red, 1000f);
+			return false;
+		}
+	}
 
 	RaycastHit hitCache;
 
@@ -200,6 +211,20 @@ public class PlayerMove : MoveModule
 		}
 
 		
+	}
+
+	public void PlayerTeleport(Vector3 vec)
+	{
+		GameManager.instance.pinp.DeactivateInput();
+		GetActor().anim.ResetStatus();
+		moveDir = Vector3.zero;
+		forceDir = Vector3.zero;
+		transform.position = vec;
+		GameManager.instance.pinp.ActivateInput();
+		already.Clear();
+		ctrl.height = 2;
+		ctrl.radius = 0.5f;
+		ctrl.center = Vector3.up;
 	}
 
 	private void Update()
@@ -543,6 +568,7 @@ public class PlayerMove : MoveModule
 						prevJump = Time.time;
 						forceDir += Vector3.up * jumpPwer;
 						(GetActor().anim as PlayerAnim).SetJumpTrigger();
+						GameManager.instance.audioPlayer.PlayPoint(JUMPSOUNDCLIP, transform.position);
 					}
 				}
 			}

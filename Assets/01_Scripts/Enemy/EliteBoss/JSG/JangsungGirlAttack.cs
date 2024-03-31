@@ -15,6 +15,8 @@ public class JangsungGirlAttack : EnemyAttackModule
 	{
 		fireIndex = 0;
 		_missile.Clear();
+
+		GetActor().anim.Animators.SetBool(AttackStd, true);
 	}
 
 	public override void OnAnimationEnd()

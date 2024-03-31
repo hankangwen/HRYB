@@ -15,7 +15,7 @@ MonoBehaviour:
   animClip: {fileID: 7400000, guid: 36cc3d7d45ee2044e9a958032ba352e9, type: 2}
   animClipLoopings: {fileID: 7400000, guid: 775d6203a37a0064a8cd9d95d2413f57, type: 2}
   animClipDisop: {fileID: 7400000, guid: 0a7f6f20969bd8b499c12e3b245b23a7, type: 2}
-  audioClipName: 
+  audioClipName: Sword_Cast_1
   tags:
     value: 1
   level: 0
