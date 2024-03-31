@@ -32,7 +32,7 @@ public class Bear_AttackModule : EnemyAttackModule
 					int at = left ? -1 : 1;
 					_nowCols.Now(transform, (_life) =>
 					{
-						_life.DamageYY(new YinYang(50, 0), DamageType.DirectHit);
+						_life.DamageYY(new YinYang(0, 15), DamageType.DirectHit);
 						// 기절 ++
 						Vector3 vec = _life.transform.position - transform.position;
 						vec.y = 0;
@@ -45,8 +45,6 @@ public class Bear_AttackModule : EnemyAttackModule
 
 						Debug.LogError("시발시발시발시발" + _life.GetActor().move.forceDir);
 					});
-
-
 				}
 				break;
 
@@ -75,7 +73,7 @@ public class Bear_AttackModule : EnemyAttackModule
 					
 						_nowCols.Now(transform, (_life) =>
 						{
-							_life.DamageYY(new YinYang(50, 0), DamageType.DirectHit);
+							_life.DamageYY(new YinYang(0, 5), DamageType.DirectHit);
 							// 기절 ++
 							Vector3 vec = _life.transform.position-transform.position;
 							vec.y = 0;
@@ -106,7 +104,7 @@ public class Bear_AttackModule : EnemyAttackModule
 					
 					_nowCols.Now(transform, (_life) =>
 					{
-						_life.DamageYY(new YinYang(50, 0), DamageType.DirectHit);
+						_life.DamageYY(new YinYang(0, 30), DamageType.DirectHit);
 						// 기절 ++
 						Vector3 vec = _life.transform.position - transform.position;
 						vec.y = 0;

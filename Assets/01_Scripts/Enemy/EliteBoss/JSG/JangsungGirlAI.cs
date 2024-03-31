@@ -13,15 +13,23 @@ public class JangsungGirlAI : AISetter
 
 
 	public bool _isStart =false;
-    protected override void StartInvoke()
+	public void DieEvent()
+	{
+		//self.anim.ResetStatus();
+		StopExamine();
+		GetComponent<BoxCollider>().enabled = false;
+		_friend.GetComponent<JangsungLifeModule>().BarrierOff();
+		
+	}
+
+	protected override void StartInvoke()
     {
 	    if (_isStart)
 	    {
-
-
-
-		    JangsungGirlAttack _att = self.atk as JangsungGirlAttack;
+			JangsungGirlAttack _att = self.atk as JangsungGirlAttack;
 		    JangsungGirlLifeModule _life = self.life as JangsungGirlLifeModule;
+			head = new Selecter();
+			_life._dieEvent += DieEvent;
 
 
 		    #region 보호막
@@ -39,8 +47,10 @@ public class JangsungGirlAI : AISetter
 			    waitBarrier.ResetReady();
 			    // AttackMoudle에서 이름 셋팅 << Attack에 유기하기
 			    _life.BarrierON(5);
-			    _friend.GetComponent<JangsungLifeModule>().BarrierON();
-
+				if (_friend.life.isDead == false)
+				{
+					_friend.GetComponent<JangsungLifeModule>().BarrierON();
+				}
 			    Debug.LogError("보호막패턴");
 			    self.anim.SetAttackTrigger();
 			    self.anim.Animators.SetBool(_BarrierPattonname, true);
@@ -116,17 +126,43 @@ public class JangsungGirlAI : AISetter
 		    head.connecteds.Add(SeedPatton);
 		    Debug.LogError("실행중");
 		    StartExamine();
-	    }
-    }
-
-    protected override void UpdateInvoke()
-    {
-		Vector3 lookPos = player.transform.position - transform.position;
-		lookPos.y = transform.position.y;
-		transform.rotation = Quaternion.LookRotation(lookPos);
+		}
+		else
+		{
+			StartCoroutine(WaitStart());
+		}
 	}
 
-    public float BarrierRange()
+	IEnumerator WaitStart()
+	{
+		yield return new WaitUntil(() => _isStart);
+		yield return new WaitForSeconds(1f);
+		StartInvoke();
+	}
+	protected override void UpdateInvoke()
+    {
+		if(self.life.isDead==false)
+		{
+			Debug.LogError("도는중이긴함");
+			Vector3 lookPos = player.transform.position - transform.position;
+			lookPos.y = transform.position.y;
+			transform.rotation = Quaternion.LookRotation(lookPos);
+			transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+		}
+	}
+
+
+	protected override void Update()
+	{
+		if (!stopped && head != null)
+		{
+			head.Examine();
+		}
+
+		UpdateInvoke();
+	}
+
+	public float BarrierRange()
     {
 	    return 25f;
     }

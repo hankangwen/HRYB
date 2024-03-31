@@ -46,7 +46,7 @@ public class JangsungMumukMissile : MonoBehaviour
 			if(1 << a.gameObject.layer == (int)_enemy)
 			{
 				Debug.LogError("dd");
-				a.DamageYY(10,0, _channel);
+				a.DamageYY(0,10, _channel);
 				CameraManager.instance.ShakeCamFor(0.3f, 0.8f, 0.8f);
 			}
 		});
