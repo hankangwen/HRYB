@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64cb818884b46bd41bb0d1c06f05dfd0, type: 3}
   m_Name: ShootFF
   m_EditorClassIdentifier: 
-  animClip: {fileID: 7400042, guid: b980acdd10793764c9362bf9ed9d12f8, type: 3}
+  animClip: {fileID: -5561146804881996817, guid: efd89370d603fe24abc68b3638322402, type: 3}
+  animClipLoopings: {fileID: 0}
   animClipDisop: {fileID: 0}
   audioClipName: 
   tags:
     value: 8
   level: 0
+  statEff: []
   damageMult: 0
   relateTrmName: Fox Fire
-  statEff: []
   shootSpeed: 5
