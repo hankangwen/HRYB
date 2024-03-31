@@ -47,6 +47,10 @@ public class JangSungMoveModule : MoveModule
 		return _findPlayerRange;
 	}
 
+	public override void FixedUpdate()
+	{
+		
+	}
 	private void Update()
 	{
 		if (_isMove)

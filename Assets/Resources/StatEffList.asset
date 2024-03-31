@@ -43,7 +43,7 @@ MonoBehaviour:
     - key: 10
       value:
       - effPos: 3
-        effPrefName: ChunkParticleSystem
+        effPrefName: BloodPump
     - key: 11
       value:
       - effPos: 3

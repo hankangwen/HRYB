@@ -31,6 +31,7 @@ public class JangsungManAI : AISetter
 
 		if (_isStart)
 		{
+			head = new Selecter();
 			self.life._dieEvent += DieEvent;
 
 
@@ -175,7 +176,27 @@ public class JangsungManAI : AISetter
 
 			StartExamine();
 		}
+		else
+		{
+			StartCoroutine(WaitStart());
+		}
     }
+
+	protected override void Update()
+	{
+		if (!stopped && head != null)
+		{
+			head.Examine();
+		}
+
+		UpdateInvoke();
+	}
+
+	IEnumerator WaitStart()
+	{
+		yield return new WaitUntil(() => _isStart == true);
+		StartInvoke();
+	}
 
     protected override void UpdateInvoke()
     {

@@ -30,7 +30,7 @@ public class Moose_normalAttackModule : EnemyAttackModule
 	{
 		_nowCols.Now(transform,(_life) =>
 		{
-			_life.DamageYY(new YinYang(0,50), DamageType.DirectHit);
+			_life.DamageYY(new YinYang(0,30), DamageType.DirectHit);
 			// 기절 ++
 			Vector3 vec = _life.transform.position - transform.position;
 			vec.y = 0;

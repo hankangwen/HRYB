@@ -49,7 +49,7 @@ public abstract class AISetter : MonoBehaviour
     protected abstract void StartInvoke();
 
     // Update is called once per frame
-    private void Update()
+    protected virtual void Update()
     {
 	    if (!stopped && head != null)
 	    {
