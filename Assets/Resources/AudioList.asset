@@ -48,3 +48,11 @@ MonoBehaviour:
       value: {fileID: 8300000, guid: 1c28ab4df94a39148ba59c7c1e0cf596, type: 3}
     - key: CrawLow
       value: {fileID: 8300000, guid: 9cf2739a5f9ee2a48a7a59bac4d74074, type: 3}
+    - key: Lightning_1
+      value: {fileID: 8300000, guid: 327fe35519344d949a52bfc2ad0281e4, type: 3}
+    - key: Lightning_4
+      value: {fileID: 8300000, guid: 66831bd5380855b40885a10ffca8bc2b, type: 3}
+    - key: Front_Explosion
+      value: {fileID: 8300000, guid: d0ca794a9113bb84ba62e5f37c99007e, type: 3}
+    - key: Sword_Cast_1
+      value: {fileID: 8300000, guid: e6efdd1dc530432448c58b2a03c213a3, type: 3}
