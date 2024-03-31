@@ -48,5 +48,27 @@ MonoBehaviour:
       value: {fileID: 8300000, guid: 1c28ab4df94a39148ba59c7c1e0cf596, type: 3}
     - key: CrawLow
       value: {fileID: 8300000, guid: 9cf2739a5f9ee2a48a7a59bac4d74074, type: 3}
-    - key: JangsungMove
-      value: {fileID: 8300000, guid: 60a16ed00202b3d4eaad481bab6dbb57, type: 3}
+    - key: Lightning_1
+      value: {fileID: 8300000, guid: 327fe35519344d949a52bfc2ad0281e4, type: 3}
+    - key: Lightning_4
+      value: {fileID: 8300000, guid: 66831bd5380855b40885a10ffca8bc2b, type: 3}
+    - key: FireWallUse
+      value: {fileID: 8300000, guid: fc6a886ed209f934c94e981da27da395, type: 3}
+    - key: Sword_Cast_1
+      value: {fileID: 8300000, guid: e6efdd1dc530432448c58b2a03c213a3, type: 3}
+    - key: DoJump
+      value: {fileID: 8300000, guid: d712a79a8508612488d92824ed459a99, type: 3}
+    - key: FireWallCast
+      value: {fileID: 8300000, guid: 4ef1e66d0d5184f47bdf5788025f4a82, type: 3}
+    - key: KickSound
+      value: {fileID: 8300000, guid: 79f431aa8a0e50c48be3566871fd455e, type: 3}
+    - key: ContShoot1
+      value: {fileID: 8300000, guid: 69de3e8ea49941547b30193a220ac55a, type: 3}
+    - key: ContShoot2
+      value: {fileID: 8300000, guid: 0349b6074922d374eadd65f8fea78f30, type: 3}
+    - key: ContShoot3
+      value: {fileID: 8300000, guid: e29600e5458f3c54a8c7144e3e994c66, type: 3}
+    - key: FoxFireExp
+      value: {fileID: 8300000, guid: 456daf1d22a7c3f4ca5b75e709146619, type: 3}
+    - key: EnhanceIce
+      value: {fileID: 8300000, guid: c6d62426c3dad4a4a8fc4ddd11046a06, type: 3}
