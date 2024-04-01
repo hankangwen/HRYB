@@ -277,6 +277,7 @@ public class GameManager : MonoBehaviour
 
 	public Transform outCaveTmp;
 
+	public int lastSave;
 	
 
 	public WaitForSeconds waitSec = new WaitForSeconds(1.0f);
@@ -284,7 +285,7 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		instance = this;
-
+		lastSave = 0;
 		LockCursor();
 
 		//qManager = new QuestManager(

@@ -10,7 +10,7 @@ public class TitleLoader : MonoBehaviour
 	CanvasGroup canvasGroup;
 
 	public bool isFade = false;
-	public float fadeInOutTime;
+	float fadeInOutTime;
 
 	private void Awake()
 	{
@@ -23,10 +23,11 @@ public class TitleLoader : MonoBehaviour
 		canvasGroup.alpha = 0f;
 	}
 
-	public void FadeInOut(string text)
+	public void FadeInOut(string text, float time)
 	{
 		if (isFade) return;
 
+		fadeInOutTime = time;
 		isFade = true;
 		titleText.text = text;
 

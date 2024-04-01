@@ -1,13 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerLife : LifeModule 
 {
-	public Transform spawnPoint;
+	TitleLoader loader;
+	public bool isFade = false;
+	float fadeInOutTime;
+
+	CanvasGroup fadeImg;
+
+	Vector3[] spawnPoint = new Vector3[8];
+	PlayerMove pMove;
 
 	public override void Awake()
 	{
+		spawnPoint[0] = new Vector3(836, 14, 136);
+		spawnPoint[1] = new Vector3(794, 16, 174);
+		spawnPoint[2] = new Vector3(776, 14, 159);
+		spawnPoint[3] = new Vector3(773, 11, 196);
+		spawnPoint[4] = new Vector3(771, 18, 262);
+		spawnPoint[5] = new Vector3(811, 18, 441);
+		spawnPoint[6] = new Vector3(723, 24, 432);
+		spawnPoint[7] = new Vector3(531, 13, 250);
+
+		fadeImg = GameObject.Find("Fade").GetComponent<CanvasGroup>();
+
 		base.Awake();
 	}
 
@@ -35,9 +55,52 @@ public class PlayerLife : LifeModule
 		GetActor().move.forceDir = Vector3.zero;
 		(GetActor().move as PlayerMove).ctrl.center = Vector3.up;
 		(GetActor().move as PlayerMove).ctrl.height = 1;
-		GetActor().Respawn();
+		StartCoroutine(DieTel());
+		
 
-		transform.position = spawnPoint.position;
+		
+
 		Debug.Log("Player dead");
+	}
+
+	IEnumerator DieTel()
+	{
+		loader = GameObject.Find("TitleLoad").GetComponent<TitleLoader>();
+		loader.FadeInOut("사망", 3f);
+
+		yield return new WaitForSeconds(3f);
+
+		pMove = GameManager.instance.pActor.move as PlayerMove;
+		pMove.PlayerTeleport(spawnPoint[GameManager.instance.lastSave]);
+	}
+
+	IEnumerator FadeInOutRoutine()
+	{
+		float elapsedTime = 0f;
+
+		// Fade In
+		while (elapsedTime <= fadeInOutTime)
+		{
+			elapsedTime += Time.deltaTime;
+			fadeImg.alpha = Mathf.Clamp01(elapsedTime / fadeInOutTime);
+			yield return null;
+		}
+
+		fadeImg.alpha = 1f;
+
+		// Wait for a moment
+		yield return new WaitForSeconds(1f);
+
+		// Fade Out
+		elapsedTime = fadeInOutTime; // Reset elapsed time for fade out
+		while (elapsedTime >= 0f)
+		{
+			elapsedTime -= Time.deltaTime;
+			fadeImg.alpha = Mathf.Clamp01(elapsedTime / fadeInOutTime);
+			yield return null;
+		}
+		GetActor().Respawn();
+		fadeImg.alpha = 0f;
+		isFade = false;
 	}
 }
