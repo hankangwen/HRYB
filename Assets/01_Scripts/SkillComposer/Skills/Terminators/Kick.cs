@@ -7,9 +7,11 @@ public class Kick : AttackBase
 {
 	BoxColliderCast caster;
 
-	protected override void OnValidate()
+
+
+	protected override void Awake()
 	{
-		base.OnValidate();
+		base.Awake();
 		caster = relatedTransform.GetComponent<BoxColliderCast>();
 		if(caster == null)
 		{
