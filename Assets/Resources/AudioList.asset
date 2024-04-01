@@ -118,3 +118,7 @@ MonoBehaviour:
       value: {fileID: 8300000, guid: aa0800e0d2e9d59498eb38069ae74875, type: 3}
     - key: LightningCast
       value: {fileID: 8300000, guid: d4b64d447ebedcf47b04d6d8d41c5ced, type: 3}
+    - key: NormalBgm
+      value: {fileID: 8300000, guid: e5a9df40972a7b84997298c291a92325, type: 3}
+    - key: BossBgm
+      value: {fileID: 8300000, guid: 091214bf63cb1c04c9044b6f36c12440, type: 3}

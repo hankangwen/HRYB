@@ -230,6 +230,9 @@ public class GameManager : MonoBehaviour
 
 	public const float CAMVFOV = 55;
 
+	public const string NORMALBGM = "NormalBgm";
+	public const string BOSSBGM = "BossBgm";
+
 	public static GameManager instance;
 
     public GameObject player;
@@ -327,7 +330,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		//qManager.NextQuest();
+		audioPlayer.PlayBgm(NORMALBGM);
 	}
 
 	public void LockCursor()
