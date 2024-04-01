@@ -60,7 +60,7 @@ public class StoneLamp : MonoBehaviour
 			if(!isText && !loader.isFade)
 			{
 				GameManager.instance.lastSave = stoneLampNum;
-				loader.FadeInOut(text, 1f);
+				loader.FadeInOut(text, 0.5f);
 				isText = true;
 				GameManager.instance.audioPlayer.PlayPoint("LightOn", transform.position);
 			}
