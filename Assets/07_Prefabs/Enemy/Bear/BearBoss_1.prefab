@@ -355,7 +355,7 @@ MonoBehaviour:
   _attackRange: 2.5
   _exAttackRange: 12
   _sectionRange: 15
-  _section2Range: 25
+  _section2Range: 15
 --- !u!114 &7382912148490506860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,8 +370,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImmune: 0
   initYinYang:
-    black: 640
-    white: 640
+    black: 500
+    white: 500
   initAdequity:
     black: 1
     white: 1
