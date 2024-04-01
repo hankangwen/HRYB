@@ -48,7 +48,7 @@ public class AnimModule : Module
 
 	public virtual void SetMoveState(int val = 0)
 	{
-		anim.SetInteger(moveHash, val);
+		anim.SetFloat(moveHash, val);
 	}
 	public virtual void SetMoveState(bool b)
 	{
