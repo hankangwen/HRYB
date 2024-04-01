@@ -52,22 +52,24 @@ public abstract class ColliderCast : MonoBehaviour
 		foreach (var col in ReturnColliders())
 		{
 			
-			Debug.LogWarning($"{col.name} 맞음");
 			if (CheckDic.ContainsKey(col))
 				return;
 			else
 			{
 				CheckDic.Add(col, false);
-				Debug.LogError(col.name);
+				//Debug.LogError(col.name);
 			}
 			
 			if (col.TryGetComponent<LifeModule>(out LifeModule lf))
 			{
 				CastAct?.Invoke(lf);
 				_isDamaged = true;
+
+				Debug.LogError(isFirst + " Fuck Fuck");
+				
 				if (isFirst == false)
 				{
-					FirstAct?.Invoke(Owner, lf);
+					FirstAct?.Invoke(lf.transform, lf);
 					isFirst = true;
 				}
 			}
@@ -84,13 +86,14 @@ public abstract class ColliderCast : MonoBehaviour
 	{
 		this.Owner = _owner;
 		_isDamaged = false;
-		FirstAct = act2;
+
+		_isRunning = false;
 		isFirst = false;
 		
 		_attackAbleCount = attackAble;
 		if(StartSec > 0)
 		{
-			StartCoroutine(StartSet(StartSec));
+			StartCoroutine(StartSet(StartSec, act, act2));
 		}
 		else
 		{
@@ -99,14 +102,25 @@ public abstract class ColliderCast : MonoBehaviour
 			_isRunning = true;
 			if (act != null)
 				CastAct = act;
+			if (act2 != null)
+				FirstAct = act2;
+			
 		}
 
-		ObjectAction[] t;
-		t = GetComponentsInChildren<ObjectAction>();
-		foreach (ObjectAction att in t)
+		try
 		{
-			att._isFire = true;
+			ObjectAction[] t;
+			t = GetComponentsInChildren<ObjectAction>();
+			foreach (ObjectAction att in t)
+			{
+				att._isFire = true;
+			}
 		}
+		catch
+		{
+			Debug.Log("엄슴");
+		}
+
 
 		if(EndSec > 0)
 		{
@@ -125,13 +139,16 @@ public abstract class ColliderCast : MonoBehaviour
 		PoolManager.ReturnObject(gameObject);
 	}
 
-	IEnumerator StartSet(float t, Action<LifeModule> act = null)
+	IEnumerator StartSet(float t, Action<LifeModule> act = null, Action<Transform, LifeModule> act2 = null)
 	{
 		yield return new WaitForSeconds(t);
 		CheckDic.Clear();
 		_isRunning = true;
 		if (act != null)
 			CastAct = act;
+		if (act2 != null)
+			FirstAct = act2;
+
 	}
 
 	IEnumerator EndSet(float t)

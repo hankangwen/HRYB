@@ -464,6 +464,16 @@ Material:
     - _SupportDecals: 1
     - _Surface: 0
     - _SurfaceType: 0
+    - _TessEdgeLength: 5
+    - _TessExtrusionAmount: 0
+    - _TessPhongStrength: 0.5
+    - _TessellationBackFaceCullEpsilon: -0.25
+    - _TessellationFactor: 4
+    - _TessellationFactorMaxDistance: 50
+    - _TessellationFactorMinDistance: 20
+    - _TessellationFactorTriangleSize: 100
+    - _TessellationMode: 0
+    - _TessellationShapeFactor: 0.75
     - _TexWorldScale: 1
     - _TexWorldScaleEmissive: 1
     - _Thickness: 1
@@ -510,7 +520,7 @@ Material:
     - _utsVersion: 2.075
     - _utsVersionX: 0
     - _utsVersionY: 9
-    - _utsVersionZ: 6
+    - _utsVersionZ: 7
     m_Colors:
     - _1st_ShadeColor: {r: 0.7709168, g: 0.7643734, b: 0.8396226, a: 1}
     - _2nd_ShadeColor: {r: 0.6624946, g: 0.635057, b: 0.6698113, a: 1}
