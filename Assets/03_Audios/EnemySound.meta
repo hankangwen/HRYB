@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/03_Audios/EnemySound.meta
 guid: 8b3aabf3b1f6bad42b7f618e59d3aeb3
 folderAsset: yes
+========
+guid: 176729cb8ee259b4fb86d0656ac891a3
+>>>>>>>> NewMain:Assets/9_Importeds/Travis Game Assets/Status Effects/Pipeline Upgrade/Status Effects FREE - URP.unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
