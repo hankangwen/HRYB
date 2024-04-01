@@ -17,6 +17,20 @@ public class JangsungGirlAttack : EnemyAttackModule
 		_missile.Clear();
 
 		GetActor().anim.Animators.SetBool(AttackStd, true);
+		switch (AttackStd)
+		{
+
+			case "Root":
+				{
+					GameManager.instance.audioPlayer.PlayPoint("JSGBarrier", transform.position);
+				}
+				break;
+			case "Barrier":
+				{
+					GameManager.instance.audioPlayer.PlayPoint("JSGBarrier", transform.position);
+				}
+				break;
+		}
 	}
 
 	public override void OnAnimationEnd()

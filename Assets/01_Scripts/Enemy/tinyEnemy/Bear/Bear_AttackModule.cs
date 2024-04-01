@@ -29,22 +29,44 @@ public class Bear_AttackModule : EnemyAttackModule
 			case "Normal":
 				{
 					
-					int at = left ? -1 : 1;
-					_nowCols.Now(transform, (_life) =>
+					if(_nowCols != null)
 					{
-						_life.DamageYY(new YinYang(0, 15), DamageType.DirectHit);
-						// 기절 ++
-						Vector3 vec = _life.transform.position - transform.position;
-						vec.y = 0;
-						vec.Normalize();
-						vec *= 4;
-						vec += transform.right * at * 14;
+						_nowCols.End();
+						_nowCols = null;
+					}
 
-						_life.GetActor().move.forceDir = vec + new Vector3(0, 3, 0);
-						//_life.GetActor().move.forceDir.y = 40;
+					int at = left ? -1 : 1;
 
-						Debug.LogError("시발시발시발시발" + _life.GetActor().move.forceDir);
-					});
+					GameObject objs = PoolManager.GetObject("BearNormalCollider", transform);
+
+					if(at == -1)
+					{
+						GameManager.instance.audioPlayer.PlayPoint("BearAttackLeft", transform.position);
+					}
+					else
+					{
+						GameManager.instance.audioPlayer.PlayPoint("BearAttackRight", transform.position);
+					}
+					if(objs.TryGetComponent<ColliderCast>(out _nowCols))
+					{
+						_nowCols.Now(transform, (_life) =>
+						{
+							_life.DamageYY(new YinYang(0, 15), DamageType.DirectHit);
+							// 기절 ++
+							Vector3 vec = _life.transform.position - transform.position;
+							vec.y = 0;
+							vec.Normalize();
+							vec *= 4;
+							vec += transform.right * at * 14;
+
+							_life.GetActor().move.forceDir = vec + new Vector3(0, 3, 0);
+							//_life.GetActor().move.forceDir.y = 40;
+
+							Debug.LogError("시발시발시발시발" + _life.GetActor().move.forceDir);
+						});
+					}
+
+				
 				}
 				break;
 
@@ -96,6 +118,8 @@ public class Bear_AttackModule : EnemyAttackModule
 				{
 					
 					GameObject obj = PoolManager.GetObject($"BearEXCollider", transform); ;
+
+					GameManager.instance.audioPlayer.PlayPoint("BearAttackRight", transform.position);
 
 					if (obj.TryGetComponent(out ColliderCast cols))
 					{
@@ -171,14 +195,6 @@ public class Bear_AttackModule : EnemyAttackModule
 			case "Normal":
 				{
 					GetActor().anim.Animators.SetTrigger(Animator.StringToHash($"Attack{AttackStd}{a}"));
-					
-					
-					GameObject obj = PoolManager.GetObject($"BearNormalCollider", transform);
-
-					if (obj.TryGetComponent(out ColliderCast cols))
-					{
-						_nowCols = cols;
-					}
 				}
 				break;
 

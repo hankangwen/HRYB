@@ -1860,7 +1860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bbd7cf0c98ee4744a787213af8a7bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitClipName: 
+  hitClipName: WolfHit
 --- !u!114 &496748621045770597
 MonoBehaviour:
   m_ObjectHideFlags: 0
