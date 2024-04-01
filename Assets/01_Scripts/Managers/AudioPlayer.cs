@@ -75,6 +75,7 @@ public class AudioPlayer : MonoBehaviour
 	{
 		if (dict.data.ContainsKey(clipName))
 		{
+			Debug.LogError($"해당사운드 재생 : {clipName}");
 			AudioClip clip = dict.data[clipName];
 			float delT = clip.length;
 			if (duration != -1)
@@ -84,6 +85,10 @@ public class AudioPlayer : MonoBehaviour
 			audioPoint.clip = clip;
 			audioPoint.pitch = 1 + Random.Range(-0.1f, 0);
 			audioPoint.Play();
+		}
+		else
+		{
+			Debug.LogError($"해당사운드 없음 : {clipName}");
 		}
 		
 	}

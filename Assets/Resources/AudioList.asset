@@ -72,3 +72,25 @@ MonoBehaviour:
       value: {fileID: 8300000, guid: 456daf1d22a7c3f4ca5b75e709146619, type: 3}
     - key: EnhanceIce
       value: {fileID: 8300000, guid: c6d62426c3dad4a4a8fc4ddd11046a06, type: 3}
+    - key: NextEnterSound
+      value: {fileID: 8300000, guid: cb8cb8157116a1b4bb235f1cf4c2287e, type: 3}
+    - key: MooseHit
+      value: {fileID: 8300000, guid: fad26b08ca4e62b47b4c7faf5b0a6c6d, type: 3}
+    - key: MooseAttack
+      value: {fileID: 8300000, guid: ebd3de8b835ae1a4d8221a0ea839d153, type: 3}
+    - key: WolfHit
+      value: {fileID: 8300000, guid: ec3808fd4cbf28549b15e3a0694c7ae1, type: 3}
+    - key: WolfLeftAttack
+      value: {fileID: 8300000, guid: a99dcd01beb45e24aa7e6732ebadb664, type: 3}
+    - key: WolfRightAttack
+      value: {fileID: 8300000, guid: e688d3fcd4311b14c8e75e836e7087d6, type: 3}
+    - key: BearAttackRight
+      value: {fileID: 8300000, guid: 1b11c281f58bb054694b74fc45166f96, type: 3}
+    - key: BearAttackLeft
+      value: {fileID: 8300000, guid: 981819a54fcb5cc4d8e1555675965241, type: 3}
+    - key: BearHit
+      value: {fileID: 8300000, guid: 511cfd3952114c54f8d957607b6d3869, type: 3}
+    - key: BearFire
+      value: {fileID: 8300000, guid: 2666995b96b90704691563235a727ea2, type: 3}
+    - key: JSGBarrier
+      value: {fileID: 8300000, guid: 9fb39e78d1c1b7a4faf085af1156639f, type: 3}

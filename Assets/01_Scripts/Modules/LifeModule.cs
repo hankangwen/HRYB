@@ -541,4 +541,9 @@ public class LifeModule : Module
 
 		GameManager.instance.uiManager.yinYangUI.RefreshValues();
 	}
+
+	public virtual void SetAdequity(float t)
+	{
+		adequity = new YinYang(t, t);
+	}
 }
