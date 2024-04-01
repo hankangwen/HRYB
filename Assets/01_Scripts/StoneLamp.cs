@@ -75,9 +75,9 @@ public class StoneLamp : MonoBehaviour
 			
 			if (time > 1)
 			{
-				if(!((GameManager.instance.pActor.life.yy.white + GameManager.instance.pActor.life.initYinYang.white * 0.02f) > GameManager.instance.pActor.life.initYinYang.white))
+				if(!((GameManager.instance.pActor.life.yy.white + GameManager.instance.pActor.life.initYinYang.white * 0.02f) >= GameManager.instance.pActor.life.initYinYang.white))
 				{
-					GameManager.instance.pActor.life.yy.white += GameManager.instance.pActor.life.initYinYang.white;
+					GameManager.instance.pActor.life.yy.white += GameManager.instance.pActor.life.initYinYang.white * 0.02f;
 
 					if (!isEffect)
 					{
