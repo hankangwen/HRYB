@@ -10,7 +10,7 @@ public abstract class AttackBase : Leaf
 
 	protected Transform relatedTransform;
 
-	List<StatusEffectApplyData> originalEff;
+	List<StatusEffectApplyData> originalEff = new();
 
 	protected virtual void OnValidate()
 	{

@@ -51,7 +51,7 @@ public class CameraManager : MonoBehaviour
 		}
 
 		v = _main.GetComponentInChildren<Volume>();
-		Debug.LogError(camShakers.Count);
+		//Debug.LogError(camShakers.Count);
 		for (int i = 0; i < camShakers.Count; i++)
 		{
 			camShakers[i].m_AmplitudeGain = 0;
