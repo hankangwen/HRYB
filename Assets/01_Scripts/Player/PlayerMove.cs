@@ -229,24 +229,24 @@ public class PlayerMove : MoveModule
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Slash))
-		{
-			jumpable = true;
-		}
-		if (Input.GetKeyDown(KeyCode.Backslash))
-		{
-			Debug.Log("TELEPORT CHEAT");
-			GameManager.instance.pinp.DeactivateInput();
-			GetActor().anim.ResetStatus();
-			moveDir = Vector3.zero;
-			forceDir = Vector3.zero;
-			transform.position = GameManager.instance.outCaveTmp.position;
-			GameManager.instance.pinp.ActivateInput();
-			already.Clear();
-			ctrl.height = 2;
-			ctrl.radius = 0.5f;
-			ctrl.center = Vector3.up;
-		}
+		//if (Input.GetKeyDown(KeyCode.Slash))
+		//{
+		//	jumpable = true;
+		//}
+		//if (Input.GetKeyDown(KeyCode.Backslash))
+		//{
+		//	Debug.Log("TELEPORT CHEAT");
+		//	GameManager.instance.pinp.DeactivateInput();
+		//	GetActor().anim.ResetStatus();
+		//	moveDir = Vector3.zero;
+		//	forceDir = Vector3.zero;
+		//	transform.position = GameManager.instance.outCaveTmp.position;
+		//	GameManager.instance.pinp.ActivateInput();
+		//	already.Clear();
+		//	ctrl.height = 2;
+		//	ctrl.radius = 0.5f;
+		//	ctrl.center = Vector3.up;
+		//}
 
 		if(Time.time - prevDetectTime > nearRefreshTime)
 		{
