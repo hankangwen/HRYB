@@ -551,6 +551,7 @@ public class PlayerInven : MonoBehaviour
 								!atk.clickL && !atk.clickR)
 							{
 								stat = PlayerForm.Magic;
+								GameManager.instance.audioPlayer.PlayPoint("ToHuman", transform.position);
 							}
 							break;
 						case PlayerForm.Magic:
@@ -558,6 +559,7 @@ public class PlayerInven : MonoBehaviour
 								!tk.clickL && !tk.clickR)
 							{
 								stat = PlayerForm.Yoho;
+								GameManager.instance.audioPlayer.PlayPoint("ToFox", transform.position);
 							}
 							break;
 						default:
