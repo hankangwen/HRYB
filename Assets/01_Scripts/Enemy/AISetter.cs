@@ -25,6 +25,7 @@ public abstract class AISetter : MonoBehaviour
 	protected bool stopped = false;
 	float stopEnAble = 0f;
 
+
 	public virtual void LookAt(Transform t)
 	{
 		Vector3 lookPos = t.position - transform.position;

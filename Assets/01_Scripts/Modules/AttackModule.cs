@@ -51,6 +51,11 @@ public class AttackModule : Module, IAnimationEvent
 		attackModuleStat.CompleteReset();
 	}
 
+	public virtual void SetDamage(float t)
+	{
+		damage *= t;
+	}
+
 	public virtual void SetAttackRange(int idx)
 	{
 		// SetRange

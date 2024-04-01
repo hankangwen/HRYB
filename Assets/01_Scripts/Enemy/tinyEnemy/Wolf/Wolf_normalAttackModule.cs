@@ -39,7 +39,6 @@ public class Wolf_normalAttackModule : EnemyAttackModule
 
 
 		GameObject obj = PoolManager.GetObject($"Wolf_noraml_Attack", transform);
-
 		if (obj.TryGetComponent(out ColliderCast cols))
 		{
 			_nowCols = cols;
@@ -49,6 +48,18 @@ public class Wolf_normalAttackModule : EnemyAttackModule
 		{
 			_life.DamageYY(new YinYang(0,10), DamageType.DirectHit);
 		});
+
+		if(a== 2)
+		{
+			GameManager.instance.audioPlayer.PlayPoint("WolfRightAttack", transform.position);
+		}
+		else
+		{
+			
+			GameManager.instance.audioPlayer.PlayPoint("WolfLeftAttack", transform.position);
+			
+		}
+
 		EffectObject eff =  PoolManager.GetEffect($"Wolf_noraml_Attack{a}", transform);
 		eff.Begin();
 	}
