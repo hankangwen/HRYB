@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class JangsungVS : MonoBehaviour
 {
@@ -11,5 +12,10 @@ public class JangsungVS : MonoBehaviour
     public void PlayerOnMove()
 	{
 		GameManager.instance.player.GetComponent<PlayerMove>().PlayerTeleport(tls.transform.position);
+	}
+
+	public void SceneLoadSpawn()
+	{
+		SceneManager.LoadScene("Title");
 	}
 }
