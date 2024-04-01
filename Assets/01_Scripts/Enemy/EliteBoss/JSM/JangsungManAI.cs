@@ -74,8 +74,8 @@ public class JangsungManAI : AISetter
 
 			#region 점프 공격
 
-			Waiter waitJump = new Waiter(10f);
-			IsOutRange isJumpAtk = new IsOutRange(self, player.transform, _jsAttckModule.JumpDist, null, () =>
+			Waiter waitJump = new Waiter(12f);
+			IsInRange isJumpAtk = new IsInRange(self, player.transform, _jsAttckModule.JumpDist, null, () =>
 			{
 				_jsAttckModule.SetAttackType(FallDownAttackHash);
 				_jsAttckModule.SetTarget(player);

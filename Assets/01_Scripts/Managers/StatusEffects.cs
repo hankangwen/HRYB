@@ -413,7 +413,7 @@ public class StatusEffects
 
 	public static void ApplyStat(Actor to, Actor by, StatEffID id, float dur, float pow = 1)
 	{
-		Debug.LogError($"AAA : {to}, {by}, {id}, {dur}, {pow}");
+		//Debug.LogError($"AAA : {to}, {by}, {id}, {dur}, {pow}");
 		GameManager.instance.StartCoroutine(DelApplier(to, by, id, dur, pow));
 	}
 
