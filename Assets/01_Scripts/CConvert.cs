@@ -13,15 +13,17 @@ public class CConvert : MonoBehaviour
 	public Sprite BlackImage;
 		
 	float curCool;
-	float time;
+	float time = 1000;
 
-	bool isForm;
+	bool isForm = true;
 
 	private void Awake()
 	{
 		img = transform.GetChild(0).GetComponent<Image>();
 		coolDown = transform.GetChild(1).GetComponent<Image>();
-		time = GameManager.instance.pinven.changeCool;
+	}
+	private void Start()
+	{
 	}
 
 	private void Update()
@@ -42,7 +44,7 @@ public class CConvert : MonoBehaviour
 			isForm = false;
 			img.sprite = whiteImage;
 		}
-		else if (GameManager.instance.pinven.stat == PlayerForm.Magic && !isForm)
+		else if (GameManager.instance.pinven.stat == PlayerForm.Yoho && !isForm)
 		{
 			img.sprite = BlackImage;
 		}

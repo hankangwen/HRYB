@@ -26,7 +26,7 @@ public class PlayerLife : LifeModule
 		spawnPoint[6] = new Vector3(723, 24, 432);
 		spawnPoint[7] = new Vector3(531, 13, 250);
 
-		fadeInOutTime = 3;
+		fadeInOutTime = 1;
 		fadeImg = GameObject.Find("FadeImg").GetComponent<CanvasGroup>();
 
 		base.Awake();
@@ -57,7 +57,7 @@ public class PlayerLife : LifeModule
 		(GetActor().move as PlayerMove).ctrl.center = Vector3.up;
 		(GetActor().move as PlayerMove).ctrl.height = 1;
 		StartCoroutine(DieTel());
-		StartCoroutine(FadeInOutRoutine());
+		
 
 		GameManager.instance.DisableCtrl();
 
@@ -67,9 +67,9 @@ public class PlayerLife : LifeModule
 	IEnumerator DieTel()
 	{
 		loader = GameObject.Find("TitleLoad").GetComponent<TitleLoader>();
-		loader.FadeInOut("사망", 3f);
-
-		yield return new WaitForSeconds(3f);
+		loader.FadeInOut("사망", 1f);
+		StartCoroutine(FadeInOutRoutine());
+		yield return new WaitForSeconds(1f);
 
 		pMove = GameManager.instance.pActor.move as PlayerMove;
 		pMove.PlayerTeleport(spawnPoint[GameManager.instance.lastSave]);
@@ -91,7 +91,7 @@ public class PlayerLife : LifeModule
 		fadeImg.alpha = 1f;
 
 		// Wait for a moment
-		yield return new WaitForSeconds(1f); 
+		yield return new WaitForSeconds(0.5f); 
 
 		// Fade Out
 		elapsedTime = fadeInOutTime; // Reset elapsed time for fade out

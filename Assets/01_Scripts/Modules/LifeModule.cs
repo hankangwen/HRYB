@@ -140,6 +140,7 @@ public class LifeModule : Module
 		if (to == YYInfo.White && isDead)
 		{
 			OnDead();
+			StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, 10);
 		}
 	}
 
@@ -518,7 +519,7 @@ public class LifeModule : Module
 			GetActor().anim.SetDieTrigger();
 			_dieEvent?.Invoke();
 
-			StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, 10);
+			
 			
 		}
 
