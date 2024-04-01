@@ -94,3 +94,9 @@ MonoBehaviour:
       value: {fileID: 8300000, guid: 2666995b96b90704691563235a727ea2, type: 3}
     - key: JSGBarrier
       value: {fileID: 8300000, guid: 9fb39e78d1c1b7a4faf085af1156639f, type: 3}
+    - key: ReturnFoxFire
+      value: {fileID: 8300000, guid: aa0800e0d2e9d59498eb38069ae74875, type: 3}
+    - key: FlyFoxFire
+      value: {fileID: 8300000, guid: 8a5cac5e9b5ea4549aa7141397b233a0, type: 3}
+    - key: LightningCast
+      value: {fileID: 8300000, guid: d4b64d447ebedcf47b04d6d8d41c5ced, type: 3}

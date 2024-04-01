@@ -15,7 +15,7 @@ MonoBehaviour:
   animClip: {fileID: 7400000, guid: 5a140180fa64f1f439bb70c387b9e196, type: 2}
   animClipLoopings: {fileID: 0}
   animClipDisop: {fileID: 0}
-  audioClipName: FoxFireExp
+  audioClipName: ReturnFoxFire
   tags:
     value: 9
   level: 0

@@ -101,18 +101,22 @@ public class FollowingFoxFire : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if(mode == FoxFireMode.Flying)
+		if(other.gameObject.layer == GameManager.ENEMYLAYER)
 		{
-			Actor actor = other.GetComponent<Actor>();
-			if (actor && !(actor.move is PlayerMove))
+			if (mode == FoxFireMode.Flying)
 			{
-				Orbit(actor.transform);
-			}
-			else
-			{
-				Follow();
+				Actor actor = other.GetComponent<Actor>();
+				if (actor && !(actor.move is PlayerMove))
+				{
+					Orbit(actor.transform);
+				}
+				else
+				{
+					Follow();
+				}
 			}
 		}
+		
 		
 	}
 
@@ -151,7 +155,7 @@ public class FollowingFoxFire : MonoBehaviour
 		Follow();
 
 		ac.life.DamageYY(0, dmg, DamageType.NoEvadeHit, 0, 0, GameManager.instance.pActor);
-
+		GameManager.instance.audioPlayer.PlayPoint("FoxFireExp", transform.position);
 		if (dmg > 0)
 		{
 			GameManager.instance.shower.GenerateDamageText(transform.position, dmg, YYInfo.White);

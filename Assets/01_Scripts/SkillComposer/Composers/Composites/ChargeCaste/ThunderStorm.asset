@@ -15,7 +15,7 @@ MonoBehaviour:
   animClip: {fileID: 0}
   animClipLoopings: {fileID: 0}
   animClipDisop: {fileID: 0}
-  audioClipName: 
+  audioClipName: LightningCast
   tags:
     value: 1
   level: 0
