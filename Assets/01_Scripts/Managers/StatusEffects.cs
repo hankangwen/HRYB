@@ -82,7 +82,7 @@ public class StatusEffects
 
 	public StatusEffects()
 	{
-		idStatEffPairs.Add(((int)StatEffID.Knockback), new StatusEffect("밀려남", "강력한 힘에 밀려납니다.",  StatEffApplyMethod.NoOverwrite, OnKnockbackActivated, OnKnockbackDebuffUpdated, OnKnockbackDebuffEnded));
+		idStatEffPairs.Add(((int)StatEffID.Knockback), new StatusEffect("밀려남", "강력한 힘에 밀려납니다.",  StatEffApplyMethod.AddDuration, OnKnockbackActivated, OnKnockbackDebuffUpdated, OnKnockbackDebuffEnded));
 		idStatEffPairs.Add(((int)StatEffID.Immune), new StatusEffect("무적", "세계의 비호를 받고 있습니다.", StatEffApplyMethod.NoOverwrite, OnImmuneActivated, OnImmuneUpdated, OnImmuneEnded));
 		idStatEffPairs.Add(((int)StatEffID.Blind), new StatusEffect("실명", "눈 앞이 어두워집니다.", StatEffApplyMethod.NoOverwrite, OnBlindActivated, OnBlindUpdated, OnBlindEnded));
 		idStatEffPairs.Add(((int)StatEffID.Slow), new StatusEffect("둔화", "움직임이 느려집니다.", StatEffApplyMethod.Stackable, OnSlowActivated, OnSlowUpdated, OnSlowEnded));
@@ -94,7 +94,7 @@ public class StatusEffects
 		idStatEffPairs.Add(((int)StatEffID.Bleeding), new StatusEffect("출혈", "피가 누출됩니다.", StatEffApplyMethod.Stackable, OnBleedingActivated, OnBleedingUpdated, OnBleedingEnded));
 		idStatEffPairs.Add(((int)StatEffID.Fire), new StatusEffect("화상", "몸이 불탑니다.", StatEffApplyMethod.Stackable, OnFireActivated, OnFireUpdated, OnFireEnded));
 
-		idStatEffPairs.Add(new StatusEffect("밀려남", "강력한 힘에 밀려납니다.", StatEffApplyMethod.NoOverwrite, OnKnockbackActivated, OnKnockbackDebuffUpdated, OnKnockbackDebuffEnded), ((int)StatEffID.Knockback));
+		idStatEffPairs.Add(new StatusEffect("밀려남", "강력한 힘에 밀려납니다.", StatEffApplyMethod.AddDuration, OnKnockbackActivated, OnKnockbackDebuffUpdated, OnKnockbackDebuffEnded), ((int)StatEffID.Knockback));
 		idStatEffPairs.Add(new StatusEffect("무적", "세계의 비호를 받고 있습니다.", StatEffApplyMethod.NoOverwrite, OnImmuneActivated, OnImmuneUpdated, OnImmuneEnded), ((int)StatEffID.Immune));
 		idStatEffPairs.Add(new StatusEffect("실명", "눈 앞이 어두워집니다.", StatEffApplyMethod.NoOverwrite, OnBlindActivated, OnBlindUpdated, OnBlindEnded),((int)StatEffID.Blind));
 		idStatEffPairs.Add(new StatusEffect("둔화", "움직임이 느려집니다.", StatEffApplyMethod.Stackable, OnSlowActivated, OnSlowUpdated, OnSlowEnded), ((int)StatEffID.Slow));

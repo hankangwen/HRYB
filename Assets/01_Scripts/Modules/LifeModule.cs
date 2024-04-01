@@ -89,7 +89,7 @@ public class LifeModule : Module
 	internal Dictionary<int, List<Coroutine>> ongoingTickDamages = new Dictionary<int, List<Coroutine>>() ;
 
 	//피격자, 공격자, 대미지
-	public Action<Actor, Actor, YinYang> onNextDamaged; 
+	public Action<Actor, Actor, YinYang> onNextDamaged;
 
 	public virtual bool isDead
 	{
@@ -137,9 +137,10 @@ public class LifeModule : Module
 	void DecreaseYY(float amt, YYInfo to)
 	{
 		yy[((int)to)] -= amt * adequity[((int)to)];
-		if (isDead)
+		if (to == YYInfo.White && isDead)
 		{
 			OnDead();
+			StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, 10);
 		}
 	}
 
@@ -517,6 +518,8 @@ public class LifeModule : Module
 			//GetActor().anim.SetBoolModify("Die",true);
 			GetActor().anim.SetDieTrigger();
 			_dieEvent?.Invoke();
+
+			
 			
 		}
 
@@ -537,7 +540,7 @@ public class LifeModule : Module
 		applyMod = 1;
 		baseApplySpeed = 1;
 		fixedRegenMod = null;
-
+		
 
 		GameManager.instance.uiManager.yinYangUI.RefreshValues();
 	}

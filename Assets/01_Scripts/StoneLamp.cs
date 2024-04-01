@@ -1,8 +1,4 @@
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class StoneLamp : MonoBehaviour
 {
@@ -10,6 +6,8 @@ public class StoneLamp : MonoBehaviour
 	Vector3 distance;
 	Color color;
 	float k = 0;
+
+	public int stoneLampNum;
 
 	bool isEffect;
 	bool isText = false;
@@ -61,7 +59,8 @@ public class StoneLamp : MonoBehaviour
 		{
 			if(!isText && !loader.isFade)
 			{
-				loader.FadeInOut(text);
+				GameManager.instance.lastSave = stoneLampNum;
+				loader.FadeInOut(text, 1f);
 				isText = true;
 			}
 			
@@ -73,24 +72,29 @@ public class StoneLamp : MonoBehaviour
 
 			time += Time.deltaTime;
 			
-			
-
-			if(!isEffect)
-			{
-				obj = PoolManager.GetObject($"Heal", transform);
-				
-				isEffect = true;
-			}
-			obj.transform.position = GameManager.instance.player.transform.position;
 			if (time > 1)
 			{
-				GameManager.instance.pActor.life.yy.white += GameManager.instance.pActor.life.initYinYang.white * 0.02f;
+				if(!((GameManager.instance.pActor.life.yy.white + GameManager.instance.pActor.life.initYinYang.white * 0.02f) > GameManager.instance.pActor.life.initYinYang.white))
+				{
+					GameManager.instance.pActor.life.yy.white += GameManager.instance.pActor.life.initYinYang.white;
+
+					if (!isEffect)
+					{
+						obj = PoolManager.GetObject($"Heal", transform);
+
+						isEffect = true;
+					}
+					obj.transform.position = GameManager.instance.player.transform.position;
+				}
 				time = 0;
 			}
 		}
 		else
 		{
 			isEffect = false;
+
+			if(obj != null)
+				PoolManager.ReturnObject(obj);
 		}
 
 	}	
