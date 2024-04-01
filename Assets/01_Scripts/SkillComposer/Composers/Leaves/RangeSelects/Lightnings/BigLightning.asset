@@ -15,7 +15,7 @@ MonoBehaviour:
   animClip: {fileID: 7400000, guid: aefdb1d39d5152849b80a6dc11aa1b9a, type: 2}
   animClipLoopings: {fileID: 7400000, guid: 95ce1b8d314a00c4e838bc071f54915e, type: 2}
   animClipDisop: {fileID: 7400000, guid: ff2e8bc99d541064586d57c0f2457f34, type: 2}
-  audioClipName: Lightning_1
+  audioClipName: 
   tags:
     value: 1
   level: 0
