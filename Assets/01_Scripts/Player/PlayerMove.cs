@@ -777,4 +777,9 @@ public class PlayerMove : MoveModule
 		ctrl.center = Vector3.up;
 		
 	}
+
+	public void PlayerGoHome()
+	{
+		PlayerTeleport(new Vector3(0, 0, 0));
+	}
 }

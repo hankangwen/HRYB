@@ -29,11 +29,11 @@ public class detectPlayer : MonoBehaviour
 	{
 		if (other.gameObject.layer == 7)
 		{
-			Destroy(obj);
 			if(obj.CompareTag("Jansung"))
 			{
 				GameManager.instance.bHPManager.jangsungHP = false;
 			}
+			Destroy(obj);
 		}	 
 	}
 }
