@@ -112,3 +112,9 @@ MonoBehaviour:
       value: {fileID: 8300000, guid: 866abdf3a931850498786581089be202, type: 3}
     - key: StoneLand
       value: {fileID: 8300000, guid: 79e6e1370ee1ca747b469e68d0dcb0fe, type: 3}
+    - key: FlyFoxFire
+      value: {fileID: 8300000, guid: 8a5cac5e9b5ea4549aa7141397b233a0, type: 3}
+    - key: ReturnFoxFire
+      value: {fileID: 8300000, guid: aa0800e0d2e9d59498eb38069ae74875, type: 3}
+    - key: LightningCast
+      value: {fileID: 8300000, guid: d4b64d447ebedcf47b04d6d8d41c5ced, type: 3}
