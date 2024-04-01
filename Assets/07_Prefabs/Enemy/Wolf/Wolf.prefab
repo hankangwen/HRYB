@@ -1752,7 +1752,7 @@ MonoBehaviour:
   _isWake: 1
   _attackRange: 4
   _sectionRange: 10
-  _section2Range: 15
+  _section2Range: 10
 --- !u!114 &5435074821069355381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1805,8 +1805,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImmune: 0
   initYinYang:
-    black: 150
-    white: 150
+    black: 125
+    white: 125
   initAdequity:
     black: 1
     white: 1
