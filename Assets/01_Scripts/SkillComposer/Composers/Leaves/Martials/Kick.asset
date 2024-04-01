@@ -23,5 +23,5 @@ MonoBehaviour:
   - id: 0
     power: 1
     duration: 2
-  damageMult: 200
+  damageMult: 100
   relateTrmName: KickCaster
