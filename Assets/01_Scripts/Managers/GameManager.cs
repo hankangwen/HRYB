@@ -427,6 +427,11 @@ public class GameManager : MonoBehaviour
 			player.GetComponent<PlayerAttack>().SetDamage(3);
 		}
 
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			LockUnlockCursor();
+		}
+
 
 		if (Input.GetKeyDown(KeyCode.P))
 		{

@@ -10,13 +10,13 @@ public abstract class AttackBase : Leaf
 
 	protected Transform relatedTransform;
 
-	List<StatusEffectApplyData> originalEff;
 
-	protected virtual void OnValidate()
+	List<StatusEffectApplyData> originalEff = new List<StatusEffectApplyData>();
+	protected virtual void Awake()
 	{
 		relatedTransform = GameObject.Find(relateTrmName)?.transform;
 		originalEff = new List<StatusEffectApplyData>(statEff);
-		if(relatedTransform == null)
+		if (relatedTransform == null)
 		{
 			Debug.Log($"NO TRANSFORM FOUND IN SUCH NAME : {relateTrmName}");
 		}
