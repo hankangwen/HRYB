@@ -31,6 +31,8 @@ public class TitleLoader : MonoBehaviour
 		isFade = true;
 		titleText.text = text;
 
+		GameManager.instance.audioPlayer.PlayPoint("TextOn", transform.position);
+
 		StartCoroutine(FadeInOutRoutine());
 	}
 
