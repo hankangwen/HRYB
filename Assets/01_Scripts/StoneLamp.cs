@@ -62,6 +62,7 @@ public class StoneLamp : MonoBehaviour
 				GameManager.instance.lastSave = stoneLampNum;
 				loader.FadeInOut(text, 1f);
 				isText = true;
+				GameManager.instance.audioPlayer.PlayPoint("LightOn", transform.position);
 			}
 			
 			l.enabled = true;
@@ -81,7 +82,7 @@ public class StoneLamp : MonoBehaviour
 					if (!isEffect)
 					{
 						obj = PoolManager.GetObject($"Heal", transform);
-
+						GameManager.instance.audioPlayer.PlayPoint("LightHeal", transform.position);
 						isEffect = true;
 					}
 					obj.transform.position = GameManager.instance.player.transform.position;
