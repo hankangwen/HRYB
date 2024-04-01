@@ -1,3 +1,4 @@
+using GSpawn;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,9 +13,11 @@ public class StoneLamp : MonoBehaviour
 	Color color;
 	float k = 0;
 
+	bool isEffect;
 	bool isText = false;
 
 	TitleLoader loader;
+	GameObject obj;
 
 	[Header("석등이 켜지는 거리")]
 	[SerializeField]
@@ -51,7 +54,8 @@ public class StoneLamp : MonoBehaviour
 		pDistance = 5;
 		isText = false;
 		material.DisableKeyword("_EMISSION");
-    }
+		
+	}
 
 	private void Update()
 	{
@@ -70,12 +74,25 @@ public class StoneLamp : MonoBehaviour
 			material.SetColor("_EmissionColor", color * Mathf.Pow(2, Mathf.Lerp(-2, 3, k)));
 
 			time += Time.deltaTime;
+			
+			
 
+			if(!isEffect)
+			{
+				obj = PoolManager.GetObject($"Heal", transform);
+				
+				isEffect = true;
+			}
+			obj.transform.position = GameManager.instance.player.transform.position;
 			if (time > 1)
 			{
 				GameManager.instance.pActor.life.yy.white += GameManager.instance.pActor.life.initYinYang.white * 0.02f;
 				time = 0;
 			}
+		}
+		else
+		{
+			isEffect = false;
 		}
 
 	}	

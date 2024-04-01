@@ -22,6 +22,11 @@ public class TooFarHPFar : MonoBehaviour
 		lf = GetComponent<LifeModule>();
 	}
 
+	private void Start()
+	{
+		obj = GameManager.instance.bHPManager.HideHP(this.transform);
+	}
+
 	private void FixedUpdate()
 	{
 		Collider.radius = Range;
@@ -32,7 +37,7 @@ public class TooFarHPFar : MonoBehaviour
 
 		if (other.gameObject.layer == 7)
 		{
-			obj = GameManager.instance.bHPManager.HideHP(this.transform);
+			obj.SetActive(true);	
 		}
 	}
 
@@ -40,7 +45,7 @@ public class TooFarHPFar : MonoBehaviour
 	{
 		if (other.gameObject.layer == 7)
 		{
-			Destroy(obj);
+			obj.SetActive(false);
 		}
 	}
 }
