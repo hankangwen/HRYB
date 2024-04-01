@@ -229,13 +229,16 @@ MonoBehaviour:
   uiManager: {fileID: 0}
   sManager: {fileID: 0}
   pManager: {fileID: 0}
+  bHPManager: {fileID: 0}
   timeliner: {fileID: 0}
   timeliner2: {fileID: 0}
   imageManager: {fileID: 0}
   camManager: {fileID: 0}
-  arrow: {fileID: 7739963975991083137, guid: a57f6d3e34dbc8543966c3a288547853, type: 3}
+  foxfire: {fileID: 0}
   audioPlayer: {fileID: 0}
   terrain: {fileID: 0}
+  shower: {fileID: 0}
+  decalCtrl: {fileID: 0}
   uiBase: {fileID: 21300000, guid: 788163d909a3d2e4aaebe059e81838bb, type: 3}
   tmpText: {fileID: 11400000, guid: 923df68f2faefec42a50a5edb3ea2705, type: 2}
   ampGain: 3
@@ -318,6 +321,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a28aa76179c324ba5c5abcbe4604c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4915205867262334580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2554142373823542653}
+  - component: {fileID: 1678447543452191310}
+  m_Layer: 0
+  m_Name: DecalControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2554142373823542653
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4915205867262334580}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4016483504341766125}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1678447543452191310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4915205867262334580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85105b36a695e6f46be4e3b10934b8ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NoAimColor: {r: 0, g: 0.6588914, b: 0.98833734, a: 0}
+  AimColor: {r: 1.0606601, g: 0, b: 0, a: 0}
+  NoAimColorBack: {r: 0, g: 1.4980392, b: 0.29960793, a: 0}
+  AimColorBack: {r: 0.3838391, g: 0, b: 1.0606601, a: 0}
+  decalMat: {fileID: 2100000, guid: b0fc3258afd3df8409768f0a2f50f6e8, type: 2}
+  auraMat: {fileID: 2100000, guid: 0896c0494d464654ab8eb901c35a5691, type: 2}
 --- !u!1 &4960540207682988837
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,6 +462,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invenSlot: {fileID: 0}
   quickSlot: {fileID: 0}
+  bossHPBar: {fileID: 0}
+  HPBar: {fileID: 0}
+  jangsungHP: {fileID: 0}
 --- !u!1 &8137112195680731569
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,6 +503,7 @@ Transform:
   - {fileID: 8845440755275567644}
   - {fileID: 7137334930028887462}
   - {fileID: 1890379337823260771}
+  - {fileID: 2554142373823542653}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8156742070859110798

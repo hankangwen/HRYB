@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ExplodeFoxFire
   m_EditorClassIdentifier: 
   animClip: {fileID: 0}
+  animClipLoopings: {fileID: 0}
   animClipDisop: {fileID: 0}
   audioClipName: 
   tags:
@@ -21,9 +22,11 @@ MonoBehaviour:
   childs:
   - {fileID: 11400000, guid: 6f2981d1c0863544da48c13dbd330575, type: 2}
   composeDel: 0
-  isPlayAnim: 0
+  isPlayAnim: 1
   isPlayDisopAnim: 0
   wx: 0
   useType: 0
   castTime: 0.2
   cooldown: 4
+  skillIcon: {fileID: 0}
+  isSuperArmor: 0

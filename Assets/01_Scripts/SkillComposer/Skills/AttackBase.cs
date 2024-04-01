@@ -52,11 +52,11 @@ public abstract class AttackBase : Leaf
 		{
 			GameManager.instance.shower.GenerateDamageText(pos, white, YYInfo.White);
 		}
-		//if ((by.atk.Damage * damageMult).black > 0)
-		//{
-		//	GameManager.instance.shower.GenerateDamageText(pos, black, YYInfo.Black);
-		//}
-		
+		if ((by.atk.Damage * damageMult).black > 0)
+		{
+			GameManager.instance.shower.GenerateDamageText(pos, black, YYInfo.Black);
+		}
+
 		for (int i = 0; i < statEff.Count; i++)
 		{
 			StatusEffects.ApplyStat(to, by, statEff[i].id, statEff[i].duration, statEff[i].power);
@@ -85,10 +85,10 @@ public abstract class AttackBase : Leaf
 		{
 			GameManager.instance.shower.GenerateDamageText(pos, white, YYInfo.White);
 		}
-		//if ((by.atk.Damage * damageMult).black > 0)
-		//{
-		//	GameManager.instance.shower.GenerateDamageText(pos, black, YYInfo.Black);
-		//}
+		if ((by.atk.Damage * damageMult).black > 0)
+		{
+			GameManager.instance.shower.GenerateDamageText(pos, black, YYInfo.Black);
+		}
 
 		to.life.DamageYY(black, white, DamageType.DirectHit, 0, 0, by);
 		for (int i = 0; i < statEff.Count; i++)
