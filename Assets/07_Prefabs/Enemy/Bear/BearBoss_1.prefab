@@ -351,6 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
+  _skinned: {fileID: 3815046408893902995}
   _isWake: 0
   _attackRange: 2.5
   _exAttackRange: 12

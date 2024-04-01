@@ -38,13 +38,14 @@ public class BearAI : AISetter
 		return _section2Range;
 	}
 
-	public void DieEvent()
+	public override void DieEvent()
 	{
 		//self.anim.ResetStatus();
 		StopExamine();
 		EnemyMoveModule _moveModule = self.move as EnemyMoveModule;
 		GetComponent<BoxCollider>().enabled = false;
 		_moveModule.StopMove();
+		base.DieEvent();
 	}
 
 

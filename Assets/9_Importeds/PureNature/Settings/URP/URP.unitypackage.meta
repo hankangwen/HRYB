@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/9_Importeds/PureNature/Settings/URP/URP.unitypackage.meta
 guid: f063e3654ebbdb742939d2aa5d91ad24
+========
+guid: f246a4f07052986468b53ad7b059dd15
+folderAsset: yes
+>>>>>>>> NewMain:Assets/06.Shaders.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

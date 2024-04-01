@@ -24,14 +24,20 @@ MonoBehaviour:
       value: {fileID: 8300000, guid: 31be579b280d0bc459635877e8c45aee, type: 3}
     - key: GrassWalk
       value: {fileID: 8300000, guid: 38cb68a2a49e89c46bea091d75b27976, type: 3}
+    - key: GrassCrouch
+      value: {fileID: 8300000, guid: ad5de75eeb6f27a49a13d399389a8f7b, type: 3}
     - key: SandRun
       value: {fileID: 8300000, guid: f43edb311d1c4d74fa9b4b86c9157fa6, type: 3}
     - key: SandWalk
       value: {fileID: 8300000, guid: 93b5a4dc803c25c48a325a38b5617c33, type: 3}
+    - key: SandCrouch
+      value: {fileID: 8300000, guid: fcb08ad9aae12794684aee4e24491861, type: 3}
     - key: StoneRun
       value: {fileID: 8300000, guid: 3bd1b93317b7a3a49b13011cdaa64d0b, type: 3}
     - key: StoneWalk
       value: {fileID: 8300000, guid: 53e2adf2ac488ef46bb2b4074de9e363, type: 3}
+    - key: StoneCrouch
+      value: {fileID: 8300000, guid: 7187dc81f98b8be4eb97bfc4dd9a5abf, type: 3}
     - key: InCaveBgm
       value: {fileID: 8300000, guid: 798a7f0525ba32b4b93dd05d8ec89038, type: 3}
     - key: OutCaveBgm
@@ -94,9 +100,21 @@ MonoBehaviour:
       value: {fileID: 8300000, guid: 2666995b96b90704691563235a727ea2, type: 3}
     - key: JSGBarrier
       value: {fileID: 8300000, guid: 9fb39e78d1c1b7a4faf085af1156639f, type: 3}
-    - key: ReturnFoxFire
-      value: {fileID: 8300000, guid: aa0800e0d2e9d59498eb38069ae74875, type: 3}
+    - key: Grass Jump
+      value: {fileID: 8300000, guid: 0f4dd9cb929f5ac4f82b43558fde29c6, type: 3}
+    - key: GrassLand
+      value: {fileID: 8300000, guid: a967f92e38352bb4291945423de63499, type: 3}
+    - key: SandJump
+      value: {fileID: 8300000, guid: b120cc7d7055a284ea89422d100043e0, type: 3}
+    - key: SandLand
+      value: {fileID: 8300000, guid: cff0e50a53df0a94299dc5ef1863ab62, type: 3}
+    - key: StoneJump
+      value: {fileID: 8300000, guid: 866abdf3a931850498786581089be202, type: 3}
+    - key: StoneLand
+      value: {fileID: 8300000, guid: 79e6e1370ee1ca747b469e68d0dcb0fe, type: 3}
     - key: FlyFoxFire
       value: {fileID: 8300000, guid: 8a5cac5e9b5ea4549aa7141397b233a0, type: 3}
+    - key: ReturnFoxFire
+      value: {fileID: 8300000, guid: aa0800e0d2e9d59498eb38069ae74875, type: 3}
     - key: LightningCast
       value: {fileID: 8300000, guid: d4b64d447ebedcf47b04d6d8d41c5ced, type: 3}
