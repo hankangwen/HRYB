@@ -26,7 +26,8 @@ public class PlayerLife : LifeModule
 		spawnPoint[6] = new Vector3(723, 24, 432);
 		spawnPoint[7] = new Vector3(531, 13, 250);
 
-		fadeImg = GameObject.Find("Fade").GetComponent<CanvasGroup>();
+		fadeInOutTime = 3;
+		fadeImg = GameObject.Find("FadeImg").GetComponent<CanvasGroup>();
 
 		base.Awake();
 	}
@@ -56,9 +57,9 @@ public class PlayerLife : LifeModule
 		(GetActor().move as PlayerMove).ctrl.center = Vector3.up;
 		(GetActor().move as PlayerMove).ctrl.height = 1;
 		StartCoroutine(DieTel());
-		
+		StartCoroutine(FadeInOutRoutine());
 
-		
+		GameManager.instance.DisableCtrl();
 
 		Debug.Log("Player dead");
 	}
@@ -72,6 +73,7 @@ public class PlayerLife : LifeModule
 
 		pMove = GameManager.instance.pActor.move as PlayerMove;
 		pMove.PlayerTeleport(spawnPoint[GameManager.instance.lastSave]);
+		GameManager.instance.EnableCtrl();
 	}
 
 	IEnumerator FadeInOutRoutine()
@@ -89,7 +91,7 @@ public class PlayerLife : LifeModule
 		fadeImg.alpha = 1f;
 
 		// Wait for a moment
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(1f); 
 
 		// Fade Out
 		elapsedTime = fadeInOutTime; // Reset elapsed time for fade out
