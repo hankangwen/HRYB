@@ -128,3 +128,5 @@ MonoBehaviour:
       value: {fileID: 8300000, guid: 58d08812dd5b5024792d3c39de65de85, type: 3}
     - key: TextOn
       value: {fileID: 8300000, guid: 8b1be535078a0d545b9dbe53cbc1e62f, type: 3}
+    - key: JSPVPSound
+      value: {fileID: 8300000, guid: 89f490cbe3a8f2343a9690c8b5c9b790, type: 3}

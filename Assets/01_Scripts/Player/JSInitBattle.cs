@@ -30,6 +30,8 @@ public class JSInitBattle : MonoBehaviour
 		{
 			_IsStart = true;
 			_init.Play();
+			GameManager.instance.audioPlayer.PlayBgm("JSPVPSound");
+			RenderSettings.fogDensity = 0.02f;
 		}
 	}
 }
