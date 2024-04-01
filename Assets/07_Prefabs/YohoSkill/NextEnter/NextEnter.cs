@@ -46,6 +46,7 @@ public class NextEnter : AttackBase
 		}
 
 		GameObject obj = PoolManager.GetObject("YohoNextAttack", self.transform);
+		GameManager.instance.audioPlayer.PlayPoint("NextEnterSound", self.transform.position);
 		if (obj.TryGetComponent<ColliderCast>(out _cols))
 		{
 			_cols.Now(self.transform, (_life) =>

@@ -28,6 +28,7 @@ public class Moose_normalAttackModule : EnemyAttackModule
 
 	public override void OnAnimationEvent()
 	{
+		GameManager.instance.audioPlayer.PlayPoint("MooseAttack", transform.position);
 		_nowCols.Now(transform,(_life) =>
 		{
 			_life.DamageYY(new YinYang(0,30), DamageType.DirectHit);

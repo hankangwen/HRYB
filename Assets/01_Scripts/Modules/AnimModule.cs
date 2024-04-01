@@ -35,7 +35,10 @@ public class AnimModule : Module
 	public virtual void SetHitTrigger()
 	{
 		anim.SetTrigger(hitHash);
-		GameManager.instance.audioPlayer.PlayPoint(hitClipName, transform.position);
+		if(hitClipName != "")
+		{
+			GameManager.instance.audioPlayer.PlayPoint(hitClipName, transform.position);
+		}
 	}
 
 	public virtual void SetDieTrigger()
