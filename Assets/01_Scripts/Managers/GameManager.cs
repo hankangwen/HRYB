@@ -260,6 +260,7 @@ public class GameManager : MonoBehaviour
 	public Terrain terrain;
 
 	public DamageTextShower shower;
+	public DecalControl decalCtrl;
 
 	[Header("따로 설정이 필요함")]
 	public Sprite uiBase;
@@ -320,6 +321,7 @@ public class GameManager : MonoBehaviour
 
 		foxfire = GameObject.Find("Fox Fire").GetComponent<FollowingFoxFire>();
 		shower = GameObject.Find("DamageTextManager").GetComponent<DamageTextShower>();
+		decalCtrl = GameObject.Find("DecalControl").GetComponent<DecalControl>();
 		
 	}
 

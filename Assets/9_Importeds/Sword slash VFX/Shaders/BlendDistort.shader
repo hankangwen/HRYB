@@ -28,10 +28,7 @@ Shader "Hovl/Particles/BlendDistort"
 		Tags{ "RenderType" = "Transparent"  "Queue" = "Transparent+0" "IgnoreProjector" = "True" "IsEmissive" = "true"  }
 		Cull Off
 		GrabPass{ }
-		HLSLPROGRAM
-		#ifndef UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX
-		#define UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input)
-		#endif
+		CGPROGRAM
 		#include "UnityStandardUtils.cginc"
 		#include "UnityShaderVariables.cginc"
 		#include "UnityCG.cginc"
@@ -99,9 +96,6 @@ Shader "Hovl/Particles/BlendDistort"
 
 		void surf( Input i , inout SurfaceOutput o )
 		{
-			UNITY_SETUP_INSTANCE_ID( i );
-			UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( i );
-			
 			float2 appendResult22 = (float2(_SpeedMainTexUVNoiseZW.z , _SpeedMainTexUVNoiseZW.w));
 			float2 uv0_NormalMap = i.uv_texcoord * _NormalMap_ST.xy + _NormalMap_ST.zw;
 			float2 panner146 = ( 1.0 * _Time.y * appendResult22 + uv0_NormalMap);
@@ -143,7 +137,7 @@ Shader "Hovl/Particles/BlendDistort"
 			o.Alpha = lerp(lerp(temp_output_151_0,( temp_output_151_0 * saturate( distanceDepth134 ) ),_Usedepth),( lerp(temp_output_151_0,( temp_output_151_0 * saturate( distanceDepth134 ) ),_Usedepth) * clampResult186 ),_Softedges);
 		}
 
-		ENDHLSL
+		ENDCG
 	}
 }
 /*ASEBEGIN

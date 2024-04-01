@@ -25,6 +25,11 @@ public class Kick : AttackBase
 
 	}
 
+	public override void Disoperate(Actor self)
+	{
+		base.Disoperate(self);
+	}
+
 	public override void UpdateStatus()	// ?? 스킬 시전중
 	{
 		
@@ -42,20 +47,12 @@ public class Kick : AttackBase
 		GameManager.instance.audioPlayer.PlayPoint(audioClipName, self.transform.position);
 		caster.Now( self.transform,life =>
 		{
+			Debug.Log("^^^^^^^^^^^^^^^^^^^^^^^^^^");
 			if(life != null)
 			{
-				
 				CameraManager.instance.ShakeCamFor(0.1f);
 				//Debug.Log(hitEffs.Count);
 				Vector3 effPos = life.transform.GetComponent<Collider>().ClosestPointOnBounds(caster.transform.position);
-				//if ((self.atk.Damage * damageMult).white > 0)
-				//{
-				//	GameManager.instance.shower.GenerateDamageText(effPos, (self.atk.Damage * damageMult).white, YYInfo.White);
-				//}
-				//if ((self.atk.Damage * damageMult).black > 0)
-				//{
-				//	GameManager.instance.shower.GenerateDamageText(effPos, (self.atk.Damage * damageMult).black, YYInfo.Black);
-				//}
 				(self.atk as PlayerAttack).onNextSkill?.Invoke(self, this);
 				(self.atk as PlayerAttack).onNextHit?.Invoke(effPos);
 

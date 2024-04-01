@@ -31,6 +31,8 @@ public class RangeAttack : AttackBase
 
 	Vector3 actualOffset;
 
+	bool hitEnemy = false;
+
 	public override void Operate(Actor self)
 	{
 		MyOperation(self);
@@ -66,15 +68,18 @@ public class RangeAttack : AttackBase
 			//Debug.DrawRay(relatedTransform.position, dir, Color.cyan, 1000f);
 			if (Physics.Raycast(relatedTransform.position, dir, out RaycastHit hit, maxDistance, ~((1 << GameManager.PLAYERATTACKLAYER) | (1 << GameManager.PLAYERLAYER) | (1 <<  GameManager.ENEMYLAYER)), QueryTriggerInteraction.Ignore))
 			{
+				//hitEnemy = Physics.SphereCast(relatedTransform.position, decalScale.x / 3, dir, out RaycastHit n, maxDistance, (1 << GameManager.ENEMYLAYER), QueryTriggerInteraction.Ignore);
 				targetPt = hit.point;
 				//Debug.Log("가로막힘, ");
 				//Debug.DrawLine(relatedTransform.position, hit.point, Color.cyan, 1000f);
+
 			}
 			else
 			{
 				targetPt = relatedTransform.position + (dir * maxDistance);
 				if (Physics.Raycast(targetPt, Vector3.down, out RaycastHit hit2, Mathf.Infinity, ~((1 << GameManager.PLAYERATTACKLAYER) | (1 << GameManager.PLAYERLAYER) | (1 << GameManager.ENEMYLAYER)), QueryTriggerInteraction.Ignore))
 				{
+					//hitEnemy |= Physics.SphereCast(targetPt, decalScale.x / 3, Vector3.down, out RaycastHit m, Mathf.Infinity, (1 << GameManager.ENEMYLAYER), QueryTriggerInteraction.Ignore);
 					//Debug.DrawRay(targetPt, Vector3.down * 1000f, Color.cyan, 1000);
 					//Debug.Log("바닥 ");
 					targetPt = hit2.point;
@@ -83,7 +88,14 @@ public class RangeAttack : AttackBase
 			if (rngDecal)
 			{
 				rngDecal.transform.position = targetPt;// + Vector3.up * 15f;
-				//Debug.Log( name + " RANGEDECAL AT : " + targetPt.ToString());
+													   //Debug.Log( name + " RANGEDECAL AT : " + targetPt.ToString());
+
+				hitEnemy = Physics.OverlapSphere(targetPt, decalScale.x / 2, 1 << GameManager.ENEMYLAYER, QueryTriggerInteraction.Ignore).Length > 0;
+
+				GameManager.instance.decalCtrl.DetectCall(hitEnemy);
+				
+
+
 			}
 		}
 	}
@@ -93,10 +105,11 @@ public class RangeAttack : AttackBase
 		holding = false;
 		if (rngDecal)
 		{
-			PoolManager.ReturnObject(rngDecal);
+			PoolManager.ReturnObject(rngDecal.gameObject);
 		}
 		rngDecal = null;
 		actualOffset = Vector3.zero;
+		hitEnemy = false;
 	}
 
 	internal override void MyOperation(Actor self)
