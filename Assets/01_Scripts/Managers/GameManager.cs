@@ -416,7 +416,8 @@ public class GameManager : MonoBehaviour
 		if(Input.GetKeyDown(KeyCode.B))
 		{
 			Debug.LogError("이걸 보고 있다면 아직 유공이 안넣은거임");
-			//player.GetComponent<PlayerMove>().PlayerTeleport(JS.position);
+			GameObject objs = GameObject.Find("JSPosition");
+			player.GetComponent<PlayerMove>().PlayerTeleport(objs.transform.position);
 		}
 		if(Input.GetKeyDown(KeyCode.N))
 		{
