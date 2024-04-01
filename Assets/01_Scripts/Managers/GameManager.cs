@@ -413,6 +413,21 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
+		if(Input.GetKeyDown(KeyCode.B))
+		{
+			Debug.LogError("이걸 보고 있다면 아직 유공이 안넣은거임");
+			//player.GetComponent<PlayerMove>().PlayerTeleport(JS.position);
+		}
+		if(Input.GetKeyDown(KeyCode.N))
+		{
+			player.GetComponent<PlayerLife>().SetAdequity(0);
+		}
+		if (Input.GetKeyDown(KeyCode.M))
+		{
+			player.GetComponent<PlayerAttack>().SetDamage(3);
+		}
+
+
 		if (Input.GetKeyDown(KeyCode.P))
 		{
 			pinven.ObtainWeapon();
