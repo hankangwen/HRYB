@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6520962256904497223}
   - component: {fileID: 6845773880159399370}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Collider_Ramp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &6520962256904497223
 Transform:
@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881294515127125212}
+  serializedVersion: 2
   m_LocalRotation: {x: -0.54132605, y: -0.00000003348598, z: -0.000000118227405, w: 0.84081274}
   m_LocalPosition: {x: 0.018, y: 0.562, z: -0.291}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1517234806549572355}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -65.548, y: 0, z: 0}
 --- !u!65 &6845773880159399370
 BoxCollider:
@@ -63,12 +63,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7563296939848753817}
   - component: {fileID: 4150584607936182221}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Collider_Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &7563296939848753817
 Transform:
@@ -77,13 +77,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030177590383646902}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.018, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1517234806549572355}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4150584607936182221
 BoxCollider:
@@ -115,12 +115,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1517234806549572355}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: StoneStair_01_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 127
   m_IsActive: 1
 --- !u!4 &1517234806549572355
 Transform:
@@ -129,16 +129,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4346819962923350496}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5.890001, y: 5.89, z: 5.890001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3420301022735997489}
   - {fileID: 7563296939848753817}
   - {fileID: 6520962256904497223}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2953764139877072346
 PrefabInstance:
@@ -166,7 +166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7745260632080584687, guid: 578e0aef2634f504786232226b252de4, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 126
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: -7118179191968112242, guid: 578e0aef2634f504786232226b252de4, type: 3}
       propertyPath: m_Enabled
@@ -178,6 +178,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7118179191968112242, guid: 578e0aef2634f504786232226b252de4, type: 3}
       propertyPath: m_LightProbeUsage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6848929212645627463, guid: 578e0aef2634f504786232226b252de4, type: 3}
+      propertyPath: m_StaticEditorFlags
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5667317238615354116, guid: 578e0aef2634f504786232226b252de4, type: 3}
@@ -202,7 +206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1945156055104564167, guid: 578e0aef2634f504786232226b252de4, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 126
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 4742473837712756890, guid: 578e0aef2634f504786232226b252de4, type: 3}
       propertyPath: m_FadeMode
