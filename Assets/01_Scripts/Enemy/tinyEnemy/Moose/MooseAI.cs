@@ -27,13 +27,14 @@ public class MooseAI : AISetter
 		return _section2Range;
 	}
 
-	public void DieEvent()
+	public override void DieEvent()
 	{
 		//self.anim.ResetStatus();
 		StopExamine();
 		MooseMoveModule _moveModule = self.move as MooseMoveModule;
 		GetComponent<BoxCollider>().enabled = false;
 		_moveModule.StopMove();
+		base.DieEvent();
 	}
     	
 	

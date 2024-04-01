@@ -6,6 +6,7 @@ public abstract class AISetter : MonoBehaviour
 {
 	protected Actor self;
 	[SerializeField] Actor _player;
+	[SerializeField] SkinnedMeshRenderer _skinned;
 
 	public Actor player
 	{
@@ -33,12 +34,30 @@ public abstract class AISetter : MonoBehaviour
 		transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookPos), Time.deltaTime * 40);
 	}
 
+	public virtual void DieEvent()
+	{
+		_skinned.materials[0].SetInt("_IsDissolve", 1);
+		_skinned.materials[0].SetFloat("_DissolveHeight", 5);
+		StartCoroutine(DissolveMat());
+	}
 
+	IEnumerator DissolveMat()
+	{
+		float t = 0;
+		while (t < 3)
+		{
+			t += Time.deltaTime;
+			_skinned.materials[0].SetFloat("_DissolveHeight", Mathf.Lerp(5,-5, t / 3.0f));
+			//Debug.LogError(_skinned.materials[0].GetInteger("_IsDissolve")	+ " + " +Mathf.Lerp(5,0, t / 3.0f) +" 돼잖앗 ㅣ발");
+			yield return null;
+		}
+		Destroy(this.gameObject);
+	}
 
 	// Start is called before the first frame update
 	void Start()
     {
-
+	    //_skinned.materials[0].SetInteger("_IsDissolve", 0);
 	    self = GetComponent<Actor>();
 	    head = new Selecter();
 		StartInvoke();

@@ -33,13 +33,14 @@ public class WolfAI : AISetter
 	
 
 	
-	public void DieEvent()
+	public override void DieEvent()
 	{
 		//self.anim.ResetStatus();
 		StopExamine();
 		WolfMoveModule _moveModule = self.move as WolfMoveModule;
 		GetComponent<BoxCollider>().enabled = false;
-		_moveModule.StopMove();
+		_moveModule.StopMove(); 
+		base.DieEvent();
 	}
     	
 	public void LookAt(Transform t)
@@ -52,14 +53,14 @@ public class WolfAI : AISetter
     protected override void StartInvoke()
     {
 	    head.connecteds.Clear();
-	    self.life._dieEvent = DieEvent;
+
 	    Wolf_normalAttackModule _atkModule = self.atk as Wolf_normalAttackModule;
 	    WolfMoveModule _moveModule = self.move as WolfMoveModule;
 
 	    if (_isWake)
 	    {
 		    self.anim.SetIdleState(true);
-
+		    self.life._dieEvent = DieEvent;
 
 		    StunNode _ishaveStun = new StunNode(self, () =>
 		    {

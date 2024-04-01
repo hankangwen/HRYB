@@ -118,6 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
+  _skinned: {fileID: 8211917297709989107}
   _isWake: 0
   _attackRange: 3.2
   _sectionRange: 8
@@ -1228,6 +1229,11 @@ PrefabInstance:
 --- !u!4 &1312506519089647078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5833312790481051098, guid: b0523502c51ae49408fefeb2a97d8e3e, type: 3}
+  m_PrefabInstance: {fileID: 4810656571889848380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &8211917297709989107 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3689703651347475663, guid: b0523502c51ae49408fefeb2a97d8e3e, type: 3}
   m_PrefabInstance: {fileID: 4810656571889848380}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7781204306916141123
