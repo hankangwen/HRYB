@@ -57,9 +57,7 @@ public class SkyBirtgh : AttackBase
 					    eff1.Begin();
 					    self.StartCoroutine(DeleteObj(obj1));
 				    }
-				    GameManager.instance.audioPlayer.PlayPoint("HitSound", self.transform.position);
-				    Vector3 dir = self.transform.forward;
-				    self.move.forceDir = dir + new Vector3(0, 5, 0);
+
 
 				    Debug.LogError("스카이브릿지");
 				    GameObject obj = PoolManager.GetObject("SkyBritghCollider", self.transform);
@@ -80,14 +78,18 @@ public class SkyBirtgh : AttackBase
 						    GameManager.instance.TimeFreeze(0.3f, 0.08f);
 					    });
 				    }
-			    }
+
+					GameManager.instance.audioPlayer.PlayPoint("HitSound", self.transform.position);
+					Vector3 dir = self.transform.forward;
+					self.move.forceDir = dir + new Vector3(0, 5, 0);
+				}
 			    break;
 		    case "2":
 			    {
-				    
-				    GameObject obj = PoolManager.GetObject("SkyBritghCollider", self.transform);
+					GameObject obj = null;
 
-				    if (obj.TryGetComponent<ColliderCast>(out _cols))
+						obj = PoolManager.GetObject("SkyBritghCollider", self.transform);
+					if (obj.TryGetComponent<ColliderCast>(out _cols))
 				    {
 					    _cols.Now(self.transform, (_life) =>
 					    {
@@ -98,20 +100,26 @@ public class SkyBirtgh : AttackBase
 						    DoDamage(to,by, 0.4f, obj.transform.position);
 					    }, (transform, module) =>
 					    {
-						    GameManager.instance.audioPlayer.PlayPoint("HitSound", self.transform.position);
-						    self.move.forceDir += new Vector3(0, 1f, 0);
-						    CameraManager.instance.ShakeCamFor(0.1f, 2, 2);
-						    GameManager.instance.TimeFreeze(0.1f, 0.01f);
-						    GameObject obj1 = PoolManager.GetObject("SlashMiddle", self.transform);
-						    if (obj1.TryGetComponent<EffectObject>(out EffectObject eff1))
+							Debug.LogError("기");
+							self.move.forceDir += new Vector3(0, 1f, 0);
+							Debug.LogError("기2");
+							CameraManager.instance.ShakeCamFor(0.1f, 2, 2);
+							Debug.LogError("기3");
+							GameManager.instance.TimeFreeze(0.1f, 0.01f);
+							Debug.LogError("기4");
+							GameObject obj1 = PoolManager.GetObject("SlashMiddle", self.transform);
+							Debug.LogError("기5");
+							if (obj1.TryGetComponent<EffectObject>(out EffectObject eff1))
 						    {
 							    eff1.Begin();
 							    self.StartCoroutine(DeleteObj(obj1));
 						    }
-						    //
+							Debug.LogError("기6");
+							//
+							GameManager.instance.audioPlayer.PlayPoint("HitSound", self.transform.position);
 					    });
 				    }
-			    }
+				}
 			    break;
 		    case "3":
 			    {

@@ -82,7 +82,10 @@ public class YusungSmith : AttackBase
 				    _life.GetActor().move.forceDir += dir*6 + new Vector3(0, 6, 0);
 				    
 
-			    });
+			    }, (tls, life)=>
+				{
+
+				});
 		    }
 
 			RaycastHit ray;

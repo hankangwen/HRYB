@@ -38,10 +38,13 @@ public class EnemyMoveModule : MoveModule
 	public void SetTarget(Transform target)
 	{
 		this._target = target;
-		
-		agent.isStopped = false;
-		agent.updatePosition = true;
-		agent.updateRotation = false;
+		if(agent.enabled)
+		{
+
+			agent.isStopped = false;
+			agent.updatePosition = true;
+			agent.updateRotation = false;
+		}
 	}
 
 	public override void Move()
@@ -109,11 +112,15 @@ public class EnemyMoveModule : MoveModule
 
 	public void StopMove()
 	{
-		agent.isStopped = true;
-		agent.updatePosition = false;
-		agent.updateRotation = false;
-		agent.velocity = new Vector3(0, 0, 0);
+		if(agent.enabled == true)
+		{
 
+			agent.isStopped = true;
+			agent.updatePosition = false;
+			agent.updateRotation = false;
+			agent.velocity = new Vector3(0, 0, 0);
+
+		}
 
 		_isMove = false;
 		SetTarget(transform);
