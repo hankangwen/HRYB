@@ -17,7 +17,7 @@ public class TitleDetected : MonoBehaviour
 		if(other.gameObject.layer == 6)
 		{
 			Debug.LogError("으악 사람이다!");
-			loader.FadeInOut(text);
+			loader.FadeInOut(text, 1f);
 			
 		}
 	}

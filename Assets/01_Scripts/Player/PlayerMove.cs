@@ -769,7 +769,7 @@ public class PlayerMove : MoveModule
 	public override void ResetStatus()
 	{
 		base.ResetStatus();
-		transform.position = initPos;
+		//transform.position = initPos;
 		GameManager.instance.pinp.ActivateInput();
 		already.Clear();
 		ctrl.height = 2;
