@@ -266,7 +266,7 @@ public class PlayerAnimActions : MonoBehaviour
 	public void MoveSound(AnimationEvent evt)
 	{
 		
-		string[] values = new string[] { "Walk", "Jump", "Run" };
+		string[] values = new string[] { "Walk", "Jump","Land", "Run", "Crouch" };
 		bool isContains = false;
 		for(int i = 0; i < values.Length; i++)
 		{
