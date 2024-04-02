@@ -24,6 +24,7 @@ public class CConvert : MonoBehaviour
 	}
 	private void Start()
 	{
+		isForm = true;
 	}
 
 	private void Update()
