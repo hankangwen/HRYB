@@ -26,7 +26,7 @@ public class PlayerLife : LifeModule
 		spawnPoint[6] = new Vector3(723, 24, 432);
 		spawnPoint[7] = new Vector3(531, 13, 250);
 
-		fadeInOutTime = 1.5;
+		fadeInOutTime = 1.5f;
 		fadeImg = GameObject.Find("FadeImg").GetComponent<CanvasGroup>();
 
 		base.Awake();
