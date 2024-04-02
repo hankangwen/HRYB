@@ -14,7 +14,7 @@ public class TitleDetected : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.layer == 6)
+		if(other.gameObject.layer ==  GameManager.PLAYERLAYER || other.gameObject.layer == GameManager.PLAYERATTACKLAYER)
 		{
 			Debug.LogError("으악 사람이다!");
 			loader.FadeInOut(text, 0.5f);

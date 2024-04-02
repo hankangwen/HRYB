@@ -50,6 +50,8 @@ public class StoneLamp : MonoBehaviour
 		pDistance = 5;
 		isText = false;
 		material.DisableKeyword("_EMISSION");
+
+		bool isEffect = false;
 		
 	}
 
