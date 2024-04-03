@@ -27,6 +27,32 @@ public class QuestInfo : ScriptableObject
 
 	public bool IsDeprived => completableCount >= 0 && curCompletedAmount >= completableCount;
 
+	public QuestInfo()
+	{
+		questName = "";
+		myInfo = new List<CompleteAtom>();
+		rewardInfo = new List<RewardAtom>();
+		completableCount = 1;
+	}
+
+	public QuestInfo(QuestInfo copy)
+	{
+		if(copy != null)
+		{
+			questName = copy.questName;
+			myInfo = new List<CompleteAtom>(copy.myInfo);
+			rewardInfo = new List<RewardAtom>(copy.rewardInfo);
+			completableCount = copy.completableCount;
+		}
+		else
+		{
+			questName = "";
+			myInfo = new List<CompleteAtom>();
+			rewardInfo = new List<RewardAtom>();
+			completableCount = 1;
+		}
+	}
+
 	
 
 	public bool ExamineCompleteStatus() //@@@@@@@@@@@@@@@@@ 이후 게임 로거 또는 퀘스트 트래커를 제작하며 조건을 구할듯.

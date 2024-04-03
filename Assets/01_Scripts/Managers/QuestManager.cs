@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,7 +19,7 @@ public enum AfterComplete
 	OR,
 	AFTER,
 
-	FINAL,
+	FINAL
 }
 
 /// <summary>
@@ -44,6 +46,8 @@ public enum CompletionAct
 	BelowLevel, 
 	EqualLevel,
 	AboveLevel,
+
+	Callback,
 
 	//더 있으면 추가.
 }
@@ -72,6 +76,9 @@ public enum RewardType
 	Exp,
 	Skill,
 	Item,
+	HealWhite,
+	HealBlack,
+
 }
 
 
@@ -101,7 +108,6 @@ public class RewardAtom
 	public RewardType rewardType;
 	public string parameter;
 }
-
 
 
 
@@ -215,6 +221,8 @@ public class QuestManager
 
 
 
+	
+
 
 	public static string ToStringKorean(AfterComplete act)
 	{
@@ -263,6 +271,8 @@ public class QuestManager
 				return "n레벨 유지하기. n = ";
 			case CompletionAct.AboveLevel:
 				return "n레벨 이상. n = ";
+			case CompletionAct.Callback:
+				return "스크립트에서 진행됨.";
 			default:
 				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
 				return act.ToString();
@@ -278,6 +288,10 @@ public class QuestManager
 				return "스킬 이름 : ";
 			case RewardType.Item:
 				return "아이템 이름 : ";
+			case RewardType.HealWhite:
+				return "양(하얀거) 회복 : ";
+			case RewardType.HealBlack:
+				return "음(검은거) 회복 : ";
 			default:
 				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
 				return act.ToString();
