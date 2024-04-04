@@ -1,50 +1,371 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
-public enum Quests
+/// <summary>
+/// 1. 필요로 하는 물건 / 행동 과 수량
+/// 2. 완수 후 보상 제공 시점
+/// 
+/// 커스텀 윈도우에서 만들어줄예정.
+/// </summary> 
+
+public enum AfterComplete
+{
+
+	AND,
+	OR,
+	AFTER,
+
+	FINAL
+}
+
+/// <summary>
+/// 어떤 아이템을 얻어서 퀘스트 주인에게 전달하는 경우,
+/// 전달하는 과정까지 하나의 퀘스트로 봅니다.
+/// </summary>
+public enum CompletionAct 
 {
 	None = -1,
-	GETDEER,
-	GETROPE,
-	GETDEERHORN,
-	GETJUMPMEDICINE,
-	ESCAPECAVE,
-	GETBOW,
-	HUNTBEAR,
-	MAX
+
+	GetItem, //획득시 달성으로 취급.
+	HaveItem, //소지한 동안 달성으로 취급.
+	LoseItem, //잃을 경우 달성으로 취급.
+	UseItem, //사용할 경우 달성으로 취급.
+
+	DefeatTarget, //해당 이름의 적을 처치
+
+	CountSecond, //n초후 달성으로 취급, 사망시 초기화됨.
+	CountMinute, //n분후 달성으로 취급, 사망시 초기화됨.
+	MoveTo, //지점으로 이동. 목표지점에는 반드시 Trigger 충돌체가 있어야 함. 
+	InteractWith, //대상과 상호작용. 대상에는 반드시 IInteractable이 있어야 함.
+
+	//n레벨 이하/동일/이상 일 경우 달성으로 취급. 레벨이 정해지면 더 자세히 나올듯.
+	BelowLevel, 
+	EqualLevel,
+	AboveLevel,
+
+	Callback,
+
+	GoNear, //가까이 간 순간 달성
+	RemainNear, //가까이 있는 동안 달성
+
+	ClearQuest, //특정 퀘스트 클리어시 달성.
+
+	//더 있으면 추가.
 }
+
+
+public enum ItemHandleMode
+{
+	Remove,
+	NoRemove,
+}
+
+public enum DefeatEnemyMode
+{
+	None,
+	Form,
+	Skill,
+	Element,
+	OverDamage,
+	DamageType,
+	StatusEffect,
+	SelfStatusEffect,
+}
+
+public enum RewardType
+{
+	Exp,
+	Skill,
+	Item,
+	HealWhite,
+	HealBlack,
+
+}
+
+
+public enum AssignMode
+{
+	Callback,
+	ConditionMatched,
+
+}
+
+
+
+[System.Serializable]
+public class CompleteAtom
+{
+	//필수
+	public CompletionAct objective;
+	[Header("목적의 대상")]
+	public string parameter;
+	[Header("이후 액션과 어떻게 연결될 것인가?")]
+	public AfterComplete afterAct;
+	[Header("체크될 경우, 위 조건이 달성되지 않은 동안 완료로 취급.")]
+	public bool inverted;
+
+	//비필수
+	[Header("아이템을 제거할 것인가?")]
+	public ItemHandleMode itemMode;
+	[Header("어떻게 적을 잡을 것인가?")]
+	public DefeatEnemyMode defeatMode;
+	public string defeatParameter;
+}
+
+[System.Serializable]
+public class RewardAtom
+{
+	public RewardType rewardType;
+	public string parameter;
+}
+
+
 
 public class QuestManager
 {
-    public List<string> questDescOrder;
-	public Quests curIdx = Quests.None;
 
-	public void NextQuest()
+	public static Dictionary<string, QuestInfo> nameQuestPair;
+
+	[Header("동시에 완료된다면 먼저 받은 퀘스트부터 완료 판정이 뜰 것임.")]
+	public List<QuestInfo> currentAbleQuest = new List<QuestInfo>();
+
+	static List<QuestInfo> allQuests = new List<QuestInfo>();
+
+	List<int> completedIndex = new List<int>();
+	List<int> removeIndex = new List<int>();
+	List<QuestInfo> nextAbleQuest;
+	bool inited = false;
+
+	public const string QUESTINFOPATH = "Quests/AllQuests/";
+	public const string ASSETPATH = "Assets/Resources/";
+
+	public static void AssignQuest(string name)
 	{
-		if(curIdx + 1 != Quests.MAX)
+		if (nameQuestPair != null)
 		{
-			curIdx += 1;
-			GameManager.instance.uiManager.questUI.SetText(questDescOrder[((int)curIdx)]);
-			GameManager.instance.uiManager.questUI.On();
+			GameManager.instance.qManager.currentAbleQuest.Add(nameQuestPair[name]);
+			nameQuestPair[name].onAssignedAction?.Invoke();
 		}
-		else
-		{
-			GameManager.instance.uiManager.questUI.Off();
-		}
-		
 	}
 
-	public void NextIf(Quests info)
+	public static void AssignQuest(int idx)
 	{
-		if(curIdx == info)
+		if (allQuests != null)
 		{
-			NextQuest();
+			GameManager.instance.qManager.currentAbleQuest.Add(allQuests[idx]);
+			allQuests[idx].onAssignedAction?.Invoke();
 		}
 	}
 
-	public QuestManager(params string[] questDescs)
+	public static void DismissQuest(string name)
 	{
-		questDescOrder = new List<string>(questDescs);
+		if (nameQuestPair != null)
+		{
+			GameManager.instance.qManager.currentAbleQuest.Remove(nameQuestPair[name]);
+			nameQuestPair[name].onDismissedAction?.Invoke();
+		}
+	}
+
+	public static void DismissQuest(int idx)
+	{
+		if (allQuests != null)
+		{
+			GameManager.instance.qManager.currentAbleQuest.Remove(allQuests[idx]);
+			allQuests[idx].onDismissedAction?.Invoke();
+		}
+	}
+
+	public void UpdateQuest()
+	{
+		for (int i = 0; i < currentAbleQuest.Count; i++)
+		{
+			if (currentAbleQuest[i].ExamineCompleteStatus())
+			{
+				completedIndex.Add(i);
+			}
+		}
+	}
+
+	public void LateUpdateQuest()
+	{
+		for (int i = 0; i < completedIndex.Count; i++)
+		{
+			currentAbleQuest[i].GiveReward();
+			currentAbleQuest[i].curCompletedAmount += 1;
+			if(currentAbleQuest[i].completableCount > 0 && currentAbleQuest[i].IsDeprived)
+			{
+				removeIndex.Add(i);
+			}
+		}
+		nextAbleQuest = new List<QuestInfo>(currentAbleQuest);
+		for (int i = 0; i < removeIndex.Count; i++)
+		{
+			nextAbleQuest.Remove(currentAbleQuest[i]);
+		}
+		currentAbleQuest = new List<QuestInfo>(nextAbleQuest);
+
+		removeIndex.Clear();
+		completedIndex.Clear();
+	}
+
+	public QuestManager()
+	{
+		if (!inited)
+		{
+			nameQuestPair = new Dictionary<string, QuestInfo>();
+			allQuests = Resources.LoadAll<QuestInfo>(QUESTINFOPATH).ToList();
+			for (int i = 0; i < allQuests.Count; i++)
+			{
+				nameQuestPair.Add((allQuests[i].questName), allQuests[i]);
+			}
+
+			inited = true;
+
+			currentAbleQuest = new List<QuestInfo>();
+			completedIndex = new List<int>();
+			removeIndex = new List<int>();
+		}
+	}
+
+
+
+
+	
+
+
+	public static string ToStringKorean(AfterComplete act)
+	{
+		switch (act)
+		{
+			case AfterComplete.AND:
+				return ", 그리고";
+			case AfterComplete.OR:
+				return ", 또는";
+			case AfterComplete.AFTER:
+				return ", 그 다음";
+			case AfterComplete.FINAL:
+				return "로 종료.";
+			default:
+				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
+				return act.ToString();
+		}
+	}
+	public static string ToStringKorean(CompletionAct act)
+	{
+		switch (act)
+		{
+			case CompletionAct.None:
+				return "기본";
+			case CompletionAct.GetItem:
+				return "아이템 획득하기. 이름 : ";
+			case CompletionAct.HaveItem:
+				return "아이템 소지하기. 이름 : ";
+			case CompletionAct.LoseItem:
+				return "아이템 잃기. 이름 : ";
+			case CompletionAct.UseItem:
+				return "아이템 사용하기. 이름 : ";
+			case CompletionAct.DefeatTarget:
+				return "적 처치하기. 이름 : ";
+			case CompletionAct.CountSecond:
+				return "n초 세기. n = ";
+			case CompletionAct.CountMinute:
+				return "n분 세기. n = ";
+			case CompletionAct.MoveTo:
+				return "지점으로 이동하기. 트리거 오브젝트 이름 : ";
+			case CompletionAct.InteractWith:
+				return "상호작용하기. 상호작용 가능 오브젝트 이름 : ";
+			case CompletionAct.BelowLevel:
+				return "n레벨 이하. n = ";
+			case CompletionAct.EqualLevel:
+				return "n레벨 유지하기. n = ";
+			case CompletionAct.AboveLevel:
+				return "n레벨 이상. n = ";
+			case CompletionAct.Callback:
+				return "스크립트에서 진행됨.";
+			case CompletionAct.GoNear:
+				return "가까이 접근하기. 대상 : ";
+			case CompletionAct.RemainNear:
+				return "근처에 머무르기. 대상 : ";
+			case CompletionAct.ClearQuest:
+				return "퀘스트 클리어하기. 파일명 : ";
+			default:
+				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
+				return act.ToString();
+		}
+	}
+	public static string ToStringKorean(RewardType act)
+	{
+		switch (act)
+		{
+			case RewardType.Exp:
+				return "경험치 : ";
+			case RewardType.Skill:
+				return "스킬 이름 : ";
+			case RewardType.Item:
+				return "아이템 이름 : ";
+			case RewardType.HealWhite:
+				return "양(하얀거) 회복 : ";
+			case RewardType.HealBlack:
+				return "음(검은거) 회복 : ";
+			default:
+				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
+				return act.ToString();
+		}
+	}
+	public static string ToStringKorean(ItemHandleMode act)
+	{
+		switch (act)
+		{
+			case ItemHandleMode.Remove:
+				return "달성될 경우 아이템을 제거함.";
+			case ItemHandleMode.NoRemove:
+				return "달성되어도 아이템을 제거하지 않음.";
+			default:
+				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
+				return act.ToString();
+		}
+	}
+	public static string ToStringKorean(DefeatEnemyMode act)
+	{
+		switch (act)
+		{
+			case DefeatEnemyMode.Form:
+				return " 상태에서 처치하기.";
+			case DefeatEnemyMode.Skill:
+				return " 스킬로 처치하기.";
+			case DefeatEnemyMode.Element:
+				return " 속성으로 처치하기.";
+			case DefeatEnemyMode.OverDamage:
+				return " 이상 피해로 처치하기.";
+			case DefeatEnemyMode.DamageType:
+				return " 피해로 처치하기. (지속, 도트, 일반)";
+			case DefeatEnemyMode.StatusEffect:
+				return " 상태를 부여한 상태로 처치하기.";
+			case DefeatEnemyMode.SelfStatusEffect:
+				return " 상태를 가진 상태로 처치하기.";
+			case DefeatEnemyMode.None:
+				return "조건 없음.";
+			default:
+				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
+				return act.ToString();
+		}
+	}
+
+	public static string ToStringKorean(AssignMode act)
+	{
+		switch (act)
+		{
+			case AssignMode.Callback:
+				return "스크립트에서 부여됨.";
+			case AssignMode.ConditionMatched:
+				return "부여조건이 달성될 경우 즉시 부여됨.";
+			default:
+				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
+				return act.ToString();
+		}
 	}
 }

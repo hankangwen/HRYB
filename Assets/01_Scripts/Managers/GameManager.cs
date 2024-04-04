@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
 
 	public CraftManager craftManager;
 	public UIManager uiManager;
-	//public QuestManager qManager;
+	public QuestManager qManager;
 	public SectionManager sManager;
 	public SkillLoader skillLoader;
 	
@@ -442,9 +442,14 @@ public class GameManager : MonoBehaviour
 		//{
 		//	pinven.ObtainWeapon();
 		//}
+
+		qManager.UpdateQuest();
 	}
 
-
+	private void LateUpdate()
+	{
+		qManager.LateUpdateQuest();
+	}
 
 	public IEnumerator DelInputCtrl(float sec)
 	{
