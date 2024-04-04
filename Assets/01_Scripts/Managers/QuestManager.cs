@@ -30,12 +30,12 @@ public enum CompletionAct
 {
 	None = -1,
 
-	GetItem, //획득시 달성으로 취급.
-	HaveItem, //소지한 동안 달성으로 취급.
-	LoseItem, //잃을 경우 달성으로 취급.
+	GetItem, //획득시 달성으로 취급.  V
+	HaveItem, //소지한 동안 달성으로 취급.  V
+	LoseItem, //잃을 경우 달성으로 취급.  V
 	UseItem, //사용할 경우 달성으로 취급.
 
-	DefeatTarget, //해당 이름의 적을 처치
+	DefeatTarget, //해당 이름의 적을 처치  V
 
 	CountSecond, //n초후 달성으로 취급, 사망시 초기화됨.
 	CountMinute, //n분후 달성으로 취급, 사망시 초기화됨.
@@ -53,6 +53,7 @@ public enum CompletionAct
 	RemainNear, //가까이 있는 동안 달성
 
 	ClearQuest, //특정 퀘스트 클리어시 달성.
+	LearnSkill, //스킬 배우면 달성   V
 
 	//더 있으면 추가.
 }
@@ -83,16 +84,9 @@ public enum RewardType
 	Item,
 	HealWhite,
 	HealBlack,
-
+	Quest,
 }
 
-
-public enum AssignMode
-{
-	Callback,
-	ConditionMatched,
-
-}
 
 
 
@@ -103,6 +97,9 @@ public class CompleteAtom
 	public CompletionAct objective;
 	[Header("목적의 대상")]
 	public string parameter;
+	[Header("달성에 필요한 횟수")]
+	public int repeatCount;
+
 	[Header("이후 액션과 어떻게 연결될 것인가?")]
 	public AfterComplete afterAct;
 	[Header("체크될 경우, 위 조건이 달성되지 않은 동안 완료로 취급.")]
@@ -114,6 +111,75 @@ public class CompleteAtom
 	[Header("어떻게 적을 잡을 것인가?")]
 	public DefeatEnemyMode defeatMode;
 	public string defeatParameter;
+
+	public bool isCompleted => curRepeatCount >= repeatCount;
+
+	int curRepeatCount;
+
+	public void OnNotification(CompletionAct data, string parameter, int amt)
+	{
+		if(objective == data)
+		{
+			switch (data)
+			{
+				case CompletionAct.DefeatTarget:
+				{
+					string enemyDefeatCapture = GameManager.instance.DoCapture();
+					if (defeatMode != DefeatEnemyMode.None && GameManager.instance.Decode(enemyDefeatCapture)[defeatMode].Contains(defeatParameter)) //Decode로 변환.
+					{
+						curRepeatCount += amt;
+					}
+				}
+					break;
+				case CompletionAct.BelowLevel:
+					try
+					{
+						if (int.Parse(parameter) < int.Parse(this.parameter))
+						{
+							curRepeatCount += amt;
+						}
+					}
+					catch
+					{
+						throw new UnityException("숫자쓰는데에 글자쓰지 마라");
+					}
+					break;
+				case CompletionAct.CountSecond:
+				case CompletionAct.CountMinute:
+				case CompletionAct.AboveLevel:
+					try
+					{
+						if (int.Parse(parameter) > int.Parse(this.parameter))
+						{
+							curRepeatCount += amt;
+						}
+					}
+					catch
+					{
+						throw new UnityException("숫자쓰는데에 글자쓰지 마라");
+					}
+					break;
+				case CompletionAct.Callback:
+					throw new NotImplementedException("콜백은 아직 적용되지 않았습니다.");
+				default:
+					if(parameter == this.parameter)
+					{
+						curRepeatCount += amt;
+					}
+					break;
+			}
+		}
+	}
+
+	public void OnResetCall()
+	{
+		curRepeatCount = 0;
+	}
+
+	public CompleteAtom()
+	{
+		curRepeatCount = 0;
+	}
 }
 
 [System.Serializable]
@@ -135,6 +201,8 @@ public class QuestManager
 
 	static List<QuestInfo> allQuests = new List<QuestInfo>();
 
+	UnityAction<CompletionAct, string, int> invokers;
+
 	List<int> completedIndex = new List<int>();
 	List<int> removeIndex = new List<int>();
 	List<QuestInfo> nextAbleQuest;
@@ -143,16 +211,31 @@ public class QuestManager
 	public const string QUESTINFOPATH = "Quests/AllQuests/";
 	public const string ASSETPATH = "Assets/Resources/";
 
+
+	//이제 이놈을 행동하는 데마다 하나씩 꼽아주면 됨.
+	public void InvokeOnChanged(CompletionAct type, string prm, int amt = 1)
+	{
+		for (int i = 0; i < currentAbleQuest.Count; i++)
+		{
+			currentAbleQuest[i].Notify(type, prm, amt);
+		}
+		
+	}
+
 	public static void AssignQuest(string name)
 	{
+		
 		if (nameQuestPair != null)
 		{
+			if (!nameQuestPair.ContainsKey(name))
+				return;
+
 			GameManager.instance.qManager.currentAbleQuest.Add(nameQuestPair[name]);
 			nameQuestPair[name].onAssignedAction?.Invoke();
 		}
 	}
 
-	public static void AssignQuest(int idx)
+	public static void AssignQuest(int idx) //파일내 순서(ABC)로 부여. 아마 안쓸듯?
 	{
 		if (allQuests != null)
 		{
@@ -163,14 +246,22 @@ public class QuestManager
 
 	public static void DismissQuest(string name)
 	{
+		
 		if (nameQuestPair != null)
 		{
-			GameManager.instance.qManager.currentAbleQuest.Remove(nameQuestPair[name]);
-			nameQuestPair[name].onDismissedAction?.Invoke();
+			if (!nameQuestPair.ContainsKey(name))
+				return;
+			if (GameManager.instance.qManager.currentAbleQuest.Contains(nameQuestPair[name]))
+			{
+				GameManager.instance.qManager.currentAbleQuest.Remove(nameQuestPair[name]);
+				nameQuestPair[name].onDismissedAction?.Invoke();
+			}
+
+				
 		}
 	}
 
-	public static void DismissQuest(int idx)
+	public static void DismissQuest(int idx)//파일내 순서(ABC)로 취소. 아마 안쓸듯?
 	{
 		if (allQuests != null)
 		{
@@ -292,6 +383,8 @@ public class QuestManager
 				return "근처에 머무르기. 대상 : ";
 			case CompletionAct.ClearQuest:
 				return "퀘스트 클리어하기. 파일명 : ";
+			case CompletionAct.LearnSkill:
+				return "스킬 배우기. 스킬명 : ";
 			default:
 				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
 				return act.ToString();
@@ -311,6 +404,8 @@ public class QuestManager
 				return "양(하얀거) 회복 : ";
 			case RewardType.HealBlack:
 				return "음(검은거) 회복 : ";
+			case RewardType.Quest:
+				return "퀘스트 제공(식별명) : ";
 			default:
 				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
 				return act.ToString();
@@ -355,17 +450,4 @@ public class QuestManager
 		}
 	}
 
-	public static string ToStringKorean(AssignMode act)
-	{
-		switch (act)
-		{
-			case AssignMode.Callback:
-				return "스크립트에서 부여됨.";
-			case AssignMode.ConditionMatched:
-				return "부여조건이 달성될 경우 즉시 부여됨.";
-			default:
-				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
-				return act.ToString();
-		}
-	}
 }

@@ -229,6 +229,8 @@ public class SkillInventory
 		{
 			if(item.info == info)
 			{
+				GameManager.instance.qManager.InvokeOnChanged(CompletionAct.LearnSkill, info.name, cnt);
+
 				InvenSkill sk = item;
 				data.Remove(item);
 				sk.number += cnt;
@@ -319,27 +321,8 @@ public class PlayerInven : MonoBehaviour
 	public int AddItem(Item data, int num = 1)
 	{
 		List<int> idxes;
-		//switch (data.MyName)
-		//{
-		//	case "녹각":
-		//	case "녹제":
-		//		GameManager.instance.qManager.NextIf(Quests.GETDEER);
-		//		break;
-		//	case "활":
-		//		GameManager.instance.qManager.NextIf(Quests.GETBOW);
-		//		break;
-		//	case "밧줄":
-		//		GameManager.instance.qManager.NextIf(Quests.GETROPE);
-		//		break;
-		//	case "녹용":
-		//		GameManager.instance.qManager.NextIf(Quests.GETDEERHORN);
-		//		break;
-		//	case "도약탕":
-		//		GameManager.instance.qManager.NextIf(Quests.GETJUMPMEDICINE);
-		//		break;
-		//	default:
-		//		break;
-		//}
+		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.GetItem, data.MyName, num);
+		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.HaveItem, data.MyName, num);
 		if ((idxes = inven.Contains(data)).Count > 0)
 		{
 			for (int i = 0; i < idxes.Count; i++)
@@ -430,6 +413,9 @@ public class PlayerInven : MonoBehaviour
 		List<int> idxes;
 		if ((idxes = inven.Contains(data)).Count > 0)
 		{
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.LoseItem, data.MyName, -num);
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.HaveItem, data.MyName, -num);
+
 			int sum = inven.SumContains(data);
 
 			if(sum >= num)
@@ -480,6 +466,8 @@ public class PlayerInven : MonoBehaviour
 		InventoryItem slotItem = inven[from];
 		if (slotItem.number - num >= 0)
 		{
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.LoseItem, slotItem.info.MyName, -num);
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.HaveItem, slotItem.info.MyName, -num);
 			slotItem.number -= num;
 
 			if(slotItem.number == 0)
@@ -621,6 +609,8 @@ public class PlayerInven : MonoBehaviour
 	{
 		if(CurHoldingItem.num >= amt)
 		{
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.LoseItem, CurHoldingItem.info.MyName, -amt);
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.HaveItem, CurHoldingItem.info.MyName, -amt);
 			if (CurHoldingItem.num - amt <= 0)
 			{
 				CurHoldingItem = ItemAmountPair.Empty;

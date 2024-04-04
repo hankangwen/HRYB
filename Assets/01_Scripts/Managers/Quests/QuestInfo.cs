@@ -21,11 +21,11 @@ public class QuestInfo : ScriptableObject
 	public UnityEvent onAssignedAction;
 	public UnityEvent onDismissedAction;
 
-
-
 	internal int curCompletedAmount;
 
 	public bool IsDeprived => completableCount >= 0 && curCompletedAmount >= completableCount;
+
+	
 
 	public QuestInfo()
 	{
@@ -53,46 +53,52 @@ public class QuestInfo : ScriptableObject
 		}
 	}
 
-	
+	public void Notify(CompletionAct data, string parameter, int amt)
+	{
+		for (int i = 0; i < myInfo.Count; i++)
+		{
+			myInfo[i].OnNotification(data, parameter, amt);
+		}
+	}
 
-	public bool ExamineCompleteStatus() //@@@@@@@@@@@@@@@@@ 이후 게임 로거 또는 퀘스트 트래커를 제작하며 조건을 구할듯.
+	public bool ExamineCompleteStatus()
 	{
 		bool compStat = false;
 
 		int head = 0;
-		while (myInfo[head].afterAct != AfterComplete.FINAL)
+		bool valid = true;
+		AfterComplete prevConnection = AfterComplete.FINAL;
+		while (valid)
 		{
-			switch (myInfo[head].objective)
+			bool res = myInfo[head].isCompleted;
+			if(head == 0)
 			{
-				case CompletionAct.None:
-					throw new UnityException($"{name} 에서 옳지 않은 완료 조건이 감지됨 : {myInfo[head].objective}");
-				case CompletionAct.GetItem:
+				compStat = res;
+			}
+
+			switch (prevConnection)
+			{
+				case AfterComplete.AND:
+					compStat &= res;
 					break;
-				case CompletionAct.HaveItem:
+				case AfterComplete.OR:
+					compStat |= res;
 					break;
-				case CompletionAct.LoseItem:
-					break;
-				case CompletionAct.UseItem:
-					break;
-				case CompletionAct.DefeatTarget:
-					break;
-				case CompletionAct.CountSecond:
-					break;
-				case CompletionAct.CountMinute:
-					break;
-				case CompletionAct.MoveTo:
-					break;
-				case CompletionAct.InteractWith:
-					break;
-				case CompletionAct.BelowLevel:
-					break;
-				case CompletionAct.EqualLevel:
-					break;
-				case CompletionAct.AboveLevel:
+				case AfterComplete.AFTER:
+					if(!compStat)
+						return false;
+					else
+						compStat &= res;
 					break;
 				default:
 					break;
 			}
+
+			prevConnection = myInfo[head].afterAct;
+
+			if(prevConnection == AfterComplete.FINAL)
+				valid = false;
+			++head;
 		}
 
 		return compStat;
@@ -100,18 +106,43 @@ public class QuestInfo : ScriptableObject
 
 	public void GiveReward()
 	{
+		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.ClearQuest, questName);
 		for (int i = 0; i < rewardInfo.Count; i++)
 		{
 			switch (rewardInfo[i].rewardType)
 			{
 				case RewardType.Exp:
-					Debug.Log($"경험치 {rewardInfo[i].parameter} 제공함");
+					{
+						Debug.Log($"경험치 {rewardInfo[i].parameter} 제공함");
+					}
 					break;
 				case RewardType.Skill:
-					Debug.Log($"스킬 {rewardInfo[i].parameter} 제공함");
+					{
+						Debug.Log($"스킬 {rewardInfo[i].parameter} 제공함");
+
+					}
 					break;
 				case RewardType.Item:
-					Debug.Log($"아이템 {rewardInfo[i].parameter} 제공함");
+					{
+						Debug.Log($"아이템 {rewardInfo[i].parameter} 제공함");
+					}
+					break;
+				case RewardType.HealWhite:
+					{
+						int amt = int.Parse(rewardInfo[i].parameter);
+						GameManager.instance.pActor.life.DamageYY(0, -amt, DamageType.NoHit);
+					}
+					break;
+				case RewardType.HealBlack:
+					{
+						int amt = int.Parse(rewardInfo[i].parameter);
+						GameManager.instance.pActor.life.DamageYY(-amt, 0, DamageType.NoHit);
+					}
+					break;
+				case RewardType.Quest:
+					{
+						QuestManager.AssignQuest(rewardInfo[i].parameter);
+					}
 					break;
 				default:
 					break;
