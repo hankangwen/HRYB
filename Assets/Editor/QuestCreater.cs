@@ -12,8 +12,7 @@ public class QuestCreater : EditorWindow
 
 	System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
-	const string QUESTINFOPATH = "Quests/AllQuests/";
-	const string ASSETPATH = "Assets/Resources/";
+	
 
 	static List<string> allCompleteConditions;
 	static List<int> allCompleteConditionsValue;
@@ -35,7 +34,6 @@ public class QuestCreater : EditorWindow
 	static bool rewardOn = false;
 	static List<bool> elementOnOffStat;
 
-	static QuestList qs;
 
 	static bool isNewlyCreated = true;
 
@@ -151,15 +149,6 @@ public class QuestCreater : EditorWindow
 			}
 		}
 
-		if(qs == null)
-		{
-			qs = Resources.Load<QuestList>(QuestManager.QUESTLISTPATH);
-			if(!qs)
-			{
-				throw new UnityException("퀘스트 리스트가 존재하지 않습니다!");
-			}
-		}
-
 
 		GUILayout.Label("퀘스트 정보 설정", EditorStyles.boldLabel);
 		GUILayout.Space(10);
@@ -168,17 +157,7 @@ public class QuestCreater : EditorWindow
 
 		if(GUILayout.Button("확인하기"))
 		{
-			info = Resources.Load<QuestInfo>($"{QUESTINFOPATH}{loadName}");
-			if(info == null)
-			{
-				for (int i = 0; i < qs.allQuests.Count; i++)
-				{
-					if(qs.allQuests[i].questName == loadName)
-					{
-						info = qs.allQuests[i];
-					}
-				}
-			}
+			info = Resources.Load<QuestInfo>($"{QuestManager.QUESTINFOPATH}{loadName}");
 			Debug.Log("LOAD COMPLETED");
 			isNewlyCreated = false;
 			if(info != null)
@@ -189,7 +168,7 @@ public class QuestCreater : EditorWindow
 			if (info == null)
 			{
 				info = CreateInstance<QuestInfo>();
-				AssetDatabase.CreateAsset(info, $"{ASSETPATH}{QUESTINFOPATH}{loadName}.asset");
+				AssetDatabase.CreateAsset(info, $"{QuestManager.ASSETPATH}{QuestManager.QUESTINFOPATH}{loadName}.asset");
 				Debug.Log("CREATE COMPLETED");
 				isNewlyCreated = true;
 				originalInfo = null;
@@ -223,6 +202,11 @@ public class QuestCreater : EditorWindow
 		info.questName = EditorGUILayout.TextField("퀘스트 이름 (식별용)", info.questName);
 
 		GUILayout.Space(10);
+
+		EditorGUILayout.BeginHorizontal();
+		
+
+		EditorGUILayout.EndHorizontal();
 
 		GUILayout.Label("조건 관리", EditorStyles.boldLabel);
 		EditorGUILayout.BeginHorizontal();
@@ -403,16 +387,11 @@ public class QuestCreater : EditorWindow
 			EditorGUILayout.BeginHorizontal("저장");
 			if (GUILayout.Button("저장하기..."))
 			{
-				if (!qs.allQuests.Contains(info))
-				{
-					originalInfo = new QuestInfo(info);
-					qs.allQuests.Add(info);
-					isNewlyCreated = false;
-				}
+				originalInfo = new QuestInfo(info);
+				isNewlyCreated = false;
 			}
 			if (GUILayout.Button("저장하고 작업 종료..."))
 			{
-				qs.allQuests.Add(info);
 				Close();
 			}
 			EditorGUILayout.EndHorizontal();
@@ -453,11 +432,7 @@ public class QuestCreater : EditorWindow
 		dangerous.focused.textColor = Color.red;
 		if (GUILayout.Button("정보 삭제하기", dangerous))
 		{
-			if (!isNewlyCreated)
-			{
-				qs.allQuests.Remove(info);
-			}
-			AssetDatabase.DeleteAsset($"{ASSETPATH}{QUESTINFOPATH}{info.name}.asset");
+			AssetDatabase.DeleteAsset($"{QuestManager.ASSETPATH}{QuestManager.QUESTINFOPATH}{info.name}.asset");
 			info = null;
 		}
 	}

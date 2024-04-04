@@ -49,6 +49,11 @@ public enum CompletionAct
 
 	Callback,
 
+	GoNear, //가까이 간 순간 달성
+	RemainNear, //가까이 있는 동안 달성
+
+	ClearQuest, //특정 퀘스트 클리어시 달성.
+
 	//더 있으면 추가.
 }
 
@@ -82,6 +87,15 @@ public enum RewardType
 }
 
 
+public enum AssignMode
+{
+	Callback,
+	ConditionMatched,
+
+}
+
+
+
 [System.Serializable]
 public class CompleteAtom
 {
@@ -111,24 +125,23 @@ public class RewardAtom
 
 
 
-
-
 public class QuestManager
 {
-    public const string QUESTLISTPATH = "Quests/QuestList";
 
 	public static Dictionary<string, QuestInfo> nameQuestPair;
-	static QuestList qs;
 
 	[Header("동시에 완료된다면 먼저 받은 퀘스트부터 완료 판정이 뜰 것임.")]
 	public List<QuestInfo> currentAbleQuest = new List<QuestInfo>();
+
+	static List<QuestInfo> allQuests = new List<QuestInfo>();
 
 	List<int> completedIndex = new List<int>();
 	List<int> removeIndex = new List<int>();
 	List<QuestInfo> nextAbleQuest;
 	bool inited = false;
 
-
+	public const string QUESTINFOPATH = "Quests/AllQuests/";
+	public const string ASSETPATH = "Assets/Resources/";
 
 	public static void AssignQuest(string name)
 	{
@@ -141,10 +154,10 @@ public class QuestManager
 
 	public static void AssignQuest(int idx)
 	{
-		if (qs != null)
+		if (allQuests != null)
 		{
-			GameManager.instance.qManager.currentAbleQuest.Add(qs.allQuests[idx]);
-			qs.allQuests[idx].onAssignedAction?.Invoke();
+			GameManager.instance.qManager.currentAbleQuest.Add(allQuests[idx]);
+			allQuests[idx].onAssignedAction?.Invoke();
 		}
 	}
 
@@ -159,10 +172,10 @@ public class QuestManager
 
 	public static void DismissQuest(int idx)
 	{
-		if (qs != null)
+		if (allQuests != null)
 		{
-			GameManager.instance.qManager.currentAbleQuest.Remove(qs.allQuests[idx]);
-			qs.allQuests[idx].onDismissedAction?.Invoke();
+			GameManager.instance.qManager.currentAbleQuest.Remove(allQuests[idx]);
+			allQuests[idx].onDismissedAction?.Invoke();
 		}
 	}
 
@@ -204,10 +217,10 @@ public class QuestManager
 		if (!inited)
 		{
 			nameQuestPair = new Dictionary<string, QuestInfo>();
-			qs = Resources.Load<QuestList>(QUESTLISTPATH);
-			for (int i = 0; i < qs.allQuests.Count; i++)
+			allQuests = Resources.LoadAll<QuestInfo>(QUESTINFOPATH).ToList();
+			for (int i = 0; i < allQuests.Count; i++)
 			{
-				nameQuestPair.Add((qs.allQuests[i].questName), qs.allQuests[i]);
+				nameQuestPair.Add((allQuests[i].questName), allQuests[i]);
 			}
 
 			inited = true;
@@ -273,6 +286,12 @@ public class QuestManager
 				return "n레벨 이상. n = ";
 			case CompletionAct.Callback:
 				return "스크립트에서 진행됨.";
+			case CompletionAct.GoNear:
+				return "가까이 접근하기. 대상 : ";
+			case CompletionAct.RemainNear:
+				return "근처에 머무르기. 대상 : ";
+			case CompletionAct.ClearQuest:
+				return "퀘스트 클리어하기. 파일명 : ";
 			default:
 				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
 				return act.ToString();
@@ -302,9 +321,9 @@ public class QuestManager
 		switch (act)
 		{
 			case ItemHandleMode.Remove:
-				return "아이템을 회수함.";
+				return "달성될 경우 아이템을 제거함.";
 			case ItemHandleMode.NoRemove:
-				return "아이템을 회수하지 않음.";
+				return "달성되어도 아이템을 제거하지 않음.";
 			default:
 				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
 				return act.ToString();
@@ -330,6 +349,20 @@ public class QuestManager
 				return " 상태를 가진 상태로 처치하기.";
 			case DefeatEnemyMode.None:
 				return "조건 없음.";
+			default:
+				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
+				return act.ToString();
+		}
+	}
+
+	public static string ToStringKorean(AssignMode act)
+	{
+		switch (act)
+		{
+			case AssignMode.Callback:
+				return "스크립트에서 부여됨.";
+			case AssignMode.ConditionMatched:
+				return "부여조건이 달성될 경우 즉시 부여됨.";
 			default:
 				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
 				return act.ToString();
