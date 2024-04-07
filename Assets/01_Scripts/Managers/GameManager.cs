@@ -227,11 +227,16 @@ public class GameManager : MonoBehaviour
 	public const int GROUNDLAYER = 11;
 	public const int CLIMBABLELAYER = 17;
 	public const int HOOKABLELAYER = 19;
+	public const int TRIGGERLAYER = 25;
 
 	public const float CAMVFOV = 55;
+	public const float NEARTHRESHOLD = 4;
 
 	public const string NORMALBGM = "NormalBgm";
 	public const string BOSSBGM = "BossBgm";
+
+	public const char CAPTUREDIVIDERDATA = '$';
+	public const char CAPTUREDIVIDERSECTION = '*';
 
 	public static GameManager instance;
 
@@ -284,6 +289,15 @@ public class GameManager : MonoBehaviour
 	
 
 	public WaitForSeconds waitSec = new WaitForSeconds(1.0f);
+
+
+	//캡쳐용 변수
+	System.Text.StringBuilder capturer = new System.Text.StringBuilder();
+
+	internal float recentDamage = 0;
+	internal DamageType recentDamageType = DamageType.DirectHit;
+	internal Actor recentEnemy = null;
+
 
 	private void Awake()
 	{
@@ -402,8 +416,69 @@ public class GameManager : MonoBehaviour
 
 
 
+	/// <summary>
+	/// 형상  V
+	/// 가장최근사용스킬  V
+	/// 해당스킬속성  V
+	/// 가장최근피해  V
+	/// 가장최근피해타입    V
+	/// 가장최근공격한적의상태이상   V
+	/// 플레이어상태이상    V
+	/// </summary>
+	/// <returns></returns>
+	public string DoCapture()
+	{
 
+		capturer.Append(CAPTUREDIVIDERSECTION);
+		capturer.Append(pinven.stat.ToString());
 
+		capturer.Append(CAPTUREDIVIDERSECTION);
+		capturer.Append((pActor.cast as PlayerCast).NowSkillUse.name);
+
+		capturer.Append(CAPTUREDIVIDERSECTION);
+		capturer.Append((pActor.cast as PlayerCast).NowSkillUse.wx);
+
+		capturer.Append(CAPTUREDIVIDERSECTION);
+		capturer.Append(recentDamage);
+
+		capturer.Append(CAPTUREDIVIDERSECTION);
+		capturer.Append(recentDamageType);
+
+		capturer.Append(CAPTUREDIVIDERSECTION);
+		foreach (var item in recentEnemy.life.appliedDebuff)
+		{
+			capturer.Append(item.Value.eff.name);
+			capturer.Append(CAPTUREDIVIDERDATA);
+		}
+
+		capturer.Append(CAPTUREDIVIDERSECTION);
+		foreach (var item in pActor.life.appliedDebuff)
+		{
+			capturer.Append(item.Value.eff.name);
+			capturer.Append(CAPTUREDIVIDERDATA);
+		}
+
+		capturer.Append(CAPTUREDIVIDERSECTION);
+
+		string str = capturer.ToString();
+		capturer.Clear();
+
+		return str;
+	}
+
+	public Dictionary<DefeatEnemyMode, List<string>> Decode(string captureData)
+	{
+		string[] sections = captureData.Split(CAPTUREDIVIDERSECTION);
+		Dictionary<DefeatEnemyMode, List<string>> decodedDatas = new Dictionary<DefeatEnemyMode, List<string>>();
+
+		for (int i = 0; i < sections.Length; i++)
+		{
+			List<string> datas = new List<string>(sections[i].Split(CAPTUREDIVIDERDATA));
+			decodedDatas.Add((DefeatEnemyMode)i, datas);
+		}
+
+		return decodedDatas;
+	}
 
 	public void CraftWithUI()
 	{
@@ -438,10 +513,10 @@ public class GameManager : MonoBehaviour
 		}
 
 
-		//if (Input.GetKeyDown(KeyCode.P))
-		//{
-		//	pinven.ObtainWeapon();
-		//}
+		if(Time.time % 1 <= float.Epsilon)
+		{
+			qManager.InvokeOnChanged(CompletionAct.CountSecond, Time.time.ToString());
+		}
 
 		qManager.UpdateQuest();
 	}

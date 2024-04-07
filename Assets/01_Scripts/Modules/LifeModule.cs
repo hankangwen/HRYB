@@ -370,6 +370,13 @@ public class LifeModule : Module
 			default:
 				break;
 		}
+		if(attacker == GameManager.instance.pActor)
+		{
+			GameManager.instance.recentDamage = white;
+			GameManager.instance.recentDamageType = type;
+			GameManager.instance.recentEnemy = GetActor();
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.DefeatTarget, GetActor().name);
+		}
 	}
 
 	public virtual void DamageYY(YinYang data, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel = DamageChannel.None)
@@ -425,6 +432,14 @@ public class LifeModule : Module
 			default:
 				break;
 		}
+		if (attacker == GameManager.instance.pActor)
+		{
+			GameManager.instance.recentDamage = yy.white;
+			GameManager.instance.recentDamageType = type;
+			GameManager.instance.recentEnemy = GetActor();
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.DefeatTarget, GetActor().name);
+		}
+
 	}
 
 	public void StopDamagingFor(DamageChannel channel, int amt = 1)
