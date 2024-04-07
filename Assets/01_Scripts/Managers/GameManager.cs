@@ -227,8 +227,10 @@ public class GameManager : MonoBehaviour
 	public const int GROUNDLAYER = 11;
 	public const int CLIMBABLELAYER = 17;
 	public const int HOOKABLELAYER = 19;
+	public const int TRIGGERLAYER = 25;
 
 	public const float CAMVFOV = 55;
+	public const float NEARTHRESHOLD = 4;
 
 	public const string NORMALBGM = "NormalBgm";
 	public const string BOSSBGM = "BossBgm";
@@ -295,6 +297,7 @@ public class GameManager : MonoBehaviour
 	internal float recentDamage = 0;
 	internal DamageType recentDamageType = DamageType.DirectHit;
 	internal Actor recentEnemy = null;
+
 
 	private void Awake()
 	{
@@ -510,10 +513,10 @@ public class GameManager : MonoBehaviour
 		}
 
 
-		//if (Input.GetKeyDown(KeyCode.P))
-		//{
-		//	pinven.ObtainWeapon();
-		//}
+		if(Time.time % 1 <= float.Epsilon)
+		{
+			qManager.InvokeOnChanged(CompletionAct.CountSecond, Time.time.ToString());
+		}
 
 		qManager.UpdateQuest();
 	}

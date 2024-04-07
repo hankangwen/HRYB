@@ -56,6 +56,12 @@ public class PlayerLife : LifeModule
 		GetActor().move.forceDir = Vector3.zero;
 		(GetActor().move as PlayerMove).ctrl.center = Vector3.up;
 		(GetActor().move as PlayerMove).ctrl.height = 1;
+
+		for (int i = 0; i < GameManager.instance.qManager.currentAbleQuest.Count; i++)
+		{
+			GameManager.instance.qManager.currentAbleQuest[i].ResetQuestStartTime(CompletionAct.CountSecond);
+		}
+
 		StartCoroutine(DieTel());
 		
 

@@ -22,6 +22,8 @@ public interface IInterable
 	public static readonly int GlowPowerHash = Shader.PropertyToID("_GlowPower");
 	public static readonly int GlowOnHash = Shader.PropertyToID("_IsGlowOn");
 
+	public string Name { get; }
+
 	public bool IsInterable { get; set; }
 	public bool AltInterable { get;}
 	public float InterTime { get; set;}

@@ -25,8 +25,28 @@ public class QuestInfo : ScriptableObject
 
 	public bool IsDeprived => completableCount >= 0 && curCompletedAmount >= completableCount;
 
-	
+	public void ResetQuestStartTime(CompletionAct cond = CompletionAct.None)
+	{
+		for (int i = 0; i < myInfo.Count; i++)
+		{
+			if(cond == CompletionAct.None || myInfo[i].objective == cond)
+			{
+				myInfo[i].OnResetTime();
+			}
+		}
+	}
 
+	public void ResetQuestCall(CompletionAct cond = CompletionAct.None)
+	{
+		for (int i = 0; i < myInfo.Count; i++)
+		{
+			if (cond == CompletionAct.None || myInfo[i].objective == cond)
+			{
+				myInfo[i].OnResetCall();
+
+			}
+		}
+	}
 	public QuestInfo()
 	{
 		questName = "";
@@ -70,6 +90,11 @@ public class QuestInfo : ScriptableObject
 		AfterComplete prevConnection = AfterComplete.FINAL;
 		while (valid)
 		{
+			if(myInfo[head].examineStartTime == null)
+			{
+				myInfo[head].examineStartTime = (int)Time.time;
+			}
+
 			bool res = myInfo[head].isCompleted;
 			if(head == 0)
 			{

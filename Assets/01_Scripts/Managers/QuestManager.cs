@@ -37,10 +37,9 @@ public enum CompletionAct
 
 	DefeatTarget, //해당 이름의 적을 처치  V
 
-	CountSecond, //n초후 달성으로 취급, 사망시 초기화됨.
-	CountMinute, //n분후 달성으로 취급, 사망시 초기화됨.
-	MoveTo, //지점으로 이동. 목표지점에는 반드시 Trigger 충돌체가 있어야 함. 
-	InteractWith, //대상과 상호작용. 대상에는 반드시 IInteractable이 있어야 함.
+	CountSecond, //n초후 달성으로 취급, 사망시 초기화됨.  V
+	MoveTo, //지점으로 이동. 목표지점은 Trigger이며 레이어는 25번이어야 함.  V
+	InteractWith, //대상과 상호작용. 대상에는 반드시  V
 
 	//n레벨 이하/동일/이상 일 경우 달성으로 취급. 레벨이 정해지면 더 자세히 나올듯.
 	BelowLevel, 
@@ -49,10 +48,10 @@ public enum CompletionAct
 
 	Callback,
 
-	GoNear, //가까이 간 순간 달성
-	RemainNear, //가까이 있는 동안 달성
+	GoNear, //가까이 간 순간 달성    V
+	RemainNear, //가까이 있는 동안 달성    V
 
-	ClearQuest, //특정 퀘스트 클리어시 달성.
+	ClearQuest, //특정 퀘스트 클리어시 달성. V
 	LearnSkill, //스킬 배우면 달성   V
 
 	//더 있으면 추가.
@@ -116,6 +115,8 @@ public class CompleteAtom
 
 	int curRepeatCount;
 
+	internal int? examineStartTime;
+
 	public void OnNotification(CompletionAct data, string parameter, int amt)
 	{
 		if(objective == data)
@@ -145,7 +146,18 @@ public class CompleteAtom
 					}
 					break;
 				case CompletionAct.CountSecond:
-				case CompletionAct.CountMinute:
+					try
+					{
+						if (int.Parse(parameter) > int.Parse(this.parameter) + examineStartTime)
+						{
+							curRepeatCount += amt;
+						}
+					}
+					catch
+					{
+						throw new UnityException("숫자쓰는데에 글자쓰지 마라");
+					}
+					break;
 				case CompletionAct.AboveLevel:
 					try
 					{
@@ -176,9 +188,15 @@ public class CompleteAtom
 		curRepeatCount = 0;
 	}
 
+	public void OnResetTime()
+	{
+		examineStartTime = null;
+	}
+
 	public CompleteAtom()
 	{
 		curRepeatCount = 0;
+		examineStartTime = null;
 	}
 }
 
@@ -201,7 +219,7 @@ public class QuestManager
 
 	static List<QuestInfo> allQuests = new List<QuestInfo>();
 
-	UnityAction<CompletionAct, string, int> invokers;
+	//UnityAction<CompletionAct, string, int> invokers;
 
 	List<int> completedIndex = new List<int>();
 	List<int> removeIndex = new List<int>();
@@ -363,8 +381,6 @@ public class QuestManager
 				return "적 처치하기. 이름 : ";
 			case CompletionAct.CountSecond:
 				return "n초 세기. n = ";
-			case CompletionAct.CountMinute:
-				return "n분 세기. n = ";
 			case CompletionAct.MoveTo:
 				return "지점으로 이동하기. 트리거 오브젝트 이름 : ";
 			case CompletionAct.InteractWith:

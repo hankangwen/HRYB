@@ -13,6 +13,7 @@ public class InterPoint : MonoBehaviour, IInterable
 	public UnityEvent onAltInter;
 
 
+	public string Name { get => transform.name; }
 	public bool IsInterable { get => isInterable; set => isInterable = value; }
 	public float InterTime { get => interTime; set => interTime = value; }
 
@@ -49,6 +50,7 @@ public class InterPoint : MonoBehaviour, IInterable
 	public void InteractWith()
 	{
 		Inter();
+		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.InteractWith, transform.name);
 	}
 
 	public virtual void Inter()
