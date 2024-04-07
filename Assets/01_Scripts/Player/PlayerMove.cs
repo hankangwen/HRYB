@@ -63,7 +63,10 @@ public class PlayerMove : MoveModule
 
 	HashSet<Transform> already = new HashSet<Transform>();
 
-	HashSet<Actor> nearEnemies = new HashSet<Actor>();
+	HashSet<Actor> targetables = new HashSet<Actor>();
+
+	HashSet<Transform> nearTargets = new HashSet<Transform>();
+	HashSet<Transform> prevNearTargets = new HashSet<Transform>();
 
 	Transform[] targets;
 	Transform[] prevTargets;
@@ -209,8 +212,16 @@ public class PlayerMove : MoveModule
 				slipDir = Vector3.zero;
 			}
 		}
-
 		
+		
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if(other.gameObject.layer == GameManager.TRIGGERLAYER)
+		{
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.MoveTo, other.name);
+		}
 	}
 
 	public void PlayerTeleport(Vector3 vec)
@@ -250,7 +261,8 @@ public class PlayerMove : MoveModule
 
 		if(Time.time - prevDetectTime > nearRefreshTime)
 		{
-			DoDetection();
+			DoTargetDetection();
+			DoNearDetection();
 		}
 	}
 	
@@ -470,10 +482,11 @@ public class PlayerMove : MoveModule
 
 		if ((transform.position - prevDetectPos).sqrMagnitude > nearRefreshDist * nearRefreshDist)
 		{
-			DoDetection();
+			DoTargetDetection();
+			DoNearDetection();
 		}
 
-		if(pAttack.target != null && (transform.position - pAttack.target.position).sqrMagnitude > pAttack.targetMaxDist * pAttack.targetMaxDist)
+		if (pAttack.target != null && (transform.position - pAttack.target.position).sqrMagnitude > pAttack.targetMaxDist * pAttack.targetMaxDist)
 		{
 			pAttack.target = null;
 		}
@@ -591,11 +604,11 @@ public class PlayerMove : MoveModule
 
 		if(CameraManager.instance.curCamStat == CamStatus.Freelook)
 		{
-			if(nearEnemies.Count == 0)
+			if(targetables.Count == 0)
 			{
-				DoDetection();
+				DoTargetDetection();
 			}
-			if(nearEnemies.Count > 0)
+			if(targetables.Count > 0)
 			{
 				SetNearestEnemy();
 			}
@@ -686,10 +699,38 @@ public class PlayerMove : MoveModule
 		
 	}
 
-	public void DoDetection()
+	public void DoNearDetection()
+	{
+		prevNearTargets = new HashSet<Transform>(nearTargets);
+		nearTargets.Clear();
+		Collider[] c = Physics.OverlapSphere(transform.position, GameManager.NEARTHRESHOLD, ~((1 << GameManager.PLAYERATTACKLAYER) | (1 << GameManager.PLAYERLAYER | 1 << GameManager.GROUNDLAYER)));
+		for (int i = 0; i < c.Length; i++)
+		{
+			nearTargets.Add(c[i].transform);
+		}
+
+		HashSet<Transform> nearEnters = new HashSet<Transform>(nearTargets); 
+		nearEnters.ExceptWith(prevNearTargets);
+
+		foreach (var item in nearEnters)
+		{
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.GoNear, item.name);
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.RemainNear, item.name);
+		}
+
+		HashSet<Transform> nearExits = new HashSet<Transform>(prevNearTargets);
+		nearExits.ExceptWith(nearTargets);
+
+		foreach (var item in nearExits)
+		{
+			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.RemainNear, item.name, -1);
+		}
+	}
+
+	public void DoTargetDetection()
 	{
 		//Debug.Log("DETECTED");
-		nearEnemies.Clear();
+		targetables.Clear();
 		Collider[] c = Physics.OverlapSphere(transform.position, pAttack.targetMaxDist, ~((1 << GameManager.PLAYERATTACKLAYER) | (1 << GameManager.PLAYERLAYER | 1 << GameManager.GROUNDLAYER)));
 		for (int i = 0; i < c.Length; i++)
 		{
@@ -697,7 +738,7 @@ public class PlayerMove : MoveModule
 			{
 				if(actor != GetActor())
 				{
-					nearEnemies.Add(actor);
+					targetables.Add(actor);
 				}
 			}
 		}
@@ -714,7 +755,7 @@ public class PlayerMove : MoveModule
 
 		float nearestDist = float.MaxValue;
 
-		foreach (var item in nearEnemies)
+		foreach (var item in targetables)
 		{
 			Vector3 distVec = (item.transform.position - transform.position);
 			if(Vector3.Dot(distVec.normalized,  Camera.main.transform.forward) > pAttack.TargetMaxAngleCos)

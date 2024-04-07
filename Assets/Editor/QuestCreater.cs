@@ -11,7 +11,6 @@ public class QuestCreater : EditorWindow
 	QuestInfo info;
 
 	System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
 	
 
 	static List<string> allCompleteConditions;
@@ -28,6 +27,7 @@ public class QuestCreater : EditorWindow
 
 	static List<string> allRewardTypes;
 	static List<int> allRewardTypesValue;
+
 
 
 	static bool conditionOn = false;
@@ -202,11 +202,6 @@ public class QuestCreater : EditorWindow
 		info.questName = EditorGUILayout.TextField("퀘스트 이름 (식별용)", info.questName);
 
 		GUILayout.Space(10);
-
-		EditorGUILayout.BeginHorizontal();
-		
-
-		EditorGUILayout.EndHorizontal();
 
 		GUILayout.Label("조건 관리", EditorStyles.boldLabel);
 		EditorGUILayout.BeginHorizontal();
