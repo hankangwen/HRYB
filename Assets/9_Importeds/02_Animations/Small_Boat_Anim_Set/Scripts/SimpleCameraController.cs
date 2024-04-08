@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-namespace UnityTemplateProjects
+namespace DeprecatedBecauseAlreadyDefinedAndExists //UnityTemplateProjects
 {
     public class SimpleCameraController : MonoBehaviour
     {
