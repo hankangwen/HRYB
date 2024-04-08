@@ -351,11 +351,11 @@ public class QuestManager
 		switch (act)
 		{
 			case AfterComplete.AND:
-				return ", 그리고";
+				return ": 그리고";
 			case AfterComplete.OR:
-				return ", 또는";
+				return ": 또는";
 			case AfterComplete.AFTER:
-				return ", 그 다음";
+				return ": 그 다음";
 			case AfterComplete.FINAL:
 				return "로 종료.";
 			default:
