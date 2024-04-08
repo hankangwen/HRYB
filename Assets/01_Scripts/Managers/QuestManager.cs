@@ -33,7 +33,7 @@ public enum CompletionAct
 	GetItem, //획득시 달성으로 취급.  V
 	HaveItem, //소지한 동안 달성으로 취급.  V
 	LoseItem, //잃을 경우 달성으로 취급.  V
-	UseItem, //사용할 경우 달성으로 취급.
+	UseItem, //사용할 경우 달성으로 취급.  V
 
 	DefeatTarget, //해당 이름의 적을 처치  V
 
