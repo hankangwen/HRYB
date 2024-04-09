@@ -8,7 +8,7 @@ public class QuestCreater : EditorWindow
 {
 	string loadName;
 
-	QuestInfo info;
+	static QuestInfo info;
 
 	System.Text.StringBuilder sb = new System.Text.StringBuilder();
 	
@@ -40,7 +40,7 @@ public class QuestCreater : EditorWindow
 	static QuestInfo originalInfo;
 
 
-	[MenuItem("퀘스트 만들기/퀘스트 정보")]
+	[MenuItem("퀘스트/퀘스트 생성하기")]
 	public static void ShowWindow()
 	{
 		EditorWindow.GetWindow(typeof(QuestCreater));
@@ -284,6 +284,9 @@ public class QuestCreater : EditorWindow
 						EditorGUILayout.EndHorizontal();
 					}
 					
+					EditorGUILayout.BeginHorizontal();
+					info.myInfo[i].repeatCount = EditorGUILayout.IntField("필요 횟수 : ", info.myInfo[i].repeatCount);
+					EditorGUILayout.EndHorizontal();
 
 					EditorGUILayout.BeginHorizontal();
 					EditorGUILayout.Space(30);
@@ -382,6 +385,7 @@ public class QuestCreater : EditorWindow
 			EditorGUILayout.BeginHorizontal("저장");
 			if (GUILayout.Button("저장하기..."))
 			{
+				EditorUtility.SetDirty(info);
 				originalInfo = new QuestInfo(info);
 				isNewlyCreated = false;
 			}
@@ -394,10 +398,12 @@ public class QuestCreater : EditorWindow
 		else
 		{
 			GUILayout.Space(100);
-			EditorGUILayout.BeginHorizontal("저장");
+			EditorGUILayout.BeginHorizontal();
 			if (GUILayout.Button("수정사항 저장하기..."))
 			{
+				EditorUtility.SetDirty(info);
 				originalInfo = new QuestInfo(info);
+
 			}
 			if (GUILayout.Button("수정사항 취소하기..."))
 			{
@@ -411,6 +417,7 @@ public class QuestCreater : EditorWindow
 					info.completableCount = originalInfo.completableCount;
 
 					originalInfo = new QuestInfo(inf);
+					Debug.Log("성공적으로 취소됨.");
 				}
 			}
 			if (GUILayout.Button("수정사항 저장하고 작업 종료..."))
