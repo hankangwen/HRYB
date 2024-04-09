@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public enum CamStatus
 {
@@ -508,6 +509,16 @@ public class GameManager : MonoBehaviour
 		{
 			player.GetComponent<PlayerAttack>().SetDamage(3);
 		}
+		if (Input.GetKeyDown(KeyCode.Semicolon))
+		{
+			MinigameManager.UnloadMinigame();
+		}
+
+		if (Input.GetKeyDown(KeyCode.Minus))
+		{
+			MinigameManager.LoadMinigame(Minigames.Cut);
+		}
+
 
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
