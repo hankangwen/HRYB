@@ -305,6 +305,8 @@ public class GameManager : MonoBehaviour
 		lastSave = 0;
 		LockCursor();
 
+		qManager = new QuestManager();
+
 		//qManager = new QuestManager(
 		//	"사슴 시체의 냄새가 나.\n 약재를 얻어볼까?",
 		//	"연못 주위에 있는 덤불을 채집하고\n 밧줄을 제작하자.",
