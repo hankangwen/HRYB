@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 30c52ab90f8fbb843bcba18430da3600
+<<<<<<<< HEAD:Assets/9_Importeds/10_UI.meta
+guid: 21c43d82448d6d74abdb0cb8a5670cca
+========
+guid: 26ceb41eacbd0674e9fa52445b0cc3fb
+>>>>>>>> NewMain:Assets/9_Importeds/PureNature.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
