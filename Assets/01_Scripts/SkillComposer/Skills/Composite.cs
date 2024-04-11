@@ -109,6 +109,11 @@ public class Composite : Compose, IComposer
 		childs[evt.intParameter].OnAnimationEnd(self, evt);
 	}
 
+	public override void OnAnimationHit(Actor self, AnimationEvent evt)
+	{
+		childs[evt.intParameter].OnAnimationHit(self, evt);
+	}
+
 	public virtual void SetAnimations(Actor to, SkillSlotInfo info)
 	{
 		if((to.anim as PlayerAnim).curEquipped != this)

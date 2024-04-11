@@ -39,5 +39,7 @@ public abstract class Compose : ScriptableObject, IComposer, IAnimationEventActo
 	public virtual void OnAnimationStop(Actor self, AnimationEvent evt){}
 
 	public virtual void OnAnimationEnd(Actor self, AnimationEvent evt){}
+
+	public virtual void OnAnimationHit(Actor self, AnimationEvent evt) { }
 	
 }
