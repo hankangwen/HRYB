@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public enum Minigames
 {
 	None,
-	Cut,
+	Cutting,
+	Frying,
 
 }
 public class MinigameManager
@@ -15,15 +16,28 @@ public class MinigameManager
 
 	static Minigames curMinigame = Minigames.None;
 
-    public static void LoadMinigame(Minigames mode)
+    public static void LoadMinigame(Minigames mode, ItemAmountPair itemInfo)
 	{
 		if (curMinigame == Minigames.None)
 		{
-			SceneManager.LoadSceneAsync(GetSceneName(mode));
+			GameManager.instance.StartCoroutine(DoLoadMinigame(GetSceneName(mode), itemInfo));
+
 			Time.timeScale = 0;
 			GameManager.instance.pinp.DeactivateInput();
 			curMinigame = mode;
 		}
+	}
+
+	static IEnumerator DoLoadMinigame(string sceneName, ItemAmountPair itemInfo)
+	{
+		AsyncOperation oper = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+		while (!oper.isDone)
+		{
+			yield return null;
+		}
+
+		GameObject.Find(sceneName).GetComponent<MinigameBase>().StartGame(itemInfo);
 	}
 
 	public static void UnloadMinigame()
@@ -40,8 +54,10 @@ public class MinigameManager
 	{
 		switch (mode)
 		{
-			case Minigames.Cut:
+			case Minigames.Cutting:
 				return $"Cut{MINIGAMENAME}";
+			case Minigames.Frying:
+				return $"Fry{MINIGAMENAME}";
 			default:
 				throw new UnityException($"{mode} : 해당 모드는 존재하지 않음.");
 		}

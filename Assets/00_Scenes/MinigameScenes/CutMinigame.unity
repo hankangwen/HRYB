@@ -177,7 +177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7537811070916188518, guid: 593252a5f4a127b499181a5a4ff05e11, type: 3}
       propertyPath: m_Name
-      value: CutMinigames
+      value: CutMinigame
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

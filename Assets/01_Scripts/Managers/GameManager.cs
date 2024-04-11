@@ -516,7 +516,8 @@ public class GameManager : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.Minus))
 		{
-			MinigameManager.LoadMinigame(Minigames.Cut);
+			pinven.AddItem(Item.GetItem("산삼"));
+			MinigameManager.LoadMinigame(Minigames.Cutting, new ItemAmountPair("산삼"));
 		}
 
 
