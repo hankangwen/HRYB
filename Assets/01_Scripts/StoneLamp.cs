@@ -3,7 +3,6 @@ using UnityEngine;
 public class StoneLamp : MonoBehaviour
 {
 	MeshRenderer meshRenderer;
-	Vector3 distance;
 	Color color;
 	float k = 0;
 
@@ -50,8 +49,8 @@ public class StoneLamp : MonoBehaviour
 		pDistance = 5;
 		isText = false;
 		material.DisableKeyword("_EMISSION");
-
-		bool isEffect = false;
+		
+		isEffect = false;
 		
 	}
 
@@ -99,6 +98,6 @@ public class StoneLamp : MonoBehaviour
 			if(obj != null)
 				PoolManager.ReturnObject(obj);
 		}
-
+			
 	}	
 }
