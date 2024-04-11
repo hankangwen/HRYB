@@ -145,6 +145,7 @@ MonoBehaviour:
   applyMod: 1
   superArmor: 0
   destroyedEff: 
+  fadeSec: 0.75
 --- !u!114 &3781072606636397205
 MonoBehaviour:
   m_ObjectHideFlags: 0
