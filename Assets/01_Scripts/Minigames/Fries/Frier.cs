@@ -64,11 +64,6 @@ public class Frier : MinigameBase
 
 	}
 
-	private void FixedUpdate()
-	{
-		
-	}
-
 	private void Update()
 	{
 		if (first)
@@ -159,10 +154,12 @@ public class Frier : MinigameBase
 	{
 		if(fireAmt >= fireAdequateAmt + adequateErrRange)
 		{
+			PreProcess.ApplyProcessTo(ProcessType.Burn, minigameTarget);
 			Debug.Log("태움");
 		}
 		else
 		{
+			PreProcess.ApplyProcessTo(ProcessType.Fry, minigameTarget);
 			Debug.Log("볶음");
 		}
 		base.EndGame();

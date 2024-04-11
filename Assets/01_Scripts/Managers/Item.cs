@@ -59,8 +59,8 @@ public class Item // #################
 			return (GameManager.instance.pActor.atk as PlayerAttack).ThrowRope();
 		}, Mathf.Infinity), false) },
 		{"섬유".GetHashCode(), new Item("섬유", "튼튼한 섬유이다.", ItemType.Solid, 10, null, false) },
-		{"산삼".GetHashCode(), new Item("산삼", "심 봤 다", ItemType.Solid, 10, null, false) },
-		{"잘린 산삼".GetHashCode(), new Item("잘린 산삼", "손질 완료된 산삼이다.", ItemType.Solid, 10, null, false) },
+		{"산삼".GetHashCode(), new YinyangItem("산삼", "심 봤 다", ItemType.Solid, 10, null, false, null, "삼") },
+		{"잘린 산삼".GetHashCode(), new YinyangItem("잘린 산삼", "손질 완료된 산삼이다.", ItemType.Solid, 10, null, false, null, "삼") },
 		{"녹제".GetHashCode(), new YinyangItem("녹제", "사슴의 발굽이다.", ItemType.Solid, 5, null, false, new YinYang(0)) },
 		{"녹각".GetHashCode(), new YinyangItem("녹각", "사슴의 뿔이다.", ItemType.Solid, 5, null, false, new YinYang(0)) },
 		{"녹용".GetHashCode(), new YinyangItem("녹용", "사슴의 뿔을 손질했다.", ItemType.Solid, 5, null, false, new YinYang(0)) },

@@ -7,7 +7,7 @@ public class RoastPoint : CraftPoint
 {
 	protected override int maxAmt { get => 1; }
 
-	List<Roast> ongoings = new List<Roast>();
+	//List<Roast> ongoings = new List<Roast>();
 
 	bool isPaused = false;
 
@@ -28,25 +28,25 @@ public class RoastPoint : CraftPoint
 	public override void Process()
 	{
 		base.Process();
-		foreach (var item in holding)
-		{
-			Roast r = new Roast(item);
+		//foreach (var item in holding)
+		//{
+		//	Roast r = new Roast(item);
 
-			r.StartProcess();
-			ongoings.Add(r);
-			Debug.Log($"{item.info.MyName} 작업 시작");
-		}
-		isStarted = true;
+		//	r.StartProcess();
+		//	ongoings.Add(r);
+		//	Debug.Log($"{item.info.MyName} 작업 시작");
+		//}
+		//isStarted = true;
 	}
 
 	public override void Stop()
 	{
 		isPaused = !isPaused;
 		processing = !isPaused;
-		for (int i = 0; i < ongoings.Count; i++)
-		{
-			ongoings[i].PauseProcess(isPaused);
-		}
+		//for (int i = 0; i < ongoings.Count; i++)
+		//{
+		//	ongoings[i].PauseProcess(isPaused);
+		//}
 		Debug.Log($"일시정지 : {isPaused}");
 		
 	}
@@ -54,7 +54,7 @@ public class RoastPoint : CraftPoint
 	public override void Put()
 	{
 		ItemAmountPair hold = GameManager.instance.pinven.CurHoldingItem;
-		if (GameManager.instance.pinven.HoldingYinYangItem && !(hold.info as YinyangItem).processes.Contains(ProcessType.Roast) && hold.info.itemType == ItemType.Solid)
+		if (GameManager.instance.pinven.HoldingYinYangItem && !(hold.info as YinyangItem).processes.Contains(ProcessType.Fry) && hold.info.itemType == ItemType.Solid)
 		{
 			base.Put();
 		}
@@ -66,14 +66,14 @@ public class RoastPoint : CraftPoint
 	{
 		if (isStarted)
 		{
-			Debug.Log(ongoings.Count + "개 뺌");
-			for (int i = 0; i < ongoings.Count; ++i)
-			{
-				Roast r = ongoings[i];
-				ItemAmountPair result = r.EndProcess();
-				(result.info as YinyangItem).processes.Add(r.type);
-				GameManager.instance.pinven.AddItem(result.info, result.num);
-			}
+			//Debug.Log(ongoings.Count + "개 뺌");
+			//for (int i = 0; i < ongoings.Count; ++i)
+			//{
+			//	//Roast r = ongoings[i];
+			//	//ItemAmountPair result = r.EndProcess();
+			//	//(result.info as YinyangItem).processes.Add(r.type);
+			//	GameManager.instance.pinven.AddItem(result.info, result.num);
+			//}
 			Initialize();
 		}
 		else
@@ -88,7 +88,7 @@ public class RoastPoint : CraftPoint
 	{
 		isStarted = false;
 		isPaused = false;
-		ongoings.Clear();
+		//ongoings.Clear();
 		base.Initialize();
 	}
 }
