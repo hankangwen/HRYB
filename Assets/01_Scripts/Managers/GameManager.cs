@@ -482,10 +482,10 @@ public class GameManager : MonoBehaviour
 		return decodedDatas;
 	}
 
-	public void CraftWithUI()
-	{
-		craftManager.crafter.CraftWith( uiManager.crafterUI.curRecipe);
-	}
+	//public void CraftWithUI()
+	//{
+	//	craftManager.crafter.CraftWith( uiManager.crafterUI.curRecipe);
+	//}
 
 	public void TPToOutCave()
 	{

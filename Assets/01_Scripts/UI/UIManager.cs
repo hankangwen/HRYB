@@ -15,8 +15,8 @@ public class UIManager : MonoBehaviour
 
 	public YYCtrl yinYangUI;
 	public AimPointCtrl aimUI;
-	public InfoCtrl infoUI;
-	public SimpleCrafter crafterUI;
+	//public InfoCtrl infoUI;
+	//public SimpleCrafter crafterUI;
 	public QuestUICtrl questUI;
 	public InterPrevUI preInterUI;
 	public InterProcessUI interingUI;
@@ -45,12 +45,12 @@ public class UIManager : MonoBehaviour
 	private void Awake()
 	{
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-		invenPanel = canvas.transform.Find("InventoryPanel").gameObject;
+		invenPanel = canvas.transform.Find("ToolPanel").gameObject;
 		optionPanel = canvas.transform.Find("OptonUI").gameObject;
 		yinYangUI = canvas.GetComponentInChildren<YYCtrl>();
 		aimUI = canvas.GetComponentInChildren<AimPointCtrl>();
-		infoUI = canvas.GetComponentInChildren<InfoCtrl>();
-		crafterUI = canvas.GetComponentInChildren<SimpleCrafter>();
+		//infoUI = canvas.GetComponentInChildren<InfoCtrl>();
+		//crafterUI = canvas.GetComponentInChildren<SimpleCrafter>();
 		questUI = canvas.GetComponentInChildren<QuestUICtrl>();
 		preInterUI = canvas.GetComponentInChildren<InterPrevUI>();
 		interingUI = canvas.GetComponentInChildren<InterProcessUI>();
@@ -66,8 +66,8 @@ public class UIManager : MonoBehaviour
 		interingUI.SetGaugeValue(0);
 		interingUI.Off();
 		preInterUI.Off();
-		infoUI.Off();
-		crafterUI.On();
+		//infoUI.Off();
+		//crafterUI.On();
 
 		OffInven();
 
