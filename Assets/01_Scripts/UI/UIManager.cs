@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
 	private void Awake()
 	{
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-		invenPanel = canvas.transform.Find("InventoryPanel").gameObject;
+		invenPanel = canvas.transform.Find("ToolPanel").gameObject;
 		optionPanel = canvas.transform.Find("OptonUI").gameObject;
 		yinYangUI = canvas.GetComponentInChildren<YYCtrl>();
 		aimUI = canvas.GetComponentInChildren<AimPointCtrl>();
