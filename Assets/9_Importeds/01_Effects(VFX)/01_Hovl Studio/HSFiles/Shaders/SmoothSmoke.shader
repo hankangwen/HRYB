@@ -1,4 +1,4 @@
-Shader "ERB/Particles/SmoothSmoke"
+Shader "Hovl/Particles/SmoothSmoke"
 {
 	Properties
 	{	
@@ -25,6 +25,9 @@ Shader "ERB/Particles/SmoothSmoke"
 			
 			Pass {		
 				CGPROGRAM
+				#ifndef UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX
+				#define UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input)
+				#endif
 				#pragma vertex vert
 				#pragma fragment frag
 				#pragma target 2.0
@@ -94,6 +97,9 @@ Shader "ERB/Particles/SmoothSmoke"
 
 				fixed4 frag ( v2f i  ) : SV_Target
 				{
+					UNITY_SETUP_INSTANCE_ID( i );
+					UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( i );
+					
 					float lp = 1;
 					#ifdef SOFTPARTICLES_ON
 						float sceneZ = LinearEyeDepth (SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.projPos)));
@@ -136,7 +142,7 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;8;125.2534,-46.01233;Float;False;4
 Node;AmplifyShaderEditor.ComponentMaskNode;28;289.4849,-49.66245;Float;False;True;True;True;False;1;0;COLOR;0,0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;9;176.5373,244.5911;Float;False;3;3;0;FLOAT;0;False;1;FLOAT;1;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;27;609.2385,29.13947;Float;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;26;811.343,28.26277;Float;False;True;2;Float;;0;11;ERB/Particles/SmoothSmoke;0b6a9f8b4f707c74ca64c0be8e590de0;True;SubShader 0 Pass 0;0;0;SubShader 0 Pass 0;2;True;2;5;False;-1;10;False;-1;0;1;False;-1;0;False;-1;False;False;True;2;False;-1;True;True;True;True;False;0;False;-1;False;True;2;False;-1;True;3;False;-1;False;True;4;Queue=Transparent=Queue=0;IgnoreProjector=True;RenderType=Transparent=RenderType;PreviewType=Plane;False;0;False;False;False;False;False;False;False;False;False;False;True;0;0;;0;0;Standard;0;0;1;True;False;2;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;26;811.343,28.26277;Float;False;True;2;Float;;0;11;Hovl/Particles/SmoothSmoke;0b6a9f8b4f707c74ca64c0be8e590de0;True;SubShader 0 Pass 0;0;0;SubShader 0 Pass 0;2;True;2;5;False;-1;10;False;-1;0;1;False;-1;0;False;-1;False;False;True;2;False;-1;True;True;True;True;False;0;False;-1;False;True;2;False;-1;True;3;False;-1;False;True;4;Queue=Transparent=Queue=0;IgnoreProjector=True;RenderType=Transparent=RenderType;PreviewType=Plane;False;0;False;False;False;False;False;False;False;False;False;False;True;0;0;;0;0;Standard;0;0;1;True;False;2;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0,0,0;False;0
 WireConnection;2;1;6;0
 WireConnection;3;0;6;3
 WireConnection;3;1;6;4
