@@ -9,7 +9,8 @@ public enum BtnState
 {
 	On,
 	Off,
-	Reset
+	Reset,
+	Focused
 }
 
 public class ToolBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
@@ -20,13 +21,13 @@ public class ToolBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
 	private TMP_Text text;
 
-	public bool isTarget;
-
 	public BtnState state;
+
+	public ToolState indicating;
 
 	private void Awake()
 	{
-		isTarget = false;
+		state = BtnState.Reset;
 		img = GetComponent<Image>();
 		text = GetComponentInChildren<TMP_Text>();
 	}
@@ -40,59 +41,54 @@ public class ToolBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 	public void Enter()
 	{
 		state = BtnState.On;
+		img.sprite = OnBtnUI;
+		text.color = Color.black;
 	}
 
 	public void Exit()
 	{
 		state = BtnState.Off;
-		Debug.Log("올라감!");
+		img.sprite = BtnUI;
+		text.color = Color.white;
 	}
 
 	public void Click()
 	{
-		GetComponentInParent<ToolBarManager>().BtnOff();
-		isTarget = true;
+		state = BtnState.Focused;
+		img.sprite = OnBtnUI;
+		text.color = Color.black;
+
+		GameManager.instance.toolbarUIShower.ChangeStatus(indicating);
 	}
 
 	private void Update()
 	{
-		switch(state)
+		if (state == BtnState.Reset) //이건 어디서 되는지를 모르겠어서 일단 여기서 부름.
 		{
-			case BtnState.On:
-				img.sprite = OnBtnUI;
-				text.color = Color.black;
-				break;
-
-			case BtnState.Off:
-				img.sprite = BtnUI;
-				text.color = Color.white;
-				break;
-
-			case BtnState.Reset:
-				isTarget = false;
-			    break;
-
-
+			ResetButton();
 		}
-		if (isTarget)
-		{
-			img.sprite = OnBtnUI;
-			text.color = Color.black;
-		}
+	}
+
+	public void ResetButton()
+	{
+		state = BtnState.Off;
+		img.sprite = BtnUI;
+		text.color = Color.white;
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		state = BtnState.On;
+		Enter();
+		Debug.Log("!@!@");
 	}
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		state = BtnState.Off;
+		Exit();
 	}
 
 	public void OnPointerClick(PointerEventData eventData)
 	{
-		Click();
+		//Click();
 	}
 }

@@ -271,6 +271,8 @@ public class GameManager : MonoBehaviour
 	public DamageTextShower shower;
 	public DecalControl decalCtrl;
 
+	public ToolBarManager toolbarUIShower;
+
 	[Header("따로 설정이 필요함")]
 	public Sprite uiBase;
 	public TMPro.TMP_FontAsset tmpText;
@@ -344,6 +346,7 @@ public class GameManager : MonoBehaviour
 		shower = GameObject.Find("DamageTextManager").GetComponent<DamageTextShower>();
 		decalCtrl = GameObject.Find("DecalControl").GetComponent<DecalControl>();
 		
+		toolbarUIShower = GameObject.Find("ToolPanel").GetComponent<ToolBarManager>();
 	}
 
 	private void Start()
