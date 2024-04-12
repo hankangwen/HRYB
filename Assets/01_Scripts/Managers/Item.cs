@@ -59,12 +59,18 @@ public class Item // #################
 			return (GameManager.instance.pActor.atk as PlayerAttack).ThrowRope();
 		}, Mathf.Infinity), false) },
 		{"섬유".GetHashCode(), new Item("섬유", "튼튼한 섬유이다.", ItemType.Solid, 10, null, false) },
-		{"삼".GetHashCode(), new Item("삼", "이걸 10개 모아오면?", ItemType.Solid, 10, null, false) },
+		{"산삼".GetHashCode(), new YinyangItem("산삼", "심 봤 다", ItemType.Solid, 10, null, false, null, "삼") },
+		{"잘린 산삼".GetHashCode(), new YinyangItem("잘린 산삼", "손질 완료된 산삼이다.", ItemType.Solid, 10, null, false, null, "삼") },
 		{"녹제".GetHashCode(), new YinyangItem("녹제", "사슴의 발굽이다.", ItemType.Solid, 5, null, false, new YinYang(0)) },
 		{"녹각".GetHashCode(), new YinyangItem("녹각", "사슴의 뿔이다.", ItemType.Solid, 5, null, false, new YinYang(0)) },
 		{"녹용".GetHashCode(), new YinyangItem("녹용", "사슴의 뿔을 손질했다.", ItemType.Solid, 5, null, false, new YinYang(0)) },
 		{"도약탕".GetHashCode(), new Medicines("도약탕", "다리의 힘을 비약적으로 상승시켜 땅을 박차고 공중으로 도약할 수 있게 해준다.", ItemType.Liquid, 1, null, false, new YinYang(0)) },
 	}; //같은 이름의 아이템을 같은 물건으로 취급하기 위해 사용.
+
+	public static Item GetItem(string name)
+	{
+		return (Item)nameDataHashT[name.GetHashCode()];
+	}
 
 
 	public int Id {get => MyName.GetHashCode();}

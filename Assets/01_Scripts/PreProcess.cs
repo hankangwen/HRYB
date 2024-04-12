@@ -9,7 +9,8 @@ public enum ProcessType //손질은 사실상 제작이다.
     None = -1,
 
     
-    Roast,
+    Fry,
+	Burn,
 }
 
 public class PreProcess
@@ -28,8 +29,14 @@ public class PreProcess
 			{
 				case ProcessType.None:
 					break;
-				case ProcessType.Roast:
+				case ProcessType.Fry:
 					prefix = "작";
+					break;
+				case ProcessType.Burn:
+					prefix = "소";
+					break;
+				default:
+					Debug.LogWarning($"{type} 상태에 대한 단어는 정의되어있지 않습니다");
 					break;
 			}
 		}
@@ -50,96 +57,86 @@ public class PreProcess
 		sb.Append(prefix);
 		sb.Append((info.info as YinyangItem).nameAsChar);
 		(info.info as YinyangItem).nameAsChar = sb.ToString();
-		return info;
-	}
 
-	public override int GetHashCode()
-	{
-		return HashCode.Combine(type, info);
-	}
-}
-
-
-public class Roast : PreProcess
-{
-	public YinYang Decreased
-	{
-		get => new YinYang((info.info as YinyangItem).initDec + (effSec - 1) * (info.info as YinyangItem).decPerSec);
-	}
-
-
-	bool roasted = false;
-
-	float effSec = 0;
-
-	Coroutine ongoing;
-
-	public Roast() : base(ProcessType.Roast, ItemAmountPair.Empty)
-	{
-
-	}
-
-	public Roast(ItemAmountPair itemInfo) : base(ProcessType.Roast, itemInfo)
-	{
-
-	}
-
-	public void StartProcess()
-	{
-		ongoing = GameManager.instance.StartCoroutine(DelProcess());
-	}
-
-	public void PauseProcess(bool paused)
-	{
-		if (paused)
-		{
-			GameManager.instance.StopCoroutine(ongoing);
-		}
-		else
-		{
-			ongoing = GameManager.instance.StartCoroutine(DelProcess());
-		}
-
-	}
-
-	public override ItemAmountPair EndProcess()
-	{
-		GameManager.instance.StopCoroutine(ongoing);
-		ongoing = null;
-		(info.info as YinyangItem).yy -= Decreased;
-		if (info.info.onUse != null && effSec > info.info.onUse.removeTime)
-		{
-			info.info.onUse.DeleteSpecial();
-			roasted = true;
-			prefix = "소";
-			Debug.Log("태움.");
-		}
-		
-		base.EndProcess();
+		(info.info as YinyangItem).processes.Add(type);
 
 		info.info.InsertToTable();
 
 		return info;
 	}
 
-	IEnumerator DelProcess()
-	{
-		while (true)
-		{
-			yield return GameManager.instance.waitSec;
-			effSec += 1;
-			Debug.Log($"감소량 : {Decreased}");
-			
-		}
-	}
 	public override bool Equals(object obj)
 	{
-		Debug.Log("!!");
-		return obj is Roast r && r.info == info;
+		return obj is PreProcess p && p.type == type;
 	}
 
 	public override int GetHashCode()
 	{
-		return base.GetHashCode();
+		return HashCode.Combine(type);
+	}
+
+	public static ItemAmountPair ApplyProcessTo(ProcessType type, ItemAmountPair to, bool autoRemovePrev = true, bool autoAddAfter = true)
+	{
+		if (autoRemovePrev)
+		{
+			GameManager.instance.pinven.RemoveItem(to.info, to.num);
+		}
+		PreProcess pp = new PreProcess(type, to);
+		ItemAmountPair after = pp.EndProcess();
+
+		if (autoAddAfter)
+		{
+			GameManager.instance.pinven.AddItem(after.info, after.num);
+		}
+		return after;
 	}
 }
+
+//public class Burn : PreProcess
+//{
+//	public Burn() : base(ProcessType.Roast, ItemAmountPair.Empty)
+//	{
+
+//	}
+
+//	public Burn(ItemAmountPair itemInfo) : base(ProcessType.Burn, itemInfo)
+//	{
+
+//	}
+
+//	public override bool Equals(object obj)
+//	{
+//		Debug.Log("!!");
+//		return obj is Burn r && r.info == info;
+//	}
+
+//	public override int GetHashCode()
+//	{
+//		return base.GetHashCode();
+//	}
+//}
+
+//public class Roast : PreProcess
+//{
+
+//	public Roast() : base(ProcessType.Roast, ItemAmountPair.Empty)
+//	{
+
+//	}
+
+//	public Roast(ItemAmountPair itemInfo) : base(ProcessType.Roast, itemInfo)
+//	{
+
+//	}
+
+//	public override bool Equals(object obj)
+//	{
+//		Debug.Log("!!");
+//		return obj is Roast r && r.info == info;
+//	}
+
+//	public override int GetHashCode()
+//	{
+//		return base.GetHashCode();
+//	}
+//}
