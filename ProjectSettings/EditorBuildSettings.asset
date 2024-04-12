@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/00_Scenes/Title.unity
     guid: d72956ca936569d4f86702e3fcd3bf10
-  - enabled: 0
+  - enabled: 1
     path: Assets/00_Scenes/LevelDesign_Map/Official_World.unity
     guid: 89f21e7eee1328749b25a9fcf84ce977
   - enabled: 0
@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/00_Scenes/Choru Test.unity
     guid: 2417fe3c7bed02849936d504ae62fb56
-  - enabled: 1
+  - enabled: 0
     path: Assets/00_Scenes/Choru Test/UnOfficial_World.unity
     guid: a1918d23f6525124d9b5c2fac3af36c2
   m_configObjects: {}
