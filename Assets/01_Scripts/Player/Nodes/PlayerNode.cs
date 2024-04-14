@@ -13,10 +13,12 @@ public class PlayerNode : ScriptableObject
 
 	public bool completed;
 
-	public bool isSpecialNode;
-
 	public StatUpgradeType nodeType;
 	public float amt;
+
+	public bool learnable;
+
+	public float needPoint;
 
 	public UnityEvent onLearn;
 
@@ -27,13 +29,17 @@ public class PlayerNode : ScriptableObject
 		circleIndex = 0;
 		orderIndex = 0;
 		completed =false;
-		isSpecialNode = false;
 		amt = 0;
 		requirements = new List<PlayerNode>();
+		learnable = true;
+		needPoint = 0;
 	}
 
 	public bool LearnNode()
 	{
+		if(!learnable)
+			return false;
+
 		bool res = true;
 
 		for (int i = 0; i < requirements.Count; i++)
@@ -43,31 +49,31 @@ public class PlayerNode : ScriptableObject
 
 		if (res)
 		{
-			if (isSpecialNode)
+			switch (nodeType) //@@@@@@@@스탯올려주기.
 			{
-				onLearn?.Invoke();
+				case StatUpgradeType.White:
+					break;
+				case StatUpgradeType.Black:
+					break;
+				case StatUpgradeType.Atk:
+					break;
+				case StatUpgradeType.MoveSpeed:
+					break;
+				case StatUpgradeType.CooldownRdc:
+					break;
+				case StatUpgradeType.Callback:
+					onLearn?.Invoke();
+					break;
+				default:
+					break;
 			}
-			else
-			{
-				switch (nodeType) //@@@@@@@@스탯올려주기.
-				{
-					case StatUpgradeType.White:
-						break;
-					case StatUpgradeType.Black:
-						break;
-					case StatUpgradeType.Atk:
-						break;
-					case StatUpgradeType.MoveSpeed:
-						break;
-					case StatUpgradeType.CooldownRdc:
-						break;
-					default:
-						break;
-				}
-			}
+			
+			//자원 소비시켜주기.
 		}
 
 		return res;
 		
 	}
+
+	
 }

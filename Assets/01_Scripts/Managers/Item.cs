@@ -72,6 +72,7 @@ public class Item // #################
 		return (Item)nameDataHashT[name.GetHashCode()];
 	}
 
+	public static Dictionary<Item, int> useCount = new Dictionary<Item, int>();
 
 	public int Id {get => MyName.GetHashCode();}
     protected string myName;

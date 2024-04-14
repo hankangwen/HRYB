@@ -13,7 +13,7 @@ public enum BtnState
 	Focused
 }
 
-public class ToolBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class ToolBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	private Image img;
 	public Sprite BtnUI;
@@ -85,10 +85,5 @@ public class ToolBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 	public void OnPointerExit(PointerEventData eventData)
 	{
 		Exit();
-	}
-
-	public void OnPointerClick(PointerEventData eventData)
-	{
-		//Click();
 	}
 }

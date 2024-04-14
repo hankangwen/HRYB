@@ -76,21 +76,17 @@ public class NodeCreater : EditorWindow
 
 		
 
-		EditorGUILayout.BeginHorizontal();
-		GUILayout.Label("특수 노드인가? : ");
-		EditorGUILayout.Space(10);
-		node.isSpecialNode = EditorGUILayout.Toggle(node.isSpecialNode);
-		EditorGUILayout.EndHorizontal();
 
-		if (!node.isSpecialNode)
+		EditorGUILayout.BeginHorizontal();
+		GUILayout.Label("노드 학습시 성장하는 스테이터스 : ");
+		node.nodeType = (StatUpgradeType)EditorGUILayout.IntPopup((int)node.nodeType, statUpgradeTypes.ToArray(), statUpgradeTypesValue.ToArray());
+		if(node.nodeType != StatUpgradeType.Callback)
 		{
-			EditorGUILayout.BeginHorizontal();
-			GUILayout.Label("노드 학습시 성장하는 스테이터스 : ");
-			node.nodeType = (StatUpgradeType)EditorGUILayout.IntPopup((int)node.nodeType, statUpgradeTypes.ToArray(), statUpgradeTypesValue.ToArray());
 			EditorGUILayout.Space(10);
 			node.amt = EditorGUILayout.FloatField("증가량 : ", node.amt);
-			EditorGUILayout.EndHorizontal();
 		}
+		EditorGUILayout.EndHorizontal();
+		
 
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.Space(20);

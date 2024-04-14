@@ -38,10 +38,10 @@ public class ToolBarManager : MonoBehaviour
 	private void Awake()
 	{
 		invenWindow = Inventory.GetComponent<IOpenableWindowUI>();
-		medicineWindow = Inventory.GetComponent<IOpenableWindowUI>();
-		questWindow = Inventory.GetComponent<IOpenableWindowUI>();
-		nodeWindow = Inventory.GetComponent<IOpenableWindowUI>();
-		settingWindow = Inventory.GetComponent<IOpenableWindowUI>();
+		medicineWindow = Medicine.GetComponent<IOpenableWindowUI>();
+		questWindow = Quest.GetComponent<IOpenableWindowUI>();
+		nodeWindow = Node.GetComponent<IOpenableWindowUI>();
+		settingWindow = Setting.GetComponent<IOpenableWindowUI>();
 
 		ToolOff();
 	}
@@ -57,14 +57,17 @@ public class ToolBarManager : MonoBehaviour
 
 	public void ChangeStatus(ToolState windowStat)
 	{
-		state = windowStat;
 		ToolOff();
-
+		if (curOpened != null)
+		{
+			curOpened.OnClose();
+		}
+		state = windowStat;
 		switch (state)
 		{
 			case ToolState.Inventory:
 				Inventory.SetActive(true);
-				if(invenWindow != null)
+				if (invenWindow != null)
 				{
 					curOpened = invenWindow;
 					curOpened.OnOpen();
