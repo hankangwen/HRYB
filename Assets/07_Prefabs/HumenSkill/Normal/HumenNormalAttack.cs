@@ -36,12 +36,12 @@ public class HumenNormalAttack : AttackBase
 	{
 
 
-		switch(evt.intParameter)
+		switch (evt.intParameter)
 		{
 			case 0:
 				{
 					GameObject obj = PoolManager.GetObject("HumenBullet", self.transform);
-					if(obj.TryGetComponent<YGArrow>(out YGArrow _yg))
+					if (obj.TryGetComponent<YGArrow>(out YGArrow _yg))
 					{
 						_yg.Ready(self, self.transform.position + self.transform.forward.normalized * 1,
 						(_pos, enemy, time) =>
@@ -58,7 +58,7 @@ public class HumenNormalAttack : AttackBase
 						});
 
 						_yg.Fire();
-					}	
+					}
 				}
 				break;
 			case 1:
@@ -101,18 +101,14 @@ public class HumenNormalAttack : AttackBase
 					{
 						_cols.Now(self.transform, (_life) =>
 						{
-							
+							DoDamage(_life.GetActor(), self, 0.4f, obj.transform.position);
 						});
 					}
 				}
 				break;
-			case 3:
-				{
-
-				}
-				break;
 		}
 	}
+
 
 	public override void OnAnimationMove(Actor self, AnimationEvent evt)
 	{
@@ -121,7 +117,7 @@ public class HumenNormalAttack : AttackBase
 
 	public override void OnAnimationEnd(Actor self, AnimationEvent evt)
 	{
-		
+
 	}
 
 	public override void OnAnimationStop(Actor self, AnimationEvent evt)
