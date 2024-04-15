@@ -56,7 +56,7 @@ public class UIManager : MonoBehaviour
 		questUI = canvas.GetComponentInChildren<QuestUICtrl>();
 		preInterUI = canvas.GetComponentInChildren<InterPrevUI>();
 		interingUI = canvas.GetComponentInChildren<InterProcessUI>();
-		detailer = canvas.GetComponentInChildren<NodeDetailUI>();
+		detailer = canvas.transform.Find("ToolPanel/Node/NodeDetail").GetComponent<NodeDetailUI>();
 
 		invenPanel.SetActive(true);
 		optionPanel.SetActive(false);

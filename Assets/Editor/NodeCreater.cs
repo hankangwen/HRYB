@@ -86,10 +86,20 @@ public class NodeCreater : EditorWindow
 			node.amt = EditorGUILayout.FloatField("증가량 : ", node.amt);
 		}
 		EditorGUILayout.EndHorizontal();
-		
 
 		EditorGUILayout.BeginHorizontal();
-		EditorGUILayout.Space(20);
+		if(GUILayout.Button(node.learnable ? "특수 조건을 사용하지 않는다." : "특수 조건을 사용한다."))
+		{
+			node.learnable = !node.learnable;
+		}
+
+		node.needPoint = EditorGUILayout.FloatField("필요 경험치 : ", node.needPoint);
+
+		EditorGUILayout.EndHorizontal();
+
+
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.Space(30);
 		if(GUILayout.Button("연결노드 추가하기"))
 		{
 			requirementVectors.Add(Vector2Int.zero);
