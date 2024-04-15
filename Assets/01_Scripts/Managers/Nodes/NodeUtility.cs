@@ -10,6 +10,8 @@ public enum StatUpgradeType
 	Atk,
 	MoveSpeed,
 	CooldownRdc,
+
+	Callback
 }
 
 public class NodeUtility
@@ -80,6 +82,47 @@ public class NodeUtility
 		return res;
 	}
 
+	public static string GetName(PlayerNode inf)
+	{
+		System.Text.StringBuilder sb = new System.Text.StringBuilder();
+		switch (inf.nodeType)
+		{
+			case StatUpgradeType.White:
+				sb.Append("양 + ");
+				sb.Append(inf.amt);
+				sb.Append("의");
+				break;
+			case StatUpgradeType.Black:
+				sb.Append("음 + ");
+				sb.Append(inf.amt);
+				sb.Append("의");
+				break;
+			case StatUpgradeType.Atk:
+				sb.Append("힘 + ");
+				sb.Append(inf.amt);
+				sb.Append("의");
+				break;
+			case StatUpgradeType.MoveSpeed:
+				sb.Append("신속 + ");
+				sb.Append(inf.amt);
+				sb.Append("의");
+				break;
+			case StatUpgradeType.CooldownRdc:
+				sb.Append("순환 + ");
+				sb.Append(inf.amt);
+				sb.Append("의");
+				break;
+			case StatUpgradeType.Callback:
+				sb.Append("특수 ");
+				break;
+			default:
+				break;
+		}
+		sb.Append("혈");
+
+		return sb.ToString();
+	}
+
 	public static string ToStringKorean(StatUpgradeType act)
 	{
 		switch (act)
@@ -94,6 +137,8 @@ public class NodeUtility
 				return "이동속도";
 			case StatUpgradeType.CooldownRdc:
 				return "쿨다운 감소";
+			case StatUpgradeType.Callback:
+				return "특수";
 			default:
 				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
 				return act.ToString();
