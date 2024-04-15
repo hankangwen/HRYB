@@ -21,6 +21,9 @@ public class QuestInfo : ScriptableObject
 	public UnityEvent onAssignedAction;
 	public UnityEvent onDismissedAction;
 
+	[Header("퀘스트 설명. 한 퀘스트당 하나")]
+	public string descriptions;
+
 	internal int curCompletedAmount;
 
 	public bool IsDeprived => completableCount >= 0 && curCompletedAmount >= completableCount;

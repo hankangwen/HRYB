@@ -17,51 +17,51 @@ public class InventoryUI : MonoBehaviour
 	{
 		if(this.name == "InventoryGroup")
 		{
-			for (int i = 0; i < GameManager.instance.pinven.cap - quickInven; i++)
-			{
-				Instantiate(GameManager.instance.pManager.invenSlot, this.transform);
-				//Debug.Log($"{i} : {GameManager.instance.pManager.invenSlot}");
-			}
+			//for (int i = 0; i < GameManager.instance.pinven.cap - quickInven; i++)
+			//{
+			//	Instantiate(GameManager.instance.pManager.invenSlot, this.transform);
+			//	//Debug.Log($"{i} : {GameManager.instance.pManager.invenSlot}");
+			//}
 
 			slotUI = GetComponentsInChildren<SlotUI>();
 			dragHandler = GetComponentsInChildren<DragHandler>();
 
-			for (int i = 0; i < GameManager.instance.pinven.cap - quickInven; i++)
-			{
-				slotUI[i].value = quickInven + i;
-				dragHandler[i].value = quickInven + i;
-			}
-		}
-		else if(this.name == "Quick InventoryGroup")
-		{
-			for (int i = 0; i < quickInven; i++)
-			{
-				Instantiate(GameManager.instance.pManager.invenSlot, this.transform);
-				//Debug.Log($"{i} : {GameManager.instance.pManager.invenSlot}");
-			}
-
-			slotUI = GetComponentsInChildren<SlotUI>();
-			dragHandler = GetComponentsInChildren<DragHandler>();
-
-			for (int i = 0; i < quickInven; i++)
+			for (int i = 0; i < GameManager.instance.pinven.cap; i++)
 			{
 				slotUI[i].value = i;
 				dragHandler[i].value = i;
 			}
 		}
-		else if(this.name == "QuickSlot")
-		{
-			for (int i = 0; i < quickInven; i++)
-			{
-				Instantiate(GameManager.instance.pManager.quickSlot, this.transform);
-				//Debug.Log($"{i} : {GameManager.instance.pManager.quickSlot}");
-			}
-			quickSlot = GetComponentsInChildren<QuickSlot>();
+		//else if(this.name == "Quick InventoryGroup")
+		//{
+		//	for (int i = 0; i < quickInven; i++)
+		//	{
+		//		Instantiate(GameManager.instance.pManager.invenSlot, this.transform);
+		//		//Debug.Log($"{i} : {GameManager.instance.pManager.invenSlot}");
+		//	}
+
+		//	slotUI = GetComponentsInChildren<SlotUI>();
+		//	dragHandler = GetComponentsInChildren<DragHandler>();
+
+		//	for (int i = 0; i < quickInven; i++)
+		//	{
+		//		slotUI[i].value = i;
+		//		dragHandler[i].value = i;
+		//	}
+		//}
+		//else if(this.name == "QuickSlot")
+		//{
+		//	for (int i = 0; i < quickInven; i++)
+		//	{
+		//		Instantiate(GameManager.instance.pManager.quickSlot, this.transform);
+		//		//Debug.Log($"{i} : {GameManager.instance.pManager.quickSlot}");
+		//	}
+		//	quickSlot = GetComponentsInChildren<QuickSlot>();
 	
-			for (int i = 0; i < quickInven; i++)
-			{
-				quickSlot[i].value = i;
-			}
-		}
+		//	for (int i = 0; i < quickInven; i++)
+		//	{
+		//		quickSlot[i].value = i;
+		//	}
+		//}
 	}
 }

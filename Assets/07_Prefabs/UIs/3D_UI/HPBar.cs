@@ -17,7 +17,7 @@ public class HPBar : MonoBehaviour
 		lf = GetComponentInParent<LifeModule>(); 
 	}
 
-	private void FixedUpdate()
+	private void LateUpdate()
 	{
 		_hpBar.fillAmount = lf.yy.white / lf.initYinYang.white;
 

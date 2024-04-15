@@ -50,6 +50,19 @@ public class EnemyMoveModule : MoveModule
 	public override void Move()
 	{
 		_isMove = true;
+
+		if (_isMove == true && _target != null && agent.enabled == true)
+		{
+
+			self.anim.SetMoveState(true);
+			UnityEngine.AI.NavMesh.SamplePosition(_target.transform.position, out UnityEngine.AI.NavMeshHit hit, 1f, UnityEngine.AI.NavMesh.AllAreas);
+			agent.SetDestination(hit.position);
+		}
+		else
+		{
+			self.anim.SetMoveState(false);
+			StopMove();
+		}
 	}
 
 	public override void FixedUpdate()
@@ -71,19 +84,6 @@ public class EnemyMoveModule : MoveModule
 				{
 					Character.enabled = false;
 					agent.enabled = true;
-
-					if (_isMove == true && _target != null && agent.enabled == true)
-					{
-
-						self.anim.SetMoveState(true);
-						UnityEngine.AI.NavMesh.SamplePosition(_target.transform.position, out UnityEngine.AI.NavMeshHit hit, 1f, UnityEngine.AI.NavMesh.AllAreas);
-						agent.SetDestination(hit.position);
-					}
-					else
-					{
-						self.anim.SetMoveState(false);
-						StopMove();
-					}
 				}
 			}
 		}
@@ -105,10 +105,6 @@ public class EnemyMoveModule : MoveModule
 
 	}
 
-	private void Update()
-	{
-
-	}
 
 	public void StopMove()
 	{

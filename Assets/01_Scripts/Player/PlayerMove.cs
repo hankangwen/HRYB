@@ -757,6 +757,8 @@ public class PlayerMove : MoveModule
 
 		foreach (var item in targetables)
 		{
+			if (!item)
+				continue;
 			Vector3 distVec = (item.transform.position - transform.position);
 			if(Vector3.Dot(distVec.normalized,  Camera.main.transform.forward) > pAttack.TargetMaxAngleCos)
 			{

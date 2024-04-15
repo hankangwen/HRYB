@@ -132,7 +132,7 @@ public class BrewPoint : CraftPoint
 			foreach (var item in result)
 			{
 				GameManager.instance.pinven.AddItem(item.info, item.num);
-				Debug.Log($"{item.info.MyName} 획득, {(item.info as YinyangItem).yy.ToString()}");
+				Debug.Log($"{item.info.MyName} 획득");
 			}
 		}
 		else
@@ -140,7 +140,7 @@ public class BrewPoint : CraftPoint
 			if (!GameManager.instance.pinven.isFull)
 			{
 				GameManager.instance.pinven.AddItem(resultItem, 1);
-				Debug.Log($"{resultItem.MyName} 획득, {(resultItem).yy.ToString()}");
+				Debug.Log($"{resultItem.MyName} 획득");
 			}
 		}
 		Initialize();
@@ -203,8 +203,8 @@ public class BrewPoint : CraftPoint
 				{
 					multDecMod += 1 / i;
 				}
-				YinYang brewed = (item.info as YinyangItem).yy * (1 / brewMaxSec) * multDecMod * varModifier; //추출 공식은 어떻게 되는가?
-				resultItem.yy += brewed;
+				//YinYang brewed = (item.info as YinyangItem).yy * (1 / brewMaxSec) * multDecMod * varModifier; //추출 공식은 어떻게 되는가?
+				//resultItem.yy += brewed;
 				//언제 능력이 더해지는가?
 			}
 		}

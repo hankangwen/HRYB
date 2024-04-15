@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class TitleBtn : MonoBehaviour
 {
@@ -10,20 +11,33 @@ public class TitleBtn : MonoBehaviour
 	public Sprite BtnUI;
 	public Sprite OnBtnUI;
 
+	private TMP_Text text;
+
+	public bool isTarget;
+
+	private void Awake()
+	{
+		isTarget = false;
+		img = GetComponent<Image>();
+		text = GetComponentInChildren<TMP_Text>();
+	}
 
 	private void Start()
 	{
-		img = GetComponent<Image>();
+		img.sprite = BtnUI;
+		text.color = Color.white;
 	}
 
 	public void Enter()
 	{
 		img.sprite = OnBtnUI;
+		text.color = Color.black;
 	}
 
 	public void Exit()
 	{
 		img.sprite = BtnUI;
+		text.color = Color.white;
 	}
 
 	public void GameStart()
@@ -36,5 +50,14 @@ public class TitleBtn : MonoBehaviour
 		Application.Quit();
 		Debug.Log("끝");
 
+	}
+	
+	private void Update()
+	{
+		if(isTarget) 
+		{
+			img.sprite = OnBtnUI;
+			text.color = Color.black;
+		}
 	}
 }

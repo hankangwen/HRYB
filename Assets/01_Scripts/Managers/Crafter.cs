@@ -19,7 +19,7 @@ public struct ItemAmountPair
 
     public ItemAmountPair(string name, int cnt = 1)
 	{
-        info = Item.nameDataHashT[name.GetHashCode()] as Item;
+        info = Item.GetItem(name);
         num = cnt;
 	}
 
@@ -47,6 +47,21 @@ public struct ItemAmountPair
 	public InventoryItem ToInven()
 	{
 		return new InventoryItem(info, num);
+	}
+
+	public override bool Equals(object obj)
+	{
+		return obj is ItemAmountPair amt && amt.info == info && amt.num == num;
+	}
+
+	public override int GetHashCode()
+	{
+		return HashCode.Combine(info, num);
+	}
+
+	public override string ToString()
+	{
+		return base.ToString();
 	}
 }
 
@@ -145,6 +160,7 @@ public class Crafter
 	public static Hashtable recipeItemTableTrim = new Hashtable()
 	{
 		{ new ItemAmountPair("녹각") , new HashSet<ItemAmountPair>{ new ItemAmountPair("녹용", 3) } },
+		{ new ItemAmountPair("산삼") , new HashSet<ItemAmountPair>{ new ItemAmountPair("잘린 산삼", 3) } },
 	};
 
 	public static void AddRecipe(ItemAmountPair resItem, Recipe recipe)

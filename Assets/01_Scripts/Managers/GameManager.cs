@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public enum CamStatus
 {
@@ -482,10 +483,10 @@ public class GameManager : MonoBehaviour
 		return decodedDatas;
 	}
 
-	public void CraftWithUI()
-	{
-		craftManager.crafter.CraftWith( uiManager.crafterUI.curRecipe);
-	}
+	//public void CraftWithUI()
+	//{
+	//	craftManager.crafter.CraftWith( uiManager.crafterUI.curRecipe);
+	//}
 
 	public void TPToOutCave()
 	{
@@ -508,6 +509,17 @@ public class GameManager : MonoBehaviour
 		{
 			player.GetComponent<PlayerAttack>().SetDamage(3);
 		}
+		if (Input.GetKeyDown(KeyCode.Semicolon))
+		{
+			MinigameManager.UnloadMinigame();
+		}
+
+		if (Input.GetKeyDown(KeyCode.Minus))
+		{
+			pinven.AddItem(Item.GetItem("산삼"));
+			MinigameManager.LoadMinigame(Minigames.Frying, new ItemAmountPair("산삼"));
+		}
+
 
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{

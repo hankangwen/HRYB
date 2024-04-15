@@ -263,7 +263,7 @@ public class PlayerInven : MonoBehaviour
 {
     public Inventory inven;
 	public SkillInventory skInven = new SkillInventory();
-    public int cap = 21;
+    public int cap = 30;
 
 	public string swapEffectName;
 	public Vector3 swapEffectRot;

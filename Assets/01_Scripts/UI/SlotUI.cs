@@ -69,13 +69,13 @@ public class SlotUI : MonoBehaviour,IDropHandler, IPointerClickHandler
 		if(items.info != null)
 		{
 			Debug.Log("YESITEM");
-			GameManager.instance.uiManager.infoUI.OnWithInfo(items.info);
-			GameManager.instance.uiManager.crafterUI.Off();
+			//GameManager.instance.uiManager.infoUI.OnWithInfo(items.info);
+			//GameManager.instance.uiManager.crafterUI.Off();
 		}
 		else
 		{
-			GameManager.instance.uiManager.infoUI.Off();
-			GameManager.instance.uiManager.crafterUI.On();
+			//GameManager.instance.uiManager.infoUI.Off();
+			//GameManager.instance.uiManager.crafterUI.On();
 			Debug.Log("NOITEM");
 		}
 	}

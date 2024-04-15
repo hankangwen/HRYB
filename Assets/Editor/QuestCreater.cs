@@ -339,6 +339,12 @@ public class QuestCreater : EditorWindow
 		EditorGUILayout.EndHorizontal();
 
 
+		EditorGUILayout.BeginHorizontal();
+		GUILayout.Label("퀘스트 설명 : ");
+		info.descriptions = EditorGUILayout.TextArea(info.descriptions);
+		EditorGUILayout.EndHorizontal();
+
+
 		if (info.questName == "" || info.questName == null)
 		{
 			sb.AppendLine($"퀘스트 이름이 없습니다.");
@@ -391,6 +397,7 @@ public class QuestCreater : EditorWindow
 			}
 			if (GUILayout.Button("저장하고 작업 종료..."))
 			{
+				EditorUtility.SetDirty(info);
 				Close();
 			}
 			EditorGUILayout.EndHorizontal();
@@ -403,7 +410,7 @@ public class QuestCreater : EditorWindow
 			{
 				EditorUtility.SetDirty(info);
 				originalInfo = new QuestInfo(info);
-
+				Debug.Log(info.descriptions);
 			}
 			if (GUILayout.Button("수정사항 취소하기..."))
 			{
@@ -422,6 +429,7 @@ public class QuestCreater : EditorWindow
 			}
 			if (GUILayout.Button("수정사항 저장하고 작업 종료..."))
 			{
+				EditorUtility.SetDirty(info);
 				originalInfo = null;
 				Close();
 			}

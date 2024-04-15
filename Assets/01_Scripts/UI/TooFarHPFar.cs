@@ -25,10 +25,6 @@ public class TooFarHPFar : MonoBehaviour
 	private void Start()
 	{
 		obj = GameManager.instance.bHPManager.HideHP(this.transform);
-	}
-
-	private void FixedUpdate()
-	{
 		Collider.radius = Range;
 	}
 
