@@ -20,5 +20,7 @@ public interface IAnimationEventActor
 
 	public void OnAnimationStop(Actor self, AnimationEvent evt);
 	public void OnAnimationEnd(Actor self, AnimationEvent evt);
+
+	public void OnAnimationHit(Actor self, AnimationEvent evt);
 }
 

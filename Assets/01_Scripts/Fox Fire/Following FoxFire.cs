@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -40,7 +41,7 @@ public class FollowingFoxFire : MonoBehaviour
 	public float orbitJitterFreq = 1.3f;
 	public float orbitJitterPower = 0.3f;
 
-	public float maxAccDmg = 10000;
+	//public float maxAccDmg = 10000;
 	public float dmgRate = 0.2f;
 	public float maxExpDmg = 2000;
 
@@ -62,7 +63,10 @@ public class FollowingFoxFire : MonoBehaviour
 
 	private WaitForSeconds wait = new WaitForSeconds(0.1f);
 	private WaitForSeconds stopWait = new WaitForSeconds(1f);
-	private SkillRoot prevLClickAttack;
+	//private SkillRoot prevLClickAttack;
+
+	public bool _isBomb = false;
+	public bool _isTargeting = false;
 
     void Awake()
     {
@@ -143,8 +147,9 @@ public class FollowingFoxFire : MonoBehaviour
 			mode = FoxFireMode.Attatched;
 
 			StatusEffects.ApplyStat(target, GameManager.instance.pActor, StatEffID.FoxBewitched, -1);
-			prevLClickAttack = (GameManager.instance.pActor.cast as PlayerCast).ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("ExplodeFoxFire"), SkillSlotInfo.LClick, PlayerForm.Magic);
-			Debug.Log($"CHANGED ATK TO : explode FROM : {prevLClickAttack}");
+			//prevLClickAttack = (GameManager.instance.pActor.cast as PlayerCast).ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("ExplodeFoxFire"), SkillSlotInfo.LClick, PlayerForm.Magic);
+			//Debug.Log($"CHANGED ATK TO : explode FROM : {prevLClickAttack}");
+			_isTargeting = true;
 		}
 	}
 
@@ -173,12 +178,14 @@ public class FollowingFoxFire : MonoBehaviour
 		{
 			orbitTarget.life.RemoveAllStatEff(StatEffID.FoxBewitched);
 		}
-		if (prevLClickAttack)
+		// if (prevLClickAttack)
 		{
-			(GameManager.instance.pActor.cast as PlayerCast).ConnectSkillDataTo(prevLClickAttack, SkillSlotInfo.LClick, PlayerForm.Magic);
-			Debug.Log($"ATTACK ROLLBACK TO : {prevLClickAttack}");
-			prevLClickAttack = null;
+			// (GameManager.instance.pActor.cast as PlayerCast).ConnectSkillDataTo(prevLClickAttack, SkillSlotInfo.LClick, PlayerForm.Magic);
+			// Debug.Log($"ATTACK ROLLBACK TO : {prevLClickAttack}");
+			//prevLClickAttack = null;
 		}
+		_isBomb = false;
+		_isTargeting = false;
 		accDmg = 0;
 		orbitTarget = null;
 	}
@@ -251,8 +258,10 @@ public class FollowingFoxFire : MonoBehaviour
 		{
 			Debug.Log("DAMAGE ADDED : " + dmg.white);
 			accDmg += dmg.white;
-			if(accDmg > maxAccDmg)
+			// if(accDmg > maxAccDmg)
+			if(_isBomb) 
 			{
+				_isBomb = false;
 				Explode();
 			}
 		}
