@@ -78,7 +78,7 @@ public class UIManager : MonoBehaviour
 		
 	}
 
-	public void OnInven(InputAction.CallbackContext context)
+	public void OnInventory(InputAction.CallbackContext context)
 	{
 		if (context.performed)
 		{
