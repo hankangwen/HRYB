@@ -2483,14 +2483,22 @@ Shader "Custom/StandardLayered"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
 
-			
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_TANGENT
+			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_VERT_TANGENT
+			#define ASE_NEEDS_FRAG_COLOR
+			#pragma shader_feature_local _VERTEXCOLORCHANNEL_R _VERTEXCOLORCHANNEL_G _VERTEXCOLORCHANNEL_B _VERTEXCOLORCHANNEL_A
+
 
 			struct VertexInput
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_tangent : TANGENT;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2505,7 +2513,9 @@ Shader "Custom/StandardLayered"
 				#endif
 				float3 worldNormal : TEXCOORD2;
 				float4 worldTangent : TEXCOORD3;
-				
+				float4 ase_texcoord4 : TEXCOORD4;
+				float4 ase_texcoord5 : TEXCOORD5;
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -2562,7 +2572,10 @@ Shader "Custom/StandardLayered"
 				int _PassValue;
 			#endif
 
-			
+			sampler2D _BumpMap;
+			sampler2D _DetailNormalMap1;
+			sampler2D _DetailNormalMap;
+
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/DepthNormalsOnlyPass.hlsl"
@@ -2571,7 +2584,42 @@ Shader "Custom/StandardLayered"
 			//#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/VisualEffectVertex.hlsl"
 			//#endif
 
+			inline float3 TriplanarSampling150( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				xNorm.xyz  = half3( UnpackNormalScale( xNorm, normalScale.y ).xy * float2(  nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
+				yNorm.xyz  = half3( UnpackNormalScale( yNorm, normalScale.x ).xy * float2(  nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
+				zNorm.xyz  = half3( UnpackNormalScale( zNorm, normalScale.y ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
+				return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
+			}
 			
+			inline float3 TriplanarSampling63( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				xNorm.xyz  = half3( UnpackNormalScale( xNorm, normalScale.y ).xy * float2(  nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
+				yNorm.xyz  = half3( UnpackNormalScale( yNorm, normalScale.x ).xy * float2(  nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
+				zNorm.xyz  = half3( UnpackNormalScale( zNorm, normalScale.y ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
+				return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
+			}
+			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -2579,7 +2627,18 @@ Shader "Custom/StandardLayered"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
+				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
+				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
+				o.ase_texcoord5.xyz = ase_worldBitangent;
 				
+				o.ase_texcoord4.xy = v.ase_texcoord.xy;
+				o.ase_color = v.ase_color;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord4.zw = 0;
+				o.ase_texcoord5.w = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -2625,7 +2684,9 @@ Shader "Custom/StandardLayered"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_tangent : TANGENT;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_color : COLOR;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2643,7 +2704,8 @@ Shader "Custom/StandardLayered"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_tangent = v.ase_tangent;
-				
+				o.ase_texcoord = v.ase_texcoord;
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -2683,7 +2745,8 @@ Shader "Custom/StandardLayered"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2736,9 +2799,50 @@ Shader "Custom/StandardLayered"
 					#endif
 				#endif
 
+				float2 uv_BumpMap = IN.ase_texcoord4.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
+				float3 unpack3 = UnpackNormalScale( tex2D( _BumpMap, uv_BumpMap ), _NormalPower );
+				unpack3.z = lerp( 1, unpack3.z, saturate(_NormalPower) );
+				float2 appendResult146 = (float2(_Tiling2 , _Tiling2));
+				float2 WorldSpaceSecondMaps147 = appendResult146;
+				float3 ase_worldBitangent = IN.ase_texcoord5.xyz;
+				float3x3 ase_worldToTangent = float3x3(WorldTangent.xyz,ase_worldBitangent,WorldNormal);
+				float3 triplanar150 = TriplanarSampling150( _DetailNormalMap1, WorldPosition, WorldNormal, 1.0, WorldSpaceSecondMaps147, _SecondNormalPower, 0 );
+				float3 tanTriplanarNormal150 = mul( ase_worldToTangent, triplanar150 );
+				float3 temp_output_138_0 = BlendNormal( unpack3 , tanTriplanarNormal150 );
+				float2 appendResult71 = (float2(_Tiling , _Tiling));
+				float2 WorldSpaceDeposit48 = appendResult71;
+				float3 triplanar63 = TriplanarSampling63( _DetailNormalMap, WorldPosition, WorldNormal, 1.0, WorldSpaceDeposit48, _2ndNormalPower, 0 );
+				float3 tanTriplanarNormal63 = mul( ase_worldToTangent, triplanar63 );
+				float3 tanToWorld0 = float3( WorldTangent.xyz.x, ase_worldBitangent.x, WorldNormal.x );
+				float3 tanToWorld1 = float3( WorldTangent.xyz.y, ase_worldBitangent.y, WorldNormal.y );
+				float3 tanToWorld2 = float3( WorldTangent.xyz.z, ase_worldBitangent.z, WorldNormal.z );
+				float3 tanNormal14 = tanTriplanarNormal63;
+				float3 worldNormal14 = float3(dot(tanToWorld0,tanNormal14), dot(tanToWorld1,tanNormal14), dot(tanToWorld2,tanNormal14));
+				float4 temp_cast_0 = (worldNormal14.y).xxxx;
+				#if defined(_VERTEXCOLORCHANNEL_R)
+				float staticSwitch162 = IN.ase_color.r;
+				#elif defined(_VERTEXCOLORCHANNEL_G)
+				float staticSwitch162 = IN.ase_color.g;
+				#elif defined(_VERTEXCOLORCHANNEL_B)
+				float staticSwitch162 = IN.ase_color.b;
+				#elif defined(_VERTEXCOLORCHANNEL_A)
+				float staticSwitch162 = IN.ase_color.a;
+				#else
+				float staticSwitch162 = IN.ase_color.b;
+				#endif
+				float saferPower109 = abs( staticSwitch162 );
+				float4 temp_cast_1 = (pow( saferPower109 , _LayerPosition )).xxxx;
+				float4 clampResult105 = clamp( CalculateContrast(_LayerContrast,temp_cast_1) , float4( 0,0,0,0 ) , float4( 1,1,1,0 ) );
+				float4 temp_cast_2 = (( 1.0 - _LayerPower )).xxxx;
+				float4 temp_cast_3 = ((0.001 + (_LayerThreshold - 0.0) * (1.0 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 BlendAlpha85 = pow( saturate( ( (( _UseVertexColor )?( ( pow( clampResult105 , temp_cast_2 ) * clampResult105 ) ):( temp_cast_0 )) + _LayerPower ) ) , temp_cast_3 );
+				float3 lerpResult13 = lerp( temp_output_138_0 , tanTriplanarNormal63 , BlendAlpha85.rgb);
+				float4 color81 = IsGammaSpace() ? float4(0.01176471,0,1,1) : float4(0.0009105813,0,1,1);
+				float4 lerpResult78 = lerp( color81 , float4( tanTriplanarNormal63 , 0.0 ) , BlendAlpha85);
+				float3 Normal118 = (( _BlendNormals )?( BlendNormal( temp_output_138_0 , lerpResult78.rgb ) ):( lerpResult13 ));
 				
 
-				float3 Normal = float3(0, 0, 1);
+				float3 Normal = Normal118;
 				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -2852,7 +2956,14 @@ Shader "Custom/StandardLayered"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_TANGENT
+			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
+			#define ASE_NEEDS_FRAG_COLOR
+			#pragma shader_feature_local _SEEVERTEXCOLORS_ON
+			#pragma shader_feature_local _VERTEXCOLORCHANNEL_R _VERTEXCOLORCHANNEL_G _VERTEXCOLORCHANNEL_B _VERTEXCOLORCHANNEL_A
+
 
 			struct VertexInput
 			{
@@ -2862,7 +2973,7 @@ Shader "Custom/StandardLayered"
 				float4 texcoord : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -2883,7 +2994,8 @@ Shader "Custom/StandardLayered"
 				#if defined(DYNAMICLIGHTMAP_ON)
 				float2 dynamicLightmapUV : TEXCOORD7;
 				#endif
-				
+				float4 ase_texcoord8 : TEXCOORD8;
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -2940,13 +3052,105 @@ Shader "Custom/StandardLayered"
 				int _PassValue;
 			#endif
 
-			
+			sampler2D _MainTex;
+			sampler2D _SecondAlbedo;
+			sampler2D _DetailAlbedoMap;
+			sampler2D _DetailNormalMap;
+			sampler2D _BumpMap;
+			sampler2D _DetailNormalMap1;
+			sampler2D _MetallicGlossMap;
+			sampler2D _DetailNormalMap2;
+			sampler2D _DetailMetallicGlossMap;
+
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/PBRGBufferPass.hlsl"
 
+			inline float4 TriplanarSampling148( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
 			
+			inline float4 TriplanarSampling60( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float3 TriplanarSampling63( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				xNorm.xyz  = half3( UnpackNormalScale( xNorm, normalScale.y ).xy * float2(  nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
+				yNorm.xyz  = half3( UnpackNormalScale( yNorm, normalScale.x ).xy * float2(  nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
+				zNorm.xyz  = half3( UnpackNormalScale( zNorm, normalScale.y ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
+				return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
+			}
+			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+			inline float3 TriplanarSampling150( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				xNorm.xyz  = half3( UnpackNormalScale( xNorm, normalScale.y ).xy * float2(  nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
+				yNorm.xyz  = half3( UnpackNormalScale( yNorm, normalScale.x ).xy * float2(  nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
+				zNorm.xyz  = half3( UnpackNormalScale( zNorm, normalScale.y ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
+				return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
+			}
+			
+			inline float4 TriplanarSampling152( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+			inline float4 TriplanarSampling65( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+			{
+				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
+				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
+				float3 nsign = sign( worldNormal );
+				half4 xNorm; half4 yNorm; half4 zNorm;
+				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
+				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
+				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
+				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
+			}
+			
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -2954,7 +3158,11 @@ Shader "Custom/StandardLayered"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_texcoord8.xy = v.texcoord.xy;
+				o.ase_color = v.ase_color;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord8.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -3027,7 +3235,8 @@ Shader "Custom/StandardLayered"
 				float4 texcoord : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				
+				float4 ase_color : COLOR;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3048,7 +3257,7 @@ Shader "Custom/StandardLayered"
 				o.texcoord = v.texcoord;
 				o.texcoord1 = v.texcoord1;
 				o.texcoord2 = v.texcoord2;
-				
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -3091,7 +3300,7 @@ Shader "Custom/StandardLayered"
 				o.texcoord = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
 				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
 				o.texcoord2 = patch[0].texcoord2 * bary.x + patch[1].texcoord2 * bary.y + patch[2].texcoord2 * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3159,15 +3368,80 @@ Shader "Custom/StandardLayered"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
+				float2 uv_MainTex = IN.ase_texcoord8.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				float2 appendResult146 = (float2(_Tiling2 , _Tiling2));
+				float2 WorldSpaceSecondMaps147 = appendResult146;
+				float4 triplanar148 = TriplanarSampling148( _SecondAlbedo, WorldPosition, WorldNormal, 1.0, WorldSpaceSecondMaps147, 1.0, 0 );
+				float2 appendResult71 = (float2(_Tiling , _Tiling));
+				float2 WorldSpaceDeposit48 = appendResult71;
+				float4 triplanar60 = TriplanarSampling60( _DetailAlbedoMap, WorldPosition, WorldNormal, 1.0, WorldSpaceDeposit48, 1.0, 0 );
+				float3x3 ase_worldToTangent = float3x3(WorldTangent,WorldBiTangent,WorldNormal);
+				float3 triplanar63 = TriplanarSampling63( _DetailNormalMap, WorldPosition, WorldNormal, 1.0, WorldSpaceDeposit48, _2ndNormalPower, 0 );
+				float3 tanTriplanarNormal63 = mul( ase_worldToTangent, triplanar63 );
+				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
+				float3 tanToWorld1 = float3( WorldTangent.y, WorldBiTangent.y, WorldNormal.y );
+				float3 tanToWorld2 = float3( WorldTangent.z, WorldBiTangent.z, WorldNormal.z );
+				float3 tanNormal14 = tanTriplanarNormal63;
+				float3 worldNormal14 = float3(dot(tanToWorld0,tanNormal14), dot(tanToWorld1,tanNormal14), dot(tanToWorld2,tanNormal14));
+				float4 temp_cast_2 = (worldNormal14.y).xxxx;
+				#if defined(_VERTEXCOLORCHANNEL_R)
+				float staticSwitch162 = IN.ase_color.r;
+				#elif defined(_VERTEXCOLORCHANNEL_G)
+				float staticSwitch162 = IN.ase_color.g;
+				#elif defined(_VERTEXCOLORCHANNEL_B)
+				float staticSwitch162 = IN.ase_color.b;
+				#elif defined(_VERTEXCOLORCHANNEL_A)
+				float staticSwitch162 = IN.ase_color.a;
+				#else
+				float staticSwitch162 = IN.ase_color.b;
+				#endif
+				float saferPower109 = abs( staticSwitch162 );
+				float4 temp_cast_3 = (pow( saferPower109 , _LayerPosition )).xxxx;
+				float4 clampResult105 = clamp( CalculateContrast(_LayerContrast,temp_cast_3) , float4( 0,0,0,0 ) , float4( 1,1,1,0 ) );
+				float4 temp_cast_4 = (( 1.0 - _LayerPower )).xxxx;
+				float4 temp_cast_5 = ((0.001 + (_LayerThreshold - 0.0) * (1.0 - 0.001) / (1.0 - 0.0))).xxxx;
+				float4 BlendAlpha85 = pow( saturate( ( (( _UseVertexColor )?( ( pow( clampResult105 , temp_cast_4 ) * clampResult105 ) ):( temp_cast_2 )) + _LayerPower ) ) , temp_cast_5 );
+				float4 lerpResult26 = lerp( ( _Color * ( tex2D( _MainTex, uv_MainTex ) * triplanar148 ) ) , ( _2ndColor * triplanar60 ) , BlendAlpha85);
+				#ifdef _SEEVERTEXCOLORS_ON
+				float4 staticSwitch165 = IN.ase_color;
+				#else
+				float4 staticSwitch165 = lerpResult26;
+				#endif
+				float4 Albedo116 = staticSwitch165;
+				
+				float2 uv_BumpMap = IN.ase_texcoord8.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
+				float3 unpack3 = UnpackNormalScale( tex2D( _BumpMap, uv_BumpMap ), _NormalPower );
+				unpack3.z = lerp( 1, unpack3.z, saturate(_NormalPower) );
+				float3 triplanar150 = TriplanarSampling150( _DetailNormalMap1, WorldPosition, WorldNormal, 1.0, WorldSpaceSecondMaps147, _SecondNormalPower, 0 );
+				float3 tanTriplanarNormal150 = mul( ase_worldToTangent, triplanar150 );
+				float3 temp_output_138_0 = BlendNormal( unpack3 , tanTriplanarNormal150 );
+				float3 lerpResult13 = lerp( temp_output_138_0 , tanTriplanarNormal63 , BlendAlpha85.rgb);
+				float4 color81 = IsGammaSpace() ? float4(0.01176471,0,1,1) : float4(0.0009105813,0,1,1);
+				float4 lerpResult78 = lerp( color81 , float4( tanTriplanarNormal63 , 0.0 ) , BlendAlpha85);
+				float3 Normal118 = (( _BlendNormals )?( BlendNormal( temp_output_138_0 , lerpResult78.rgb ) ):( lerpResult13 ));
+				
+				float2 uv_MetallicGlossMap = IN.ase_texcoord8.xy * _MetallicGlossMap_ST.xy + _MetallicGlossMap_ST.zw;
+				float4 tex2DNode7 = tex2D( _MetallicGlossMap, uv_MetallicGlossMap );
+				float4 triplanar152 = TriplanarSampling152( _DetailNormalMap2, WorldPosition, WorldNormal, 1.0, WorldSpaceSecondMaps147, 1.0, 0 );
+				float4 triplanar65 = TriplanarSampling65( _DetailMetallicGlossMap, WorldPosition, WorldNormal, 1.0, WorldSpaceDeposit48, 1.0, 0 );
+				float lerpResult30 = lerp( ( tex2DNode7.r * triplanar152.x ) , triplanar65.x , BlendAlpha85.r);
+				float Metallic120 = ( lerpResult30 + _MetallicPower );
+				
+				float lerpResult31 = lerp( ( tex2DNode7.a * triplanar152.a ) , triplanar65.a , BlendAlpha85.r);
+				float Smoothness121 = ( lerpResult31 * _SmoothnessPower );
+				
+				float lerpResult33 = lerp( ( tex2DNode7.g * triplanar152.g ) , triplanar65.g , BlendAlpha85.r);
+				float saferPower174 = abs( lerpResult33 );
+				float Occlusion122 = pow( saferPower174 , _OcclusionPower );
 				
 
-				float3 BaseColor = float3(0.5, 0.5, 0.5);
-				float3 Normal = float3(0, 0, 1);
+				float3 BaseColor = Albedo116.rgb;
+				float3 Normal = Normal118;
 				float3 Emission = 0;
 				float3 Specular = 0.5;
-				float Metallic = 0;
-				float Smoothness = 0.5;
-				float Occlusion = 1;
+				float Metallic = Metallic120;
+				float Smoothness = Smoothness121;
+				float Occlusion = Occlusion122;
 				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
@@ -3807,8 +4081,8 @@ Shader "Custom/StandardLayered"
 }
 /*ASEBEGIN
 Version=19105
-Node;AmplifyShaderEditor.CommentaryNode;115;-4224,384;Inherit;False;3409.094;635.7684;Deposit Mask;19;85;24;17;25;16;35;14;93;72;105;73;112;22;113;109;34;110;162;163;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;114;-3584,-2176;Inherit;False;604;191;World-Space UVs - Deposit;3;48;71;54;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;115;-4224,384;Inherit;False;3409.094;635.7684;Deposit Mask;0;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;114;-3584,-2176;Inherit;False;604;191;World-Space UVs - Deposit;0;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.VertexColorNode;34;-4144,640;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.StaticSwitch;162;-3968,640;Inherit;False;Property;_VertexColorChannel;Vertex Color Channel;14;0;Create;True;0;0;0;False;0;False;0;2;2;True;;KeywordEnum;4;R;G;B;A;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;110;-3968,832;Inherit;False;Property;_LayerPosition;Layer Position;17;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
@@ -3816,7 +4090,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;54;-3536,-2112;Inherit;False;Property;_
 Node;AmplifyShaderEditor.RangedFloatNode;113;-3712,896;Inherit;False;Property;_LayerContrast;Layer Contrast;18;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.PowerNode;109;-3712,688;Inherit;False;True;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;71;-3376,-2112;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.CommentaryNode;128;-4224,-768;Inherit;False;2687.375;1026.049;Normals;19;118;76;3;150;63;52;9;64;141;139;8;151;75;13;78;87;138;81;86;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;128;-4224,-768;Inherit;False;2687.375;1026.049;Normals;0;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;48;-3232,-2112;Inherit;False;WorldSpaceDeposit;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RangedFloatNode;22;-3328,480;Float;False;Property;_LayerPower;Layer Power;15;0;Create;True;0;0;0;False;1;Space(10);False;0.5;0.5;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleContrastOpNode;112;-3456,784;Inherit;False;2;1;COLOR;0,0,0,0;False;0;FLOAT;0;False;1;COLOR;0
@@ -3827,14 +4101,14 @@ Node;AmplifyShaderEditor.TexturePropertyNode;64;-4192,-288;Inherit;True;Property
 Node;AmplifyShaderEditor.ClampOpNode;105;-3200,784;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;1,1,1,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.PowerNode;72;-2848,592;Inherit;True;False;2;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;1;COLOR;0
 Node;AmplifyShaderEditor.TriplanarNode;63;-3584,-256;Inherit;True;Spherical;World;True;Top Texture 1;_TopTexture1;white;-1;None;Mid Texture 1;_MidTexture1;white;-1;None;Bot Texture 1;_BotTexture1;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.CommentaryNode;144;-4223.918,-2173.562;Inherit;False;610;189;World-Space UVs - Second Maps;3;147;146;145;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;144;-4223.918,-2173.562;Inherit;False;610;189;World-Space UVs - Second Maps;0;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.RangedFloatNode;145;-4175.918,-2109.562;Inherit;False;Property;_Tiling2;Tiling;12;0;Create;False;0;0;0;False;0;False;1;0.002;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldNormalVector;14;-2336,544;Inherit;True;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;93;-2592,752;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.DynamicAppendNode;146;-4015.918,-2109.562;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.ToggleSwitchNode;35;-1984,736;Inherit;False;Property;_UseVertexColor;Use Vertex Color;13;0;Create;True;0;0;0;False;3;Space(10);Header(Layer);Space(10);False;0;True;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;25;-1600,720;Float;False;Property;_LayerThreshold;Layer Threshold;16;0;Create;True;0;0;0;False;0;False;50;50;0;50;0;1;FLOAT;0
-Node;AmplifyShaderEditor.CommentaryNode;129;-4224,-1920;Inherit;False;1990.061;1061.969;Diffuse / Colors;17;116;164;165;26;12;88;10;11;134;2;60;1;148;61;49;140;149;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;129;-4224,-1920;Inherit;False;1990.061;1061.969;Diffuse / Colors;0;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;16;-1728,464;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;147;-3871.918,-2109.562;Inherit;False;WorldSpaceSecondMaps;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.GetLocalVarNode;140;-4192,-1360;Inherit;False;147;WorldSpaceSecondMaps;1;0;OBJECT;;False;1;FLOAT2;0
@@ -3858,7 +4132,7 @@ Node;AmplifyShaderEditor.VertexColorNode;164;-2864,-1280;Inherit;False;0;5;COLOR
 Node;AmplifyShaderEditor.LerpOp;26;-2944,-1552;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;165;-2688,-1408;Inherit;False;Property;_SeeVertexColors;See Vertex Colors;26;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;116;-2432,-1408;Inherit;False;Albedo;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.CommentaryNode;127;-4224,1152;Inherit;False;2301.409;1022.124;Metallic / Smoothness / Occlusion;22;120;121;122;30;31;33;136;65;135;137;90;7;66;50;152;142;153;166;170;169;172;174;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;127;-4224,1152;Inherit;False;2301.409;1022.124;Metallic / Smoothness / Occlusion;0;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.BlendNormalsNode;75;-2432,-224;Inherit;True;0;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;142;-4096,1632;Inherit;False;147;WorldSpaceSecondMaps;1;0;OBJECT;;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SamplerNode;7;-3712,1200;Inherit;True;Property;_MetallicGlossMap;Metallic (R) Occlusion (G) Smoothness (A);4;0;Create;False;0;0;0;False;0;False;-1;None;6a9731325dc22434da0ea5d390c1095f;True;0;False;black;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -4012,4 +4286,4 @@ WireConnection;176;3;123;0
 WireConnection;176;4;124;0
 WireConnection;176;5;125;0
 ASEEND*/
-//CHKSM=C7CFA70AE261A897697D3AC70475624C4B5AD7A4
+//CHKSM=F8D96DD70F97F1A7A9D6B1A004F4B39D4AE86D10
