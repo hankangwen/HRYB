@@ -14,9 +14,9 @@ public class YGArrow : MonoBehaviour
 	Vector3 _pos;
 	Actor _owner;
 	Transform _target;
-
+	Vector3 _shootDir;
 	bool _isFire = false;
-
+	bool _isFollow = false;
 	float _currentTime = 0;
 
 	private void OnEnable()
@@ -25,7 +25,7 @@ public class YGArrow : MonoBehaviour
 		_isFire = false;
 	}
 
-	public void Ready(Actor owner, Vector3 pos, Action<Vector3, Vector3, float> moveAction = null, Action<LifeModule> act = null, Action<Transform, LifeModule> act2 = null, float duration = 3f)
+	public void Ready(Actor owner, Vector3 pos, Action<Vector3, Vector3, float> moveAction = null, Action<LifeModule> act = null, Action<Transform, LifeModule> act2 = null, bool isFollow = true, float duration = 3f)
 	{
 		_pos = pos;
 		transform.position = _pos;
@@ -33,6 +33,7 @@ public class YGArrow : MonoBehaviour
 		_Act2 = act2;
 		_lifeTime = duration;
 		tls = moveAction;
+		_isFollow = isFollow;
 		_owner = owner;
 	}
 
@@ -43,10 +44,14 @@ public class YGArrow : MonoBehaviour
 		transform.parent = null;
 		_isFire = true;
 		_currentTime = 0;
-		if(_owner.atk.target != null)
+		if(_owner.atk.target != null && _isFollow )
 		{
 			SetTarget(_owner.atk.target.transform);
 
+		}
+		else
+		{
+			_shootDir = _owner.transform.forward.normalized;
 		}
 	}
 
@@ -69,13 +74,13 @@ public class YGArrow : MonoBehaviour
 		if(_isFire)
 		{
 			_currentTime += Time.deltaTime;
-			if(tls != null && _owner.atk.target != null)
+			if(tls != null && _target != null)
 			{
 				tls.Invoke(_pos, _target.position, _currentTime);
 			}
 			else
 			{
-				transform.position += _owner.transform.forward.normalized * 8 * Time.deltaTime;
+				transform.position +=_shootDir * 8 * Time.deltaTime;
 				//tls.Invoke(_pos, , _currentTime);
 			}
 		}

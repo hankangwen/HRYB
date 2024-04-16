@@ -128,6 +128,7 @@ public class HumenNormalAttack : AttackBase
 						(_life) =>
 						{
 							DoDamage(_life.GetActor(), self, obj.transform.position);
+							_life.GetActor().move.forceDir = (obj.transform.position - _life.transform.position).normalized * 5;
 						},
 						(_trm, _life) =>
 						{
@@ -152,7 +153,7 @@ public class HumenNormalAttack : AttackBase
 				self.move.forceDir = self.transform.forward * 4f;
 				break;
 			case 3:
-				self.move.forceDir = self.transform.forward * -12 + new Vector3(0, 4f, 0);
+				self.move.forceDir = self.transform.forward * -8 + new Vector3(0, 2f, 0);
 				break;
 		}
 	}
