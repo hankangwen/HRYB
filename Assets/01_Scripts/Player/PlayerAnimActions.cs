@@ -333,6 +333,12 @@ public class PlayerAnimActions : MonoBehaviour
 			(self.cast as PlayerCast).NowSkillUse.OnAnimationEnd(self, evt);
 	}
 
+	public void OnAnimationHit(AnimationEvent evt)
+	{
+		if ((self.cast as PlayerCast).NowSkillUse != null)
+			(self.cast as PlayerCast).NowSkillUse.OnAnimationHit(self, evt);
+	}
+
 	public void StartMove()
 	{
 		GameManager.instance.EnableCtrl();

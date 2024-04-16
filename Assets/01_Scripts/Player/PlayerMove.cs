@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
 using System;
+using UnityEngine.Android;
 
 
 
@@ -39,7 +40,7 @@ public class PlayerMove : MoveModule
 
 	public bool onAir
 	{
-		get => moveStat != MoveStates.Climb && !ctrl.isGrounded;
+		get => moveStat != MoveStates.Climb && !moveModuleStat.Paused && !isGrounded;
 	}
 
 	float angle = 0;
@@ -74,6 +75,8 @@ public class PlayerMove : MoveModule
 
 	Transform target;
 	bool isLocked = false;
+
+	public override bool idling => base.idling || moveModuleStat.Paused;
 
 	public override bool isGrounded
 	{
@@ -278,7 +281,6 @@ public class PlayerMove : MoveModule
 
 	public override void Move()
 	{
-		GetActor().anim.SetIdleState(idling);
 		if (moveStat != MoveStates.Climb)
 		{
 			GravityCalc();
@@ -286,9 +288,13 @@ public class PlayerMove : MoveModule
 			SlipCalc();
 			ctrl.Move((forceDir) * Time.fixedDeltaTime);
 		}
+		GetActor().anim.SetIdleState(idling);
 		
 		if (moveModuleStat.Paused)
+		{
+			Debug.LogError("Pause");
 			return;
+		}
 		if (moveStat != MoveStates.Climb)
 		{
 			if (Physics.SphereCast(middle.position, 0.5f, transform.forward, out hitCache, climbDistance, (1 << GameManager.CLIMBABLELAYER)) && moveDir.z > 0)
@@ -418,10 +424,6 @@ public class PlayerMove : MoveModule
 
 	public void PlayerControllerMove(Vector3 dir)
 	{
-		
-		
-		if (moveModuleStat.Paused)
-			return;
 		try
 		{
 			if (dir.sqrMagnitude > 0.1f && ctrl.isGrounded)
@@ -490,27 +492,29 @@ public class PlayerMove : MoveModule
 		{
 			pAttack.target = null;
 		}
+
 		ctrl.Move((dir) * Time.fixedDeltaTime);
 
 		
 		
 		
 	}
+	int t = 0;
 
 	public void Move(InputAction.CallbackContext context)
 	{
-		if (!NoInput.Paused && !moveModuleStat.Paused)
+		if (!NoInput.Paused)
 		{
 			Vector2 inp = context.ReadValue<Vector2>();
+
+			//Debug.LogError($"move context {t++}");
 			if (moveStat != MoveStates.Climb)
 			{
 				moveDir = new Vector3(inp.x, moveDir.y, inp.y);
-				
 			}
 			else
 			{
 				moveDir = new Vector3(0, inp.y, 0);
-
 			}
 
 			
@@ -563,7 +567,7 @@ public class PlayerMove : MoveModule
 
 	public void Jump(InputAction.CallbackContext context)
 	{
-		if (!NoInput.Paused)
+		if (!NoInput.Paused && !moveModuleStat.Paused)
 		{
 			if (context.performed && jumpable)
 			{

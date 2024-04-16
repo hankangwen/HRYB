@@ -29,6 +29,7 @@ MonoBehaviour:
   useType: 0
   castTime: 0
   cooldown: 0.25
+  skillIcon: {fileID: 0}
   isSuperArmor: 0
   initCombo: 0
   resetSec: 3

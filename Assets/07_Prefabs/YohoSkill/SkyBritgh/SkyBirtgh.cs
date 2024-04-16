@@ -168,7 +168,6 @@ public class SkyBirtgh : AttackBase
     public override void OnAnimationEnd(Actor self, AnimationEvent evt)
     {
 	    self.move.forceDir= Vector3.zero;
-	    self.move.moveDir = Vector3.zero;
 	    if (_cols != null)
 	    {
 		    _cols.End();

@@ -30,6 +30,20 @@ public class PlayerLife : LifeModule
 		fadeImg = GameObject.Find("FadeImg").GetComponent<CanvasGroup>();
 
 		base.Awake();
+		_hitEvent = null;
+		_hitEvent += () => {
+			if (_stopCoroutine == null)
+			{
+				_stopCoroutine = StartCoroutine(PlayWakeAgain(0.2f));
+			}
+		};
+	}
+
+	protected override IEnumerator PlayWakeAgain(float t)
+	{
+		GameManager.instance.DisableCtrl(false);
+		yield return new WaitForSeconds(t);
+		GameManager.instance.EnableCtrl();
 	}
 
 	public override void Update()
