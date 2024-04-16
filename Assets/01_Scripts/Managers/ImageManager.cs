@@ -26,8 +26,15 @@ public class ImageManager : MonoBehaviour
 			}
 			else
 			{
-				(Item.nameDataHashT[(dictionary.Dict[allIcons[i].name]).GetHashCode()] as Item).icon = allIcons[i];
-				Debug.Log($"아이템 스프라이트 설정 완료 : {allIcons[i].name} -> {(Item.nameDataHashT[dictionary.Dict[allIcons[i].name].GetHashCode()] as Item).MyName}");
+				if (dictionary.Dict.ContainsKey(allIcons[i].name) && Item.nameDataHashT.ContainsKey(dictionary.Dict[allIcons[i].name].GetHashCode()))
+				{
+					(Item.nameDataHashT[(dictionary.Dict[allIcons[i].name]).GetHashCode()] as Item).icon = allIcons[i];
+					Debug.Log($"아이템 스프라이트 설정 완료 : {allIcons[i].name} -> {(Item.nameDataHashT[dictionary.Dict[allIcons[i].name].GetHashCode()] as Item).MyName}");
+				}
+				else
+				{
+					Debug.LogError($"아이템 스프라이트 설정 실패 : {allIcons[i].name}, 대상 아이템/스프라이트가 존재하지 않음.");
+				}
 			}
 			
 

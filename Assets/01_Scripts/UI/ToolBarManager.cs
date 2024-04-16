@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum toolState
+public enum ToolState
 {
 	Inventory,
 	Medicine,
@@ -13,7 +13,7 @@ public enum toolState
 }
 public class ToolBarManager : MonoBehaviour
 {
-    public toolState state;
+    public ToolState state;
 
 	public GameObject Inventory;
 	public GameObject Medicine;
@@ -21,75 +21,109 @@ public class ToolBarManager : MonoBehaviour
 	public GameObject Node;
 	public GameObject Setting;
 
-	public GameObject InventoryBtn;
-	public GameObject MedicineBtn;
-	public GameObject QuestBtn;
-	public GameObject NodeBtn;
-	public GameObject SettingBtn;
+	public ToolBtn InventoryBtn;
+	public ToolBtn MedicineBtn;
+	public ToolBtn QuestBtn;
+	public ToolBtn NodeBtn;
+	public ToolBtn SettingBtn;
 
-	private void Start()
+	IOpenableWindowUI curOpened;
+
+	IOpenableWindowUI invenWindow;
+	IOpenableWindowUI medicineWindow;
+	IOpenableWindowUI questWindow;
+	IOpenableWindowUI nodeWindow;
+	IOpenableWindowUI settingWindow;
+
+	private void Awake()
 	{
-		
+		invenWindow = Inventory.GetComponent<IOpenableWindowUI>();
+		medicineWindow = Medicine.GetComponent<IOpenableWindowUI>();
+		questWindow = Quest.GetComponent<IOpenableWindowUI>();
+		nodeWindow = Node.GetComponent<IOpenableWindowUI>();
+		settingWindow = Setting.GetComponent<IOpenableWindowUI>();
+
+		ToolOff();
 	}
 
 	private void Update()
 	{
-		if(InventoryBtn.GetComponent<ToolBtn>().isTarget)
+		if (curOpened != null)
 		{
-			ToolOff();
-			state = toolState.Inventory;
+			curOpened.WhileOpening();
 		}
-		else if (MedicineBtn.GetComponent<ToolBtn>().isTarget)
-		{
-			ToolOff();
-			state = toolState.Medicine;
-		}
-		else if (QuestBtn.GetComponent<ToolBtn>().isTarget)
-		{
-			ToolOff();
-			state = toolState.Quest;
-		}
-		else if (NodeBtn.GetComponent<ToolBtn>().isTarget)
-		{
-			ToolOff();
-			state = toolState.Node;
-		}
-		else if(SettingBtn.GetComponent<ToolBtn>().isTarget)
-		{
-			ToolOff();
-			state = toolState.Setting;
-		}
-		else
-		{
-			state = toolState.None;
-		}
+		
+	}
 
+	public void ChangeStatus(ToolState windowStat)
+	{
+		ToolOff();
+		if (curOpened != null)
+		{
+			curOpened.OnClose();
+		}
+		state = windowStat;
 		switch (state)
 		{
-			case toolState.Inventory:
+			case ToolState.Inventory:
 				Inventory.SetActive(true);
+				if (invenWindow != null)
+				{
+					curOpened = invenWindow;
+					curOpened.OnOpen();
+				}
 				break;
-			case toolState.Medicine:
+			case ToolState.Medicine:
 				Medicine.SetActive(true);
+				if (medicineWindow != null)
+				{
+					curOpened = medicineWindow;
+					curOpened.OnOpen();
+				}
 				break;
 
-			case toolState.Quest:
+			case ToolState.Quest:
 				Quest.SetActive(true);
+				if (questWindow != null)
+				{
+					curOpened = questWindow;
+					curOpened.OnOpen();
+				}
 				break;
 
-			case toolState.Node:
+			case ToolState.Node:
 				Node.SetActive(true);
+				if (nodeWindow != null)
+				{
+					curOpened = nodeWindow;
+					curOpened.OnOpen();
+				}
 				break;
 
-			case toolState.Setting:
+			case ToolState.Setting:
 				Setting.SetActive(true);
-                break;
+				if (settingWindow != null)
+				{
+					curOpened = settingWindow;
+					curOpened.OnOpen();
+				}
+				break;
 
-			case toolState.None:
-				ToolOff();
+			case ToolState.None:
+				if (curOpened != null)
+				{
+					curOpened.OnClose();
+				}
+				curOpened = null;
+
 				//BtnOff();
 				break;
 		}
+	}
+
+	public void CloseWindow()
+	{
+		ChangeStatus(ToolState.None);
 	}
 
 	void ToolOff()
@@ -102,20 +136,15 @@ public class ToolBarManager : MonoBehaviour
 	}
 	public void BtnOff()
 	{
-		InventoryBtn.GetComponent<ToolBtn>().Exit();
-		InventoryBtn.GetComponent<ToolBtn>().isTarget  = false;
+		InventoryBtn.Exit();
 
-		MedicineBtn.GetComponent<ToolBtn>().Exit();
-		MedicineBtn.GetComponent<ToolBtn>().isTarget = false;
+		MedicineBtn.Exit();
 
-		QuestBtn.GetComponent<ToolBtn>().Exit();
-		QuestBtn.GetComponent<ToolBtn>().isTarget = false;
+		QuestBtn.Exit();
 
-		NodeBtn.GetComponent<ToolBtn>().Exit();
-		NodeBtn.GetComponent<ToolBtn>().isTarget = false;
+		NodeBtn.Exit();
 
-		SettingBtn.GetComponent<ToolBtn>().Exit();
-		SettingBtn.GetComponent<ToolBtn>().isTarget  = false;
+		SettingBtn.Exit();
 	}
 
 }

@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
     public GameObject invenPanel;
     public GameObject optionPanel;
 
+	public NodeDetailUI detailer;
+
     public RectTransform CursorPos;
     public Image Cursor;
 
@@ -54,6 +56,8 @@ public class UIManager : MonoBehaviour
 		questUI = canvas.GetComponentInChildren<QuestUICtrl>();
 		preInterUI = canvas.GetComponentInChildren<InterPrevUI>();
 		interingUI = canvas.GetComponentInChildren<InterProcessUI>();
+		detailer = canvas.transform.Find("ToolPanel/Node/NodeDetail").GetComponent<NodeDetailUI>();
+
 		invenPanel.SetActive(true);
 		optionPanel.SetActive(false);
 	}
@@ -74,7 +78,7 @@ public class UIManager : MonoBehaviour
 		
 	}
 
-	public void OnInven(InputAction.CallbackContext context)
+	public void OnInventory(InputAction.CallbackContext context)
 	{
 		if (context.performed)
 		{

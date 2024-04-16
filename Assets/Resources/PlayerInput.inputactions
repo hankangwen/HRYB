@@ -168,15 +168,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Help",
-                    "type": "Button",
-                    "id": "cf80e958-4a48-4798-8246-e5559394d2cf",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "SkillQ",
                     "type": "Button",
                     "id": "b3329a33-0678-4aa9-9787-572d0fee5925",
@@ -490,17 +481,6 @@
                     "processors": "",
                     "groups": "MnK",
                     "action": "Roll",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9987f686-6380-4e07-8e89-43cba3af7975",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "MnK",
-                    "action": "Help",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
