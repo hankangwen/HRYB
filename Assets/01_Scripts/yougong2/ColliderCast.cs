@@ -65,7 +65,7 @@ public abstract class ColliderCast : MonoBehaviour
 				CastAct?.Invoke(lf);
 				_isDamaged = true;
 
-				Debug.LogError(isFirst + " Fuck Fuck");
+				//Debug.LogError(isFirst + " Fuck Fuck");
 				
 				if (isFirst == false)
 				{

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxColliderCast))]
 public class YGArrow : MonoBehaviour
 {
 	float _lifeTime;
@@ -12,6 +13,7 @@ public class YGArrow : MonoBehaviour
 	ColliderCast _cols = null;
 	Vector3 _pos;
 	Actor _owner;
+	Transform _target;
 
 	bool _isFire = false;
 
@@ -41,6 +43,25 @@ public class YGArrow : MonoBehaviour
 		transform.parent = null;
 		_isFire = true;
 		_currentTime = 0;
+		if(_owner.atk.target != null)
+		{
+			SetTarget(_owner.atk.target.transform);
+
+		}
+	}
+
+
+	public void SetTarget(Transform targ)
+	{
+		if (targ)
+		{
+			_target = targ.Find("Middle");
+			if (!_target)
+			{
+				_target = targ;
+			}
+		}
+
 	}
 
 	public void Update()
@@ -50,11 +71,12 @@ public class YGArrow : MonoBehaviour
 			_currentTime += Time.deltaTime;
 			if(tls != null && _owner.atk.target != null)
 			{
-				tls.Invoke(_pos, _owner.atk.target.transform.position, _currentTime);
+				tls.Invoke(_pos, _target.position, _currentTime);
 			}
 			else
 			{
-				tls.Invoke(_pos, _owner.transform.forward.normalized * 5, _currentTime);
+				transform.position += _owner.transform.forward.normalized * 8 * Time.deltaTime;
+				//tls.Invoke(_pos, , _currentTime);
 			}
 		}
 	}

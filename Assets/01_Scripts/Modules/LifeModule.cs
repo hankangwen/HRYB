@@ -103,6 +103,7 @@ public class LifeModule : Module
 	private bool _isFirstHit;
 
 	public bool IsFirstHit => _isFirstHit;
+	protected Coroutine _stopCoroutine;
 
 	public virtual void Awake()
 	{
@@ -111,6 +112,20 @@ public class LifeModule : Module
 		{
 			ongoingTickDamages.Add(i, new List<Coroutine>());
 		}
+		_hitEvent = null;
+		_hitEvent += () => { 
+			if(_stopCoroutine == null)
+			{
+				_stopCoroutine = StartCoroutine(PlayWakeAgain(0.2f));  
+			}
+		};
+	}
+	protected virtual IEnumerator PlayWakeAgain(float t)
+	{
+
+		self.AI.StopExamine();
+		yield return new WaitForSeconds(t); 
+		self.AI.StartExamine();
 	}
 
 	public virtual void Update()
@@ -331,13 +346,10 @@ public class LifeModule : Module
 					if (!superArmor)
 					{
 						GetActor().anim.SetHitTrigger();
+						_hitEvent?.Invoke();
 					}
 					StatusEffects.ApplyStat(GetActor(), attacker, StatEffID.Immune, IMMUNETIME);
 					onNextDamaged?.Invoke(GetActor(), attacker, data);
-					if (GetActor()._ai != null)
-					{
-						GetActor()._ai.StartExamine();
-					}
 				}
 				break;
 			case DamageType.DotDamage:
@@ -361,10 +373,6 @@ public class LifeModule : Module
 					DamageYYBase(data);
 					StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, IMMUNETIME);
 					onNextDamaged?.Invoke(GetActor(), attacker, data);
-					if (GetActor()._ai != null)
-					{
-						GetActor()._ai.StartExamine();
-					}
 				}
 				break;
 			default:
@@ -393,13 +401,10 @@ public class LifeModule : Module
 					if (!superArmor)
 					{
 						GetActor().anim.SetHitTrigger();
+						_hitEvent?.Invoke();
 					}
 					StatusEffects.ApplyStat(GetActor(), attacker, StatEffID.Immune, IMMUNETIME);
 					onNextDamaged?.Invoke(GetActor(), attacker, data);
-					if (GetActor()._ai != null)
-					{
-						GetActor()._ai.StartExamine();
-					}
 				}
 				break;
 			case DamageType.DotDamage:
@@ -423,10 +428,6 @@ public class LifeModule : Module
 					DamageYYBase(data);
 					StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, IMMUNETIME);
 					onNextDamaged?.Invoke(GetActor(), attacker, data);
-					if (GetActor()._ai != null)
-					{
-						GetActor()._ai.StartExamine();
-					}
 				}
 				break;
 			default:

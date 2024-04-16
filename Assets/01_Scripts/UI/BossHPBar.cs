@@ -11,12 +11,12 @@ public class BossHPBar : MonoBehaviour
 
 	private void Awake()
 	{
-		_hpBar = GetComponent<Image>();
+		//_hpBar = GetComponent<Image>();
 	}
 
 	void Update()
 	{
-		_hpBar.fillAmount = lf.yy.white / lf.initYinYang.white;
+		//_hpBar.fillAmount = lf.yy.white / lf.initYinYang.white;
 	}
 	
 }

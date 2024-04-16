@@ -103,7 +103,7 @@ public class MoveModule : Module
 		}
 	}
 
-	public bool idling
+	public virtual bool idling
 	{
 		get => moveDir.sqrMagnitude < 0.01f;
 	}

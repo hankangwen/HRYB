@@ -182,7 +182,7 @@ public class PlayerCast : CastModule
 
 	private void Start()
 	{
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("NormalBowAttack"), SkillSlotInfo.LClick, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("HumenNormal"), SkillSlotInfo.LClick, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("ChargeBowAttack"), SkillSlotInfo.RClick, PlayerForm.Magic);
 
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("BackKick"), SkillSlotInfo.One, PlayerForm.Magic);

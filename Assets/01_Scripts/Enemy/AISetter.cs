@@ -81,10 +81,10 @@ public abstract class AISetter : MonoBehaviour
 			stopEnAble += Time.deltaTime;
 		}
 
-		if(stopEnAble >= 0.5f)
-		{
-			StartExamine();
-		}
+		//if(stopEnAble >= 0.5f)
+		//{
+		//	StartExamine();
+		//}
 
 	    UpdateInvoke();
     }

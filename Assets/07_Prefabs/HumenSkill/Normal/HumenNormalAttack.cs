@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[CreateAssetMenu(menuName ="Skills/Humen/Normal")]
 public class HumenNormalAttack : AttackBase
 {
 
@@ -29,24 +30,32 @@ public class HumenNormalAttack : AttackBase
 	{
 		GameManager.instance.DisableCtrl(false);
 		_arrow.Clear();
-		posValue2 = -2;
+		posValue2 = -1;
 	}
 
 	public override void OnAnimationEvent(Actor self, AnimationEvent evt)
 	{
 
+		
 
+		string[] tt = evt.stringParameter.Split("$");
 		switch (evt.intParameter)
 		{
 			case 0:
+			case 1:
 				{
+					self.move.forceDir = new Vector3(0, 0, 0);
 					GameObject obj = PoolManager.GetObject("HumenBullet", self.transform);
 					if (obj.TryGetComponent<YGArrow>(out YGArrow _yg))
 					{
 						_yg.Ready(self, self.transform.position + self.transform.forward.normalized * 1,
 						(_pos, enemy, time) =>
 						{
-							obj.transform.position = Vector3.Lerp(_pos, enemy, time / 0.7f);
+							obj.transform.position = Vector3.Lerp(_pos + new Vector3(0,1.2f,0), enemy, time / 0.3f);
+							if(time/0.7f >= 1f)
+							{
+								PoolManager.ReturnObject(_yg.gameObject);
+							}
 						},
 						(_life) =>
 						{
@@ -57,16 +66,19 @@ public class HumenNormalAttack : AttackBase
 							// null
 						});
 
+						_yg.transform.parent = null;
 						_yg.Fire();
 					}
 				}
 				break;
-			case 1:
+			case 2:
 				{
-					if (evt.stringParameter == "Fire")
+					self.move.forceDir = new Vector3(0, 0, 0);
+					if (tt[0] == "Fire")
 					{
 						_arrow.ForEach((g) => { g.Fire(); });
 						_arrow.Clear();
+						self.move.forceDir = self.transform.forward * -7f;
 					}
 					else
 					{
@@ -75,34 +87,55 @@ public class HumenNormalAttack : AttackBase
 						{
 							int f = posValue2 > 0 || posValue2 == -1 ? 0 : 1;
 
-							_yg.Ready(self, self.transform.position + self.transform.forward.normalized * f + self.transform.right * posValue2,
+							_yg.Ready(self, self.transform.position + self.transform.forward.normalized * f + self.transform.right * posValue2 +new Vector3(0, 1.2f, 0),
 							(_pos, enemy, time) =>
 							{
-								obj.transform.position = Vector3.Lerp(_pos, enemy, time / 0.7f);
+								obj.transform.position = Vector3.Lerp(_pos, enemy, time / 0.3f);
+								if (time / 0.7f >= 1f)
+								{
+									PoolManager.ReturnObject(_yg.gameObject);
+								}
 							},
 							(_life) =>
 							{
-								DoDamage(_life.GetActor(), self, 0.4f, obj.transform.position);
+								DoDamage(_life.GetActor(), self, obj.transform.position);
 							},
 							(_trm, _life) =>
 							{
 								// null
 							});
+							_yg.transform.parent = null;
 							posValue2++;
 							_arrow.Add(_yg);
 						}
 					}
 				}
 				break;
-			case 2:
+			case 3:
 				{
-					GameObject obj = PoolManager.GetObject("HumenNormalUnder", self.transform);
-					if (obj.TryGetComponent<ColliderCast>(out ColliderCast _cols))
+					GameObject obj = PoolManager.GetObject("HumenBullet", self.transform);
+					if (obj.TryGetComponent<YGArrow>(out YGArrow _yg))
 					{
-						_cols.Now(self.transform, (_life) =>
+						_yg.Ready(self, self.transform.position + self.transform.forward.normalized * 1,
+						(_pos, enemy, time) =>
 						{
-							DoDamage(_life.GetActor(), self, 0.4f, obj.transform.position);
+							obj.transform.position = Vector3.Lerp(_pos + new Vector3(0, 1.2f, 0), enemy, time / 0.3f);
+							if (time / 0.7f >= 1f)
+							{
+								PoolManager.ReturnObject(_yg.gameObject);
+							}
+						},
+						(_life) =>
+						{
+							DoDamage(_life.GetActor(), self, obj.transform.position);
+						},
+						(_trm, _life) =>
+						{
+							// null
 						});
+
+						_yg.transform.parent = null;
+						_yg.Fire();
 					}
 				}
 				break;
@@ -112,18 +145,35 @@ public class HumenNormalAttack : AttackBase
 
 	public override void OnAnimationMove(Actor self, AnimationEvent evt)
 	{
-
+		switch (evt.intParameter)
+		{
+			case 0:
+			case 1:
+				self.move.forceDir = self.transform.forward * 4f;
+				break;
+			case 3:
+				self.move.forceDir = self.transform.forward * -12 + new Vector3(0, 4f, 0);
+				break;
+		}
 	}
 
 	public override void OnAnimationEnd(Actor self, AnimationEvent evt)
 	{
-
+		switch (evt.intParameter)
+		{
+			case 0:
+			case 1:
+				self.move.forceDir = new Vector3(0, 0, 0);
+				break;
+			case 3:
+				self.move.forceDir = new Vector3(0, 0, 0);
+				break;
+		}
 	}
 
 	public override void OnAnimationStop(Actor self, AnimationEvent evt)
 	{
 		GameManager.instance.EnableCtrl();
-
 	}
 
 	public override void OnAnimationHit(Actor self, AnimationEvent evt)
