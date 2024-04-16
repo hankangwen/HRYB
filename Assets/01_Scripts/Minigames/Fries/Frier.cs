@@ -56,12 +56,19 @@ public class Frier : MinigameBase
 		level = 0;
 		base.Awake();
 
+
 		fireBar.value = 0;
 		timerBar.value = 0;
 		accT = 0;
 		//
 		SetRandomTargets();
+	}
 
+	public override void StartGame(ItemAmountPair objName)
+	{
+		base.StartGame(objName);
+
+		
 	}
 
 	private void Update()
