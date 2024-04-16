@@ -84,43 +84,43 @@ public class NodeUtility
 
 	public static string GetName(PlayerNode inf)
 	{
-		System.Text.StringBuilder sb = new System.Text.StringBuilder();
 		switch (inf.nodeType)
 		{
 			case StatUpgradeType.White:
-				sb.Append("양 + ");
-				sb.Append(inf.amt);
-				sb.Append("의");
+				GameManager.globalStringBuilder.Append("양 + ");
+				GameManager.globalStringBuilder.Append(inf.amt);
+				GameManager.globalStringBuilder.Append("의");
 				break;
 			case StatUpgradeType.Black:
-				sb.Append("음 + ");
-				sb.Append(inf.amt);
-				sb.Append("의");
+				GameManager.globalStringBuilder.Append("음 + ");
+				GameManager.globalStringBuilder.Append(inf.amt);
+				GameManager.globalStringBuilder.Append("의");
 				break;
 			case StatUpgradeType.Atk:
-				sb.Append("힘 + ");
-				sb.Append(inf.amt);
-				sb.Append("의");
+				GameManager.globalStringBuilder.Append("힘 + ");
+				GameManager.globalStringBuilder.Append(inf.amt);
+				GameManager.globalStringBuilder.Append("의");
 				break;
 			case StatUpgradeType.MoveSpeed:
-				sb.Append("신속 + ");
-				sb.Append(inf.amt);
-				sb.Append("의");
+				GameManager.globalStringBuilder.Append("신속 + ");
+				GameManager.globalStringBuilder.Append(inf.amt);
+				GameManager.globalStringBuilder.Append("의");
 				break;
 			case StatUpgradeType.CooldownRdc:
-				sb.Append("순환 + ");
-				sb.Append(inf.amt);
-				sb.Append("의");
+				GameManager.globalStringBuilder.Append("순환 + ");
+				GameManager.globalStringBuilder.Append(inf.amt);
+				GameManager.globalStringBuilder.Append("의");
 				break;
 			case StatUpgradeType.Callback:
-				sb.Append("특수 ");
+				GameManager.globalStringBuilder.Append("특수 ");
 				break;
 			default:
 				break;
 		}
-		sb.Append("혈");
-
-		return sb.ToString();
+		GameManager.globalStringBuilder.Append("혈");
+		string res = GameManager.globalStringBuilder.ToString();
+		GameManager.globalStringBuilder.Clear();
+		return res;
 	}
 
 	public static string ToStringKorean(StatUpgradeType act)

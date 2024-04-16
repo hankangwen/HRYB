@@ -240,6 +240,7 @@ public class GameManager : MonoBehaviour
 	public const char CAPTUREDIVIDERSECTION = '*';
 
 	public static GameManager instance;
+	public static System.Text.StringBuilder globalStringBuilder = new System.Text.StringBuilder();
 
     public GameObject player;
 	public PlayerInput pinp;

@@ -18,6 +18,11 @@ public enum ProcessType //손질은 사실상 제작이다.
 
 public class PreProcess
 {
+	public const string FRYPREFIX = "볶은 ";
+	public const string BURNPREFIX = "태운 ";
+	public const string STIRPREFIX = "데친 ";
+	public const string MASHPREFIX = "빻은 ";
+
 	protected ItemAmountPair info;
     public ProcessType type;
     public string prefix;
@@ -52,14 +57,14 @@ public class PreProcess
 	public virtual ItemAmountPair EndProcess()
 	{
 
-		StringBuilder sb = new StringBuilder();
-		sb.Append(prefix);
-		sb.Append(info.info.MyName);
-		info.info.MyName = sb.ToString();
-		sb.Clear();
-		sb.Append(prefix);
-		sb.Append((info.info as YinyangItem).nameAsChar);
-		(info.info as YinyangItem).nameAsChar = sb.ToString();
+		//StringBuilder sb = new StringBuilder();
+		//sb.Append(prefix);
+		//sb.Append(info.info.MyName);
+		//info.info.MyName = sb.ToString();
+		//sb.Clear();
+		//sb.Append(prefix);
+		//sb.Append((info.info as YinyangItem).nameAsChar);
+		//(info.info as YinyangItem).nameAsChar = sb.ToString();
 
 		(info.info as YinyangItem).processes.Add(type);
 

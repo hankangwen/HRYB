@@ -23,6 +23,34 @@ public class YinyangItem : Item
 
 	public HashSet<ProcessType> processes = new HashSet<ProcessType>();
 
+	public override string MyName
+	{
+		get
+		{
+			if (processes.Contains(ProcessType.Stir))
+			{
+				GameManager.globalStringBuilder.Append(PreProcess.STIRPREFIX);
+			}
+			if (processes.Contains(ProcessType.Fry))
+			{
+				GameManager.globalStringBuilder.Append(PreProcess.FRYPREFIX);
+			}
+			if (processes.Contains(ProcessType.Burn))
+			{
+				GameManager.globalStringBuilder.Append(PreProcess.BURNPREFIX);
+			}
+			if (processes.Contains(ProcessType.Mash))
+			{
+				GameManager.globalStringBuilder.Append(PreProcess.MASHPREFIX);
+			}
+			GameManager.globalStringBuilder.Append(base.MyName);
+			string res = GameManager.globalStringBuilder.ToString();
+			GameManager.globalStringBuilder.Clear();
+			return res;
+		} 
+		set => base.MyName = value;
+	}
+
 	//public float initDec;
 	//public float decPerSec;
 

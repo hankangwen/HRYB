@@ -192,25 +192,27 @@ public class QuestSerializer : Editor
 
 	public static string CombineAppendComma(string appendText, params string[] combiners)
 	{
-		System.Text.StringBuilder sb = new System.Text.StringBuilder();
 		for (int i = 0; i < combiners.Length; i++)
 		{
-			sb.Append(combiners[i]);
-			sb.Append(appendText);
-			sb.Append(',');
+			GameManager.globalStringBuilder.Append(combiners[i]);
+			GameManager.globalStringBuilder.Append(appendText);
+			GameManager.globalStringBuilder.Append(',');
 		}
-		return sb.ToString();
+		string res= GameManager.globalStringBuilder.ToString();
+		GameManager.globalStringBuilder.Clear();
+		return res;
 	}
 
 	public static string CombineAppendTab(string appendText, params string[] combiners)
 	{
-		System.Text.StringBuilder sb = new System.Text.StringBuilder();
 		for (int i = 0; i < combiners.Length; i++)
 		{
-			sb.Append(combiners[i]);
-			sb.Append(appendText);
-			sb.Append('\t');
+			GameManager.globalStringBuilder.Append(combiners[i]);
+			GameManager.globalStringBuilder.Append(appendText);
+			GameManager.globalStringBuilder.Append('\t');
 		}
-		return sb.ToString();
+		string res = GameManager.globalStringBuilder.ToString();
+		GameManager.globalStringBuilder.Clear();
+		return res;
 	}
 }
