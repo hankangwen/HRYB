@@ -48,9 +48,9 @@ public class Cutter : MinigameBase
 		return (Vector3.Distance(targ.position, cursor.position) < errorDistance);
 	}
 
-	public override bool DoGameCheck()
+	public override bool DoGameCheck() //안씀
 	{
-		return base.DoGameCheck();
+		return curSuccessCount >= needSuccessCount;
 	}
 
 	public override void StartGame(ItemAmountPair objName)
@@ -114,7 +114,7 @@ public class Cutter : MinigameBase
 
 		if(tries >= maxTryCount)
 		{
-			if(curSuccessCount >= needSuccessCount)
+			if(DoGameCheck())
 			{
 				EndGame();
 			}

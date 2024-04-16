@@ -145,6 +145,8 @@ public struct Recipe
 
 public class Crafter
 {
+	const int TRIMPARSEFROM = 6;
+
 
 	CraftMethod curMethod;
 	public CraftMethod CurMethod { get => curMethod; set => curMethod = value;}
@@ -162,6 +164,23 @@ public class Crafter
 		{ new ItemAmountPair("녹각") , new HashSet<ItemAmountPair>{ new ItemAmountPair("녹용", 3) } },
 		{ new ItemAmountPair("산삼") , new HashSet<ItemAmountPair>{ new ItemAmountPair("잘린 산삼", 3) } },
 	};
+
+
+	public static IEnumerator InitializeTrim() //@@@@@@@@@@@@@@@@@되냐?
+	{
+		SheetParser data = new SheetParser("https://docs.google.com/spreadsheets/d/1U_d85oU7k3LJym1HeIO90zeiGZhk2D-k8w3PR9CgzaQ/export?format=tsv&gid=1525999156&range=B3:P", "B", "P");
+		yield return new WaitUntil(()=>data.inited);
+		for (int i = 0; i < data.cardinality; i++)
+		{
+			HashSet<ItemAmountPair> res = new HashSet<ItemAmountPair>();
+			for (int j = TRIMPARSEFROM + 1; j < data.attributeCount - 1; j += 2)
+			{
+				res.Add(new ItemAmountPair(data.GetAttribute(i, j), int.Parse(data.GetAttribute(i, j + 1))));
+			}
+			recipeItemTableTrim.Add(new ItemAmountPair(data.GetAttribute(i, TRIMPARSEFROM)), new HashSet<ItemAmountPair>());
+		}
+	}
+
 
 	public static void AddRecipe(ItemAmountPair resItem, Recipe recipe)
 	{
