@@ -15,9 +15,10 @@ MonoBehaviour:
   circleIndex: 0
   orderIndex: 4
   completed: 0
-  isSpecialNode: 0
   nodeType: 0
-  amt: 0
+  amt: 15
+  learnable: 1
+  needPoint: 0
   onLearn:
     m_PersistentCalls:
       m_Calls: []
