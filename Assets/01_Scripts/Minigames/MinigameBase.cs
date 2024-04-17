@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MinigameBase : MonoBehaviour
 {
-	public string feedbackerName;
+	//public List<string> feedbackerName;
 	public string minigameSceneName;
 
 	public Minigames myMode;
@@ -13,7 +13,7 @@ public class MinigameBase : MonoBehaviour
 
 	GameObject minigameZone;
 
-	Animator feedbacks;
+	List<Animator> feedbacks;
 	private readonly int ActHash = Animator.StringToHash("Act");
 	
 	public virtual void Awake()
@@ -22,7 +22,7 @@ public class MinigameBase : MonoBehaviour
 			minigameSceneName = MinigameManager.GetSceneName(myMode);
 		}
 		minigameZone = GameObject.Find(minigameSceneName);
-		feedbacks = GameObject.Find(feedbackerName).GetComponent<Animator>();
+		feedbacks = new List<Animator>(GetComponentsInChildren<Animator>());
 	}
 
 	public virtual void StartGame(ItemAmountPair objName)
@@ -50,11 +50,15 @@ public class MinigameBase : MonoBehaviour
 
 	public virtual bool DoGameCheck()
 	{
+		throw new UnityException($"{myMode} 미니게임의 성공 조건이 없습니다!");
 		return false;
 	}
 
 	public virtual void ShowFeedback()
 	{
-		feedbacks.SetTrigger(ActHash);
+		for (int i = 0; i < feedbacks.Count; i++)
+		{
+			feedbacks[i].SetTrigger(ActHash);
+		}
 	}
 }

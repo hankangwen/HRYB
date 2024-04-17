@@ -11,6 +11,9 @@ public enum ProcessType //손질은 사실상 제작이다.
     
     Fry,
 	Burn,
+	Stir,
+	Mash,
+
 }
 
 public class PreProcess
