@@ -53,7 +53,7 @@ public struct AppliedStatus
 
 public class LifeModule : Module
 {
-	public const float IMMUNETIME = 0.3f;
+	public const float IMMUNETIME = 0.0f;
 
 	public bool isImmune = false;
 

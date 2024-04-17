@@ -28,7 +28,7 @@ public abstract class ColliderCast : MonoBehaviour
 
 	private bool _isDamaged = false;
 	public bool IsDamaged => _isDamaged;
-	
+	protected Quaternion _quaternion;
 	
 	public abstract Collider[] ReturnColliders();
 	
@@ -43,7 +43,7 @@ public abstract class ColliderCast : MonoBehaviour
 		if (_isRunning == false)
 			return;
 		
-		if(_attackAbleCount > 0 && CheckDic.Count > _attackAbleCount)
+		if(_attackAbleCount != -1 && CheckDic.Count > _attackAbleCount)
 			return;
 		
 		
@@ -89,7 +89,10 @@ public abstract class ColliderCast : MonoBehaviour
 
 		_isRunning = false;
 		isFirst = false;
-		
+
+		_quaternion = Owner.rotation;
+
+
 		_attackAbleCount = attackAble;
 		if(StartSec > 0)
 		{
