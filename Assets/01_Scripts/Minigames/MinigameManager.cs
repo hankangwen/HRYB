@@ -9,6 +9,7 @@ public enum Minigames
 	Cutting,
 	Frying,
 	Stirring,
+	Mashing,
 
 }
 public class MinigameManager
@@ -61,6 +62,8 @@ public class MinigameManager
 				return $"Fry{MINIGAMENAME}";
 			case Minigames.Stirring:
 				return $"Stir{MINIGAMENAME}";
+			case Minigames.Mashing:
+				return $"Mash{MINIGAMENAME}";
 			default:
 				throw new UnityException($"{mode} : 해당 모드는 존재하지 않음.");
 		}

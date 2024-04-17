@@ -58,7 +58,7 @@ public class StoneLamp : MonoBehaviour
 	{
 		if(Vector3.Distance(GameManager.instance.player.transform.position, this.transform.position) < pDistance)
 		{
-			if(!isText && !loader.isFade)
+			if(!isText && !loader.isFade && stoneLampNum > GameManager.instance.lastSave)
 			{
 				GameManager.instance.lastSave = stoneLampNum;
 				loader.FadeInOut(text, 0.5f);
