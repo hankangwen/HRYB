@@ -20,6 +20,10 @@ public struct ItemAmountPair
     public ItemAmountPair(string name, int cnt = 1)
 	{
         info = Item.GetItem(name);
+		if(info == null)
+		{
+			info = new Item(name, "", ItemType.None, 10, null, true);
+		}
         num = cnt;
 	}
 
@@ -104,20 +108,22 @@ public struct Recipe
 
 	public override string ToString()
 	{
-		StringBuilder sb = new StringBuilder();
-		sb.Append("(Ingredients : ");
+
+		GameManager.globalStringBuilder.Append("(Ingredients : ");
 		foreach (var item in recipe)
 		{
-			sb.Append($" [{item.info.MyName} : {item.num}] , ");
+			GameManager.globalStringBuilder.Append($" [{item.info.MyName} : {item.num}] , ");
 		}
-		sb.Append(")(Requirements : ");
+		GameManager.globalStringBuilder.Append(")(Requirements : ");
 		foreach (var item in requirement)
 		{
-			sb.Append($" [{item}] , ");
+			GameManager.globalStringBuilder.Append($" [{item}] , ");
 		}
-		sb.Append("), ->");
-		sb.Append(category);
-		return sb.ToString();
+		GameManager.globalStringBuilder.Append("), ->");
+		GameManager.globalStringBuilder.Append(category);
+		string ret = GameManager.globalStringBuilder.ToString();
+		GameManager.globalStringBuilder.Clear();
+		return ret;
 	}
 
 	public override bool Equals(object obj)
@@ -145,6 +151,9 @@ public struct Recipe
 
 public class Crafter
 {
+	const int TRIMPARSEFROM = 6;
+	const int ORIGINALNAME = 1;
+
 
 	CraftMethod curMethod;
 	public CraftMethod CurMethod { get => curMethod; set => curMethod = value;}
@@ -159,9 +168,63 @@ public class Crafter
 
 	public static Hashtable recipeItemTableTrim = new Hashtable()
 	{
-		{ new ItemAmountPair("녹각") , new HashSet<ItemAmountPair>{ new ItemAmountPair("녹용", 3) } },
-		{ new ItemAmountPair("산삼") , new HashSet<ItemAmountPair>{ new ItemAmountPair("잘린 산삼", 3) } },
+		//{ new ItemAmountPair("녹각") , new HashSet<ItemAmountPair>{ new ItemAmountPair("녹용", 3) } },
+		//{ new ItemAmountPair("산삼") , new HashSet<ItemAmountPair>{ new ItemAmountPair("잘린 산삼", 3) } },
 	};
+
+
+	public static IEnumerator InitializeTrim() //일단됨.
+	{
+		SheetParser data = new SheetParser("https://docs.google.com/spreadsheets/d/1U_d85oU7k3LJym1HeIO90zeiGZhk2D-k8w3PR9CgzaQ/export?format=tsv&gid=1525999156&range=B3:P", "B", "P");
+		yield return new WaitUntil(()=>data.inited);
+		for (int i = 0; i < data.cardinality; i++)
+		{
+			HashSet<ItemAmountPair> res = new HashSet<ItemAmountPair>();
+			for (int j = TRIMPARSEFROM + 1; j < data.attributeCount - 1; j += 2)
+			{
+				if(data.GetAttribute(i, j) == "")
+				{
+					break;
+				}
+				res.Add(new ItemAmountPair(data.GetAttribute(i, j), int.Parse(data.GetAttribute(i, j + 1))));
+			}
+			string originalName = data.GetAttribute(i, ORIGINALNAME);
+			string afterName = data.GetAttribute(i, TRIMPARSEFROM);
+			YinyangItem item = new YinyangItem(originalName, "", ItemType.None, 10, null, Item.nameDataHashT.ContainsKey(originalName), null);
+			
+			if (afterName.Contains(PreProcess.STIRPREFIX))
+			{
+				item.processes.Add(ProcessType.Stir);
+			}
+			if (afterName.Contains(PreProcess.FRYPREFIX))
+			{
+				item.processes.Add(ProcessType.Fry);
+			}
+			if (afterName.Contains(PreProcess.BURNPREFIX))
+			{
+				item.processes.Add(ProcessType.Burn);
+			}
+			if (afterName.Contains(PreProcess.MASHPREFIX))
+			{
+				item.processes.Add(ProcessType.Mash);
+			}
+			item.InsertToTable();
+
+
+			recipeItemTableTrim.Add(new ItemAmountPair(item), res);
+		}
+
+		//foreach (ItemAmountPair item in recipeItemTableTrim.Keys)
+		//{
+		//	Debug.Log($"{item.info.MyName}~");
+		//	foreach (ItemAmountPair results in (HashSet<ItemAmountPair>)recipeItemTableTrim[item])
+		//	{
+		//		Debug.Log($"{results.info.MyName} : {results.num}");
+		//	}
+		//	Debug.Log($"~{item.info.MyName}");
+		//}
+	}
+
 
 	public static void AddRecipe(ItemAmountPair resItem, Recipe recipe)
 	{

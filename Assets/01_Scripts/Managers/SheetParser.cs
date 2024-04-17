@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// export?format=tsv&gid=1525999156&range=B3:P
+/// </summary>
 public class SheetParser
 {
 	readonly string url;
 
 	string tsvFormatText;
 
-	int tupleAttributeCount;
+	public readonly int attributeCount;
+	public int cardinality { get; private set;}
 
 	bool indexed;
 
-	bool inited;
+	internal bool inited;
 
 	List<string> heads;
 
@@ -37,7 +41,7 @@ public class SheetParser
 	{
 		if (!inited)
 			throw new UnityException("시트의 데이터가 초기화되지 않았습니다.");
-		if (columnOrder >= tupleAttributeCount)
+		if (columnOrder >= attributeCount)
 			throw new UnityException($"값의 갯수가 {columnOrder}보다 적습니다.");
 		return tupleDatas[rowOrder][columnOrder];
 	}
@@ -48,7 +52,7 @@ public class SheetParser
 			throw new UnityException("시트의 데이터가 초기화되지 않았습니다.");
 		if(!headValuesPair.ContainsKey(headName))
 			throw new UnityException($"이름 : {headName}인 인덱스가 조재하지 않습니다.");
-		if (rowOrder >= tupleAttributeCount)
+		if (rowOrder >= attributeCount)
 			throw new UnityException($"값의 갯수가 {rowOrder}보다 적습니다.");
 		return headValuesPair[headName][rowOrder];
 	}
@@ -59,13 +63,13 @@ public class SheetParser
 			throw new UnityException("시트의 데이터가 초기화되지 않았습니다.");
 		if (!indexAttributePairs.ContainsKey(index))
 			throw new UnityException($"이름 : {index}인 인덱스가 조재하지 않습니다.");
-		if(columnOrder >= tupleAttributeCount)
+		if(columnOrder >= attributeCount)
 			throw new UnityException($"값의 갯수가 {columnOrder}보다 적습니다.");
 		return indexAttributePairs[index][columnOrder];
 	}
 
-
-    public SheetParser(string link, string from, string to, bool hasIndex = true)
+	
+	public SheetParser(string link, string from, string to, bool hasIndex = true)
 	{
 		url = link;
 		heads = new List<string>();
@@ -95,7 +99,7 @@ public class SheetParser
 			t += (to[i] - 'A' + 1) * dig;
 			dig *= 26;
 		}
-		tupleAttributeCount = t - f + 1;
+		attributeCount = t - f + 1;
 
 		GameManager.instance.StartCoroutine(Load());
 
@@ -118,7 +122,7 @@ public class SheetParser
 
 		string[] rows = tsvFormatText.Split('\n');
 
-		
+		cardinality = rows.Length - 1;
 
 		string[] cols;
 		for (int i = 0; i < rows.Length; i++)

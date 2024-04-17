@@ -240,6 +240,7 @@ public class GameManager : MonoBehaviour
 	public const char CAPTUREDIVIDERSECTION = '*';
 
 	public static GameManager instance;
+	public static System.Text.StringBuilder globalStringBuilder = new System.Text.StringBuilder();
 
     public GameObject player;
 	public PlayerInput pinp;
@@ -301,7 +302,6 @@ public class GameManager : MonoBehaviour
 	internal DamageType recentDamageType = DamageType.DirectHit;
 	internal Actor recentEnemy = null;
 
-	SheetParser parser;
 	private void Awake()
 	{
 		instance = this;
@@ -348,9 +348,7 @@ public class GameManager : MonoBehaviour
 		
 		toolbarUIShower = GameObject.Find("ToolPanel").GetComponent<ToolBarManager>();
 
-
-		parser = new SheetParser("https://docs.google.com/spreadsheets/d/1U_d85oU7k3LJym1HeIO90zeiGZhk2D-k8w3PR9CgzaQ/export?format=tsv&gid=607348165&range=B3:G", "B", "G");
-		
+		StartCoroutine(Crafter.InitializeTrim());
 	}
 
 	private void Start()
@@ -512,9 +510,6 @@ public class GameManager : MonoBehaviour
 		if(Input.GetKeyDown(KeyCode.N))
 		{
 			player.GetComponent<PlayerLife>().SetAdequity(0);
-			Debug.Log(parser.GetAttribute(2, 1));
-			Debug.Log(parser.GetAttribute("이름", 3));
-			Debug.Log(parser.GetAttributeByIndex("10001", 1));
 		}
 		if (Input.GetKeyDown(KeyCode.M))
 		{

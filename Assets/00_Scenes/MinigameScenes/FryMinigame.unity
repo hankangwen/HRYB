@@ -199,14 +199,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6993383862160214807, guid: 0c2bffeea6a9cb14cae783ba03ebbabd, type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7124848092614540945, guid: 0c2bffeea6a9cb14cae783ba03ebbabd, type: 3}
-      propertyPath: m_Name
-      value: TimerBarForFryMinigame
-      objectReference: {fileID: 0}
     - target: {fileID: 7169908321142731856, guid: 0c2bffeea6a9cb14cae783ba03ebbabd, type: 3}
       propertyPath: m_Name
       value: FryMinigame
