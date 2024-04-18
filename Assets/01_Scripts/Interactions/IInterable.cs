@@ -7,6 +7,7 @@ public enum InterType
 	Insert,
 	PickUp,
 
+	Talk,
 }
 
 public enum AltInterType
