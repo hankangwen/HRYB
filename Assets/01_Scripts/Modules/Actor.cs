@@ -63,6 +63,7 @@ public class Actor : MonoBehaviour
 
 	public virtual void Respawn()
 	{
+		_ai.ResetStatus();
 		atk.ResetStatus();
 		move.ResetStatus();
 		life.ResetStatus();

@@ -618,4 +618,15 @@ public class GameManager : MonoBehaviour
 		yield return new WaitForSecondsRealtime(duration);
 		Time.timeScale = 1;
 	}
+
+
+	public void PlayerDeath()
+	{
+		AISetter[] objs = GameObject.FindObjectsOfType<AISetter>();
+
+		foreach (var item in objs)
+		{
+			item.GetComponent<Actor>().Respawn();
+		}
+	}
 }

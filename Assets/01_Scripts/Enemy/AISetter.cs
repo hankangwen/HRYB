@@ -105,4 +105,9 @@ public abstract class AISetter : MonoBehaviour
     {
 	    stopped = false;
     }
+
+	public virtual void ResetStatus()
+	{
+
+	}
 }
