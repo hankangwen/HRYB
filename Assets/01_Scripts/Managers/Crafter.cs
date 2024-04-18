@@ -214,15 +214,15 @@ public class Crafter
 			recipeItemTableTrim.Add(new ItemAmountPair(item), res);
 		}
 
-		//foreach (ItemAmountPair item in recipeItemTableTrim.Keys)
-		//{
-		//	Debug.Log($"{item.info.MyName}~");
-		//	foreach (ItemAmountPair results in (HashSet<ItemAmountPair>)recipeItemTableTrim[item])
-		//	{
-		//		Debug.Log($"{results.info.MyName} : {results.num}");
-		//	}
-		//	Debug.Log($"~{item.info.MyName}");
-		//}
+		foreach (ItemAmountPair item in recipeItemTableTrim.Keys)
+		{
+			Debug.Log($"{item.info.MyName}~");
+			foreach (ItemAmountPair results in (HashSet<ItemAmountPair>)recipeItemTableTrim[item])
+			{
+				Debug.Log($"{results.info.MyName} : {results.num}");
+			}
+			Debug.Log($"~{item.info.MyName}");
+		}
 	}
 
 
