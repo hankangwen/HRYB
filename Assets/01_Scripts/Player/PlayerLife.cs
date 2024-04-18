@@ -28,10 +28,6 @@ public class PlayerLife : LifeModule
 		spawnPoint[6] = new Vector3(723, 24, 432);
 		spawnPoint[7] = new Vector3(531, 13, 250);
 
-		if(GameManager.instance.saver.lastSave >= 0)
-		{
-			(self.move as PlayerMove).PlayerTeleport(spawnPoint[GameManager.instance.saver.lastSave]);
-		}
 		initPos = transform.position;
 
 		fadeInOutTime = 1.5f;
@@ -105,6 +101,8 @@ public class PlayerLife : LifeModule
 
 		//var load = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(1);
 		//yield return new WaitUntil(()=>load.isDone);
+
+		GameManager.instance.PlayerDeath();
 
 		if (GameManager.instance.saver.lastSave >= 0)
 		{
