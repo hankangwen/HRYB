@@ -16,7 +16,7 @@ public class Character : ScriptableObject
 	
 	public void OnTalk()
 	{
-		//GameManager.instance.uiManager.dialogueUI.talker = this;
+		GameManager.instance.uiManager.dialogueUI.talker = this;
 		talkData.OnShown();
 
 		//애니메이션을 재생하든 뭘 하든?

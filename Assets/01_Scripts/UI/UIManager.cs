@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 /// 끄고킬수있는 UI의 인터페이스 등 구조를 만들자.
 /// </summary>
 
-public class UIManager : MonoBehaviour
+ public class UIManager : MonoBehaviour
 {
 	Canvas canvas;
 
@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
 	public InterProcessUI interingUI;
     public GameObject invenPanel;
     public GameObject optionPanel;
+	public DialogueUI dialogueUI;
 
 	public NodeDetailUI detailer;
 
