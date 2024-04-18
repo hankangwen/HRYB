@@ -12,8 +12,22 @@ public class STINGRAY_Sun_Color : MonoBehaviour
     [SerializeField] private Color dayColour;
     [SerializeField] private Color eveningColour;
 
+	//fog
+	[SerializeField] private bool controlFog = false;
+	[SerializeField] private Color orginalFogColor;
 
-    void Update()
+	[SerializeField] private bool timeCycle = false;
+	[SerializeField] private float timeCycleTime = 1.0f;
+	[SerializeField] private float startAngle = 20.0f;
+
+	public float currentTime = 0.0f;
+	private void Awake()
+	{
+		//orginalFogColor = RenderSettings.fogColor;
+		transform.eulerAngles = new Vector3(startAngle, 20.0f, 0.0f);
+	}
+
+	void Update()
     {
         if(_light == null)
         {
@@ -34,5 +48,25 @@ public class STINGRAY_Sun_Color : MonoBehaviour
         {
             transform.localEulerAngles = new Vector3(-89.9f, transform.eulerAngles.y, transform.eulerAngles.z);
         }
+
+		if (timeCycle)
+		{
+			transform.Rotate(Vector3.right, timeCycleTime * Time.deltaTime);
+			//float v = transform.eulerAngles.x + timeCycleTime * Time.deltaTime;
+			//if (v > 360) v -= 360; //수정필요
+			//transform.eulerAngles = new Vector3(v, 20, 0);
+
+			//currentTime = v / 15f;
+		}
+		else transform.eulerAngles = new Vector3(startAngle, 20, 0);
+
+		if(controlFog)
+		{
+			if (_light.intensity < 5)
+			{
+				RenderSettings.fogColor = orginalFogColor * (_light.intensity * 0.2f);
+			}
+			else RenderSettings.fogColor = orginalFogColor;
+		}
     }
 }

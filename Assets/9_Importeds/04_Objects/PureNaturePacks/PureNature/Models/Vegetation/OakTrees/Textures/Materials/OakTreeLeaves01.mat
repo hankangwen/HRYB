@@ -12,12 +12,13 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _HIDESIDES_ON
-  m_InvalidKeywords:
   - _BASEWINDCHANNEL_B
-  - _BASEWIND_B
-  - _HIDEHARDANGLES_ON
+  - _HIDESIDES_ON
   - _MICROWINDCHANNEL_R
+  m_InvalidKeywords:
+  - _BASEWIND_B
+  - _DEPOSITLAYERCHANNEL_B
+  - _HIDEHARDANGLES_ON
   - _MICROWIND_R
   - _USEDITHER_ON
   m_LightmapFlags: 4
@@ -222,10 +223,10 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 1, g: 1, b: 1, a: 0}
-    - _ColorVariation: {r: 1, g: 0.11461386, b: 0, a: 1}
+    - _ColorVariation: {r: 1, g: 0.11461384, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GradientColor: {r: 0.13610326, g: 0.7924528, b: 0, a: 1}
-    - _MainColor: {r: 0.15686275, g: 0.4039216, b: 0.23137257, a: 1}
+    - _GradientColor: {r: 0.13610321, g: 0.7924528, b: 0, a: 1}
+    - _MainColor: {r: 0.1568627, g: 0.40392157, b: 0.23137254, a: 1}
     - _ScatteringColor: {r: 0.56218994, g: 1, b: 0, a: 0}
     - _SpecularColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _Tiling: {r: 4, g: 4, b: 0, a: 0}

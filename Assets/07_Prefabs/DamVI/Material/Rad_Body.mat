@@ -14,10 +14,9 @@ Material:
   m_ValidKeywords:
   - _EMISSIVE_SIMPLE
   - _IS_ANGELRING_OFF
+  - _IS_CLIPPING_OFF
   - _IS_OUTLINE_CLIPPING_NO
-  - _IS_TRANSCLIPPING_OFF
   - _OUTLINE_NML
-  - _SHADINGGRADEMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -26,7 +25,8 @@ Material:
   stringTagMap:
     IgnoreProjection: False
     RenderType: Opaque
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - SRPDEFAULTUNLIT
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -429,10 +429,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _1st2nd_Shades_Feather: 0.014
-    - _1st_ShadeColor_Feather: 0.04
-    - _1st_ShadeColor_Step: 0.13
-    - _2nd_ShadeColor_Feather: 0.014
+    - _1st2nd_Shades_Feather: 0.105
+    - _1st_ShadeColor_Feather: 0.111
+    - _1st_ShadeColor_Step: 0.228
+    - _2nd_ShadeColor_Feather: 0.105
     - _2nd_ShadeColor_Step: 0.112
     - _AAStrength: 1
     - _AORemapMax: 1
@@ -507,8 +507,8 @@ Material:
     - _BacklightViewStrength: 1
     - _BaseColorOverridden: 0
     - _BaseColorVisible: 1
-    - _BaseColor_Step: 0.13
-    - _BaseShade_Feather: 0.04
+    - _BaseColor_Step: 0.228
+    - _BaseShade_Feather: 0.111
     - _Base_Speed: 0
     - _BeforeExposureLimit: 10000
     - _BitKey0: 0
@@ -636,7 +636,7 @@ Material:
     - _FirstShadeOverridden: 0
     - _FirstShadeVisible: 1
     - _FlipNormal: 0
-    - _GI_Intensity: 0
+    - _GI_Intensity: 1
     - _GSAAStrength: 0
     - _GlitterAngleRandomize: 0
     - _GlitterApplyShape: 0
@@ -664,7 +664,7 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
-    - _HighColor_Power: 0.325
+    - _HighColor_Power: 0.163
     - _HighlightOverridden: 0
     - _HighlightVisible: 1
     - _IDMask1: 0
@@ -719,7 +719,7 @@ Material:
     - _Is_LightColor_Ap_RimLight: 1
     - _Is_LightColor_Base: 1
     - _Is_LightColor_HighColor: 1
-    - _Is_LightColor_MatCap: 1
+    - _Is_LightColor_MatCap: 0
     - _Is_LightColor_Outline: 1
     - _Is_LightColor_RimLight: 1
     - _Is_NormalMapForMatCap: 0
@@ -1083,14 +1083,14 @@ Material:
     - _lilShadowCasterBias: 0
     - _lilToonVersion: 42
     - _simpleUI: 0
-    - _utsTechnique: 1
+    - _utsTechnique: 0
     - _utsVersion: 2.08
     - _utsVersionX: 0
     - _utsVersionY: 9
     - _utsVersionZ: 7
     m_Colors:
-    - _1st_ShadeColor: {r: 1, g: 0.94249266, b: 0.92941177, a: 1}
-    - _2nd_ShadeColor: {r: 1, g: 0.95603347, b: 0.9490196, a: 1}
+    - _1st_ShadeColor: {r: 0.836478, g: 0.7950326, b: 0.78649974, a: 1}
+    - _2nd_ShadeColor: {r: 0.71488464, g: 0.6079279, b: 0.55826944, a: 1}
     - _AngelRingMaskColor: {r: 0, g: 1, b: 0, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1169,7 +1169,7 @@ Material:
     - _OutlineMaskColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineTexHSVG: {r: 0, g: 1, b: 1, a: 1}
     - _OutlineTex_ScrollRotate: {r: 0, g: 0, b: 0, a: 0}
-    - _Outline_Color: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
+    - _Outline_Color: {r: 0.12368977, g: 0.12368977, b: 0.12368977, a: 1}
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _ReflectionCubeColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 0.7783019, b: 0.7783019, a: 1}
