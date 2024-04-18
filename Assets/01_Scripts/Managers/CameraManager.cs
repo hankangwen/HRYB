@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public class CameraManager : MonoBehaviour
 {
 	public List<CinemachineBasicMultiChannelPerlin> camShakers = new List<CinemachineBasicMultiChannelPerlin>();
-	
+	List<SkillProduction> _skillProduct= new();
 	public CamStatus curCamStat;
 	
 	public const int FORWARDCAM = 20;
@@ -36,6 +36,16 @@ public class CameraManager : MonoBehaviour
 		}
 	}
 
+	MoveModule _playerModule;
+
+
+	public void RegisterSkillCam(SkillProduction _sk)
+	{
+		_skillProduct.Clear();
+		_skillProduct.Add(_sk);
+	}
+
+
 	private void Awake()
 	{
 		instance = this;
@@ -43,7 +53,6 @@ public class CameraManager : MonoBehaviour
 		
 		pCam = GetComponent<CinemachineFreeLook>();
 		aimCam = GameObject.Find("AimCam").GetComponent<CinemachineVirtualCamera>();
-		
 		SwitchTo(CamStatus.Freelook);
 		for (int i = 0; i < 3; i++)
 		{
@@ -58,7 +67,27 @@ public class CameraManager : MonoBehaviour
 			camShakers[i].m_FrequencyGain = 0;
 		}
 	}
-	
+
+	private void Start()
+	{
+
+		_playerModule = GameManager.instance.player.GetComponent<MoveModule>();
+	}
+
+	private void Update()
+	{
+		if(_playerModule.moveModuleStat.Paused == false)
+		{
+			int i = 0;
+			for (i =0; i < _skillProduct.Count; ++i)
+			{
+				_skillProduct[i].End();
+				_skillProduct[i]._shakes.m_AmplitudeGain = 0;
+				_skillProduct[i]._shakes.m_FrequencyGain = 0;
+			}
+		}
+	}
+
 	public void SwitchTo(CamStatus stat)
 	{
 		curCamStat = stat;
@@ -126,6 +155,13 @@ public class CameraManager : MonoBehaviour
 		{
 			camShakers[i].m_AmplitudeGain += ampGain;
 			camShakers[i].m_FrequencyGain += frqGain;
+		}
+
+		if (_skillProduct.Count > 0)
+		{
+			_skillProduct[0]._shakes.m_AmplitudeGain = ampGain;
+			_skillProduct[0]._shakes.m_FrequencyGain = frqGain;
+
 		}
 	}
 

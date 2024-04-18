@@ -185,7 +185,7 @@ public class PlayerCast : CastModule
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("HumenNormal"), SkillSlotInfo.LClick, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("ChargeBowAttack"), SkillSlotInfo.RClick, PlayerForm.Magic);
 
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("BackKick"), SkillSlotInfo.One, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("MasterSpark"), SkillSlotInfo.One, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("FireWall"), SkillSlotInfo.Two, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("EnhanceIce"), SkillSlotInfo.Three, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("ThunderStorm"), SkillSlotInfo.Q, PlayerForm.Magic);

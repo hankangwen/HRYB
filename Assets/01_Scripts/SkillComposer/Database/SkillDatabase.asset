@@ -32,3 +32,5 @@ MonoBehaviour:
       skill: {fileID: 11400000, guid: c30399a401f986d4abdc29fae18fbebe, type: 2}
     - name: SwordRain
       skill: {fileID: 11400000, guid: 4c93193311430ab499b2cf2638548d67, type: 2}
+    - name: MasterSpark
+      skill: {fileID: 11400000, guid: 1a9a45dbf98502d45bc1952e921c6d36, type: 2}

@@ -35,7 +35,7 @@ public class BoxColliderCast : ColliderCast
 	    dir.y *= _box.center.y;
 	    dir.z *= _box.center.z;
 	    //Debug.LogError(_box.size);
-	    return Physics.OverlapBox(transform.position + dir, _box.size, Owner.rotation, Layer);
+	    return Physics.OverlapBox(transform.position, _box.size, _quaternion, Layer);
     }
-    
+
 }
