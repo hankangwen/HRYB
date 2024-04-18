@@ -4,6 +4,8 @@ using System.Text;
 using UnityEngine;
 using TMPro;
 
+
+[CreateAssetMenu(menuName = "대화/일반")]
 public class Dialogue : ScriptableObject
 {
 	public string text;
@@ -72,8 +74,11 @@ public class Dialogue : ScriptableObject
 			++head;
 
 			//GameManager.instance.uiManager.dialogueUI.ShowText(sb.ToString());
+			Debug.Log(sb.ToString());
 		}
 		sb.Clear();
 		ongoing = null;
+
+		OnClick();
 	}
 }

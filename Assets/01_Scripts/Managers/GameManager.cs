@@ -274,6 +274,8 @@ public class GameManager : MonoBehaviour
 
 	public ToolBarManager toolbarUIShower;
 
+	public PreservedDataManager saver;
+
 	[Header("따로 설정이 필요함")]
 	public Sprite uiBase;
 	public TMPro.TMP_FontAsset tmpText;
@@ -289,7 +291,7 @@ public class GameManager : MonoBehaviour
 
 	public Transform outCaveTmp;
 
-	public int lastSave;
+	
 	
 
 	public WaitForSeconds waitSec = new WaitForSeconds(1.0f);
@@ -305,7 +307,8 @@ public class GameManager : MonoBehaviour
 	private void Awake()
 	{
 		instance = this;
-		lastSave = 0;
+
+
 		LockCursor();
 
 		qManager = new QuestManager();
@@ -348,6 +351,9 @@ public class GameManager : MonoBehaviour
 		
 		toolbarUIShower = GameObject.Find("ToolPanel").GetComponent<ToolBarManager>();
 
+		saver = GameObject.Find("PreservedDataManager").GetComponent<PreservedDataManager>();
+
+		saver.lastSave = -1;
 		StartCoroutine(Crafter.InitializeTrim());
 	}
 
@@ -594,6 +600,11 @@ public class GameManager : MonoBehaviour
 		float start = (min + max) * 0.5f - 180;
 		float floor = Mathf.FloorToInt((angle - start) / 360) * 360;
 		return Mathf.Clamp(angle, min + floor, max + floor);
+	}
+
+	public void KillPlayer()
+	{
+		pActor.life.DamageYY(1000, 1000, DamageType.NoEvadeHit);
 	}
 
 	public void TimeFreeze(float t, float duration = 0.04f)

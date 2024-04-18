@@ -18,10 +18,10 @@ public class Actor : MonoBehaviour
 	public SightModule sight;
 	public CastModule cast;
 	public AnimModule anim;
+	public TalkModule talk;
+
 	public Action<Actor> updateActs;
 	public AISetter _ai;
-
-	public Character character;
 
 	public AISetter AI
 	{
@@ -49,7 +49,7 @@ public class Actor : MonoBehaviour
 		cast = GetComponent<CastModule>();
 		anim = GetComponent<AnimModule>();
 
-		character.self = this;
+		talk = GetComponent<TalkModule>();
 	}
 	void Start()
 	{
@@ -69,5 +69,6 @@ public class Actor : MonoBehaviour
 		sight.ResetStatus();
 		cast.ResetStatus();
 		anim.ResetStatus();
+		talk?.ResetStatus();
 	}
 }

@@ -15,6 +15,8 @@ public class PlayerLife : LifeModule
 	Vector3[] spawnPoint = new Vector3[8];
 	PlayerMove pMove;
 
+	Vector3 initPos;
+
 	public override void Awake()
 	{
 		spawnPoint[0] = new Vector3(836, 14, 136);
@@ -25,6 +27,12 @@ public class PlayerLife : LifeModule
 		spawnPoint[5] = new Vector3(811, 18, 441);
 		spawnPoint[6] = new Vector3(723, 24, 432);
 		spawnPoint[7] = new Vector3(531, 13, 250);
+
+		if(GameManager.instance.saver.lastSave >= 0)
+		{
+			(self.move as PlayerMove).PlayerTeleport(spawnPoint[GameManager.instance.saver.lastSave]);
+		}
+		initPos = transform.position;
 
 		fadeInOutTime = 1.5f;
 		fadeImg = GameObject.Find("FadeImg").GetComponent<CanvasGroup>();
@@ -88,11 +96,24 @@ public class PlayerLife : LifeModule
 	{
 		loader = GameObject.Find("TitleLoad").GetComponent<TitleLoader>();
 		loader.FadeInOut("사망", 1f);
-		StartCoroutine(FadeInOutRoutine());
 		yield return new WaitForSeconds(1f);
 
+		StartCoroutine(FadeInOutRoutine());
+		yield return new WaitForSeconds(fadeInOutTime);
+
 		pMove = GameManager.instance.pActor.move as PlayerMove;
-		pMove.PlayerTeleport(spawnPoint[GameManager.instance.lastSave]);
+
+		//var load = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(1);
+		//yield return new WaitUntil(()=>load.isDone);
+
+		if (GameManager.instance.saver.lastSave >= 0)
+		{
+			pMove.PlayerTeleport(spawnPoint[GameManager.instance.saver.lastSave]);
+		}
+		else
+		{
+			pMove.PlayerTeleport(initPos);
+		}
 		GameManager.instance.EnableCtrl();
 	}
 
