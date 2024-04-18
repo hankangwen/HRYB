@@ -42,7 +42,7 @@ public class Dialogue : ScriptableObject
 
 	public virtual void ImmediateShow()
 	{
-		//GameManager.instance.uiManager.dialogueTextBox.text = text;
+		//GameManager.instance.uiManager.dialogueUI.ShowText(text);
 		sb.Clear();
 		GameManager.instance.StopCoroutine(ongoing);
 		ongoing = null;
@@ -50,10 +50,17 @@ public class Dialogue : ScriptableObject
 
 	public virtual void NextDialogue()
 	{
-		next.OnShown();
+		if(next != null)
+		{
+			next.OnShown();
+		}
+		else
+		{
+			//GameManager.instance.uiManager.dialogueUI.Off();
+		}
 	}
 
-	IEnumerator DelShowTxt()
+	protected virtual IEnumerator DelShowTxt()
 	{
 		sb.Clear();
 		int head = 0;
@@ -64,7 +71,7 @@ public class Dialogue : ScriptableObject
 
 			++head;
 
-			//GameManager.instance.uiManager.dialogueTextBox.text = sb.ToString();
+			//GameManager.instance.uiManager.dialogueUI.ShowText(sb.ToString());
 		}
 		sb.Clear();
 		ongoing = null;

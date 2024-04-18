@@ -21,6 +21,8 @@ public class Actor : MonoBehaviour
 	public Action<Actor> updateActs;
 	public AISetter _ai;
 
+	public Character character;
+
 	public AISetter AI
 	{
 		get
@@ -46,6 +48,8 @@ public class Actor : MonoBehaviour
 		sight = GetComponent<SightModule>();
 		cast = GetComponent<CastModule>();
 		anim = GetComponent<AnimModule>();
+
+		character.self = this;
 	}
 	void Start()
 	{
