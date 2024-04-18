@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "대화/선택지")]
 public class ChoiceDialogue : Dialogue
 {
 
@@ -26,6 +27,7 @@ public class ChoiceDialogue : Dialogue
 
 		///아무튼 다음 대사를 선택지로 정하고 그걸로 띄우기.
 		
+		next = nexts[0];
 		yield return null;
 		NextDialogue();
 	}

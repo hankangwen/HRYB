@@ -76,7 +76,7 @@ public class CameraManager : MonoBehaviour
 
 	private void Update()
 	{
-		if(_playerModule.moveModuleStat.Paused == false)
+		if(_playerModule.moveModuleStat.Paused == false && _skillProduct.Count > 0)
 		{
 			int i = 0;
 			for (i =0; i < _skillProduct.Count; ++i)
@@ -85,6 +85,7 @@ public class CameraManager : MonoBehaviour
 				_skillProduct[i]._shakes.m_AmplitudeGain = 0;
 				_skillProduct[i]._shakes.m_FrequencyGain = 0;
 			}
+			_skillProduct.Clear();
 		}
 	}
 

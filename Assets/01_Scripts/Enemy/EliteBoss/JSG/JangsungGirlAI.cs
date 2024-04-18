@@ -176,5 +176,9 @@ public class JangsungGirlAI : AISetter
     {
 	    return 25f;
     }
-
+	public override void ResetStatus()
+	{
+		base.ResetStatus();
+		_isStart = false;
+	}
 }

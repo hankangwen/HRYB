@@ -202,5 +202,10 @@ public class JangsungManAI : AISetter
     {
 	    
     }
-    
+
+	public override void ResetStatus()
+	{
+		base.ResetStatus();
+		_isStart = false;
+	}
 }
