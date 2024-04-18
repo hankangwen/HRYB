@@ -66,7 +66,7 @@ public class StoneLamp : MonoBehaviour
 		{
 			if (!lightEnabled && !loader.isFade)
 			{
-				GameManager.instance.lastSave = StoneLampIdx;
+				GameManager.instance.saver.lastSave = StoneLampIdx;
 				loader.FadeInOut(text, 0.5f);
 				StartCoroutine(LightOn());
 			}
