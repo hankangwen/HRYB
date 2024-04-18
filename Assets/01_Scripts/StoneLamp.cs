@@ -1,18 +1,18 @@
+using System.Collections;
 using UnityEngine;
 
 public class StoneLamp : MonoBehaviour
 {
-	MeshRenderer meshRenderer;
-	Color color;
-	float k = 0;
+	private MeshRenderer meshRenderer;
+	private Material material;
 
-	public int stoneLampNum;
+	public int StoneLampIdx;
 
-	bool isEffect;
-	bool isText = false;
+	private bool isEffect;
+	private bool lightEnabled = false;
 
 	TitleLoader loader;
-	GameObject obj;
+	private GameObject effectObj;
 
 	[Header("석등이 켜지는 거리")]
 	[SerializeField]
@@ -25,79 +25,126 @@ public class StoneLamp : MonoBehaviour
 	[Header("출력 텍스트")]
 	public string text;
 
-	float time;
-	Light l;
+	private Light pointLight;
+	private float pointLightIntensity;
 
-	Material material;
+	const string EmissionRatio = "_Emission_Ratio";
 
 	private void Awake()
 	{
-		l = GetComponentInChildren<Light>();
+		pointLight = GetComponentInChildren<Light>();
+		if (pointLight)
+		{
+			pointLightIntensity = pointLight.intensity;
+
+		}
+
 		meshRenderer = GetComponentInChildren<MeshRenderer>();
-		material = new Material(meshRenderer.material);
-
-		meshRenderer.material = material;
-
-		color = material.GetColor("_EmissionColor");
+		if (meshRenderer)
+		{
+			material = new Material(meshRenderer.material);
+			meshRenderer.material = material;
+		}
 	}
 
 	void Start()
-    {
-		text = "[세이브 포인트 활성화]";
+	{
+		//text = "[세이브 포인트 활성화]";
 		loader = GameObject.Find("TitleLoad").GetComponent<TitleLoader>();
-		l.enabled = false;
-		pDistance = 5;
-		isText = false;
-		material.DisableKeyword("_EMISSION");
-		
+
+		lightEnabled = false;
+		material.SetFloat(EmissionRatio, 0);
+		pointLight.intensity = 0;
+
 		isEffect = false;
-		
 	}
 
 	private void Update()
 	{
-		if(Vector3.Distance(GameManager.instance.player.transform.position, this.transform.position) < pDistance)
+		//플레이어가 접근 했을 때
+		if (Vector3.Distance(GameManager.instance.player.transform.position, this.transform.position) < pDistance)
 		{
-			if(!isText && !loader.isFade && stoneLampNum > GameManager.instance.lastSave)
+			if (!lightEnabled && !loader.isFade)
 			{
-				GameManager.instance.lastSave = stoneLampNum;
+				GameManager.instance.lastSave = StoneLampIdx;
 				loader.FadeInOut(text, 0.5f);
-				isText = true;
-				GameManager.instance.audioPlayer.PlayPoint("LightOn", transform.position);
+				StartCoroutine(LightOn());
 			}
-			
-			l.enabled = true;
-			material.EnableKeyword("_EMISSION");
-			k= Mathf.Clamp(k + Time.deltaTime / lightTime,-2, 3);
-			//Debug.Log(color * Mathf.Pow(2, Mathf.Lerp(-2, 3, k)));
-			material.SetColor("_EmissionColor", color * Mathf.Pow(2, Mathf.Lerp(-2, 3, k)));
 
-			time += Time.deltaTime;
-			
-			if (time > 1)
-			{
-				if(!((GameManager.instance.pActor.life.yy.white + GameManager.instance.pActor.life.initYinYang.white * 0.02f) >= GameManager.instance.pActor.life.initYinYang.white))
-				{
-					GameManager.instance.pActor.life.yy.white += GameManager.instance.pActor.life.initYinYang.white * 0.02f;
-
-					if (!isEffect)
-					{
-						obj = PoolManager.GetObject($"Heal", transform);
-						GameManager.instance.audioPlayer.PlayPoint("LightHeal", transform.position);
-						isEffect = true;
-					}
-					obj.transform.position = GameManager.instance.player.transform.position;
-				}
-				time = 0;
-			}
+			isEffect = true;
+			StartCoroutine(Heal());
 		}
 		else
 		{
 			isEffect = false;
-
-			if(obj != null)
-				PoolManager.ReturnObject(obj);
 		}
-			
-	}	
+
+	}
+
+	private IEnumerator LightOn()
+	{
+		GameManager.instance.audioPlayer.PlayPoint("LightOn", transform.position);
+		WaitForSeconds wait = new WaitForSeconds(0.005f);
+		WaitForSeconds lateWait = new WaitForSeconds(0.1f);
+		lightEnabled = true;
+
+		float time = 0;
+		while (time < lightTime)
+		{
+			float value = time / lightTime;
+			material.SetFloat(EmissionRatio, value);
+
+			time += Time.deltaTime;
+			pointLight.intensity = Mathf.Lerp(0, pointLightIntensity, value);
+
+			if (time < 0.1f)
+			{
+				yield return wait;
+				time += 0.005f;
+			}
+			else
+			{
+				yield return lateWait;
+				time += 0.1f;
+			}
+		}
+	}
+	private IEnumerator Heal()
+	{
+		WaitForSeconds wait = new WaitForSeconds(1.0f);
+
+		while (true)
+		{
+			if (isEffect == false)
+			{
+				if (effectObj != null)
+				{
+					PoolManager.ReturnObject(effectObj);
+				}
+
+				break;
+			}
+			else
+			{
+				//플레이어가 체력이 없을때
+				if (!((GameManager.instance.pActor.life.yy.white + GameManager.instance.pActor.life.initYinYang.white * 0.02f) >= GameManager.instance.pActor.life.initYinYang.white))
+				{
+					GameManager.instance.pActor.life.yy.white += GameManager.instance.pActor.life.initYinYang.white * 0.02f;
+
+					if (effectObj == null)
+					{
+						effectObj = PoolManager.GetObject($"Heal", transform);
+					}
+
+					effectObj.transform.position = GameManager.instance.player.transform.position;
+
+					GameManager.instance.audioPlayer.PlayPoint("LightHeal", transform.position);
+				}
+			}
+
+
+			yield return wait;
+		}
+
+	}
 }
