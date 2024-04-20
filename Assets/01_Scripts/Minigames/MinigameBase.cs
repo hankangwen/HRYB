@@ -13,7 +13,7 @@ public class MinigameBase : MonoBehaviour
 
 	GameObject minigameZone;
 
-	List<Animator> feedbacks;
+	protected List<Animator> feedbacks;
 	private readonly int ActHash = Animator.StringToHash("Act");
 	
 	public virtual void Awake()
