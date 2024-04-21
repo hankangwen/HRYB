@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
-
-[CreateAssetMenu(menuName = "대화/일반")]
 public class Dialogue : ScriptableObject
 {
 	public string text;
@@ -24,9 +23,11 @@ public class Dialogue : ScriptableObject
 		ws = new WaitForSeconds(typeDel);
 	}
 
+	
+
 	public virtual void OnShown()
 	{
-		//GameManager.instance.uiManager.dialogueUI.currentShown = this;
+		GameManager.instance.uiManager.dialogueUI.currentShown = this;
 		ongoing = GameManager.instance.StartCoroutine(DelShowTxt());
 	}
 
@@ -44,7 +45,7 @@ public class Dialogue : ScriptableObject
 
 	public virtual void ImmediateShow()
 	{
-		//GameManager.instance.uiManager.dialogueUI.ShowText(text);
+		GameManager.instance.uiManager.dialogueUI.ShowText(text);
 		sb.Clear();
 		GameManager.instance.StopCoroutine(ongoing);
 		ongoing = null;
@@ -58,7 +59,7 @@ public class Dialogue : ScriptableObject
 		}
 		else
 		{
-			//GameManager.instance.uiManager.dialogueUI.Off();
+			GameManager.instance.uiManager.dialogueUI.Off();
 		}
 	}
 
@@ -73,12 +74,9 @@ public class Dialogue : ScriptableObject
 
 			++head;
 
-			//GameManager.instance.uiManager.dialogueUI.ShowText(sb.ToString());
-			Debug.Log(sb.ToString());
+			GameManager.instance.uiManager.dialogueUI.ShowText(sb.ToString());
 		}
 		sb.Clear();
 		ongoing = null;
-
-		OnClick();
 	}
 }

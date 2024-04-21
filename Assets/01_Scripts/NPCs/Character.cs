@@ -23,6 +23,7 @@ public class Character : ScriptableObject
 	
 	public void OnTalk()
 	{
+		GameManager.instance.uiManager.dialogueUI.talker = this;
 		//GameManager.instance.uiManager.dialogueUI.talker = this;
 		Debug.Log($"{FullName}이 말하는 중 ...");
 		talkData.OnShown();

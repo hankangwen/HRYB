@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 /// 끄고킬수있는 UI의 인터페이스 등 구조를 만들자.
 /// </summary>
 
-public class UIManager : MonoBehaviour
+ public class UIManager : MonoBehaviour
 {
 	Canvas canvas;
 
@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
 	public InterProcessUI interingUI;
     public GameObject invenPanel;
     public GameObject optionPanel;
+	public DialogueUI dialogueUI;
 
 	public NodeDetailUI detailer;
 
@@ -48,7 +49,7 @@ public class UIManager : MonoBehaviour
 	{
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		invenPanel = canvas.transform.Find("ToolPanel").gameObject;
-		optionPanel = canvas.transform.Find("OptonUI").gameObject;
+		optionPanel = canvas.transform.Find("OptionUI").gameObject;
 		yinYangUI = canvas.GetComponentInChildren<YYCtrl>();
 		aimUI = canvas.GetComponentInChildren<AimPointCtrl>();
 		//infoUI = canvas.GetComponentInChildren<InfoCtrl>();
@@ -57,6 +58,7 @@ public class UIManager : MonoBehaviour
 		preInterUI = canvas.GetComponentInChildren<InterPrevUI>();
 		interingUI = canvas.GetComponentInChildren<InterProcessUI>();
 		detailer = canvas.transform.Find("ToolPanel/Node/NodeDetail").GetComponent<NodeDetailUI>();
+		dialogueUI = canvas.transform.Find("DialogueUI/Dialogue").GetComponent<DialogueUI>();
 
 		invenPanel.SetActive(true);
 		optionPanel.SetActive(false);
