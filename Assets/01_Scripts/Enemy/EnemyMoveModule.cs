@@ -4,7 +4,6 @@ using UnityEngine.AI;
 public class EnemyMoveModule : MoveModule
 {
 	Transform _target;
-	[SerializeField] private new float speed = 15f;
 
 
 	private bool _isMove = false;
@@ -121,5 +120,11 @@ public class EnemyMoveModule : MoveModule
 		_isMove = false;
 		SetTarget(transform);
 		self.anim.SetMoveState(false);
+	}
+
+	public override void ResetStatus()
+	{
+		base.ResetStatus();
+		StopMove();
 	}
 }

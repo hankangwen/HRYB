@@ -26,6 +26,8 @@ public class Stirrer : MinigameBase
 	RectTransform target;
 	Transform ball;
 
+	private readonly int DirectionHash = Animator.StringToHash("Direction");
+
 	public override void Awake()
 	{
 		base.Awake();
@@ -48,6 +50,21 @@ public class Stirrer : MinigameBase
 			{
 				ballMoveDir = posDiff.normalized;
 				ShowFeedback();
+			}
+
+			if(posDiff.x > 0)
+			{
+				for (int i = 0; i < feedbacks.Count; i++)
+				{
+					feedbacks[i].SetBool(DirectionHash, true);
+				}
+			}
+			else
+			{
+				for (int i = 0; i < feedbacks.Count; i++)
+				{
+					feedbacks[i].SetBool(DirectionHash, false);
+				}
 			}
 		}
 
