@@ -10,6 +10,8 @@ public class TitleBtn : MonoBehaviour
 	private Image img;
 	public Sprite BtnUI;
 	public Sprite OnBtnUI;
+	public GameObject optionUI;
+
 
 	private TMP_Text text;
 
@@ -26,6 +28,23 @@ public class TitleBtn : MonoBehaviour
 	{
 		img.sprite = BtnUI;
 		text.color = Color.white;
+		optionUI.gameObject.SetActive(false);
+		Cursor.visible = true;
+	}
+
+	public void OnOption()
+	{
+		optionUI.gameObject.SetActive(true);
+	}
+
+	public void OffOption()
+	{
+		optionUI.gameObject.SetActive(false);
+	}
+
+	public void OffOption2()
+	{
+		GameManager.instance.uiManager.OnOffOption();
 	}
 
 	public void Enter()

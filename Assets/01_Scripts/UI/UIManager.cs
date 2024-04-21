@@ -49,7 +49,7 @@ using UnityEngine.InputSystem;
 	{
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		invenPanel = canvas.transform.Find("ToolPanel").gameObject;
-		optionPanel = canvas.transform.Find("OptonUI").gameObject;
+		optionPanel = canvas.transform.Find("OptionUI").gameObject;
 		yinYangUI = canvas.GetComponentInChildren<YYCtrl>();
 		aimUI = canvas.GetComponentInChildren<AimPointCtrl>();
 		//infoUI = canvas.GetComponentInChildren<InfoCtrl>();
