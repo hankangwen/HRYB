@@ -15,6 +15,11 @@ public class JSInitBattle : MonoBehaviour
 	private bool _IsStart =false;
 	private bool _isDead = false;
 
+	public void StartReseet()
+	{
+		_IsStart = false;
+	}
+
 	private void Update()
 	{
 		if (_isDead == false && _lifeOne.isDead && _lifeTwo.isDead)

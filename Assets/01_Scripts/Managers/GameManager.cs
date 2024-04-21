@@ -628,5 +628,7 @@ public class GameManager : MonoBehaviour
 		{
 			item.GetComponent<Actor>().Respawn();
 		}
+
+		GameObject.FindObjectOfType<JSInitBattle>().StartReseet();
 	}
 }

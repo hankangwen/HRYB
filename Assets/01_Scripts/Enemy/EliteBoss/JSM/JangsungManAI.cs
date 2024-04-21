@@ -194,6 +194,7 @@ public class JangsungManAI : AISetter
 
 	IEnumerator WaitStart()
 	{
+		head = null;
 		yield return new WaitUntil(() => _isStart == true);
 		StartInvoke();
 	}
@@ -207,5 +208,8 @@ public class JangsungManAI : AISetter
 	{
 		base.ResetStatus();
 		_isStart = false;
+		StartInvoke();
+
+		self.life.ResetStatus();
 	}
 }

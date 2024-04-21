@@ -50,7 +50,7 @@ AnimatorStateMachine:
     m_Position: {x: 100, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8371712374348934403}
-    m_Position: {x: 460, y: -160, z: 0}
+    m_Position: {x: 640, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6696735605842157583}
     m_Position: {x: 260, y: 240, z: 0}
@@ -256,6 +256,31 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &1886389816528642409
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: Die
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 4024087846892304003}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1102 &4024087846892304003
 AnimatorState:
   serializedVersion: 6
@@ -420,7 +445,8 @@ AnimatorState:
   m_Name: DieAnim
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions: []
+  m_Transitions:
+  - {fileID: 1886389816528642409}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0

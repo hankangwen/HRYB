@@ -63,7 +63,7 @@ public class AnimModule : Module
 	public override void ResetStatus()
 	{
 		base.ResetStatus();
-
+		anim.SetBool(dieHash, false);
 		anim.SetTrigger(respawnHash);
 	}
 

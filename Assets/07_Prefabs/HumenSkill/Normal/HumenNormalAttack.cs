@@ -48,10 +48,10 @@ public class HumenNormalAttack : AttackBase
 					GameObject obj = PoolManager.GetObject("HumenBullet", self.transform);
 					if (obj.TryGetComponent<YGArrow>(out YGArrow _yg))
 					{
-						_yg.Ready(self, self.transform.position + self.transform.forward.normalized * 1,
+						_yg.Ready(self, self.transform.position + self.transform.forward.normalized * 1 + new Vector3(0, 1.2f, 0),
 						(_pos, enemy, time) =>
 						{
-							obj.transform.position = Vector3.Lerp(_pos + new Vector3(0,1.2f,0), enemy, time / 0.3f);
+							obj.transform.position = Vector3.Lerp(_pos, enemy, time / 0.3f);
 							if(time/0.7f >= 1f)
 							{
 								PoolManager.ReturnObject(_yg.gameObject);
@@ -116,10 +116,10 @@ public class HumenNormalAttack : AttackBase
 					GameObject obj = PoolManager.GetObject("HumenBullet", self.transform);
 					if (obj.TryGetComponent<YGArrow>(out YGArrow _yg))
 					{
-						_yg.Ready(self, self.transform.position + self.transform.forward.normalized * 1,
+						_yg.Ready(self, self.transform.position + self.transform.forward.normalized * 1 + new Vector3(0, 1.2f, 0),
 						(_pos, enemy, time) =>
 						{
-							obj.transform.position = Vector3.Lerp(_pos + new Vector3(0, 1.2f, 0), enemy, time / 0.3f);
+							obj.transform.position = Vector3.Lerp(_pos, enemy, time / 0.3f);
 							if (time / 0.7f >= 1f)
 							{
 								PoolManager.ReturnObject(_yg.gameObject);

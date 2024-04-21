@@ -135,6 +135,7 @@ public class JangsungGirlAI : AISetter
 
 	IEnumerator WaitStart()
 	{
+		head = null;
 		yield return new WaitUntil(() => _isStart);
 		yield return new WaitForSeconds(1f);
 		StartInvoke();
@@ -180,5 +181,7 @@ public class JangsungGirlAI : AISetter
 	{
 		base.ResetStatus();
 		_isStart = false;
+		StartInvoke();
+		self.life.ResetStatus();
 	}
 }
