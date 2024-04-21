@@ -764,7 +764,7 @@ PlayerSettings:
     Standalone: 1
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration:
-    Standalone: 1
+    Standalone: 0
   managedStrippingLevel:
     Bratwurst: 1
     EmbeddedLinux: 1
