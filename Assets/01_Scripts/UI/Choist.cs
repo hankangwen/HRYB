@@ -5,15 +5,23 @@ using TMPro;
 
 public class Choist : MonoBehaviour
 {
-	public int choiseNum;
+	public int choiceNum;
 
-	public TMP_Text choiseTxt;
+	public TMP_Text choiceTxt;
 
-	private void Start()
+	public void SetText(string text)
 	{
-		choiseTxt = GetComponent<TMP_Text>();
+		if(choiceTxt == null) 
+		{
+			choiceTxt = GetComponentInChildren<TMP_Text>();
+		}
+		choiceTxt.text = text;
 	}
 
+	public void OnChoiceButtonDown()
+	{
+		GameManager.instance.uiManager.dialogueUI.chosen = choiceNum;
+	}
 
 
 }

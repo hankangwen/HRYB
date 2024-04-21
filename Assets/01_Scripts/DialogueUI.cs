@@ -12,10 +12,24 @@ public class DialogueUI : MonoBehaviour
 	public GameObject choisePrefab;
 	public GameObject choiseList;
 
-	public int chosen;
+	public int chosen = -1;
 
 	public Dialogue currentShown;
 	public Character talker;
+
+	private void Start()
+	{
+		Contents = transform.GetChild(2).GetComponent<TMP_Text>();
+	}
+
+
+	private void Update()
+	{
+		if(Input.GetMouseButton(0))
+		{
+			currentShown?.OnClick();
+		}
+	}
 
 	public void ShowText(string text)
 	{
@@ -27,18 +41,19 @@ public class DialogueUI : MonoBehaviour
 		this.gameObject.SetActive(false);
 	}
 
-	public void ShowChoice(List<string> choise)
+	public void ShowChoice(List<string> choice)
 	{
-		for(int i = choise.Count - 1; i >= 0; i--) 
+		for(int i = choice.Count - 1; i >= 0; i--) 
 		{
 			GameObject cc = Instantiate(choisePrefab, choiseList.transform);
-			cc.GetComponent<Choist>().choiseTxt.text = choise[i];
-			cc.GetComponent<Choist>().choiseNum = i;
+			cc.GetComponent<Choist>().SetText(choice[i]);
+			cc.GetComponent<Choist>().choiceNum = i;
 		}
 	}
 
 	public void OffChoice()
 	{
+		
 		choiseList.SetActive(false);
 	}
 

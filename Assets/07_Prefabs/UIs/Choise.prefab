@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 3186103545831832595}
   - component: {fileID: 2619733031390049169}
   - component: {fileID: 6233650425299613234}
+  - component: {fileID: 7044924958698221898}
   m_Layer: 5
   m_Name: Choise
   m_TagString: Untagged
@@ -254,4 +255,30 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2619733031390049169}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7044924958698221898}
+        m_TargetAssemblyTypeName: Choist, Assembly-CSharp
+        m_MethodName: OnChoiceButtonDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7044924958698221898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3902903988828595348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 039eb408ac8a48e448018e06c5fbf1aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  choiceNum: 0
+  choiceTxt: {fileID: 0}

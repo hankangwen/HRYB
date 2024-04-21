@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class Dialogue : ScriptableObject
 {
@@ -21,6 +22,8 @@ public class Dialogue : ScriptableObject
 	{
 		ws = new WaitForSeconds(typeDel);
 	}
+
+	
 
 	public virtual void OnShown()
 	{
