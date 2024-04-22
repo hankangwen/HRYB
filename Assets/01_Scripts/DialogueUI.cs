@@ -50,6 +50,8 @@ public class DialogueUI : MonoBehaviour
 			GameManager.instance.UnLockCursor();
 			GameManager.instance.DisableCtrl(ControlModuleMode.Status);
 			GameManager.instance.camManager.FreezeCamX(true);
+
+			GameManager.instance.uiManager.basicUIGroup.SetActive(false);
 		}
 
 		Contents.text = text;
@@ -67,6 +69,7 @@ public class DialogueUI : MonoBehaviour
 		GameManager.instance.LockCursor();
 		GameManager.instance.EnableCtrl(ControlModuleMode.Status);
 		GameManager.instance.camManager.UnfreezeCamX();
+		GameManager.instance.uiManager.basicUIGroup.SetActive(true);
 	}
 
 	public void ShowChoice(List<string> choice)
