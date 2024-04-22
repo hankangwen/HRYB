@@ -9,7 +9,7 @@ public class DialogueUI : MonoBehaviour
 	TMP_Text SubTitle;
 	TMP_Text Contents;
 
-	public GameObject choisePrefab;
+	public Choist choisePrefab;
 	public GameObject choiseList;
 
 	public int chosen = -1;
@@ -17,15 +17,25 @@ public class DialogueUI : MonoBehaviour
 	public Dialogue currentShown;
 	public Character talker;
 
-	private void Start()
+	List<Choist> choists = new List<Choist>();
+
+	bool stat;
+	bool choiceStat;
+
+	private void Awake()
 	{
 		Contents = transform.GetChild(2).GetComponent<TMP_Text>();
+	}
+
+	private void Start()
+	{
+		Off();
 	}
 
 
 	private void Update()
 	{
-		if(Input.GetMouseButton(0))
+		if(Input.GetMouseButtonDown(0))
 		{
 			currentShown?.OnClick();
 		}
@@ -33,26 +43,55 @@ public class DialogueUI : MonoBehaviour
 
 	public void ShowText(string text)
 	{
+		if (!stat)
+		{
+			this.gameObject.SetActive(true);
+			stat = true;
+			GameManager.instance.UnLockCursor();
+			GameManager.instance.DisableCtrl(ControlModuleMode.Status);
+			GameManager.instance.camManager.FreezeCamX(true);
+		}
+
 		Contents.text = text;
 	}
 
 	public void Off()
 	{
 		this.gameObject.SetActive(false);
+		choiseList.SetActive(false);
+		currentShown = null;
+		talker = null;
+		chosen = -1;
+		stat = false;
+		choiceStat = false;
+		GameManager.instance.LockCursor();
+		GameManager.instance.EnableCtrl(ControlModuleMode.Status);
+		GameManager.instance.camManager.UnfreezeCamX();
 	}
 
 	public void ShowChoice(List<string> choice)
 	{
+		if (!choiceStat)
+		{
+			choiseList.SetActive(true);
+		}
 		for(int i = choice.Count - 1; i >= 0; i--) 
 		{
-			GameObject cc = Instantiate(choisePrefab, choiseList.transform);
-			cc.GetComponent<Choist>().SetText(choice[i]);
-			cc.GetComponent<Choist>().choiceNum = i;
+			Choist cc = Instantiate(choisePrefab, choiseList.transform);
+			cc.SetText(choice[i]);
+			cc.choiceNum = i;
+			choists.Add(cc);
 		}
 	}
 
 	public void OffChoice()
 	{
+		choiceStat = false;
+		for (int i = 0; i < choists.Count; i++)
+		{
+			Destroy(choists[i].gameObject);
+		}
+		choists.Clear();
 		
 		choiseList.SetActive(false);
 	}

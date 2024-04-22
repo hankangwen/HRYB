@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 1_Greeting
   m_EditorClassIdentifier: 
   text: "\uBC18\uAC00\uC6CC \uCE5C\uAD6C."
-  typeDel: 0.03
+  typeDel: 0.1
   next: {fileID: 11400000, guid: ab549006a019ccd46801f88685ceada0, type: 2}

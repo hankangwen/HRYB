@@ -3746,7 +3746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ae4715d0619cd45aa15865ae8f5f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choisePrefab: {fileID: 3902903988828595348, guid: cfc4b486f0020a444a06eea5e8cd345d, type: 3}
+  choisePrefab: {fileID: 7044924958698221898, guid: cfc4b486f0020a444a06eea5e8cd345d, type: 3}
   choiseList: {fileID: 5617622520582147188}
   chosen: -1
   currentShown: {fileID: 0}
@@ -8303,7 +8303,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 499.99997, y: 500}
+  m_AnchoredPosition: {x: 500, y: 500}
   m_SizeDelta: {x: 1000, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5799889049635553491
@@ -9959,7 +9959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4954353416025668372
 RectTransform:
   m_ObjectHideFlags: 0
