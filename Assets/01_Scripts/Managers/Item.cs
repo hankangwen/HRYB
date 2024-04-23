@@ -75,10 +75,10 @@ public class Item // #################
 	public static Dictionary<Item, int> useCount = new Dictionary<Item, int>();
 
 	public int Id {get => MyName.GetHashCode();}
-    protected string myName;
+    public string originalName;
 	public virtual string MyName
 	{
-		get => myName; set => myName = value;
+		get => originalName; set => originalName = value;
 	}
 
 	public string desc;
@@ -118,7 +118,7 @@ public class Item // #################
 
 	public Item(Item dat)
 	{
-		myName = dat.myName;
+		originalName = dat.originalName;
 		desc = dat.desc;
 		itemType = dat.itemType;
 		maxStack = dat.maxStack;
@@ -128,7 +128,7 @@ public class Item // #################
 
 	public Item(string n, string d, ItemType iType, int max, Specials useFunc ,bool isNewItem)
 	{
-        myName = n;
+        originalName = n;
 		desc = d;
 		if (isNewItem)
 		{

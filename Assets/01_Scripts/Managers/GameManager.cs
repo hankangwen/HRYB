@@ -275,6 +275,7 @@ public class GameManager : MonoBehaviour
 	public ToolBarManager toolbarUIShower;
 
 	public PreservedDataManager saver;
+	public ItemPedia pedia;
 
 	[Header("따로 설정이 필요함")]
 	public Sprite uiBase;
@@ -354,7 +355,7 @@ public class GameManager : MonoBehaviour
 		saver = GameObject.Find("PreservedDataManager").GetComponent<PreservedDataManager>();
 
 		saver.lastSave = -1;
-		StartCoroutine(Crafter.InitializeTrim());
+		StartCoroutine(InitializeAll());
 	}
 
 	private void Start()
@@ -362,6 +363,18 @@ public class GameManager : MonoBehaviour
 		audioPlayer.PlayBgm(NORMALBGM);
 		
 	}
+
+	IEnumerator InitializeAll()
+	{
+		//아이템을 초기화
+		//제작법을 초기허ㅘ하맙.
+
+		yield return StartCoroutine(Crafter.InitializeTrim());
+
+		pedia = new ItemPedia();
+	}
+
+
 
 	public void LockCursor()
 	{
