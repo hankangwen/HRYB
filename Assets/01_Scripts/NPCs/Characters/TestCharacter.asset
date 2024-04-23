@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea3d931a3f2dec940a71998aaf5634ba, type: 3}
   m_Name: TestCharacter
   m_EditorClassIdentifier: 
-  baseName: "\uC6D0"
-  subName: "\uC644\uBCBD\uD55C \uAD6C"
+  baseName: "\uB4E4\uC5D0\uC788\uB294\uCF69\uAE4D\uC9C0\uB294"
+  subName: "\uAE50\uCF69\uAE4D\uC9C0\uB0D0\uC548\uAE50\uCF69\uAE4D\uC9C0\uB0D0"
   talkData: {fileID: 11400000, guid: e423c01f3f66df440847296487483e38, type: 2}

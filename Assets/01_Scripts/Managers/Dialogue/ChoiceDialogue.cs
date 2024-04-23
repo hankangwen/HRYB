@@ -10,19 +10,32 @@ public class ChoiceDialogue : Dialogue
 
 	public List<Dialogue> nexts;
 
+	bool choosing = false;
+
 	protected override IEnumerator DelShowTxt()
 	{
 		yield return base.DelShowTxt();
 		yield return ShowChoice();
 	}
 
+	public override void OnClick()
+	{
+		if (!choosing)
+		{
+			base.OnClick();
+		}
+	}
+
 	IEnumerator ShowChoice()
 	{
+		
 		GameManager.instance.uiManager.dialogueUI.ShowChoice(choiceOptions);
+		choosing = true;
 		yield return new WaitUntil(()=> GameManager.instance.uiManager.dialogueUI.chosen != -1);
 		next = nexts[GameManager.instance.uiManager.dialogueUI.chosen];
 		GameManager.instance.uiManager.dialogueUI.chosen = -1;
 		GameManager.instance.uiManager.dialogueUI.OffChoice();
+		choosing =false;
 		Debug.LogError("아오");
 
 

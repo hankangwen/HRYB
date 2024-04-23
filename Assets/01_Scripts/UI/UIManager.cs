@@ -26,6 +26,8 @@ using UnityEngine.InputSystem;
 
 	public NodeDetailUI detailer;
 
+	public GameObject basicUIGroup;
+
     public RectTransform CursorPos;
     public Image Cursor;
 
@@ -57,6 +59,7 @@ using UnityEngine.InputSystem;
 		questUI = canvas.GetComponentInChildren<QuestUICtrl>();
 		preInterUI = canvas.GetComponentInChildren<InterPrevUI>();
 		interingUI = canvas.GetComponentInChildren<InterProcessUI>();
+		basicUIGroup = canvas.transform.Find("Group").gameObject;
 		detailer = canvas.transform.Find("ToolPanel/Node/NodeDetail").GetComponent<NodeDetailUI>();
 		dialogueUI = canvas.transform.Find("DialogueUI/Dialogue").GetComponent<DialogueUI>();
 

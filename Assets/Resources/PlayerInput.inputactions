@@ -37,7 +37,7 @@
                     "type": "Value",
                     "id": "8837fbad-96eb-4f6d-be35-3c9972dfc31c",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "NormalizeIfOverOne",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -324,7 +324,7 @@
                     "id": "69821f6c-c253-422d-9c2f-156b172c66b8",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=0.1,y=0.05)",
                     "groups": "MnK",
                     "action": "Turn",
                     "isComposite": false,

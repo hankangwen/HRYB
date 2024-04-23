@@ -127,13 +127,20 @@ public class CameraManager : MonoBehaviour
 		UnShakeCam(ampGain, frqGain);
 	}
 
-	public void FreezeCamX()
+	public void FreezeCamX(bool useCurrentCamX = false)
 	{
+		if (useCurrentCamX)
+		{
+			pCam.m_XAxis.m_MinValue = pCam.m_XAxis.Value;
+			pCam.m_XAxis.m_MaxValue = pCam.m_XAxis.Value;
+		}
 		pCam.m_XAxis.m_Wrap = false;
 	}
 
 	public void UnfreezeCamX()
 	{
+		pCam.m_XAxis.m_MinValue = 0;
+		pCam.m_XAxis.m_MaxValue = 0;
 		pCam.m_XAxis.m_Wrap = true;
 	}
 
