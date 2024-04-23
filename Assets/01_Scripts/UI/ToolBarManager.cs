@@ -37,14 +37,18 @@ public class ToolBarManager : MonoBehaviour
 
 	private void Awake()
 	{
+
 		invenWindow = Inventory.GetComponent<IOpenableWindowUI>();
 		
 		medicineWindow = Medicine.GetComponent<IOpenableWindowUI>();
 		questWindow = Quest.GetComponent<IOpenableWindowUI>();
 		nodeWindow = Node.GetComponent<IOpenableWindowUI>();
 		settingWindow = Setting.GetComponent<IOpenableWindowUI>();
+	}
 
-		ToolOff();
+	private void Start()
+	{
+		ChangeStatus(ToolState.Inventory);
 	}
 
 	private void Update()
@@ -59,6 +63,7 @@ public class ToolBarManager : MonoBehaviour
 	public void ChangeStatus(ToolState windowStat)
 	{
 		ToolOff();
+		BtnOff();
 		if (curOpened != null)
 		{
 			curOpened.OnClose();
@@ -68,45 +73,70 @@ public class ToolBarManager : MonoBehaviour
 		{
 			case ToolState.Inventory:
 				Inventory.SetActive(true);
+				InventoryBtn.Lighten();
 				if (invenWindow != null)
 				{
 					curOpened = invenWindow;
 					curOpened.OnOpen();
 				}
+				else
+				{
+					curOpened = null;
+				}
 				break;
 			case ToolState.Medicine:
 				Medicine.SetActive(true);
+				MedicineBtn.Lighten();
 				if (medicineWindow != null)
 				{
 					curOpened = medicineWindow;
 					curOpened.OnOpen();
 				}
+				else
+				{
+					curOpened = null;
+				}
 				break;
 
 			case ToolState.Quest:
 				Quest.SetActive(true);
+				QuestBtn.Lighten();
 				if (questWindow != null)
 				{
 					curOpened = questWindow;
 					curOpened.OnOpen();
 				}
+				else
+				{
+					curOpened = null;
+				}
 				break;
 
 			case ToolState.Node:
 				Node.SetActive(true);
+				NodeBtn.Lighten();
 				if (nodeWindow != null)
 				{
 					curOpened = nodeWindow;
 					curOpened.OnOpen();
 				}
+				else
+				{
+					curOpened = null;
+				}
 				break;
 
 			case ToolState.Setting:
 				Setting.SetActive(true);
+				SettingBtn.Lighten();
 				if (settingWindow != null)
 				{
 					curOpened = settingWindow;
 					curOpened.OnOpen();
+				}
+				else
+				{
+					curOpened = null;
 				}
 				break;
 
@@ -137,15 +167,26 @@ public class ToolBarManager : MonoBehaviour
 	}
 	public void BtnOff()
 	{
-		InventoryBtn.Exit();
-
-		MedicineBtn.Exit();
-
-		QuestBtn.Exit();
-
-		NodeBtn.Exit();
-
-		SettingBtn.Exit();
+		switch (state)
+		{
+			case ToolState.Inventory:
+				InventoryBtn.ResetButton();
+				break;
+			case ToolState.Medicine:
+				MedicineBtn.ResetButton();
+				break;
+			case ToolState.Quest:
+				QuestBtn.ResetButton();
+				break;
+			case ToolState.Node:
+				NodeBtn.ResetButton();
+				break;
+			case ToolState.Setting:
+				SettingBtn.ResetButton();
+				break;
+			default:
+				break;
+		}
 	}
 
 }

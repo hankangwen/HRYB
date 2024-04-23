@@ -209,7 +209,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 4dee9345fa4d3ee468eacd0d52557847, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -475,7 +475,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8905023820208526245}
   - component: {fileID: 4212397361793006634}
-  - component: {fileID: 5638984715540510254}
   - component: {fileID: 5641331475131935577}
   m_Layer: 0
   m_Name: FryCam
@@ -550,14 +549,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &5638984715540510254
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2894609622912545088}
-  m_Enabled: 1
 --- !u!114 &5641331475131935577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1222,7 +1213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 821ab34872090ee4f86700bd8904d887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  feedbackerName: VFX_Fire_Floor_01
   minigameSceneName: 
   myMode: 2
   windGap: 1
@@ -1631,6 +1621,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 6159982164374500824}
     m_Modifications:
     - target: {fileID: 994299148241765470, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
+      propertyPath: useUnscaledTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 994299148241765470, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
       propertyPath: LightsModule.ratio
       value: 1
       objectReference: {fileID: 0}
@@ -1649,6 +1643,10 @@ PrefabInstance:
     - target: {fileID: 994299148241765470, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
       propertyPath: LightsModule.intensityCurve.minMaxState
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1118539142780029519, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
+      propertyPath: useUnscaledTime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1255053967005034563, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
       propertyPath: m_Name
@@ -1706,9 +1704,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1255053967005034565, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
+      propertyPath: useUnscaledTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2021131386571950731, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
       propertyPath: m_Volume
       value: 0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021131386571950731, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215929347678356909, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
+      propertyPath: useUnscaledTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4843348583011760284, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
+      propertyPath: useUnscaledTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410005452324622452, guid: 2ee7574cb1211da4ba89d1838327b5c4, type: 3}
+      propertyPath: useUnscaledTime
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

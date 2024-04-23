@@ -534,19 +534,15 @@ public class GameManager : MonoBehaviour
 		{
 			player.GetComponent<PlayerAttack>().SetDamage(3);
 		}
-		if (Input.GetKeyDown(KeyCode.Semicolon))
+		if (Input.GetKeyDown(KeyCode.P))
 		{
-			MinigameManager.UnloadMinigame();
-		}
-
-		if (Input.GetKeyDown(KeyCode.Minus))
-		{
-			pinven.AddItem(Item.GetItem("산삼"));
-			MinigameManager.LoadMinigame(Minigames.Frying, new ItemAmountPair("산삼"));
+			GameManager.instance.pinven.AddItem(Item.GetItem("인삼"), 1);
+			GameManager.instance.pinven.AddItem(Item.GetItem("밧줄"), 1);
+			GameManager.instance.pinven.AddItem(Item.GetItem("녹각"), 1);
 		}
 
 
-		if(Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			LockUnlockCursor();
 		}
@@ -643,5 +639,13 @@ public class GameManager : MonoBehaviour
 		}
 
 		GameObject.FindObjectOfType<JSInitBattle>().StartReseet();
+	}
+
+	public void LoadMinigame(Minigames mode)
+	{
+		if(pinven.CurHoldingItem.info != null)
+		{
+			MinigameManager.LoadMinigame(mode, pinven.CurHoldingItem);
+		}
 	}
 }

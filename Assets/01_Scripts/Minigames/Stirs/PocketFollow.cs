@@ -16,12 +16,13 @@ public class PocketFollow : MonoBehaviour
 		stirCam = GameObject.Find("StirCam").GetComponent<Camera>();
 	}
 
-	void FixedUpdate()
+	void Update()
     {
 		r = stirCam.ScreenPointToRay(ball.position);
 		if (Physics.Raycast(r, out hit))
 		{
 			transform.position = hit.point;
 		}
+		Debug.Log("UPDATINGINGINGIGNIGN");
     }
 }

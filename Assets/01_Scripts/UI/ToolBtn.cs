@@ -34,29 +34,28 @@ public class ToolBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
 	private void Start()
 	{
-		img.sprite = BtnUI;
-		text.color = Color.white;
+		Darken();
 	}
 
 	public void Enter()
 	{
 		state = BtnState.On;
-		img.sprite = OnBtnUI;
-		text.color = Color.black;
+		Lighten();
 	}
 
 	public void Exit()
 	{
-		state = BtnState.Off;
-		img.sprite = BtnUI;
-		text.color = Color.white;
+		if(state != BtnState.Focused)
+		{
+			state = BtnState.Off;
+			Darken();
+		}
 	}
 
 	public void Click()
 	{
 		state = BtnState.Focused;
-		img.sprite = OnBtnUI;
-		text.color = Color.black;
+		Lighten();
 
 		GameManager.instance.toolbarUIShower.ChangeStatus(indicating);
 	}
@@ -72,6 +71,17 @@ public class ToolBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	public void ResetButton()
 	{
 		state = BtnState.Off;
+		Darken();
+	}
+
+	public void Lighten()
+	{
+		img.sprite = OnBtnUI;
+		text.color = Color.black;
+	}
+
+	public void Darken()
+	{
 		img.sprite = BtnUI;
 		text.color = Color.white;
 	}

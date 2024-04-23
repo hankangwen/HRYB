@@ -735,7 +735,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7147771742246722158}
   - component: {fileID: 2542204759841765273}
-  - component: {fileID: 7211942847036039817}
   - component: {fileID: 871306487868735110}
   m_Layer: 0
   m_Name: MashCam
@@ -810,14 +809,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &7211942847036039817
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3256051280981119657}
-  m_Enabled: 1
 --- !u!114 &871306487868735110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1172,7 +1163,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 9e50621c5486b6843bfb7e29d66fafe0, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
