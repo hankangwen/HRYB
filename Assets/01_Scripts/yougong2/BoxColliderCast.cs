@@ -30,10 +30,10 @@ public class BoxColliderCast : ColliderCast
 	// Update is called once per frame
     public override Collider[] ReturnColliders()
     {
-	    Vector3 dir = Owner.forward;
-	    dir.x *= _box.center.x;
-	    dir.y *= _box.center.y;
-	    dir.z *= _box.center.z;
+	    //Vector3 dir = Owner.forward;
+	    //dir.x *= _box.center.x;
+	    //dir.y *= _box.center.y;
+	    //dir.z *= _box.center.z;
 	    //Debug.LogError(_box.size);
 	    return Physics.OverlapBox(transform.position, _box.size, _quaternion, Layer);
     }
