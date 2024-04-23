@@ -44,4 +44,66 @@ public class EnemyLifeModule : LifeModule
 			_currentGrogeValue = 0;
 		}
 	}
+
+	public override void DamageYY(float black, float white, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel = DamageChannel.None)
+	{
+		OutJeungGi(black, white);
+		base.DamageYY(black, white, type, dur, tick, attacker, channel);
+	}
+
+	public override void DamageYY(YinYang data, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel = DamageChannel.None)
+	{
+
+		OutJeungGi(data.black, data.white);
+		base.DamageYY(data, type, dur, tick, attacker, channel);
+	}
+
+	public void OutJeungGi(float black, float white)
+	{
+		if (black > 0)
+		{
+			if (yy.black - black > 0)
+			{
+				OutValue(black / 10);
+			}
+			else if (yy.black - black <= 0)
+			{
+				OutValue(yy.black / 10);
+			}
+		}
+		if (white > 0)
+		{
+			if (yy.white - white > 0)
+			{
+				OutValue(white / 10);
+			}
+			else if (yy.white - white <= 0)
+			{
+				OutValue(yy.white / 10);
+			}
+		}
+	}
+
+	void OutValue(float t)
+	{
+		float x = Random.Range(-2.0f, 2.0f);
+		float y = Random.Range(0.4f, 0.6f);
+		float z = Random.Range(-2.0f, 2.0f);
+		Vector3 vec = transform.position + new Vector3(x, y, z);
+		GameObject obj = PoolManager.GetObject("JunGI", vec, transform.rotation);
+		obj.transform.parent = null;
+		if (obj.TryGetComponent<ColliderCast>(out ColliderCast cols))
+		{
+			cols.Now(transform, (_life) =>
+			{
+				if (_life.TryGetComponent<PlayerLife>(out PlayerLife pl))
+				{
+					pl.yy.black += t;
+					cols.End();
+				}
+			});
+		}
+	}
 }
+
+
