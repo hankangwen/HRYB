@@ -60,6 +60,10 @@ public class BearAI : AISetter
 		{
 			self.anim.SetIdleState(true);
 
+			GrogeNode _isGroge = new GrogeNode(self);
+			Sequencer grogeSeq = new Sequencer();
+			grogeSeq.connecteds.Add(_isGroge);
+
 			StunNode _ishaveStun = new StunNode(self, () =>
 			{
 				Debug.LogError(gameObject.name + " 일어남");
@@ -187,6 +191,7 @@ public class BearAI : AISetter
 
 			#endregion
 
+			head.connecteds.Add(grogeSeq);
 			head.connecteds.Add(stunSeq);
 			head.connecteds.Add(ex2Atk);
 			head.connecteds.Add(exAtk);

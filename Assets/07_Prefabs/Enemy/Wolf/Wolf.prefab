@@ -1734,7 +1734,6 @@ GameObject:
   - component: {fileID: 4820666992827731380}
   - component: {fileID: 5435074821069355381}
   - component: {fileID: 1444978251146536968}
-  - component: {fileID: 7391269502004937797}
   - component: {fileID: 7681736925062166331}
   - component: {fileID: 6537673370032574644}
   - component: {fileID: 928664243527324861}
@@ -1743,6 +1742,7 @@ GameObject:
   - component: {fileID: 1049981481372807327}
   - component: {fileID: 8811625283636450522}
   - component: {fileID: 430647532468551486}
+  - component: {fileID: 108166288534170953}
   m_Layer: 9
   m_Name: Wolf
   m_TagString: Untagged
@@ -1805,7 +1805,6 @@ MonoBehaviour:
   gravity: 1
   groundThreshold: 0.5
   _isCanMove: 0
-  speed: 9
 --- !u!114 &1444978251146536968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1824,37 +1823,6 @@ MonoBehaviour:
     black: 0
     white: 0
   target: {fileID: 0}
---- !u!114 &7391269502004937797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7946079460378918665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cd1cfdc8b01b404f8b56a0e6ede7766, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isImmune: 0
-  initYinYang:
-    black: 125
-    white: 125
-  initAdequity:
-    black: 1
-    white: 1
-  yy:
-    black: 0
-    white: 0
-  regenMod:
-    black: 1
-    white: 1
-  fixedRegenMod:
-    black: 0
-    white: 0
-  regenThreshold: 10
-  applyMod: 1
-  superArmor: 0
 --- !u!114 &7681736925062166331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1912,6 +1880,7 @@ MonoBehaviour:
   sight: {fileID: 0}
   cast: {fileID: 0}
   anim: {fileID: 0}
+  talk: {fileID: 0}
   _ai: {fileID: 0}
 --- !u!95 &4203293574204152503
 Animator:
@@ -2003,6 +1972,40 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 1.4, z: 1.2}
   m_Center: {x: 0, y: 0.7, z: 0}
+--- !u!114 &108166288534170953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7946079460378918665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b37e62ba803571346977e61a3f22c9c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isImmune: 0
+  initYinYang:
+    black: 125
+    white: 125
+  initAdequity:
+    black: 1
+    white: 1
+  yy:
+    black: 0
+    white: 0
+  regenMod:
+    black: 1
+    white: 1
+  fixedRegenMod:
+    black: 0
+    white: 0
+  regenThreshold: 10
+  applyMod: 1
+  superArmor: 0
+  _isItGroge: 0
+  _grogeInitValue: 100
+  _timePerGrogeAdd: 50
 --- !u!1 &7948914570566699178
 GameObject:
   m_ObjectHideFlags: 0

@@ -57,7 +57,7 @@ public class OnePunchGrabSkill : YGComboAttackBase
 				
 				Debug.LogError(tt._grabedEnemy);
 
-				DoDamage(_life.GetActor(), self, t);
+				DoDamage(_life.GetActor(), self, t, default, _baseInfo);
 
 				if (t >= 10)
 				{

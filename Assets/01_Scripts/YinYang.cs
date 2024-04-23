@@ -16,6 +16,7 @@ public enum WXInfo
 
 public enum YYInfo
 {
+	None,
     Black,
     White,
 
