@@ -318,11 +318,15 @@ public class PlayerInven : MonoBehaviour
 		(GameManager.instance.pActor.cast as PlayerCast).ChangeSkillSlotTo(stat);
 	}
 
-	public int AddItem(Item data, int num = 1)
+	public int AddItem(Item data, int num = 1) //새로운 아이템을 얻는 것이나.
 	{
 		List<int> idxes;
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.GetItem, data.MyName, num);
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.HaveItem, data.MyName, num);
+		if(data is YinyangItem yy)
+		{
+			GameManager.instance.pedia.GotItem(yy);
+		}
 		if ((idxes = inven.Contains(data)).Count > 0)
 		{
 			for (int i = 0; i < idxes.Count; i++)

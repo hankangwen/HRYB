@@ -148,7 +148,15 @@ public class CameraManager : MonoBehaviour
 		pCam.m_XAxis.m_Wrap = true;
 	}
 
-	//@@@@@@@@@@@@@@@@@@@@@Y굳히디
+	public void FreezeCamY()
+	{
+		pCam.m_YAxis.m_MaxSpeed = 0;
+	}
+
+	public void UnFreezeCamY()
+	{
+		pCam.m_YAxis.m_MaxSpeed = originYSpeed;
+	}
 
 	public void ShakeCam(float ampGain, float frqGain)
 	{

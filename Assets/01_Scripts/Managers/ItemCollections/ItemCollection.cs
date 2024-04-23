@@ -6,12 +6,12 @@ using UnityEngine;
 public struct ItemCollection
 {
     public Item myItem;
-	public bool discovered;
+	public int discoverCount;
 	public List<HashSet<ProcessType>> useCount;
 	public const int MAXUSECOUNT = 5;
 
-	public bool masterable => MAXUSECOUNT > 0;
-	public bool isMastered => masterable && useCount.Count >= MAXUSECOUNT;
+	public bool discovered => discoverCount > 0;
+	public bool isMastered => useCount.Count >= MAXUSECOUNT;
 
 	bool allowRepeat;
 
@@ -40,10 +40,7 @@ public struct ItemCollection
 
 	public void Discover()
 	{
-		if (!discovered)
-		{
-			discovered = true;
-		}
+		discoverCount += 1;
 	}
 
 	public void UsedWithData(HashSet<ProcessType> data)
@@ -58,7 +55,7 @@ public struct ItemCollection
 	public ItemCollection(bool medicineMode)
 	{
 		myItem = null;
-		discovered = false;
+		discoverCount = 0;
 		allowRepeat = medicineMode;
 		useCount = new List<HashSet<ProcessType>>(MAXUSECOUNT);
 		resultItems = new List<Item>();
@@ -67,7 +64,7 @@ public struct ItemCollection
 	public ItemCollection(Item info, bool medicineMode)
 	{
 		myItem = info;
-		discovered = false;
+		discoverCount = 0;
 		allowRepeat = medicineMode;
 		useCount = new List<HashSet<ProcessType>>(MAXUSECOUNT);
 		resultItems = new List<Item>();

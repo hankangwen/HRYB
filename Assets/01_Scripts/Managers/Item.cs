@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,7 +43,7 @@ public class Specials
 }
 
 [System.Serializable]
-public class Item // #################
+public class Item : IComparable // #################
 {
 	public static Specials removeOnComp  = new Specials(() => true, Mathf.Infinity);
     public static Hashtable nameDataHashT = new Hashtable()
@@ -133,6 +134,7 @@ public class Item // #################
 		if (isNewItem)
 		{
 			InsertToTable();
+			//경험치주기@@@@@@@@@@@@@@@@@@22
 		}
 		itemType = iType;
 		maxStack = max;
@@ -189,6 +191,20 @@ public class Item // #################
 	public void SetSprite(Sprite sp)
 	{
 		icon = sp;
+	}
+
+	public virtual int CompareTo(object obj)
+	{
+		if(obj is Item item)
+		{
+			if(originalName.CompareTo(item.originalName) == 0)
+			{
+				return 0;
+			}
+			else
+				return originalName.CompareTo(item.originalName);
+		}
+		return 0;
 	}
 }
 

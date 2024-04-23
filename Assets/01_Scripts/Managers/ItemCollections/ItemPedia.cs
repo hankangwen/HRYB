@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ItemPedia
 {
-    public SortedDictionary<YinyangItem, ItemCollection> materialCollections;
-    public SortedDictionary<Medicines,  ItemCollection> medicineCollections;
+    public SortedDictionary<YinyangItem, ItemCollection> materialCollections = new SortedDictionary<YinyangItem, ItemCollection>();
+    public SortedDictionary<Medicines,  ItemCollection> medicineCollections = new SortedDictionary<Medicines, ItemCollection>();
 
 	public ItemPedia()
 	{
@@ -16,18 +16,26 @@ public class ItemPedia
 	{
 		foreach (Item item in Item.nameDataHashT.Values)
 		{
-			if(item is Medicines m)
+			if (item is YinyangItem yy && yy.processes.Count == 0)
 			{
-				medicineCollections.Add(m, new ItemCollection(m, true));
+				if (item is Medicines m)
+				{
+					medicineCollections.Add(m, new ItemCollection(m, true));
+				}
+				else
+				{
+					materialCollections.Add(yy, new ItemCollection(yy, false));
+				}
 			}
-			else if(item is YinyangItem yy)
-			{
-				materialCollections.Add(yy, new ItemCollection(yy, false));
-			}
+		}
+
+		foreach (var item in materialCollections)
+		{
+			Debug.Log($"{item.Key.originalName} : {item.Value.myItem.MyName}");
 		}
 	}
 
-	public void GotNewItem(YinyangItem data)
+	public void GotItem(YinyangItem data)
 	{
 		if (materialCollections.ContainsKey(data))
 		{
@@ -42,7 +50,7 @@ public class ItemPedia
 		}
 	}
 
-	public void UsedItem(YinyangItem data)
+	public void UseItem(YinyangItem data)
 	{
 		if (materialCollections.ContainsKey(data))
 		{
