@@ -153,7 +153,7 @@ public class CameraManager : MonoBehaviour
 		pCam.m_YAxis.m_MaxSpeed = 0;
 	}
 
-	public void UnFreezeCamY()
+	public void UnfreezeCamY()
 	{
 		pCam.m_YAxis.m_MaxSpeed = originYSpeed;
 	}
