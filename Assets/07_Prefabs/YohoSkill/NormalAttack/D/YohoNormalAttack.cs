@@ -108,7 +108,11 @@ public class YohoNormalAttack : AttackBase
 			_cols.Now(self.transform, (_life) =>
 			{
 				CameraManager.instance.ShakeCamFor(0.08f, 2, 2);
-				DoDamage(_life.GetActor(), self, obj.transform.position);
+				DoDamage(_life.GetActor(), self, obj.transform.position, _baseInfo);
+				if (_life.TryGetComponent<EnemyLifeModule>(out EnemyLifeModule eme))
+				{
+					eme.DoGrogeDamage(50);
+				}
 				    
 			}, (transform, module) =>
 			{

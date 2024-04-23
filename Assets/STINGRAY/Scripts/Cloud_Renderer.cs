@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -128,14 +128,9 @@ public class Cloud_Renderer : ScriptableRendererFeature
     // This method is called when setting up the renderer once per-camera.
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-        //m_ScriptablePass.source = renderer.cameraColorTarget;
+        m_ScriptablePass.source = renderer.cameraColorTarget;
         renderer.EnqueuePass(m_ScriptablePass);
     }
-
-	public override void SetupRenderPasses(ScriptableRenderer renderer, in RenderingData renderingData)
-	{
-		m_ScriptablePass.source = renderer.cameraColorTarget;
-	}
 }
 
 

@@ -70,7 +70,7 @@ public class SkyBirtgh : AttackBase
 						    //GameManager.instance.TimeFreeze(0, 0.1f);
 						    Actor to = _life.GetActor();
 						    Actor by = self;
-						    DoDamage(to,by, 0.1f, obj.transform.position);
+						    DoDamage(to,by, 0.1f, obj.transform.position, _baseInfo);
 						    
 					    }, (transform, module) =>
 					    {
@@ -97,7 +97,7 @@ public class SkyBirtgh : AttackBase
 						    
 						    Actor to = _life.GetActor();
 						    Actor by = self;
-						    DoDamage(to,by, 0.4f, obj.transform.position);
+						    DoDamage(to,by, 0.4f, obj.transform.position, _baseInfo);
 					    }, (transform, module) =>
 					    {
 							Debug.LogError("기");
@@ -149,7 +149,7 @@ public class SkyBirtgh : AttackBase
 						    _life.GetActor().move.forceDir = self.transform.forward * 18 + new Vector3(0, -24, 0);
 						    Actor to = _life.GetActor();
 						    Actor by = self;
-						    DoDamage(to,by, 0.8f, obj.transform.position);
+						    DoDamage(to,by, 0.8f, obj.transform.position, _baseInfo);
 						    CameraManager.instance.ShakeCamFor(0.18f, 12, 12);
 						    //GameManager.instance.TimeFreeze(0.3f, 0.08f);
 					    });

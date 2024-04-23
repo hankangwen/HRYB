@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Gpm.Ui.MultiLayout;
 
 public abstract class AttackBase : Leaf
 {
@@ -10,6 +11,8 @@ public abstract class AttackBase : Leaf
 
 	protected Transform relatedTransform;
 
+	[Header("YYInfo")]
+	public YYInfo _baseInfo = YYInfo.None;
 
 	List<StatusEffectApplyData> originalEff = new List<StatusEffectApplyData>();
 	protected virtual void Awake()
@@ -32,7 +35,7 @@ public abstract class AttackBase : Leaf
 	}
 
 
-	protected virtual void DoDamage(Actor to, Actor by, Vector3 vec = new Vector3())
+	protected virtual void DoDamage(Actor to, Actor by, Vector3 vec = new Vector3(), YYInfo info = YYInfo.None)
 	{
 		Vector3 pos = to.transform.position;
 		
@@ -42,18 +45,20 @@ public abstract class AttackBase : Leaf
 		}
 		
 		float white = by.atk.Damage.white * damageMult;
-		float black = by.atk.Damage.white * damageMult;
+		float black = by.atk.Damage.black * damageMult;
 		
-		to.life.DamageYY(black,white, DamageType.DirectHit, 0, 0, by);
-		Debug.Log($"[데미지] {to.gameObject.name} 에게 데미지 : {by.atk.initDamage} * {damageMult} = {(by.atk.initDamage * damageMult)}");
+
+		//Debug.Log($"[데미지] {to.gameObject.name} 에게 데미지 : {by.atk.initDamage} * {damageMult} = {(by.atk.initDamage * damageMult)}");
 		
 		
-		if ((by.atk.Damage * damageMult).white > 0)
+		if ((by.atk.Damage * damageMult).white > 0 && (info == YYInfo.None || info == YYInfo.White))
 		{
+			to.life.DamageYY(0, white, DamageType.DirectHit, 0, 0, by);
 			GameManager.instance.shower.GenerateDamageText(pos, white, YYInfo.White);
 		}
-		if ((by.atk.Damage * damageMult).black > 0)
+		if ((by.atk.Damage * damageMult).black > 0&& (info == YYInfo.None || info == YYInfo.Black))
 		{
+			to.life.DamageYY(black, 0, DamageType.DirectHit, 0, 0, by);
 			GameManager.instance.shower.GenerateDamageText(pos, black, YYInfo.Black);
 		}
 
@@ -66,7 +71,7 @@ public abstract class AttackBase : Leaf
 	}
 	
 	
-	protected virtual void DoDamage(Actor to, Actor by, float value , Vector3 vec = new Vector3())
+	protected virtual void DoDamage(Actor to, Actor by, float value , Vector3 vec = new Vector3(), YYInfo info = YYInfo.None)
 	{
 		Vector3 pos = to.transform.position;
 		
@@ -75,22 +80,24 @@ public abstract class AttackBase : Leaf
 			pos = vec;
 		}
 		
-		if (value == 0)
+		if (value == 0f)
 			value = 1;
 
-		float white = by.atk.Damage.white * damageMult * value;
-		float black = by.atk.Damage.white * damageMult * value;
-		
-		if ((by.atk.Damage * damageMult).white > 0)
+		float white = by.atk.Damage.white * damageMult;
+		float black = by.atk.Damage.black * damageMult;
+
+		if ((by.atk.Damage * damageMult).white > 0 && (info == YYInfo.None || info == YYInfo.White))
 		{
+			to.life.DamageYY(0, white, DamageType.DirectHit, 0, 0, by);
 			GameManager.instance.shower.GenerateDamageText(pos, white, YYInfo.White);
 		}
-		if ((by.atk.Damage * damageMult).black > 0)
+		if ((by.atk.Damage * damageMult).black > 0 && (info == YYInfo.None || info == YYInfo.Black))
 		{
+			to.life.DamageYY(black, 0, DamageType.DirectHit, 0, 0, by);
 			GameManager.instance.shower.GenerateDamageText(pos, black, YYInfo.Black);
 		}
 
-		to.life.DamageYY(black, white, DamageType.DirectHit, 0, 0, by);
+
 		for (int i = 0; i < statEff.Count; i++)
 		{
 			StatusEffects.ApplyStat(to, by, statEff[i].id, statEff[i].duration, statEff[i].power);
