@@ -374,7 +374,8 @@ public class PlayerInven : MonoBehaviour
 				{
 					InventoryItem item = new InventoryItem(data, cnt);
 					int idx = inven.Add(item);
-					Debug.Log($"{item.info.MyName}, {item.number}개, 새로 추가됨, 위치 : {idx}");
+					
+					Debug.Log($"{inven[idx].info.MyName}, {inven[idx].number}개, 새로 추가됨, 위치 : {idx}");
 				}
 				else
 				{
