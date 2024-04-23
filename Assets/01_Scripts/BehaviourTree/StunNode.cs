@@ -19,7 +19,7 @@ public class StunNode : INode
     {
 	    if (StatusEffects._bufferDurations.ContainsKey(StatEffID.Stun))
 	    {
-		    if (StatusEffects._bufferDurations[StatEffID.Stun] >= 0)
+		    if (StatusEffects._bufferDurations[StatEffID.Stun] > 0)
 		    {
 				EnemyMoveModule moves = self.move as EnemyMoveModule;
 				moves.StopMove();

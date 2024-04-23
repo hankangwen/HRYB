@@ -9,12 +9,11 @@ public class CallbackDialogue : Dialogue
 	//public UnityEvent evt;
 
 
-	public override void NextDialogue()
+	protected override IEnumerator DelShowTxt()
 	{
+		yield return base.DelShowTxt();
 		KillerTmp();
-		base.NextDialogue();
 	}
-
 
 	public void KillerTmp()
 	{

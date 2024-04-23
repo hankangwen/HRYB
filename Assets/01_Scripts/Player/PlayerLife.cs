@@ -17,6 +17,12 @@ public class PlayerLife : LifeModule
 
 	Vector3 initPos;
 
+	public override bool isDead
+	{
+		get => yy.white <= 0;
+	}
+
+
 	public override void Awake()
 	{
 		spawnPoint[0] = new Vector3(836, 14, 136);

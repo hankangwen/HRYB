@@ -49,7 +49,7 @@ public class HumenMasterSpark : AttackBase
 			{
 				_cols.Now(self.transform, (_life) =>
 				{
-					DoDamage(_life.GetActor(), self, _life.transform.position);
+					DoDamage(_life.GetActor(), self, _life.transform.position, _baseInfo);
 				}, (sans, enemy) =>
 				{
 					CameraManager.instance.ShakeCamFor(0.08f, 2, 2);

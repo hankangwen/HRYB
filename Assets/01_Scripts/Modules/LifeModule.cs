@@ -93,7 +93,7 @@ public class LifeModule : Module
 
 	public virtual bool isDead
 	{
-		get => yy.white <= 0;
+		get => yy.white <= 0 || yy.black <= 0;
 	}
 
 	public bool superArmor = false;

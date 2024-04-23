@@ -59,7 +59,7 @@ public class HumenNormalAttack : AttackBase
 						},
 						(_life) =>
 						{
-							DoDamage(_life.GetActor(), self, obj.transform.position);
+							DoDamage(_life.GetActor(), self, obj.transform.position, _baseInfo);
 						},
 						(_trm, _life) =>
 						{
@@ -98,7 +98,7 @@ public class HumenNormalAttack : AttackBase
 							},
 							(_life) =>
 							{
-								DoDamage(_life.GetActor(), self, obj.transform.position);
+								DoDamage(_life.GetActor(), self, obj.transform.position, _baseInfo);
 							},
 							(_trm, _life) =>
 							{
@@ -127,7 +127,7 @@ public class HumenNormalAttack : AttackBase
 						},
 						(_life) =>
 						{
-							DoDamage(_life.GetActor(), self, obj.transform.position);
+							DoDamage(_life.GetActor(), self, obj.transform.position, _baseInfo);
 							_life.GetActor().move.forceDir = (obj.transform.position - _life.transform.position).normalized * 5;
 						},
 						(_trm, _life) =>
