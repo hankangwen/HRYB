@@ -113,6 +113,11 @@ public class SkillSlots
 		}
 		curCooledTime = 0;
 	}
+
+	public float GetMP()
+	{
+		return skInfo._useMana;
+	}
 }
 
 public class WXSkillSlots
@@ -663,8 +668,9 @@ public class PlayerCast : CastModule
 
 	void UseSkillAt(SkillSlotInfo at)
 	{
-		if (nowSkillSlot[((int)at)].IsUsable)
+		if (nowSkillSlot[((int)at)].IsUsable && nowSkillSlot[((int)at)].GetMP() < self.life.yy.black)
 		{
+			self.life.yy.black -= nowSkillSlot[((int)at)].GetMP();
 			switch (at)
 			{
 				case SkillSlotInfo.One:
