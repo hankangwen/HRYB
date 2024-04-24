@@ -8,31 +8,29 @@ using UnityEngine.UI;
 public class HPBar : MonoBehaviour
 {
 	public LifeModule lf;
-	public Image _hpBar;
+	public Image hpBarBlack;
+	public Image hpBarWhite;
 
 	private void Awake()
 	{
 
-		_hpBar = GetComponent<Image>();
+		hpBarBlack = transform.Find("BlackHP/Black").GetComponent<Image>();
+		hpBarWhite = transform.Find("WhiteHP/White").GetComponent<Image>();
 		lf = GetComponentInParent<LifeModule>(); 
 	}
 
-	private void LateUpdate()
+	private void Update()
 	{
-		_hpBar.fillAmount = lf.yy.white / lf.initYinYang.white;
+		hpBarWhite.fillAmount = lf.yy.white / lf.initYinYang.white;
+		hpBarBlack.fillAmount = lf.yy.black / lf.initYinYang.black;
 
-		if(lf.yy.white >= lf.initYinYang.white || lf.yy.white <= 0)
+		if ((lf.yy.white >= lf.initYinYang.white && lf.yy.black >= lf.initYinYang.black) || (lf.yy.white <= 0 && lf.yy.black <= 0))
 		{
 			this.GetComponentInParent<Canvas>().enabled = false;
 		}
 		else
 		{
 			this.GetComponentInParent<Canvas>().enabled = true;
-		}
-
-		if(lf.yy.white <= 0)
-		{
-			Destroy(this);
 		}
 	}
 }
