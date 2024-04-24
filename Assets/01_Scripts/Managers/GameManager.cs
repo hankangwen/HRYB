@@ -272,7 +272,7 @@ public class GameManager : MonoBehaviour
 	public DamageTextShower shower;
 	public DecalControl decalCtrl;
 
-	public ToolBarManager toolbarUIShower;
+	
 
 	public PreservedDataManager saver;
 	public ItemPedia pedia;
@@ -350,7 +350,7 @@ public class GameManager : MonoBehaviour
 		shower = GameObject.Find("DamageTextManager").GetComponent<DamageTextShower>();
 		decalCtrl = GameObject.Find("DecalControl").GetComponent<DecalControl>();
 		
-		toolbarUIShower = GameObject.Find("ToolPanel").GetComponent<ToolBarManager>();
+		
 
 		saver = GameObject.Find("PreservedDataManager").GetComponent<PreservedDataManager>();
 

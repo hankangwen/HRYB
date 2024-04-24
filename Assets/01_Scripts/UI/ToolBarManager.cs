@@ -21,11 +21,7 @@ public class ToolBarManager : MonoBehaviour
 	public GameObject Node;
 	public GameObject Setting;
 
-	public ToolBtn InventoryBtn;
-	public ToolBtn MedicineBtn;
-	public ToolBtn QuestBtn;
-	public ToolBtn NodeBtn;
-	public ToolBtn SettingBtn;
+	public List<ToolBtn> toolButtons;
 
 	IOpenableWindowUI curOpened;
 
@@ -44,6 +40,8 @@ public class ToolBarManager : MonoBehaviour
 		questWindow = Quest.GetComponent<IOpenableWindowUI>();
 		nodeWindow = Node.GetComponent<IOpenableWindowUI>();
 		settingWindow = Setting.GetComponent<IOpenableWindowUI>();
+
+		toolButtons = new List<ToolBtn>(GetComponentsInChildren<ToolBtn>());
 	}
 
 	private void Start()
@@ -63,17 +61,16 @@ public class ToolBarManager : MonoBehaviour
 	public void ChangeStatus(ToolState windowStat)
 	{
 		ToolOff();
-		BtnOff();
 		if (curOpened != null)
 		{
 			curOpened.OnClose();
 		}
 		state = windowStat;
+		BtnOff();
 		switch (state)
 		{
 			case ToolState.Inventory:
 				Inventory.SetActive(true);
-				InventoryBtn.Lighten();
 				if (invenWindow != null)
 				{
 					curOpened = invenWindow;
@@ -86,7 +83,6 @@ public class ToolBarManager : MonoBehaviour
 				break;
 			case ToolState.Medicine:
 				Medicine.SetActive(true);
-				MedicineBtn.Lighten();
 				if (medicineWindow != null)
 				{
 					curOpened = medicineWindow;
@@ -100,7 +96,6 @@ public class ToolBarManager : MonoBehaviour
 
 			case ToolState.Quest:
 				Quest.SetActive(true);
-				QuestBtn.Lighten();
 				if (questWindow != null)
 				{
 					curOpened = questWindow;
@@ -114,7 +109,6 @@ public class ToolBarManager : MonoBehaviour
 
 			case ToolState.Node:
 				Node.SetActive(true);
-				NodeBtn.Lighten();
 				if (nodeWindow != null)
 				{
 					curOpened = nodeWindow;
@@ -128,7 +122,6 @@ public class ToolBarManager : MonoBehaviour
 
 			case ToolState.Setting:
 				Setting.SetActive(true);
-				SettingBtn.Lighten();
 				if (settingWindow != null)
 				{
 					curOpened = settingWindow;
@@ -167,25 +160,16 @@ public class ToolBarManager : MonoBehaviour
 	}
 	public void BtnOff()
 	{
-		switch (state)
+		for (int i = 0; i < toolButtons.Count; i++)
 		{
-			case ToolState.Inventory:
-				InventoryBtn.ResetButton();
-				break;
-			case ToolState.Medicine:
-				MedicineBtn.ResetButton();
-				break;
-			case ToolState.Quest:
-				QuestBtn.ResetButton();
-				break;
-			case ToolState.Node:
-				NodeBtn.ResetButton();
-				break;
-			case ToolState.Setting:
-				SettingBtn.ResetButton();
-				break;
-			default:
-				break;
+			if(toolButtons[i].indicating == state)
+			{
+				toolButtons[i].Focus();
+			}
+			else
+			{
+				toolButtons[i].ResetButton();
+			}
 		}
 	}
 

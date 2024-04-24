@@ -33,6 +33,10 @@ using Unity.VisualScripting;
 
 	public MedicineButtonsUI medicineButton;
 
+	public ToolBarManager toolbarUIShower;
+
+	public AnimationCurve dropDownCurve;
+
 	InventoryUI iv;
 	MedicineUI md;
 
@@ -75,6 +79,8 @@ using Unity.VisualScripting;
 		medicineButton = canvas.transform.Find("ToolPanel/Medicine/DrugStore").GetComponent<MedicineButtonsUI>();
 		md = canvas.GetComponentInChildren<MedicineUI>(true);
 		iv = canvas.GetComponentInChildren<InventoryUI>(true);
+
+		toolbarUIShower = GameObject.Find("ToolPanel").GetComponent<ToolBarManager>();
 
 		invenPanel.SetActive(true);
 		optionPanel.SetActive(false);

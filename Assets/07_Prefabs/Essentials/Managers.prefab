@@ -53,6 +53,32 @@ MonoBehaviour:
   optionPanel: {fileID: 0}
   dialogueUI: {fileID: 0}
   detailer: {fileID: 0}
+  basicUIGroup: {fileID: 0}
+  medicineButton: {fileID: 0}
+  dropDownCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   CursorPos: {fileID: 0}
   Cursor: {fileID: 0}
   debugText: {fileID: 0}
@@ -501,19 +527,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270977, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_Color.b
-      value: 0.8235294
+      value: 0.78448284
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270977, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_Color.g
-      value: 0.98039216
+      value: 0.94229794
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270977, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_Intensity
-      value: 3.956153
+      value: 2.2692857
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270977, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_Shadows.m_Strength
-      value: 0.9890382
+      value: 0.5673214
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270982, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_LocalPosition.x
@@ -529,19 +555,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270982, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.5185644
+      value: 0.9698284
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270982, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.83722013
+      value: 0.1711116
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270982, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.091435924
+      value: 0.17100692
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270982, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.14762408
+      value: -0.030171592
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270982, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
