@@ -23,15 +23,15 @@ public class PreProcess
 	public const string STIRPREFIX = "데친 ";
 	public const string MASHPREFIX = "빻은 ";
 
-	protected ItemAmountPair info;
+	protected Item info;
     public ProcessType type;
     public string prefix;
 
-    protected PreProcess(ProcessType t, ItemAmountPair itemInfo)
+    protected PreProcess(ProcessType t, Item itemInfo)
 	{
-		if(itemInfo.info is YinyangItem)
+		if(itemInfo is YinyangItem yy )
 		{
-			info = itemInfo;
+			info = new YinyangItem(yy);
 			type = t;
 			switch (t)
 			{
@@ -66,11 +66,11 @@ public class PreProcess
 		//sb.Append((info.info as YinyangItem).nameAsChar);
 		//(info.info as YinyangItem).nameAsChar = sb.ToString();
 
-		(info.info as YinyangItem).processes.Add(type);
+		(info as YinyangItem).processes.Add(type);
 
-		info.info.InsertToTable();
+		info.InsertToTable();
 
-		return info;
+		return new ItemAmountPair(info);
 	}
 
 	public override bool Equals(object obj)
@@ -87,14 +87,14 @@ public class PreProcess
 	{
 		if (autoRemovePrev)
 		{
-			GameManager.instance.pinven.RemoveItem(to.info, to.num);
+			GameManager.instance.pinven.RemoveItem(to.info, 1);
 		}
-		PreProcess pp = new PreProcess(type, to);
+		PreProcess pp = new PreProcess(type, to.info);
 		ItemAmountPair after = pp.EndProcess();
 
 		if (autoAddAfter)
 		{
-			GameManager.instance.pinven.AddItem(after.info, after.num);
+			GameManager.instance.pinven.AddItem(after.info, 1);
 		}
 		return after;
 	}
