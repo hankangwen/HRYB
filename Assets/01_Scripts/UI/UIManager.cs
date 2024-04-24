@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
+
+
 
 /// <summary>
 /// 끄고킬수있는 UI의 인터페이스 등 구조를 만들자.
@@ -62,6 +65,7 @@ using UnityEngine.InputSystem;
 		basicUIGroup = canvas.transform.Find("Group").gameObject;
 		detailer = canvas.transform.Find("ToolPanel/Node/NodeDetail").GetComponent<NodeDetailUI>();
 		dialogueUI = canvas.transform.Find("DialogueUI/Dialogue").GetComponent<DialogueUI>();
+		uis.AddRange(GameObject.Find("Canvas/ToolPanel/Inventory").GetComponentsInChildren<SlotUI>());
 
 		invenPanel.SetActive(true);
 		optionPanel.SetActive(false);
@@ -69,7 +73,7 @@ using UnityEngine.InputSystem;
 
 	private void Start()
 	{
-		uis.AddRange(GameObject.FindObjectsOfType<SlotUI>());
+		
 		quickSlot.AddRange(GameObject.FindObjectsOfType<QuickSlot>());
 		
 		interingUI.SetGaugeValue(0);
@@ -110,7 +114,7 @@ using UnityEngine.InputSystem;
 
 	public void UpdateInvenUI()
 	{
-		for (int i = 0; i < uis.Count; i++)
+		for (int i = 0; i <uis.Count; i++)
 		{
 			uis[i].UpdateItem();
 		}

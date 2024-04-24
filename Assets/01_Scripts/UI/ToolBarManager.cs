@@ -38,6 +38,7 @@ public class ToolBarManager : MonoBehaviour
 	private void Awake()
 	{
 		invenWindow = Inventory.GetComponent<IOpenableWindowUI>();
+		
 		medicineWindow = Medicine.GetComponent<IOpenableWindowUI>();
 		questWindow = Quest.GetComponent<IOpenableWindowUI>();
 		nodeWindow = Node.GetComponent<IOpenableWindowUI>();

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6644475192279886614}
   - component: {fileID: 2547865374106797516}
   m_Layer: 5
-  m_Name: Inven
+  m_Name: MedicineInven
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120, y: 120}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6312887897704575442
 CanvasRenderer:
@@ -155,7 +155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29.000006, y: 37.5}
+  m_AnchoredPosition: {x: 10.9, y: -19.4}
   m_SizeDelta: {x: 42, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &801945394347775157
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -266,10 +266,9 @@ GameObject:
   - component: {fileID: 7432662945857733054}
   - component: {fileID: 3081771519763791897}
   - component: {fileID: 6729112671840855217}
-  - component: {fileID: 4938420744038757626}
   - component: {fileID: 3342824079805931583}
   - component: {fileID: 11550524227490277}
-  - component: {fileID: 7967980663701096944}
+  - component: {fileID: 4290967133498925526}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
@@ -295,7 +294,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3081771519763791897
 CanvasRenderer:
@@ -335,21 +334,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4938420744038757626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8785843854886359287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94a7426ee17a2e948ac7de24acce1de4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Iconimg: {fileID: 0}
-  text: {fileID: 0}
-  value: 0
 --- !u!223 &3342824079805931583
 Canvas:
   m_ObjectHideFlags: 0
@@ -390,7 +374,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7967980663701096944
+--- !u!114 &4290967133498925526
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -399,8 +383,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8785843854886359287}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11a052a6972c8ca44ace4841f2c879fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 94a7426ee17a2e948ac7de24acce1de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDragged: 1
+  Iconimg: {fileID: 0}
+  text: {fileID: 0}
   value: 0

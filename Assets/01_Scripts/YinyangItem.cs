@@ -95,11 +95,31 @@ public class YinyangItem : Item
 	public override void Use()
 	{
 		//GameManager.instance.pActor.life.DamageYY(yy, DamageType.Continuous, ApplySpeed);
+		GameManager.instance.pedia.UseItem(this);
 		base.Use();
 	}
 
 	public override int GetHashCode()
 	{
 		return MyName.GetHashCode();
+	}
+
+	public override int CompareTo(object obj)
+	{
+		if (obj is YinyangItem item)
+		{
+			if (originalName.CompareTo(item.originalName) == 0)
+			{
+				if(item.processes.Count == processes.Count)
+				{
+					return MyName.CompareTo(item.MyName);
+				}
+				else
+					return processes.Count > item.processes.Count ? 1 : -1;
+			}
+			else
+				return originalName.CompareTo(item.originalName);
+		}
+		return base.CompareTo(obj);
 	}
 }

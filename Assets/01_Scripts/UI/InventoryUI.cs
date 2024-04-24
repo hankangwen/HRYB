@@ -3,65 +3,46 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : MonoBehaviour, IOpenableWindowUI
 {
 	public int quickInven;
+
+	[SerializeField]
 	private SlotUI[] slotUI;
 
-	QuickSlot[] quickSlot;
+	[SerializeField]
 	private DragHandler[] dragHandler;
 
-	private void Start()
+	private void Awake()
 	{
-		if(this.name == "InventoryGroup")
+		slotUI = GetComponentsInChildren<SlotUI>();
+		dragHandler = GetComponentsInChildren<DragHandler>();
+
+		for (int i = 0; i < GameManager.instance.pinven.cap; i++)
 		{
-			//for (int i = 0; i < GameManager.instance.pinven.cap - quickInven; i++)
-			//{
-			//	Instantiate(GameManager.instance.pManager.invenSlot, this.transform);
-			//	//Debug.Log($"{i} : {GameManager.instance.pManager.invenSlot}");
-			//}
-
-			slotUI = GetComponentsInChildren<SlotUI>();
-			dragHandler = GetComponentsInChildren<DragHandler>();
-
-			for (int i = 0; i < GameManager.instance.pinven.cap; i++)
-			{
-				slotUI[i].value = i;
-				dragHandler[i].value = i;
-			}
+			slotUI[i].value = i;
+			dragHandler[i].value = i;
 		}
-		//else if(this.name == "Quick InventoryGroup")
-		//{
-		//	for (int i = 0; i < quickInven; i++)
-		//	{
-		//		Instantiate(GameManager.instance.pManager.invenSlot, this.transform);
-		//		//Debug.Log($"{i} : {GameManager.instance.pManager.invenSlot}");
-		//	}
+	}
 
-		//	slotUI = GetComponentsInChildren<SlotUI>();
-		//	dragHandler = GetComponentsInChildren<DragHandler>();
+	public void OnClose()
+	{
+		//throw new System.NotImplementedException();
+	}
 
-		//	for (int i = 0; i < quickInven; i++)
-		//	{
-		//		slotUI[i].value = i;
-		//		dragHandler[i].value = i;
-		//	}
-		//}
-		//else if(this.name == "QuickSlot")
-		//{
-		//	for (int i = 0; i < quickInven; i++)
-		//	{
-		//		Instantiate(GameManager.instance.pManager.quickSlot, this.transform);
-		//		//Debug.Log($"{i} : {GameManager.instance.pManager.quickSlot}");
-		//	}
-		//	quickSlot = GetComponentsInChildren<QuickSlot>();
-	
-		//	for (int i = 0; i < quickInven; i++)
-		//	{
-		//		quickSlot[i].value = i;
-		//	}
-		//}
+	public void OnOpen()
+	{
+		for (int i = 0; i < GameManager.instance.pinven.cap; i++)
+		{
+			slotUI[i].value = i;
+			dragHandler[i].value = i;
+		}
+		GameManager.instance.uiManager.UpdateInvenUI();
+	}
+
+	public void WhileOpening()
+	{
+		//throw new System.NotImplementedException();
 	}
 }
