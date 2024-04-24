@@ -1166,11 +1166,7 @@ MonoBehaviour:
   Quest: {fileID: 7486988839007469211}
   Node: {fileID: 8519348305011186710}
   Setting: {fileID: 7589991522480162854}
-  InventoryBtn: {fileID: 8326622764910808388}
-  MedicineBtn: {fileID: 5619223319279946218}
-  QuestBtn: {fileID: 4652999723674577251}
-  NodeBtn: {fileID: 224867494286422235}
-  SettingBtn: {fileID: 4074030923851709897}
+  toolButtons: []
 --- !u!114 &5476725838554429254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5447,7 +5443,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4654595554859884145}
   m_HandleRect: {fileID: 970821191562128070}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 0.54
   m_Size: 0.49315763
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7175,7 +7171,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1220640471268895555}
   m_HandleRect: {fileID: 2607243765695722994}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 0.96
   m_Size: 0.6555288
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -9323,7 +9319,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 500, y: 500}
+  m_AnchoredPosition: {x: -460, y: -40}
   m_SizeDelta: {x: 1000, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5799889049635553491
