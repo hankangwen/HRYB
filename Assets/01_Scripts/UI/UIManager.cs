@@ -31,7 +31,16 @@ using Unity.VisualScripting;
 
 	public GameObject basicUIGroup;
 
-    public RectTransform CursorPos;
+	public MedicineButtonsUI medicineButton;
+
+	public ToolBarManager toolbarUIShower;
+
+	public AnimationCurve dropDownCurve;
+
+	InventoryUI iv;
+	MedicineUI md;
+
+	public RectTransform CursorPos;
     public Image Cursor;
 
 	public TMPro.TextMeshProUGUI debugText;
@@ -66,6 +75,12 @@ using Unity.VisualScripting;
 		detailer = canvas.transform.Find("ToolPanel/Node/NodeDetail").GetComponent<NodeDetailUI>();
 		dialogueUI = canvas.transform.Find("DialogueUI/Dialogue").GetComponent<DialogueUI>();
 		uis.AddRange(GameObject.Find("Canvas/ToolPanel/Inventory").GetComponentsInChildren<SlotUI>());
+
+		medicineButton = canvas.transform.Find("ToolPanel/Medicine/DrugStore").GetComponent<MedicineButtonsUI>();
+		md = canvas.GetComponentInChildren<MedicineUI>(true);
+		iv = canvas.GetComponentInChildren<InventoryUI>(true);
+
+		toolbarUIShower = GameObject.Find("ToolPanel").GetComponent<ToolBarManager>();
 
 		invenPanel.SetActive(true);
 		optionPanel.SetActive(false);
@@ -114,10 +129,13 @@ using Unity.VisualScripting;
 
 	public void UpdateInvenUI()
 	{
-		for (int i = 0; i <uis.Count; i++)
+		for (int i = 0; i < uis.Count; i++)
 		{
 			uis[i].UpdateItem();
 		}
+		md.RefreshUIs();
+		iv.ShowInfo();
+		medicineButton.SetStatuses(GameManager.instance.pinven.CurHoldingItem.info);
 	}
 
 	public void OnInven()
@@ -164,5 +182,15 @@ using Unity.VisualScripting;
 		{
 			OnOption();
 		}
+	}
+
+	public void OffCanvas()
+	{
+		canvas.gameObject.SetActive(false);
+	}
+
+	public void OnCanvas()
+	{
+		canvas.gameObject.SetActive(true);
 	}
 }

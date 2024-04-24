@@ -21,11 +21,7 @@ public class ToolBarManager : MonoBehaviour
 	public GameObject Node;
 	public GameObject Setting;
 
-	public ToolBtn InventoryBtn;
-	public ToolBtn MedicineBtn;
-	public ToolBtn QuestBtn;
-	public ToolBtn NodeBtn;
-	public ToolBtn SettingBtn;
+	public List<ToolBtn> toolButtons;
 
 	IOpenableWindowUI curOpened;
 
@@ -37,6 +33,7 @@ public class ToolBarManager : MonoBehaviour
 
 	private void Awake()
 	{
+
 		invenWindow = Inventory.GetComponent<IOpenableWindowUI>();
 		
 		medicineWindow = Medicine.GetComponent<IOpenableWindowUI>();
@@ -44,7 +41,12 @@ public class ToolBarManager : MonoBehaviour
 		nodeWindow = Node.GetComponent<IOpenableWindowUI>();
 		settingWindow = Setting.GetComponent<IOpenableWindowUI>();
 
-		ToolOff();
+		toolButtons = new List<ToolBtn>(GetComponentsInChildren<ToolBtn>());
+	}
+
+	private void Start()
+	{
+		ChangeStatus(ToolState.Inventory);
 	}
 
 	private void Update()
@@ -64,6 +66,7 @@ public class ToolBarManager : MonoBehaviour
 			curOpened.OnClose();
 		}
 		state = windowStat;
+		BtnOff();
 		switch (state)
 		{
 			case ToolState.Inventory:
@@ -73,6 +76,10 @@ public class ToolBarManager : MonoBehaviour
 					curOpened = invenWindow;
 					curOpened.OnOpen();
 				}
+				else
+				{
+					curOpened = null;
+				}
 				break;
 			case ToolState.Medicine:
 				Medicine.SetActive(true);
@@ -80,6 +87,10 @@ public class ToolBarManager : MonoBehaviour
 				{
 					curOpened = medicineWindow;
 					curOpened.OnOpen();
+				}
+				else
+				{
+					curOpened = null;
 				}
 				break;
 
@@ -90,6 +101,10 @@ public class ToolBarManager : MonoBehaviour
 					curOpened = questWindow;
 					curOpened.OnOpen();
 				}
+				else
+				{
+					curOpened = null;
+				}
 				break;
 
 			case ToolState.Node:
@@ -99,6 +114,10 @@ public class ToolBarManager : MonoBehaviour
 					curOpened = nodeWindow;
 					curOpened.OnOpen();
 				}
+				else
+				{
+					curOpened = null;
+				}
 				break;
 
 			case ToolState.Setting:
@@ -107,6 +126,10 @@ public class ToolBarManager : MonoBehaviour
 				{
 					curOpened = settingWindow;
 					curOpened.OnOpen();
+				}
+				else
+				{
+					curOpened = null;
 				}
 				break;
 
@@ -137,15 +160,17 @@ public class ToolBarManager : MonoBehaviour
 	}
 	public void BtnOff()
 	{
-		InventoryBtn.Exit();
-
-		MedicineBtn.Exit();
-
-		QuestBtn.Exit();
-
-		NodeBtn.Exit();
-
-		SettingBtn.Exit();
+		for (int i = 0; i < toolButtons.Count; i++)
+		{
+			if(toolButtons[i].indicating == state)
+			{
+				toolButtons[i].Focus();
+			}
+			else
+			{
+				toolButtons[i].ResetButton();
+			}
+		}
 	}
 
 }
