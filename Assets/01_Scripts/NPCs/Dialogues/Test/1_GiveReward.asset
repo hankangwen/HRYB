@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d14248067c47940bc51eeba018c6d2, type: 3}
+  m_Name: 1_GiveReward
+  m_EditorClassIdentifier: 
+  text: "\uACE0\uB9D9\uB124! <#0000ff>\uC778\uC0BC 10\uAC1C</color>\uB97C \uC8FC\uC9C0."
+  typeDel: 0.1
+  next: {fileID: 0}

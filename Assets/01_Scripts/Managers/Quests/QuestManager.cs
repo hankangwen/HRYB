@@ -117,8 +117,12 @@ public class CompleteAtom
 
 	internal int? examineStartTime;
 
+	internal bool conditionFrozen = false;
+
 	public void OnNotification(CompletionAct data, string parameter, int amt)
 	{
+		if(conditionFrozen)
+			return;
 		if(objective == data)
 		{
 			switch (data)
@@ -183,9 +187,20 @@ public class CompleteAtom
 		}
 	}
 
+	public void Freeze()
+	{
+		conditionFrozen = true;
+	}
+
+	public void UnFreeze()
+	{
+		conditionFrozen = false;
+	}
+
 	public void OnResetCall()
 	{
 		curRepeatCount = 0;
+		Debug.Log("초기화됨 : " + objective);
 	}
 
 	public void OnResetTime()
@@ -205,6 +220,7 @@ public class RewardAtom
 {
 	public RewardType rewardType;
 	public string parameter;
+	public int amount;
 }
 
 
@@ -230,25 +246,32 @@ public class QuestManager
 	public const string ASSETPATH = "Assets/Resources/";
 
 
+
 	//이제 이놈을 행동하는 데마다 하나씩 꼽아주면 됨.
 	public void InvokeOnChanged(CompletionAct type, string prm, int amt = 1)
 	{
 		for (int i = 0; i < currentAbleQuest.Count; i++)
 		{
 			currentAbleQuest[i].Notify(type, prm, amt);
+			
 		}
 		
 	}
 
-	public static void AssignQuest(string name)
+	public static void AssignQuest(string name, Character giver = null)
 	{
 		
 		if (nameQuestPair != null)
 		{
 			if (!nameQuestPair.ContainsKey(name))
 				return;
-
-			GameManager.instance.qManager.currentAbleQuest.Add(nameQuestPair[name]);
+			QuestInfo data = nameQuestPair[name];
+			GameManager.instance.qManager.currentAbleQuest.Add(data);
+			if (giver != null && data.questingDia != null)
+			{
+				giver.SetDialogue(data.questingDia);
+				data.giver = giver;
+			}
 			nameQuestPair[name].onAssignedAction?.Invoke();
 		}
 	}
@@ -269,10 +292,15 @@ public class QuestManager
 		{
 			if (!nameQuestPair.ContainsKey(name))
 				return;
-			if (GameManager.instance.qManager.currentAbleQuest.Contains(nameQuestPair[name]))
+			QuestInfo inf = nameQuestPair[name];
+			if (GameManager.instance.qManager.currentAbleQuest.Contains(inf))
 			{
-				GameManager.instance.qManager.currentAbleQuest.Remove(nameQuestPair[name]);
-				nameQuestPair[name].onDismissedAction?.Invoke();
+				GameManager.instance.qManager.currentAbleQuest.Remove(inf);
+				if(inf.questingDia != null && inf.giver != null)
+				{
+					inf.giver.self.talk.ResetStatus();
+				}
+				inf.onDismissedAction?.Invoke();
 			}
 
 				

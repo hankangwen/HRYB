@@ -21,12 +21,25 @@ public class QuestInfo : ScriptableObject
 	public UnityEvent onAssignedAction;
 	public UnityEvent onDismissedAction;
 
+	[Header("퀘스트 중 교체될 대사.")]
+	public Dialogue questingDia;
+
+	[Header("퀘스트 후 교체될 대사.")]
+	public Dialogue questedDia;
+
 	[Header("퀘스트 설명. 한 퀘스트당 하나")]
 	public string descriptions;
 
 	internal int curCompletedAmount;
+	internal Character giver;
 
 	public bool IsDeprived => completableCount >= 0 && curCompletedAmount >= completableCount;
+
+	protected virtual void OnEnable()
+	{
+		ResetQuestCall();
+		ResetQuestStartTime();
+	}
 
 	public void ResetQuestStartTime(CompletionAct cond = CompletionAct.None)
 	{
@@ -99,6 +112,7 @@ public class QuestInfo : ScriptableObject
 			}
 
 			bool res = myInfo[head].isCompleted;
+			Debug.Log(myInfo[head].objective + " : " + res);
 			if(head == 0)
 			{
 				compStat = res;
@@ -113,10 +127,16 @@ public class QuestInfo : ScriptableObject
 					compStat |= res;
 					break;
 				case AfterComplete.AFTER:
-					if(!compStat)
+					if (!compStat)
+					{
+						myInfo[head].Freeze();
 						return false;
+					}
 					else
+					{
+						myInfo[head].UnFreeze();
 						compStat &= res;
+					}
 					break;
 				default:
 					break;
@@ -153,6 +173,7 @@ public class QuestInfo : ScriptableObject
 				case RewardType.Item:
 					{
 						Debug.Log($"아이템 {rewardInfo[i].parameter} 제공함");
+						GameManager.instance.pinven.AddItem(Item.GetItem(rewardInfo[i].parameter), rewardInfo[i].amount);
 					}
 					break;
 				case RewardType.HealWhite:
@@ -177,6 +198,11 @@ public class QuestInfo : ScriptableObject
 			}
 		}
 
+		if(giver != null && questedDia != null)
+		{
+			giver.SetDialogue(questedDia);
+		}
+		
 		onCompleteAction?.Invoke();
 	}
 

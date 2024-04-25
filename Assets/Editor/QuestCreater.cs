@@ -321,6 +321,10 @@ public class QuestCreater : EditorWindow
 
 				info.rewardInfo[i].rewardType = (RewardType)EditorGUILayout.IntPopup($"{i}번째 보상 : ", ((int)info.rewardInfo[i].rewardType), allRewardTypes.ToArray(), allRewardTypesValue.ToArray());
 				info.rewardInfo[i].parameter = EditorGUILayout.TextArea(info.rewardInfo[i].parameter);
+				if(info.rewardInfo[i].rewardType == RewardType.Item)
+				{
+					info.rewardInfo[i].amount = EditorGUILayout.IntField("갯수 : ", info.rewardInfo[i].amount);
+				}
 				
 				EditorGUILayout.EndHorizontal();
 				GUILayout.Space(3);

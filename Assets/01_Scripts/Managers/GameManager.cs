@@ -241,6 +241,7 @@ public class GameManager : MonoBehaviour
 
 	public static GameManager instance;
 	public static System.Text.StringBuilder globalStringBuilder = new System.Text.StringBuilder();
+	public static bool globalStringBuilderUsing = false;
 
     public GameObject player;
 	public PlayerInput pinp;

@@ -12,6 +12,19 @@ public class ChoiceDialogue : Dialogue
 
 	bool choosing = false;
 
+
+	public override Dialogue Copy()
+	{
+		ChoiceDialogue ret = new ChoiceDialogue();
+		ret.text = text;
+		ret.typeDel = typeDel;
+		ret.owner = owner;
+		ret.next = next;
+		ret.choiceOptions = choiceOptions;
+		ret.nexts = nexts;
+		return ret;
+	}
+
 	protected override IEnumerator DelShowTxt()
 	{
 		yield return base.DelShowTxt();

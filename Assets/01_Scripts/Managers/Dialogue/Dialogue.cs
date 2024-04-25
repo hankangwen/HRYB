@@ -5,12 +5,13 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 
+[CreateAssetMenu(menuName = "대화/일반")]
 public class Dialogue : ScriptableObject
 {
 	public string text;
 	public float typeDel;
 
-	//public Character owner;
+	public Character owner;
 
 	public Dialogue next;
 
@@ -18,15 +19,26 @@ public class Dialogue : ScriptableObject
 	Coroutine ongoing;
 	WaitForSeconds ws;
 
+
+
 	protected virtual void Awake()
 	{
 		ws = new WaitForSeconds(typeDel);
 	}
 
-	
-
-	public virtual void OnShown()
+	public virtual Dialogue Copy()
 	{
+		Dialogue ret = new Dialogue();
+		ret.text = text;
+		ret.typeDel = typeDel;
+		ret.owner = owner;
+		ret.next = next;
+		return ret;
+	}
+
+	public virtual void OnShown(Character owner)
+	{
+		this.owner = owner;
 		GameManager.instance.uiManager.dialogueUI.currentShown = this;
 		ongoing = GameManager.instance.StartCoroutine(DelShowTxt());
 	}
@@ -55,7 +67,7 @@ public class Dialogue : ScriptableObject
 	{
 		if(next != null)
 		{
-			next.OnShown();
+			next.OnShown(owner);
 		}
 		else
 		{

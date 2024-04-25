@@ -7,4 +7,6 @@ public interface IOpenableWindowUI
     public void OnOpen();
 	public void WhileOpening();
 	public void OnClose();
+
+	public void Refresh();
 }
