@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public enum DamageType
 {
@@ -530,12 +531,16 @@ public class LifeModule : Module
 		if (_isOneDie == false)
 		{
 			_isOneDie = true;
+			
 			StopAllCoroutines();
 			//GetActor().anim.SetBoolModify("Die",true);
 			GetActor().anim.SetDieTrigger();
 			_dieEvent?.Invoke();
 
-			
+			foreach (var item in appliedDebuff)
+			{
+				RemoveAllStatEff((StatEffID)GameManager.instance.statEff.idStatEffPairs[item.Value.eff]);
+			}
 			
 		}
 

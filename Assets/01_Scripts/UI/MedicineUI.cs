@@ -18,10 +18,7 @@ public class MedicineUI : MonoBehaviour, IOpenableWindowUI
 	{
 		slotUI = GetComponentsInChildren<SlotUI>();
 
-		for (int i = 0; i < GameManager.instance.pinven.cap; i++)
-		{
-			slotUI[i].value = -1;
-		}
+		
 	}
 
 	public void OnClose()
@@ -31,6 +28,11 @@ public class MedicineUI : MonoBehaviour, IOpenableWindowUI
 
 	public void OnOpen()
 	{
+		for (int i = 0; i < slotUI.Length; i++)
+		{
+			slotUI[i].value = -1;
+		}
+
 		medicineValue.Clear();
 
 
@@ -49,16 +51,20 @@ public class MedicineUI : MonoBehaviour, IOpenableWindowUI
 			slotUI[i].value = medicineValue[i];
 			
 		}
-		
-		for(int i = 0; i < slotUI.Length; i++)
-		{
-			slotUI[i].UpdateItem();
-		}
 
+		GameManager.instance.uiManager.UpdateInvenUI();
 	}
 
 	public void WhileOpening()
 	{
 		
+	}
+
+	public void RefreshUIs()
+	{
+		for (int i = 0; i < slotUI.Length; i++)
+		{
+			slotUI[i].UpdateItem();
+		}
 	}
 }
