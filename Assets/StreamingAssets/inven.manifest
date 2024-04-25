@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 316861428
+CRC: 77596368
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4aef9e11a375e7f4ea45b010b7f1a473
+    Hash: d9621f6f8c389f0fc8174dcbf8be2fd8
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 26d6a78685346fc137c64efcbb7c3a48
+    Hash: c7410a8649233c1e83f6be78e2c6cd02
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 4aef9e11a375e7f4ea45b010b7f1a473
+    Hash: d9621f6f8c389f0fc8174dcbf8be2fd8
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -21,11 +21,11 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 - Class: 114
-  Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 11a052a6972c8ca44ace4841f2c879fb, type: 3}
 - Class: 114
@@ -78,5 +78,6 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
 Assets:
+- Assets/07_Prefabs/UIs/Objects/MedicineInven.prefab
 - Assets/07_Prefabs/UIs/Objects/Inven.prefab
 Dependencies: []

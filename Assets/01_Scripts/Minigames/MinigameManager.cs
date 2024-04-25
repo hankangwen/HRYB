@@ -34,6 +34,8 @@ public class MinigameManager
 	{
 		AsyncOperation oper = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
+		GameManager.instance.uiManager.OffCanvas();
+
 		while (!oper.isDone)
 		{
 			yield return null;
@@ -46,10 +48,23 @@ public class MinigameManager
 	{
 		if (curMinigame != Minigames.None)
 		{
-			SceneManager.UnloadSceneAsync(GetSceneName(curMinigame));
-			Time.timeScale = 1;
-			GameManager.instance.pinp.ActivateInput();
+			GameManager.instance.StartCoroutine(DoUnloadMinigame());
 		}
+	}
+
+	static IEnumerator DoUnloadMinigame()
+	{
+		AsyncOperation oper = SceneManager.UnloadSceneAsync(GetSceneName(curMinigame));
+
+		while (!oper.isDone)
+		{
+			yield return null;
+		}
+
+		GameManager.instance.uiManager.OnCanvas();
+		Time.timeScale = 1;
+		GameManager.instance.pinp.ActivateInput();
+		curMinigame = Minigames.None;
 	}
 
 	public static string GetSceneName(Minigames mode)

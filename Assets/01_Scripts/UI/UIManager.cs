@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
+
+
 
 /// <summary>
 /// 끄고킬수있는 UI의 인터페이스 등 구조를 만들자.
@@ -28,7 +31,16 @@ using UnityEngine.InputSystem;
 
 	public GameObject basicUIGroup;
 
-    public RectTransform CursorPos;
+	public MedicineButtonsUI medicineButton;
+
+	public ToolBarManager toolbarUIShower;
+
+	public AnimationCurve dropDownCurve;
+
+	InventoryUI iv;
+	MedicineUI md;
+
+	public RectTransform CursorPos;
     public Image Cursor;
 
 	public TMPro.TextMeshProUGUI debugText;
@@ -62,6 +74,13 @@ using UnityEngine.InputSystem;
 		basicUIGroup = canvas.transform.Find("Group").gameObject;
 		detailer = canvas.transform.Find("ToolPanel/Node/NodeDetail").GetComponent<NodeDetailUI>();
 		dialogueUI = canvas.transform.Find("DialogueUI/Dialogue").GetComponent<DialogueUI>();
+		uis.AddRange(GameObject.Find("Canvas/ToolPanel/Inventory").GetComponentsInChildren<SlotUI>());
+
+		medicineButton = canvas.transform.Find("ToolPanel/Medicine/DrugStore").GetComponent<MedicineButtonsUI>();
+		md = canvas.GetComponentInChildren<MedicineUI>(true);
+		iv = canvas.GetComponentInChildren<InventoryUI>(true);
+
+		toolbarUIShower = GameObject.Find("ToolPanel").GetComponent<ToolBarManager>();
 
 		invenPanel.SetActive(true);
 		optionPanel.SetActive(false);
@@ -69,7 +88,7 @@ using UnityEngine.InputSystem;
 
 	private void Start()
 	{
-		uis.AddRange(GameObject.FindObjectsOfType<SlotUI>());
+		
 		quickSlot.AddRange(GameObject.FindObjectsOfType<QuickSlot>());
 		
 		interingUI.SetGaugeValue(0);
@@ -114,6 +133,9 @@ using UnityEngine.InputSystem;
 		{
 			uis[i].UpdateItem();
 		}
+		md.RefreshUIs();
+		iv.ShowInfo();
+		medicineButton.SetStatuses(GameManager.instance.pinven.CurHoldingItem.info);
 	}
 
 	public void OnInven()
@@ -160,5 +182,15 @@ using UnityEngine.InputSystem;
 		{
 			OnOption();
 		}
+	}
+
+	public void OffCanvas()
+	{
+		canvas.gameObject.SetActive(false);
+	}
+
+	public void OnCanvas()
+	{
+		canvas.gameObject.SetActive(true);
 	}
 }

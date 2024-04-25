@@ -18,13 +18,14 @@ public class TooFarHPFar : MonoBehaviour
 
 	private void Awake()
 	{
+		obj = this.gameObject;
 		Collider = GetComponent<SphereCollider>();
 		lf = GetComponent<LifeModule>();
 	}
 
 	private void Start()
 	{
-		obj = GameManager.instance.bHPManager.HideHP(this.transform);
+		//obj = GameManager.instance.bHPManager.HideHP(this.transform);
 		Collider.radius = Range;
 	}
 

@@ -21,6 +21,8 @@ public class CameraManager : MonoBehaviour
 	public CinemachineFreeLook pCam;
 	public CinemachineVirtualCamera aimCam;
 
+	float originYSpeed;
+
 	public static CameraManager instance;
 	
 	public Camera MainCam
@@ -66,6 +68,8 @@ public class CameraManager : MonoBehaviour
 			camShakers[i].m_AmplitudeGain = 0;
 			camShakers[i].m_FrequencyGain = 0;
 		}
+
+		originYSpeed = pCam.m_YAxis.m_MaxSpeed;
 	}
 
 	private void Start()
@@ -142,6 +146,16 @@ public class CameraManager : MonoBehaviour
 		pCam.m_XAxis.m_MinValue = 0;
 		pCam.m_XAxis.m_MaxValue = 0;
 		pCam.m_XAxis.m_Wrap = true;
+	}
+
+	public void FreezeCamY()
+	{
+		pCam.m_YAxis.m_MaxSpeed = 0;
+	}
+
+	public void UnfreezeCamY()
+	{
+		pCam.m_YAxis.m_MaxSpeed = originYSpeed;
 	}
 
 	public void ShakeCam(float ampGain, float frqGain)
