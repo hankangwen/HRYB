@@ -42,6 +42,7 @@ public enum CompletionAct
 	InteractWith, //대상과 상호작용. 대상에는 반드시  V
 
 	//n레벨 이하/동일/이상 일 경우 달성으로 취급. 레벨이 정해지면 더 자세히 나올듯.
+	//레벨 오를 때 이전 레벨의 BelowLevel -1, 이전 레벨의 Eq - 1, 현재 레벨의 Eq + 1, 현재 레벨의 Above + 1
 	BelowLevel, 
 	EqualLevel,
 	AboveLevel,
@@ -119,12 +120,14 @@ public class CompleteAtom
 
 	internal bool conditionFrozen = false;
 
-	public void OnNotification(CompletionAct data, string parameter, int amt)
+	public bool OnNotification(CompletionAct data, string parameter, int amt)
 	{
 		if(conditionFrozen)
-			return;
+			return false;
+
 		if(objective == data)
 		{
+			bool isValid = false;
 			switch (data)
 			{
 				case CompletionAct.DefeatTarget:
@@ -132,6 +135,7 @@ public class CompleteAtom
 					string enemyDefeatCapture = GameManager.instance.DoCapture();
 					if (defeatMode != DefeatEnemyMode.None && GameManager.instance.Decode(enemyDefeatCapture)[defeatMode].Contains(defeatParameter)) //Decode로 변환.
 					{
+						isValid = true;
 						curRepeatCount += amt;
 					}
 				}
@@ -141,6 +145,7 @@ public class CompleteAtom
 					{
 						if (int.Parse(parameter) < int.Parse(this.parameter))
 						{
+							isValid = true;
 							curRepeatCount += amt;
 						}
 					}
@@ -154,6 +159,7 @@ public class CompleteAtom
 					{
 						if (int.Parse(parameter) > int.Parse(this.parameter) + examineStartTime)
 						{
+							isValid = true;
 							curRepeatCount += amt;
 						}
 					}
@@ -167,6 +173,7 @@ public class CompleteAtom
 					{
 						if (int.Parse(parameter) > int.Parse(this.parameter))
 						{
+							isValid = true;
 							curRepeatCount += amt;
 						}
 					}
@@ -180,11 +187,14 @@ public class CompleteAtom
 				default:
 					if(parameter == this.parameter)
 					{
+						isValid = true;
 						curRepeatCount += amt;
 					}
 					break;
 			}
+			return isValid;
 		}
+		return false;
 	}
 
 	public void Freeze()
@@ -237,7 +247,7 @@ public class QuestManager
 
 	//UnityAction<CompletionAct, string, int> invokers;
 
-	List<int> completedIndex = new List<int>();
+	List<QuestInfo> completeds = new List<QuestInfo>();
 	List<int> removeIndex = new List<int>();
 	List<QuestInfo> nextAbleQuest;
 	bool inited = false;
@@ -250,10 +260,15 @@ public class QuestManager
 	//이제 이놈을 행동하는 데마다 하나씩 꼽아주면 됨.
 	public void InvokeOnChanged(CompletionAct type, string prm, int amt = 1)
 	{
+		bool needCheck = false;
 		for (int i = 0; i < currentAbleQuest.Count; i++)
 		{
-			currentAbleQuest[i].Notify(type, prm, amt);
-			
+			needCheck |= currentAbleQuest[i].Notify(type, prm, amt);
+		}
+
+		if (needCheck)
+		{
+			CheckQuests();
 		}
 		
 	}
@@ -316,37 +331,32 @@ public class QuestManager
 		}
 	}
 
-	public void UpdateQuest()
+	public void CheckQuests()
 	{
+		List<QuestInfo> integratedQuest = new List<QuestInfo>();
 		for (int i = 0; i < currentAbleQuest.Count; i++)
 		{
 			if (currentAbleQuest[i].ExamineCompleteStatus())
 			{
-				completedIndex.Add(i);
+				completeds.Add(currentAbleQuest[i]);
 			}
-		}
-	}
-
-	public void LateUpdateQuest()
-	{
-		for (int i = 0; i < completedIndex.Count; i++)
-		{
-			currentAbleQuest[i].GiveReward();
-			currentAbleQuest[i].curCompletedAmount += 1;
-			if(currentAbleQuest[i].completableCount > 0 && currentAbleQuest[i].IsDeprived)
+			else
 			{
-				removeIndex.Add(i);
+				integratedQuest.Add(currentAbleQuest[i]);
 			}
 		}
-		nextAbleQuest = new List<QuestInfo>(currentAbleQuest);
-		for (int i = 0; i < removeIndex.Count; i++)
-		{
-			nextAbleQuest.Remove(currentAbleQuest[i]);
-		}
-		currentAbleQuest = new List<QuestInfo>(nextAbleQuest);
+		currentAbleQuest = integratedQuest;
 
-		removeIndex.Clear();
-		completedIndex.Clear();
+		for (int i = 0; i < completeds.Count; i++)
+		{
+			completeds[i].GiveReward();
+			completeds[i].curCompletedAmount += 1;
+			if(!completeds[i].IsDeprived)
+			{
+				currentAbleQuest.Add(completeds[i]);
+			}
+		}
+		completeds.Clear();
 	}
 
 	public QuestManager()
@@ -363,7 +373,7 @@ public class QuestManager
 			inited = true;
 
 			currentAbleQuest = new List<QuestInfo>();
-			completedIndex = new List<int>();
+			completeds = new List<QuestInfo>();
 			removeIndex = new List<int>();
 		}
 	}

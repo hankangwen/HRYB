@@ -81,8 +81,21 @@ public class Dialogue : ScriptableObject
 		int head = 0;
 		while(head < text.Length)
 		{
+			if(text[head] == '<')
+			{
+				bool flag = true;
+				while(flag)
+				{
+					sb.Append(text[head]);
+					if(text[head] == '>')
+						flag = false;
+					++head;
+					
+				}
+			}
 			yield return ws;
 			sb.Append(text[head]);
+			Debug.Log(sb.ToString());
 
 			++head;
 

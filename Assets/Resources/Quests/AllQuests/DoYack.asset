@@ -19,7 +19,7 @@ MonoBehaviour:
     repeatCount: 1
     afterAct: 2
     inverted: 0
-    itemMode: 1
+    itemMode: 0
     defeatMode: 0
     defeatParameter: 
   - objective: 7

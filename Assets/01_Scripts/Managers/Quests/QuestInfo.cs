@@ -89,12 +89,14 @@ public class QuestInfo : ScriptableObject
 		}
 	}
 
-	public void Notify(CompletionAct data, string parameter, int amt)
+	public bool Notify(CompletionAct data, string parameter, int amt)
 	{
+		bool res = false;
 		for (int i = 0; i < myInfo.Count; i++)
 		{
-			myInfo[i].OnNotification(data, parameter, amt);
+			res |= myInfo[i].OnNotification(data, parameter, amt);
 		}
+		return res;
 	}
 
 	public bool ExamineCompleteStatus()
@@ -155,6 +157,18 @@ public class QuestInfo : ScriptableObject
 	public void GiveReward()
 	{
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.ClearQuest, questName);
+
+		for (int i = 0; i < myInfo.Count; i++)
+		{
+			if(myInfo[i].objective == CompletionAct.GetItem || myInfo[i].objective == CompletionAct.HaveItem)
+			{
+				if(myInfo[i].itemMode == ItemHandleMode.Remove)
+				{
+					GameManager.instance.pinven.RemoveItem(Item.GetItem(myInfo[i].parameter), myInfo[i].repeatCount);
+				}
+			}
+		}
+
 		for (int i = 0; i < rewardInfo.Count; i++)
 		{
 			switch (rewardInfo[i].rewardType)

@@ -553,13 +553,6 @@ public class GameManager : MonoBehaviour
 		{
 			qManager.InvokeOnChanged(CompletionAct.CountSecond, Time.time.ToString());
 		}
-
-		qManager.UpdateQuest();
-	}
-
-	private void LateUpdate()
-	{
-		qManager.LateUpdateQuest();
 	}
 
 	public IEnumerator DelInputCtrl(float sec)
