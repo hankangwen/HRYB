@@ -15,16 +15,10 @@ public class Dialogue : ScriptableObject
 
 	public Dialogue next;
 
-	StringBuilder sb = new StringBuilder();
-	Coroutine ongoing;
+	protected StringBuilder sb = new StringBuilder();
+	protected Coroutine ongoing;
+
 	WaitForSeconds ws;
-
-
-
-	protected virtual void Awake()
-	{
-		ws = new WaitForSeconds(typeDel);
-	}
 
 	public virtual Dialogue Copy()
 	{
@@ -38,6 +32,10 @@ public class Dialogue : ScriptableObject
 
 	public virtual void OnShown(Character owner)
 	{
+		if(ws == null)
+		{
+			ws = new WaitForSeconds(typeDel);
+		}
 		this.owner = owner;
 		GameManager.instance.uiManager.dialogueUI.currentShown = this;
 		ongoing = GameManager.instance.StartCoroutine(DelShowTxt());
@@ -57,9 +55,9 @@ public class Dialogue : ScriptableObject
 
 	public virtual void ImmediateShow()
 	{
+		GameManager.instance.StopCoroutine(ongoing);
 		GameManager.instance.uiManager.dialogueUI.ShowText(text);
 		sb.Clear();
-		GameManager.instance.StopCoroutine(ongoing);
 		ongoing = null;
 	}
 
@@ -81,7 +79,7 @@ public class Dialogue : ScriptableObject
 		int head = 0;
 		while(head < text.Length)
 		{
-			if(text[head] == '<')
+			while(text[head] == '<')
 			{
 				bool flag = true;
 				while(flag)
@@ -95,7 +93,7 @@ public class Dialogue : ScriptableObject
 			}
 			yield return ws;
 			sb.Append(text[head]);
-			Debug.Log(sb.ToString());
+			//Debug.Log(sb.ToString());
 
 			++head;
 

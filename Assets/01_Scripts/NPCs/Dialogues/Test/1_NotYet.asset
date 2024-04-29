@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: 1_NotYet
   m_EditorClassIdentifier: 
   text: "\uC544\uC9C1\uC778\uAC00?"
-  typeDel: 0.1
+  typeDel: 0.03
+  owner: {fileID: 11400000, guid: 05139beb55c27874b889b195ef4416c9, type: 2}
   next: {fileID: 0}

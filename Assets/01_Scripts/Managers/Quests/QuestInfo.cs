@@ -32,13 +32,31 @@ public class QuestInfo : ScriptableObject
 
 	internal int curCompletedAmount;
 	internal Character giver;
+	internal bool assigned = false;
+
+	internal bool rewarding = false;
 
 	public bool IsDeprived => completableCount >= 0 && curCompletedAmount >= completableCount;
+
+	bool? everSince = null;
+	public bool NeedCheck
+	{
+		get
+		{
+			if(everSince == null)
+			{
+				everSince = myInfo.Find(item => item.everSince) != null;
+			}
+			return !IsDeprived && (assigned || (bool)everSince);
+		}
+	}
 
 	protected virtual void OnEnable()
 	{
 		ResetQuestCall();
 		ResetQuestStartTime();
+		curCompletedAmount = 0;
+		assigned = false;
 	}
 
 	public void ResetQuestStartTime(CompletionAct cond = CompletionAct.None)
@@ -69,6 +87,9 @@ public class QuestInfo : ScriptableObject
 		myInfo = new List<CompleteAtom>();
 		rewardInfo = new List<RewardAtom>();
 		completableCount = 1;
+		assigned = false;
+		everSince = null;
+		rewarding = false;
 	}
 
 	public QuestInfo(QuestInfo copy)
@@ -79,6 +100,9 @@ public class QuestInfo : ScriptableObject
 			myInfo = new List<CompleteAtom>(copy.myInfo);
 			rewardInfo = new List<RewardAtom>(copy.rewardInfo);
 			completableCount = copy.completableCount;
+			assigned = copy.assigned;
+			everSince = copy.everSince;
+			rewarding = true;
 		}
 		else
 		{
@@ -86,20 +110,23 @@ public class QuestInfo : ScriptableObject
 			myInfo = new List<CompleteAtom>();
 			rewardInfo = new List<RewardAtom>();
 			completableCount = 1;
+			assigned = false;
+			everSince = null;
+			rewarding = false;
 		}
 	}
 
-	public bool Notify(CompletionAct data, string parameter, int amt)
-	{
-		bool res = false;
-		for (int i = 0; i < myInfo.Count; i++)
-		{
-			res |= myInfo[i].OnNotification(data, parameter, amt);
-		}
-		return res;
-	}
+	//public bool Notify(CompletionAct data, string parameter, int amt)
+	//{
+	//	bool res = false;
+	//	for (int i = 0; i < myInfo.Count; i++)
+	//	{
+	//		res |= myInfo[i].OnNotification(data, parameter, amt);
+	//	}
+	//	return res;
+	//}
 
-	public bool ExamineCompleteStatus()
+	public bool ExamineCompleteStatus(CompletionAct type, string prm, int amt)
 	{
 		bool compStat = false;
 
@@ -113,7 +140,7 @@ public class QuestInfo : ScriptableObject
 				myInfo[head].examineStartTime = (int)Time.time;
 			}
 
-			bool res = myInfo[head].isCompleted;
+			bool res = myInfo[head].OnNotification(type, prm, amt);
 			Debug.Log(myInfo[head].objective + " : " + res);
 			if(head == 0)
 			{
@@ -132,11 +159,13 @@ public class QuestInfo : ScriptableObject
 					if (!compStat)
 					{
 						myInfo[head].Freeze();
+						Debug.Log(QuestManager.ToStringKorean(myInfo[head - 1].objective) + " 가 아직 완료되지 않아서 " + QuestManager.ToStringKorean(myInfo[head].objective) + " 동결.");
 						return false;
 					}
 					else
 					{
 						myInfo[head].UnFreeze();
+						Debug.Log(QuestManager.ToStringKorean(myInfo[head - 1].objective) + " 가 완료되어 " + QuestManager.ToStringKorean(myInfo[head].objective) + " 동결 해제.");
 						compStat &= res;
 					}
 					break;
@@ -156,6 +185,7 @@ public class QuestInfo : ScriptableObject
 
 	public void GiveReward()
 	{
+		rewarding = true;
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.ClearQuest, questName);
 
 		for (int i = 0; i < myInfo.Count; i++)
@@ -217,6 +247,7 @@ public class QuestInfo : ScriptableObject
 			giver.SetDialogue(questedDia);
 		}
 		
+		rewarding = false;
 		onCompleteAction?.Invoke();
 	}
 

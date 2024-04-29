@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: "\uB3C4\uC57D\uD0D5 \uC81C\uC870"
   myInfo:
-  - objective: 0
+  - objective: 1
     parameter: "\uB3C4\uC57D\uD0D5"
     repeatCount: 1
     afterAct: 2
     inverted: 0
+    everSince: 1
     itemMode: 0
     defeatMode: 0
     defeatParameter: 
@@ -27,6 +28,7 @@ MonoBehaviour:
     repeatCount: 1
     afterAct: 3
     inverted: 0
+    everSince: 0
     itemMode: 1
     defeatMode: 0
     defeatParameter: 

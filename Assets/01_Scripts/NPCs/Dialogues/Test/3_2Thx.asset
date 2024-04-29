@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: "\uACE0\uB9C8\uC6CC! \uADF8\uB7FC <#fcba03>\uB3C4\uC57D\uD0D5</color>\uC744
     \uB9CC\uB4E4\uC5B4\uC918."
-  typeDel: 0.1
-  owner: {fileID: 0}
+  typeDel: 0.03
+  owner: {fileID: 11400000, guid: 05139beb55c27874b889b195ef4416c9, type: 2}
   next: {fileID: 0}
   info: {fileID: 11400000, guid: 13b08e3dc7bbe4f4b90550bc05fd40e2, type: 2}
