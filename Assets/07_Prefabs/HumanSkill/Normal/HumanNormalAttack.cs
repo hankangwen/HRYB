@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(menuName ="Skills/Humen/Normal")]
-public class HumenNormalAttack : AttackBase
+[CreateAssetMenu(menuName ="Skills/Human/Normal")]
+public class HumanNormalAttack : AttackBase
 {
 
 
@@ -45,7 +45,7 @@ public class HumenNormalAttack : AttackBase
 			case 1:
 				{
 					self.move.forceDir = new Vector3(0, 0, 0);
-					GameObject obj = PoolManager.GetObject("HumenBullet", self.transform);
+					GameObject obj = PoolManager.GetObject("HumanBullet", self.transform);
 					if (obj.TryGetComponent<YGArrow>(out YGArrow _yg))
 					{
 						_yg.Ready(self, self.transform.position + self.transform.forward.normalized * 1 + new Vector3(0, 1.2f, 0),
@@ -82,7 +82,7 @@ public class HumenNormalAttack : AttackBase
 					}
 					else
 					{
-						GameObject obj = PoolManager.GetObject("HumenBullet", self.transform);
+						GameObject obj = PoolManager.GetObject("HumanBullet", self.transform);
 						if (obj.TryGetComponent<YGArrow>(out YGArrow _yg))
 						{
 							int f = posValue2 > 0 || posValue2 == -1 ? 0 : 1;
@@ -113,7 +113,7 @@ public class HumenNormalAttack : AttackBase
 				break;
 			case 3:
 				{
-					GameObject obj = PoolManager.GetObject("HumenBullet", self.transform);
+					GameObject obj = PoolManager.GetObject("HumanBullet", self.transform);
 					if (obj.TryGetComponent<YGArrow>(out YGArrow _yg))
 					{
 						_yg.Ready(self, self.transform.position + self.transform.forward.normalized * 1 + new Vector3(0, 1.2f, 0),
