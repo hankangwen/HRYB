@@ -272,9 +272,10 @@ public class GameManager : MonoBehaviour
 	public DamageTextShower shower;
 	public DecalControl decalCtrl;
 
-	public ToolBarManager toolbarUIShower;
+	
 
 	public PreservedDataManager saver;
+	public ItemPedia pedia;
 
 	[Header("따로 설정이 필요함")]
 	public Sprite uiBase;
@@ -349,12 +350,12 @@ public class GameManager : MonoBehaviour
 		shower = GameObject.Find("DamageTextManager").GetComponent<DamageTextShower>();
 		decalCtrl = GameObject.Find("DecalControl").GetComponent<DecalControl>();
 		
-		toolbarUIShower = GameObject.Find("ToolPanel").GetComponent<ToolBarManager>();
+		
 
 		saver = GameObject.Find("PreservedDataManager").GetComponent<PreservedDataManager>();
 
 		saver.lastSave = -1;
-		StartCoroutine(Crafter.InitializeTrim());
+		StartCoroutine(InitializeAll());
 	}
 
 	private void Start()
@@ -362,6 +363,18 @@ public class GameManager : MonoBehaviour
 		audioPlayer.PlayBgm(NORMALBGM);
 		
 	}
+
+	IEnumerator InitializeAll()
+	{
+		//아이템을 초기화
+		//제작법을 초기허ㅘ하맙.
+
+		yield return StartCoroutine(Crafter.InitializeTrim());
+
+		pedia = new ItemPedia();
+	}
+
+
 
 	public void LockCursor()
 	{
@@ -521,19 +534,15 @@ public class GameManager : MonoBehaviour
 		{
 			player.GetComponent<PlayerAttack>().SetDamage(3);
 		}
-		if (Input.GetKeyDown(KeyCode.Semicolon))
+		if (Input.GetKeyDown(KeyCode.P))
 		{
-			MinigameManager.UnloadMinigame();
-		}
-
-		if (Input.GetKeyDown(KeyCode.Minus))
-		{
-			pinven.AddItem(Item.GetItem("산삼"));
-			MinigameManager.LoadMinigame(Minigames.Frying, new ItemAmountPair("산삼"));
+			GameManager.instance.pinven.AddItem(Item.GetItem("인삼"), 1);
+			GameManager.instance.pinven.AddItem(Item.GetItem("밧줄"), 1);
+			GameManager.instance.pinven.AddItem(Item.GetItem("녹각"), 1);
 		}
 
 
-		if(Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			LockUnlockCursor();
 		}
@@ -630,5 +639,13 @@ public class GameManager : MonoBehaviour
 		}
 
 		GameObject.FindObjectOfType<JSInitBattle>().StartReseet();
+	}
+
+	public void LoadMinigame(Minigames mode)
+	{
+		if(pinven.CurHoldingItem.info != null)
+		{
+			MinigameManager.LoadMinigame(mode, pinven.CurHoldingItem);
+		}
 	}
 }

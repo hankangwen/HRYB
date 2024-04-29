@@ -727,7 +727,10 @@ public class PlayerMove : MoveModule
 
 		foreach (var item in nearExits)
 		{
-			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.RemainNear, item.name, -1);
+			if(item != null)
+			{
+				GameManager.instance.qManager.InvokeOnChanged(CompletionAct.RemainNear, item.name, -1);
+			}
 		}
 	}
 

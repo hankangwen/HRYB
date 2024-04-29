@@ -10,40 +10,86 @@ public class SlotUI : MonoBehaviour,IDropHandler, IPointerClickHandler
 {
     public InventoryItem items;
     public Image Iconimg;
+    public Image frame;
     public TMPro.TMP_Text text;
 	public int value;
     int dropPoint;
+
+	Button btn;
 
     private void Awake()
     {
         Iconimg = transform.GetComponentInChildren<Image>();
         text = GetComponentInChildren<TMP_Text>();
+		frame = transform.parent.Find("Frame").GetComponent<Image>();
+
+		btn = GetComponent<Button>();
+		if (btn)
+		{
+			btn.onClick.AddListener(OnMyButtonPressed);
+		}
     }
  
     public void UpdateItem()
     {
 		try
 		{
-			items = GameManager.instance.pinven.inven[value];
+			if(value < 0)
+			{
+				Iconimg.sprite = null;
+				Iconimg.color = Color.clear;
+				text.text = "";
+				frame.color = Color.white;
+				if (btn)
+				{
+					btn.interactable = false;
+				}
+			}
 
+			items = GameManager.instance.pinven.inven[value];
 
 			if (items.isEmpty())
 			{
 				Iconimg.sprite = null;
 				Iconimg.color = Color.clear;
 				text.text = "";
+				frame.color = Color.white;
+				if (btn)
+				{
+					btn.interactable = false;
+				}
 				return;
 			}
 			else
 			{
+				//Debug.LogError("안빔");
 				Iconimg.sprite = items.info.icon;
 				Iconimg.color = Color.white;
 				text.text = items.number.ToString();
+				if (btn)
+				{
+					btn.interactable = true;
+				}
+				if (GameManager.instance.pinven.curHolding == value)
+				{
+					frame.color = Color.red;
+				}
+				else
+				{
+					frame.color = Color.white;
+				}
 			}
 		}
 		catch
 		{
 			Debug.LogWarning($"{value} Is 없는 번호임");
+			Iconimg.sprite = null;
+			Iconimg.color = Color.clear;
+			if (btn)
+			{
+				btn.interactable = false;
+			}
+			text.text = "";
 		}
 
 
@@ -59,6 +105,9 @@ public class SlotUI : MonoBehaviour,IDropHandler, IPointerClickHandler
 
 
 			GameManager.instance.pinven.Move(GameManager.instance.uiManager.DragPoint, GameManager.instance.uiManager.DropPoint, GameManager.instance.pinven.inven[GameManager.instance.uiManager.DragPoint].number);
+
+			GameManager.instance.uiManager.UpdateInvenUI();
+
 		}
 
 		
@@ -78,5 +127,10 @@ public class SlotUI : MonoBehaviour,IDropHandler, IPointerClickHandler
 			//GameManager.instance.uiManager.crafterUI.On();
 			Debug.Log("NOITEM");
 		}
+	}
+
+	public void OnMyButtonPressed()
+	{
+		GameManager.instance.pinven.Hold(value);
 	}
 }

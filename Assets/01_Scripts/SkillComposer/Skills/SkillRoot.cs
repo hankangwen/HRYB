@@ -25,6 +25,8 @@ public class SkillRoot : Composite
 	public bool isSuperArmor;
 
 	SkillSlotInfo mySlotInfo;
+	public float _useMana = 0;
+
 	public SkillSlotInfo MySlotInfo { private get => mySlotInfo; set => mySlotInfo = value;}
 
 	public override void Operate(Actor self)

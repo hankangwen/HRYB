@@ -3,65 +3,83 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : MonoBehaviour, IOpenableWindowUI
 {
 	public int quickInven;
+
+	public TextMeshProUGUI itemName;
+	public TextMeshProUGUI itemDesc;
+	public Image itemIcon;
+	public ItemDetailInfoShower itemDetail;
+
+	[SerializeField]
 	private SlotUI[] slotUI;
 
-	QuickSlot[] quickSlot;
+	[SerializeField]
 	private DragHandler[] dragHandler;
 
-	private void Start()
+	private void Awake()
 	{
-		if(this.name == "InventoryGroup")
+		itemName = transform.Find("ItemInfo/ItemText").GetComponent<TextMeshProUGUI>();
+		itemDesc = transform.Find("ItemInfo/ItemInfo").GetComponent<TextMeshProUGUI>();
+		itemIcon = transform.Find("ItemInfo/ItemImg").GetComponent<Image>();
+		itemDetail = transform.Find("ItemDetail").GetComponent<ItemDetailInfoShower>();
+		slotUI = GetComponentsInChildren<SlotUI>();
+		dragHandler = GetComponentsInChildren<DragHandler>();
+
+		for (int i = 0; i < slotUI.Length; i++)
 		{
-			//for (int i = 0; i < GameManager.instance.pinven.cap - quickInven; i++)
-			//{
-			//	Instantiate(GameManager.instance.pManager.invenSlot, this.transform);
-			//	//Debug.Log($"{i} : {GameManager.instance.pManager.invenSlot}");
-			//}
+			slotUI[i].value = i;
+			dragHandler[i].value = i;
+		}
+	}
 
-			slotUI = GetComponentsInChildren<SlotUI>();
-			dragHandler = GetComponentsInChildren<DragHandler>();
+	public void OnClose()
+	{
+		//throw new System.NotImplementedException();
+	}
 
-			for (int i = 0; i < GameManager.instance.pinven.cap; i++)
+	public void OnOpen()
+	{
+		for (int i = 0; i < slotUI.Length; i++)
+		{
+			slotUI[i].value = i;
+			dragHandler[i].value = i;
+		}
+		GameManager.instance.uiManager.UpdateInvenUI();
+	}
+
+	public void WhileOpening()
+	{
+		//throw new System.NotImplementedException();
+	}
+
+	public void ShowInfo()
+	{
+		if(GameManager.instance.pinven.CurHoldingItem.info != null)
+		{
+			itemName.text = GameManager.instance.pinven.CurHoldingItem.info.MyName;
+			itemDesc.text = GameManager.instance.pinven.CurHoldingItem.info.desc;
+			itemIcon.color = Color.white;
+			itemIcon.sprite = GameManager.instance.pinven.CurHoldingItem.info.icon;
+			if(GameManager.instance.pinven.CurHoldingItem.info is YinyangItem yy)
 			{
-				slotUI[i].value = i;
-				dragHandler[i].value = i;
+				itemDetail.SetInfo(yy.processes);
+			}
+			else
+			{
+				itemDetail.ResetInfo();
 			}
 		}
-		//else if(this.name == "Quick InventoryGroup")
-		//{
-		//	for (int i = 0; i < quickInven; i++)
-		//	{
-		//		Instantiate(GameManager.instance.pManager.invenSlot, this.transform);
-		//		//Debug.Log($"{i} : {GameManager.instance.pManager.invenSlot}");
-		//	}
-
-		//	slotUI = GetComponentsInChildren<SlotUI>();
-		//	dragHandler = GetComponentsInChildren<DragHandler>();
-
-		//	for (int i = 0; i < quickInven; i++)
-		//	{
-		//		slotUI[i].value = i;
-		//		dragHandler[i].value = i;
-		//	}
-		//}
-		//else if(this.name == "QuickSlot")
-		//{
-		//	for (int i = 0; i < quickInven; i++)
-		//	{
-		//		Instantiate(GameManager.instance.pManager.quickSlot, this.transform);
-		//		//Debug.Log($"{i} : {GameManager.instance.pManager.quickSlot}");
-		//	}
-		//	quickSlot = GetComponentsInChildren<QuickSlot>();
-	
-		//	for (int i = 0; i < quickInven; i++)
-		//	{
-		//		quickSlot[i].value = i;
-		//	}
-		//}
+		else
+		{
+			itemName.text = "";
+			itemDesc.text = "";
+			itemIcon.sprite = null;
+			itemIcon.color = Color.clear;
+			itemDetail.ResetInfo();
+			
+		}
 	}
 }

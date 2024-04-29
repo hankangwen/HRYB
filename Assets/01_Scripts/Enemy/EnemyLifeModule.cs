@@ -92,6 +92,12 @@ public class EnemyLifeModule : LifeModule
 		Vector3 vec = transform.position + new Vector3(x, y, z);
 		GameObject obj = PoolManager.GetObject("JunGI", vec, transform.rotation);
 		obj.transform.parent = null;
+
+		if(t < 0)
+		{
+			t *= -1;
+		}
+
 		if (obj.TryGetComponent<ColliderCast>(out ColliderCast cols))
 		{
 			cols.Now(transform, (_life) =>

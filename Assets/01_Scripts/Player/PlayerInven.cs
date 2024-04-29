@@ -318,11 +318,15 @@ public class PlayerInven : MonoBehaviour
 		(GameManager.instance.pActor.cast as PlayerCast).ChangeSkillSlotTo(stat);
 	}
 
-	public int AddItem(Item data, int num = 1)
+	public int AddItem(Item data, int num = 1) //새로운 아이템을 얻는 것이나.
 	{
 		List<int> idxes;
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.GetItem, data.MyName, num);
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.HaveItem, data.MyName, num);
+		if(data is YinyangItem yy)
+		{
+			GameManager.instance.pedia.GotItem(yy);
+		}
 		if ((idxes = inven.Contains(data)).Count > 0)
 		{
 			for (int i = 0; i < idxes.Count; i++)
@@ -374,7 +378,8 @@ public class PlayerInven : MonoBehaviour
 				{
 					InventoryItem item = new InventoryItem(data, cnt);
 					int idx = inven.Add(item);
-					Debug.Log($"{item.info.MyName}, {item.number}개, 새로 추가됨, 위치 : {idx}");
+					
+					Debug.Log($"{inven[idx].info.MyName}, {inven[idx].number}개, 새로 추가됨, 위치 : {idx}");
 				}
 				else
 				{
@@ -571,29 +576,14 @@ public class PlayerInven : MonoBehaviour
 		
 	}
 
-	public void Hold(PlayerForm stat, int idx)
+	public void Hold(int idx)
 	{
-		// switch (stat)
-		// {
-		// 	//case HandStat.None:
-		// 	//	curHolding = -1;
-		// 	//	break;
-		// 	case HandStat.Magic:
-		// 		curHolding = -1;
-		// 		break;
-		// 	case HandStat.Item:
-		// 		if(this.stat == stat)
-		// 		{
-		// 			curHolding = idx;
-		// 		}
-		// 		else
-		// 		{
-		// 			curHolding = 0;
-		// 		}
-		// 		break;
-		// }
-		// this.stat = stat;
-		// GameManager.instance.uiManager.UpdateInvenUI();
+		curHolding = idx;
+		GameManager.instance.uiManager.UpdateInvenUI();
+		if(CurHoldingItem.info != null)
+		{
+			GameManager.instance.uiManager.medicineButton.SetStatuses(CurHoldingItem.info);
+		}
 	}
 
 	public void UseHolding()
