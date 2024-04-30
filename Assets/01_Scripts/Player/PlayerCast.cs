@@ -159,7 +159,7 @@ public class WXSkillSlots
 public class PlayerCast : CastModule
 {
 	public WXSkillSlots nowSkillSlot;
-	public WXSkillSlots humenSkillSlot;
+	public WXSkillSlots humanSkillSlot;
 	public WXSkillSlots yohoSkillSlot;
 	
 	public const string WOODSKILL = "woodSkill";
@@ -179,22 +179,22 @@ public class PlayerCast : CastModule
 
 	private void Awake()
 	{
-		humenSkillSlot = new WXSkillSlots(GetActor());
+		humanSkillSlot = new WXSkillSlots(GetActor());
 		yohoSkillSlot = new WXSkillSlots(GetActor());
 		
-		nowSkillSlot = humenSkillSlot;
+		nowSkillSlot = humanSkillSlot;
 	}
 
 	private void Start()
 	{
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("HumenNormal"), SkillSlotInfo.LClick, PlayerForm.Magic);
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("ChargeBowAttack"), SkillSlotInfo.RClick, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("HumanNormal"), SkillSlotInfo.LClick, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("ChargeBowAttack"), SkillSlotInfo.RClick, PlayerForm.Magic);
 
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("MasterSpark"), SkillSlotInfo.One, PlayerForm.Magic);
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("FireWall"), SkillSlotInfo.Two, PlayerForm.Magic);
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("EnhanceIce"), SkillSlotInfo.Three, PlayerForm.Magic);
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("ThunderStorm"), SkillSlotInfo.Q, PlayerForm.Magic);
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("SwordRain"), SkillSlotInfo.E, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("MasterSpark"), SkillSlotInfo.One, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("FireWall"), SkillSlotInfo.Two, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("EnhanceIce"), SkillSlotInfo.Three, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("ThunderStorm"), SkillSlotInfo.Q, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("SwordRain"), SkillSlotInfo.E, PlayerForm.Magic);
 
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("YohoNormalAttack"), SkillSlotInfo.LClick, PlayerForm.Yoho);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("NextEnter"), SkillSlotInfo.RClick, PlayerForm.Yoho);
@@ -536,7 +536,7 @@ public class PlayerCast : CastModule
 		switch (st)
 		{
 			case PlayerForm.Magic:
-				original = humenSkillSlot[((int)to)].skInfo;
+				original = humanSkillSlot[((int)to)].skInfo;
 				break;
 			case PlayerForm.Yoho:
 				original = yohoSkillSlot[((int)to)].skInfo;
@@ -549,7 +549,7 @@ public class PlayerCast : CastModule
 		switch (st)
 		{
 			case PlayerForm.Magic:
-				humenSkillSlot[((int)to)].Equip(root, GetActor());
+				humanSkillSlot[((int)to)].Equip(root, GetActor());
 				break;
 			case PlayerForm.Yoho:
 				yohoSkillSlot[((int)to)].Equip(root, GetActor());
@@ -568,7 +568,7 @@ public class PlayerCast : CastModule
 		switch (st)
 		{
 			case PlayerForm.Magic:
-				data = humenSkillSlot[((int)from)].skInfo;
+				data = humanSkillSlot[((int)from)].skInfo;
 				break;
 			case PlayerForm.Yoho:
 				data = yohoSkillSlot[((int)from)].skInfo;
@@ -581,7 +581,7 @@ public class PlayerCast : CastModule
 		switch (st)
 		{
 			case PlayerForm.Magic:
-				humenSkillSlot[((int)from)].UnEquip(GetActor());
+				humanSkillSlot[((int)from)].UnEquip(GetActor());
 				break;
 			case PlayerForm.Yoho:
 				yohoSkillSlot[((int)from)].UnEquip(GetActor());
@@ -603,7 +603,7 @@ public class PlayerCast : CastModule
 		switch (form)
 		{
 			case PlayerForm.Magic:
-				nowSkillSlot = humenSkillSlot;
+				nowSkillSlot = humanSkillSlot;
 				break;
 			case PlayerForm.Yoho:
 				nowSkillSlot = yohoSkillSlot;
