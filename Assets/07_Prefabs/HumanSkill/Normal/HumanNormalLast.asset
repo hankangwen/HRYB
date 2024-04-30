@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c670244b20e2c574aa79a4567d0043f7, type: 3}
-  m_Name: HumenNormalThree
+  m_Name: HumanNormalLast
   m_EditorClassIdentifier: 
-  animClip: {fileID: 7400000, guid: edfe51dc1e74d674090f22a04cf76725, type: 2}
+  animClip: {fileID: 7400000, guid: d10c20f31f1b8964984f080fb19788cf, type: 2}
   animClipLoopings: {fileID: 0}
   animClipDisop: {fileID: 0}
   audioClipName: 
@@ -20,5 +20,5 @@ MonoBehaviour:
     value: 0
   level: 0
   statEff: []
-  damageMult: 0.8
+  damageMult: 2
   relateTrmName: 

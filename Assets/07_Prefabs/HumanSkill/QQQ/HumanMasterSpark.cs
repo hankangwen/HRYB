@@ -4,8 +4,8 @@ using UnityEngine;
 
 
 
-[CreateAssetMenu(menuName = "Skills/Humen/마스터스파크")]
-public class HumenMasterSpark : AttackBase
+[CreateAssetMenu(menuName = "Skills/Human/마스터스파크")]
+public class HumanMasterSpark : AttackBase
 {
 	public override void UpdateStatus()
 	{

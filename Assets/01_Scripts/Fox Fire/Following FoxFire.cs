@@ -146,7 +146,7 @@ public class FollowingFoxFire : MonoBehaviour
 			mode = FoxFireMode.Attatched;
 
 			StatusEffects.ApplyStat(target, GameManager.instance.pActor, StatEffID.FoxBewitched, -1);
-			//prevLClickAttack = (GameManager.instance.pActor.cast as PlayerCast).ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumenSkill("ExplodeFoxFire"), SkillSlotInfo.LClick, PlayerForm.Magic);
+			//prevLClickAttack = (GameManager.instance.pActor.cast as PlayerCast).ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("ExplodeFoxFire"), SkillSlotInfo.LClick, PlayerForm.Magic);
 			//Debug.Log($"CHANGED ATK TO : explode FROM : {prevLClickAttack}");
 			_isTargeting = true;
 		}

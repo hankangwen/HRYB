@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 7205297020579607941}
   - component: {fileID: 509100781522100904}
   m_Layer: 0
-  m_Name: HumenBullet
+  m_Name: HumanBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
