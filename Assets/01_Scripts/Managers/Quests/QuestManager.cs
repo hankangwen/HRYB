@@ -254,7 +254,7 @@ public class QuestManager
 	//이제 이놈을 행동하는 데마다 하나씩 꼽아주면 됨.
 	public void InvokeOnChanged(CompletionAct type, string prm, int amt = 1)
 	{
-		CheckQuests(type, prm, amt); //퀘슽 완료시...???/@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		CheckQuests(type, prm, amt);
 	}
 
 	public static void AssignQuest(string name, Character giver = null)
@@ -422,7 +422,7 @@ public class QuestManager
 			case CompletionAct.RemainNear:
 				return "근처에 머무르기. 대상 : ";
 			case CompletionAct.ClearQuest:
-				return "퀘스트 클리어하기. 파일명 : ";
+				return "퀘스트 클리어하기. 식별명 : ";
 			case CompletionAct.LearnSkill:
 				return "스킬 배우기. 스킬명 : ";
 			default:

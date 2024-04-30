@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
 using System.Linq;
+using UnityEditor;
+using UnityEngine;
 
 public class QuestCreater : EditorWindow
 {
@@ -298,6 +297,14 @@ public class QuestCreater : EditorWindow
 					info.myInfo[i].afterAct = (AfterComplete)EditorGUILayout.IntPopup(((int)info.myInfo[i].afterAct), allCompleteAfters.ToArray(), allCompleteAftersValue.ToArray());
 					EditorGUILayout.EndHorizontal();
 
+					EditorGUILayout.BeginHorizontal();
+					GUILayout.Label("검사 시작 시점 : ");
+					if (GUILayout.Button(info.myInfo[i].everSince ? "게임 시작부터" : "퀘스트 수주이후"))
+					{
+						info.myInfo[i].everSince = !info.myInfo[i].everSince;
+					}
+
+					EditorGUILayout.EndHorizontal();
 
 					EditorGUILayout.EndVertical();
 				}

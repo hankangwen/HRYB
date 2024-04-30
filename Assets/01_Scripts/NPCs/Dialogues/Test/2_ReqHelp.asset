@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3bdbe0ad26273439df2cffdf41c12e, type: 3}
   m_Name: 2_ReqHelp
   m_EditorClassIdentifier: 
-  text: "\uB098\uB97C \uC5EC\uAE30\uC11C \uAEBC\uB0B4\uC918!"
+  text: "\uB098\uB97C \uC880 \uB3C4\uC640\uC8FC\uC9C0 \uC54A\uACA0\uB098?"
   typeDel: 0.03
   owner: {fileID: 11400000, guid: 05139beb55c27874b889b195ef4416c9, type: 2}
   next: {fileID: 11400000, guid: 75e66ee40cd00cc4d8be916e011431e0, type: 2}
