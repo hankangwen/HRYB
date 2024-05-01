@@ -193,7 +193,7 @@ public class PlayerCast : CastModule
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("MasterSpark"), SkillSlotInfo.One, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("FireWall"), SkillSlotInfo.Two, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("EnhanceIce"), SkillSlotInfo.Three, PlayerForm.Magic);
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("ThunderStorm"), SkillSlotInfo.Q, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("LightingDown"), SkillSlotInfo.Q, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("SwordRain"), SkillSlotInfo.E, PlayerForm.Magic);
 
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("YohoNormalAttack"), SkillSlotInfo.LClick, PlayerForm.Yoho);

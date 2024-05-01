@@ -37,6 +37,7 @@ public class SkillRoot : Composite
 		if (isSuperArmor)
 		{
 			self.life.superArmor = true;
+			Debug.LogError("슈퍼아머 상태");
 		}
 		base.Operate(self);
 		//GameManager.instance.StartCoroutine(DelOperate(self));

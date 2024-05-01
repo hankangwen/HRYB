@@ -9,9 +9,9 @@ public class YusungSmith : AttackBase
     
 	
 	ColliderCast _cols = null;
-	
-    
-    internal override void MyOperation(Actor self)
+	SkillProduction _pro;
+
+	internal override void MyOperation(Actor self)
     {
 
     }
@@ -29,7 +29,21 @@ public class YusungSmith : AttackBase
     {
 	    // 이팩트 기타등등셋팅
 	    GameManager.instance.DisableCtrl(true);
-    }
+			
+		if(_pro != null)
+		{
+			_pro.End();
+			_pro = null;
+		}
+
+		GameObject obj = PoolManager.GetObject("YusungSmithProduction", self.transform);
+		if (obj.TryGetComponent<SkillProduction>(out _pro))
+		{
+			_pro.transform.parent = null;
+			_pro.Begin(null, self.gameObject);
+
+		}
+	}
     public override void OnAnimationMove(Actor self, AnimationEvent evt)
     {
 	    string[] tt = evt.stringParameter.Split("$");
@@ -37,7 +51,9 @@ public class YusungSmith : AttackBase
 	    {
 		    Vector3 dir = self.transform.forward;
 		    self.move.forceDir = dir * 8 + new Vector3(0, 12, 0);
-		    Debug.Log($"LOGG {dir}");
+
+			CameraManager.instance.ShakeCamFor(0.1f, 20, 20);
+			Debug.Log($"LOGG {dir}");
 	    }
 	    else if (tt[0] == "2")
 	    {
@@ -61,7 +77,7 @@ public class YusungSmith : AttackBase
 	    string[] tt = evt.stringParameter.Split("$");
 	    if (tt[0] == "ATK")
 	    {
-
+			_pro.End();
 	    
 		    if (_cols != null)
 		    {
@@ -85,11 +101,11 @@ public class YusungSmith : AttackBase
 			    }, (tls, life)=>
 				{
 
+					CameraManager.instance.ShakeCamFor(0.2f, 16, 16);
 				});
 		    }
 
 			RaycastHit ray;
-			CameraManager.instance.ShakeCamFor(0.2f, 18, 18);
 			if (Physics.Raycast(self.transform.position, Vector3.down, out ray, 100, 1 << 11))
 			{
 				GameObject objss = PoolManager.GetObject("YusungSmithEnd", self.transform);

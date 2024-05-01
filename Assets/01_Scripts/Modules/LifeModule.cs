@@ -148,6 +148,15 @@ public class LifeModule : Module
 		//{
 		//	Debug.Log(name + " Effefct : " + item.Key.name + " For " + item.Value);
 		//}
+
+		if(yy.white > initYinYang.white)
+		{
+			yy.white = initYinYang.white;
+		}
+		if(yy.black > initYinYang.black)
+		{
+			yy.black = initYinYang.black;
+		}
 	}
 
 	void DecreaseYY(float amt, YYInfo to)

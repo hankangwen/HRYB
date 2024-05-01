@@ -12,10 +12,18 @@ public class EnemyLifeModule : LifeModule
 	public float GetGrogeValue => _currentGrogeValue;
 	bool _isGroge;
 	public bool IsGroge => _isGroge;
+	[Header("JunGI")]
+	[SerializeField] bool _66PercentBlack = false;
+	[SerializeField] bool _66PercentWhite = false;
+	[SerializeField] bool _33PercentBlack = false;
+	[SerializeField] bool _33PercentWhite = false;
+
 	public override void Awake()
 	{
 		base.Awake();
 		_currentGrogeValue = _grogeInitValue;
+
+		_dieEvent += OutJeungGi;
 	}
 	public override void Update()
 	{
@@ -30,6 +38,8 @@ public class EnemyLifeModule : LifeModule
 				_isGroge = false;
 			}
 		}
+
+
 	}
 	
 	public void DoGrogeDamage(float value)
@@ -47,19 +57,51 @@ public class EnemyLifeModule : LifeModule
 
 	public override void DamageYY(float black, float white, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel = DamageChannel.None)
 	{
-		OutJeungGi(black, white);
 		base.DamageYY(black, white, type, dur, tick, attacker, channel);
+		OutJeungGi();
 	}
 
 	public override void DamageYY(YinYang data, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel = DamageChannel.None)
 	{
 
-		OutJeungGi(data.black, data.white);
 		base.DamageYY(data, type, dur, tick, attacker, channel);
+		OutJeungGi();
 	}
 
-	public void OutJeungGi(float black, float white)
+	public void OutJeungGi()
 	{
+		if(initYinYang.white * 0.66f > yy.white && _66PercentWhite ==false)
+		{
+			_66PercentWhite = true;
+			OutValue(initYinYang.white * 0.2f);
+		}
+		if (initYinYang.white * 0.33f > yy.white && _33PercentWhite == false)
+		{
+			_33PercentWhite = true;
+			OutValue(initYinYang.white * 0.2f);
+		}
+		if(yy.white <= 0)
+		{
+			OutValue(initYinYang.white * 0.2f);
+		}
+
+		if (initYinYang.black * 0.66f > yy.black && _66PercentBlack == false)
+		{
+			_66PercentBlack = true;
+			OutValue(initYinYang.black * 0.2f);
+		}
+		if (initYinYang.black * 0.33f > yy.black && _33PercentBlack == false)
+		{
+			_33PercentBlack = true;
+			OutValue(initYinYang.black * 0.2f);
+		}
+
+		if (yy.black <= 0)
+		{
+			OutValue(initYinYang.black * 0.2f);
+		}
+
+		/*
 		if (black > 0)
 		{
 			if (yy.black - black > 0)
@@ -81,7 +123,7 @@ public class EnemyLifeModule : LifeModule
 			{
 				OutValue(yy.white / 10);
 			}
-		}
+		}*/
 	}
 
 	void OutValue(float t)
