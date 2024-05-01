@@ -1,28 +1,28 @@
 ManifestFileVersion: 0
-CRC: 1526231827
+CRC: 743219474
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: yohoskilldatabase
-      Dependencies: {}
-    Info_1:
       Name: itemicons
       Dependencies: {}
-    Info_2:
+    Info_1:
       Name: skilldatabase
       Dependencies: {}
-    Info_3:
+    Info_2:
       Name: hp
       Dependencies: {}
-    Info_4:
-      Name: jangsunghp
-      Dependencies: {}
-    Info_5:
-      Name: quickslot
-      Dependencies: {}
-    Info_6:
+    Info_3:
       Name: inven
       Dependencies: {}
-    Info_7:
+    Info_4:
+      Name: quickslot
+      Dependencies: {}
+    Info_5:
+      Name: yohoskilldatabase
+      Dependencies: {}
+    Info_6:
       Name: bosshp
+      Dependencies: {}
+    Info_7:
+      Name: jangsunghp
       Dependencies: {}
