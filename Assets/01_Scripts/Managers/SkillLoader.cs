@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class SkillLoader
 {
-	private SkillDatabase HumenSkillDb;
+	private SkillDatabase HumanSkillDb;
 	private SkillDatabase YohoSkillDb;
 	public SkillLoader()
 	{
@@ -26,7 +26,7 @@ public class SkillLoader
 
 		if (database != null)
 		{
-			HumenSkillDb = database;
+			HumanSkillDb = database;
 			Debug.Log("Skill Database Load Successed.");
 		}
 		else
@@ -54,9 +54,9 @@ public class SkillLoader
 	//	get=>skillDb.info[name];
 	//}
 
-	public SkillRoot GetHumenSkill(string name)
+	public SkillRoot GetHumanSkill(string name)
 	{
-		return HumenSkillDb.info[name];
+		return HumanSkillDb.info[name];
 	}
 
 	public SkillRoot GetYohoSkill(String name)
