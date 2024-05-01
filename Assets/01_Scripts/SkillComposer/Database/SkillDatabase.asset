@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info:
     keyValues:
-    - name: HumenNormal
+    - name: HumanNormal
       skill: {fileID: 11400000, guid: 8303bf86a8f62634080ba33a2016dc7f, type: 2}
     - name: ChargeBowAttack
       skill: {fileID: 11400000, guid: 51ec9d1590d8641488e1d143c91eacba, type: 2}
