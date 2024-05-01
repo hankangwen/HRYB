@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class QuestInfo : ScriptableObject
+public class QuestInfo : ScriptableObject, System.IComparable
 {
 	[Header("이름")]
 	public string questName;
@@ -29,6 +29,9 @@ public class QuestInfo : ScriptableObject
 
 	[Header("퀘스트 설명. 한 퀘스트당 하나")]
 	public string descriptions;
+
+	[Header("퀘스트 종류.")]
+	public QuestType type;
 
 	internal int curCompletedAmount;
 	internal Character giver;
@@ -264,5 +267,14 @@ public class QuestInfo : ScriptableObject
 	public override int GetHashCode()
 	{
 		return System.HashCode.Combine(questName);
+	}
+
+	public int CompareTo(object obj)
+	{
+		if(obj is QuestInfo q)
+		{
+			return name.CompareTo(q.name);
+		}
+		return 0;
 	}
 }

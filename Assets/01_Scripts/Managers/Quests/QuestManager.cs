@@ -87,6 +87,13 @@ public enum RewardType
 	Quest,
 }
 
+public enum QuestType
+{
+	Main,
+	Sub,
+
+}
+
 
 
 
@@ -107,6 +114,9 @@ public class CompleteAtom
 
 	[Header("체크될 경우, 퀘스트가 활성화되지 않아도 카운트함. (히든퀘/누적형)")]
 	public bool everSince;
+
+	[Header("체크될 경우, 퀘스트를 받더라도 조건이 보이지 않음.")]
+	public bool isVisibleCondition;
 
 	//비필수
 	[Header("아이템을 제거할 것인가?")]

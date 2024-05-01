@@ -22,14 +22,8 @@ public class ItemReqUI : MonoBehaviour
 		image.sprite = pair.info.icon;
 		itemName.text = pair.info.MyName;
 
-		System.Text.StringBuilder sb = GameManager.globalStringBuilder;
-		bool usingGlobal = true;
-		if (GameManager.globalStringBuilderUsing)
-		{
-			usingGlobal = false;
-			sb = new System.Text.StringBuilder();
-		}
-		GameManager.globalStringBuilderUsing = true;
+		System.Text.StringBuilder sb;
+		bool usingGlobal = GameManager.GetGlobalSB(out sb);
 
 		if (GameManager.instance.pinven.RemoveItemExamine(pair.info, pair.num))
 		{
@@ -46,11 +40,9 @@ public class ItemReqUI : MonoBehaviour
 		sb.Append(" / ");
 		sb.Append(pair.num);
 		count.text = sb.ToString();
-		sb.Clear();
-		if (usingGlobal)
-		{
-			GameManager.globalStringBuilderUsing = false;
-		}
+
+		GameManager.ReturnGlobalSB(usingGlobal);
+		
 		return res;
 	}
 }
