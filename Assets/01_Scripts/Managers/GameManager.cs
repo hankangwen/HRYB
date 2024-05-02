@@ -240,7 +240,9 @@ public class GameManager : MonoBehaviour
 	public const char CAPTUREDIVIDERSECTION = '*';
 
 	public static GameManager instance;
-	public static System.Text.StringBuilder globalStringBuilder = new System.Text.StringBuilder();
+
+	static System.Text.StringBuilder globalStringBuilder = new System.Text.StringBuilder();
+	static bool globalStringBuilderUsing = false;
 
     public GameObject player;
 	public PlayerInput pinp;
@@ -552,13 +554,6 @@ public class GameManager : MonoBehaviour
 		{
 			qManager.InvokeOnChanged(CompletionAct.CountSecond, Time.time.ToString());
 		}
-
-		qManager.UpdateQuest();
-	}
-
-	private void LateUpdate()
-	{
-		qManager.LateUpdateQuest();
 	}
 
 	public IEnumerator DelInputCtrl(float sec)
@@ -646,6 +641,30 @@ public class GameManager : MonoBehaviour
 		if(pinven.CurHoldingItem.info != null)
 		{
 			MinigameManager.LoadMinigame(mode, pinven.CurHoldingItem);
+		}
+	}
+
+	public static bool GetGlobalSB(out System.Text.StringBuilder sb)
+	{
+		if (globalStringBuilderUsing)
+		{
+			sb = new System.Text.StringBuilder();
+			return false;
+		}
+		else
+		{
+			sb = globalStringBuilder;
+			globalStringBuilderUsing = true;
+			return true;
+		}
+	}
+
+	public static void ReturnGlobalSB(bool usingGlobal)
+	{
+		if (usingGlobal)
+		{
+			globalStringBuilder.Clear();
+			globalStringBuilderUsing = false;
 		}
 	}
 }

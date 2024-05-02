@@ -20,7 +20,7 @@ using Unity.VisualScripting;
 	public AimPointCtrl aimUI;
 	//public InfoCtrl infoUI;
 	//public SimpleCrafter crafterUI;
-	public QuestUICtrl questUI;
+	public QuestUI questUI;
 	public InterPrevUI preInterUI;
 	public InterProcessUI interingUI;
     public GameObject invenPanel;
@@ -32,13 +32,11 @@ using Unity.VisualScripting;
 	public GameObject basicUIGroup;
 
 	public MedicineButtonsUI medicineButton;
+	public MedicineDetailUI medicineDetail;
 
 	public ToolBarManager toolbarUIShower;
 
 	public AnimationCurve dropDownCurve;
-
-	InventoryUI iv;
-	MedicineUI md;
 
 	public RectTransform CursorPos;
     public Image Cursor;
@@ -68,7 +66,7 @@ using Unity.VisualScripting;
 		aimUI = canvas.GetComponentInChildren<AimPointCtrl>();
 		//infoUI = canvas.GetComponentInChildren<InfoCtrl>();
 		//crafterUI = canvas.GetComponentInChildren<SimpleCrafter>();
-		questUI = canvas.GetComponentInChildren<QuestUICtrl>();
+		questUI = canvas.GetComponentInChildren<QuestUI>();
 		preInterUI = canvas.GetComponentInChildren<InterPrevUI>();
 		interingUI = canvas.GetComponentInChildren<InterProcessUI>();
 		basicUIGroup = canvas.transform.Find("Group").gameObject;
@@ -77,8 +75,7 @@ using Unity.VisualScripting;
 		uis.AddRange(GameObject.Find("Canvas/ToolPanel/Inventory").GetComponentsInChildren<SlotUI>());
 
 		medicineButton = canvas.transform.Find("ToolPanel/Medicine/DrugStore").GetComponent<MedicineButtonsUI>();
-		md = canvas.GetComponentInChildren<MedicineUI>(true);
-		iv = canvas.GetComponentInChildren<InventoryUI>(true);
+		medicineDetail = canvas.transform.Find("ToolPanel/Fusion/MedicineDetail").GetComponent<MedicineDetailUI>();
 
 		toolbarUIShower = GameObject.Find("ToolPanel").GetComponent<ToolBarManager>();
 
@@ -133,9 +130,14 @@ using Unity.VisualScripting;
 		{
 			uis[i].UpdateItem();
 		}
-		md.RefreshUIs();
-		iv.ShowInfo();
+		toolbarUIShower.RefreshWindows();
 		medicineButton.SetStatuses(GameManager.instance.pinven.CurHoldingItem.info);
+		medicineDetail.RefreshInfo();
+	}
+
+	public void UpdateQuestUI()
+	{
+		questUI.Refresh();
 	}
 
 	public void OnInven()

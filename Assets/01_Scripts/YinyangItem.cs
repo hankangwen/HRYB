@@ -27,25 +27,30 @@ public class YinyangItem : Item
 	{
 		get
 		{
+			StringBuilder sb;
+			bool usingGlobal = GameManager.GetGlobalSB(out sb);
+
 			if (processes.Contains(ProcessType.Stir))
 			{
-				GameManager.globalStringBuilder.Append(PreProcess.STIRPREFIX);
+				sb.Append(PreProcess.STIRPREFIX);
 			}
 			if (processes.Contains(ProcessType.Fry))
 			{
-				GameManager.globalStringBuilder.Append(PreProcess.FRYPREFIX);
+				sb.Append(PreProcess.FRYPREFIX);
 			}
 			if (processes.Contains(ProcessType.Burn))
 			{
-				GameManager.globalStringBuilder.Append(PreProcess.BURNPREFIX);
+				sb.Append(PreProcess.BURNPREFIX);
 			}
 			if (processes.Contains(ProcessType.Mash))
 			{
-				GameManager.globalStringBuilder.Append(PreProcess.MASHPREFIX);
+				sb.Append(PreProcess.MASHPREFIX);
 			}
-			GameManager.globalStringBuilder.Append(base.MyName);
-			string res = GameManager.globalStringBuilder.ToString();
-			GameManager.globalStringBuilder.Clear();
+			sb.Append(base.MyName);
+			string res = sb.ToString();
+			sb.Clear();
+			GameManager.ReturnGlobalSB(usingGlobal);
+
 			return res;
 		} 
 		set => base.MyName = value;
@@ -69,6 +74,7 @@ public class YinyangItem : Item
 	public YinyangItem(YinyangItem item) : base(item)
 	{
 		//data = item.data;
+		processes = new HashSet<ProcessType>(item.processes);
 		if (item.nameAsChar == "")
 		{
 			nameAsChar = MyName[UnityEngine.Random.Range(0, MyName.Length)].ToString();

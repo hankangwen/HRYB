@@ -11,6 +11,42 @@ public class ChoiceDialogue : Dialogue
 	public List<Dialogue> nexts;
 
 	bool choosing = false;
+	bool chooseComp = false;
+
+	public override Dialogue Copy()
+	{
+		ChoiceDialogue ret = new ChoiceDialogue();
+		ret.text = text;
+		ret.typeDel = typeDel;
+		ret.owner = owner;
+		ret.next = next;
+		ret.choiceOptions = choiceOptions;
+		ret.nexts = nexts;
+		return ret;
+	}
+
+	public override void ImmediateShow()
+	{
+		if(ongoing != null)
+		{
+			GameManager.instance.StartCoroutine(ShowChoice());
+		}
+		base.ImmediateShow();
+	}
+
+	public override void NextDialogue()
+	{
+		if (chooseComp)
+		{
+			base.NextDialogue();
+		}
+	}
+
+	public override void OnShown(Character owner)
+	{
+		chooseComp = false;
+		base.OnShown(owner);
+	}
 
 	protected override IEnumerator DelShowTxt()
 	{
@@ -36,6 +72,7 @@ public class ChoiceDialogue : Dialogue
 		GameManager.instance.uiManager.dialogueUI.chosen = -1;
 		GameManager.instance.uiManager.dialogueUI.OffChoice();
 		choosing =false;
+		chooseComp = true;
 		Debug.LogError("아오");
 
 

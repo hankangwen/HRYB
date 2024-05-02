@@ -43,7 +43,7 @@ public class MedicineButtonsUI : MonoBehaviour
 			fryButton.interactable = !(yy.processes.Contains(ProcessType.Fry) || yy.processes.Contains(ProcessType.Burn));
 			stirButton.interactable = !yy.processes.Contains(ProcessType.Stir);
 			mashButton.interactable = !yy.processes.Contains(ProcessType.Mash);
-			cutButton.interactable = Crafter.recipeItemTableTrim.ContainsKey(yy);
+			cutButton.interactable = Crafter.recipeItemTableTrim.ContainsKey(new ItemAmountPair(yy));
 		}
 		else
 		{
