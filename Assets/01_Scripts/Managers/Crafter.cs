@@ -110,14 +110,8 @@ public struct Recipe
 	{
 		string ret;
 
-		StringBuilder sb = GameManager.globalStringBuilder;
-		bool usingGlobal = true;
-		if (GameManager.globalStringBuilderUsing)
-		{
-			usingGlobal = false;
-			sb = new StringBuilder();
-		}
-		GameManager.globalStringBuilderUsing = true;
+		StringBuilder sb;
+		bool usingGlobal = GameManager.GetGlobalSB(out sb);
 
 		sb.Append("(Ingredients : ");
 		foreach (var item in recipe)
@@ -132,11 +126,9 @@ public struct Recipe
 		sb.Append("), ->");
 		sb.Append(category);
 		ret = sb.ToString();
-		sb.Clear();
-		if (usingGlobal)
-		{
-			GameManager.globalStringBuilderUsing = false;
-		}
+
+		GameManager.ReturnGlobalSB(usingGlobal);
+		
 		
 		return ret;
 	}

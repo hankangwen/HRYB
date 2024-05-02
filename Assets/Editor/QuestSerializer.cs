@@ -192,14 +192,8 @@ public class QuestSerializer : Editor
 
 	public static string CombineAppendComma(string appendText, params string[] combiners)
 	{
-		System.Text.StringBuilder sb = GameManager.globalStringBuilder;
-		bool usingGlobal = true;
-		if (GameManager.globalStringBuilderUsing)
-		{
-			sb = new System.Text.StringBuilder();
-			usingGlobal = false;
-		}
-		GameManager.globalStringBuilderUsing = true;
+		System.Text.StringBuilder sb;
+		bool usingGlobal = GameManager.GetGlobalSB(out sb);
 		for (int i = 0; i < combiners.Length; i++)
 		{
 			sb.Append(combiners[i]);
@@ -208,23 +202,15 @@ public class QuestSerializer : Editor
 		}
 		string res= sb.ToString();
 		sb.Clear();
-		if (usingGlobal)
-		{
-			GameManager.globalStringBuilderUsing = false;
-		}
+
+		GameManager.ReturnGlobalSB(usingGlobal);
 		return res;
 	}
 
 	public static string CombineAppendTab(string appendText, params string[] combiners)
 	{
-		System.Text.StringBuilder sb = GameManager.globalStringBuilder;
-		bool usingGlobal = true;
-		if (GameManager.globalStringBuilderUsing)
-		{
-			sb = new System.Text.StringBuilder();
-			usingGlobal = false;
-		}
-		GameManager.globalStringBuilderUsing = true;
+		System.Text.StringBuilder sb;
+		bool usingGlobal = GameManager.GetGlobalSB(out sb);
 		for (int i = 0; i < combiners.Length; i++)
 		{
 			sb.Append(combiners[i]);
@@ -233,10 +219,7 @@ public class QuestSerializer : Editor
 		}
 		string res = sb.ToString();
 		sb.Clear();
-		if (usingGlobal)
-		{
-			GameManager.globalStringBuilderUsing = false;
-		}
+		GameManager.ReturnGlobalSB(usingGlobal);
 		return res;
 	}
 }

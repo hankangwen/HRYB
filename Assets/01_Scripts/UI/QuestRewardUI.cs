@@ -12,7 +12,7 @@ public class QuestRewardUI : MonoBehaviour
 	TextMeshProUGUI rewAmtTxt;
 	
 
-	public void Refresh(RewardAtom rew)
+	public void ShowInfo(RewardAtom rew)
 	{
 		if(typeImg == null)
 		{
@@ -27,13 +27,30 @@ public class QuestRewardUI : MonoBehaviour
 			rewAmtTxt = transform.Find("RewItemAmount").GetComponent<TextMeshProUGUI>();
 		}
 
+		switch (rew.rewardType)
+		{
+			case RewardType.Exp:
+				//typeImg.sprite = GameManager.instance.expSprite;
+				break;
+			case RewardType.Skill:
+				typeImg.sprite = GameManager.instance.skillLoader.GetSkill(rew.parameter).skillIcon;
+				break;
+			case RewardType.Item:
+				typeImg.sprite = Item.GetItem(rew.parameter).icon;
+				break;
+			case RewardType.HealWhite:
+			case RewardType.HealBlack:
+			case RewardType.Quest:
+				return;
+		}
+
 		System.Text.StringBuilder sb;
 		bool usingGlobal = GameManager.GetGlobalSB(out sb);
 
 		rewNameTxt.text = rew.parameter;
 
 		sb.Append("<#00dd00>");
-		sb.Append(rew.parameter);
+		sb.Append(rew.amount);
 		sb.Append("</color>");
 		sb.Append(" 개");
 		rewAmtTxt.text = sb.ToString();

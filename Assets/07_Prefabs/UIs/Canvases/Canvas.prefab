@@ -833,6 +833,7 @@ GameObject:
   - component: {fileID: 2896679387710843837}
   - component: {fileID: 2257195068150291765}
   - component: {fileID: 2399093563015181301}
+  - component: {fileID: 344201927928019099}
   m_Layer: 5
   m_Name: QuestDetail
   m_TagString: Untagged
@@ -898,6 +899,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.5
+--- !u!114 &344201927928019099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390365269214447006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f707b216f5edb8446a4fc0f069a7cd64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &396727129765452044
 GameObject:
   m_ObjectHideFlags: 0
@@ -2414,7 +2427,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uADF8\uB9CE\uB358\uC2F1\uC544\uB294\uB204\uAC00\uB2E4\uBA39\uC5C8\uC744\uAE4C"
+  m_text: "\uD0A4\uC2A4\uC0F7\uC544\uC138\uB85C\uB77C\uC624\uB9AC\uC628\uD558\uD2B8\uC5B8\uB354\uBE14\uB808\uC774\uB4DC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bda310b57c97d4a4f8761a0ef2fe6252, type: 2}
   m_sharedMaterial: {fileID: -931324035390038609, guid: bda310b57c97d4a4f8761a0ef2fe6252, type: 2}
@@ -3057,7 +3070,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00004575884}
+  m_AnchoredPosition: {x: 0, y: -0.00096394453}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2611904375331911410
@@ -3253,7 +3266,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1100, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4913056345378568994
@@ -4640,7 +4653,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000041706902}
+  m_AnchoredPosition: {x: 0, y: -0.00078357256}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3392032188987975580
@@ -5335,7 +5348,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0.000012397766}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8743817534653967982
@@ -5932,7 +5945,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000025013196}
+  m_AnchoredPosition: {x: 0, y: -0.00095468736}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3256244528819266501
@@ -5972,6 +5985,7 @@ GameObject:
   - component: {fileID: 465871365898324649}
   - component: {fileID: 8405348400105178164}
   - component: {fileID: 2251580855428188567}
+  - component: {fileID: 2963044958098340392}
   m_Layer: 5
   m_Name: QuestListBgnd
   m_TagString: Untagged
@@ -6039,6 +6053,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.57
+--- !u!114 &2963044958098340392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2721653305511453629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d38d29654faec84788db2dc4c0a92fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2753089299574875375
 GameObject:
   m_ObjectHideFlags: 0
@@ -7385,7 +7411,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6921583088812349087}
   m_HandleRect: {fileID: 4333524972961942982}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8038,7 +8064,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4654595554859884145}
   m_HandleRect: {fileID: 970821191562128070}
   m_Direction: 2
-  m_Value: 0.54
+  m_Value: 0
   m_Size: 0.49315763
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -10042,7 +10068,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1220640471268895555}
   m_HandleRect: {fileID: 2607243765695722994}
   m_Direction: 0
-  m_Value: 0.9599999
+  m_Value: 0
   m_Size: 0.6555288
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12615,7 +12641,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -459.99994, y: -39.99997}
+  m_AnchoredPosition: {x: 500, y: 500}
   m_SizeDelta: {x: 1000, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5799889049635553491
@@ -13391,7 +13417,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000016290496}
+  m_AnchoredPosition: {x: 0, y: -0.00091957883}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5913993682292817990
@@ -16341,7 +16367,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00096061634}
+  m_AnchoredPosition: {x: 0, y: -0.0009880584}
   m_SizeDelta: {x: 0, y: 1500}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &7227095531172221839
@@ -16539,7 +16565,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7195233335669058845}
   m_HandleRect: {fileID: 8769196097830412526}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

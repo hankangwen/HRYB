@@ -63,4 +63,19 @@ public class SkillLoader
 	{
 		return YohoSkillDb.info[name];
 	}
+
+	public SkillRoot GetSkill(string name)
+	{
+		if (HumenSkillDb.info.ContainsKey(name))
+		{
+			return HumenSkillDb.info[name];
+
+		}
+		else if (YohoSkillDb.info.ContainsKey(name))
+		{
+			return YohoSkillDb.info[name];
+		}
+		Debug.LogError($"그런 이름의 스킬은 없습니다 : {name}");
+		return null;
+	}
 }

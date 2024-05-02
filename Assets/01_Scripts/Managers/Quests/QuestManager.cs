@@ -115,7 +115,7 @@ public class CompleteAtom
 	[Header("체크될 경우, 퀘스트가 활성화되지 않아도 카운트함. (히든퀘/누적형)")]
 	public bool everSince;
 
-	[Header("체크될 경우, 퀘스트를 받더라도 조건이 보이지 않음.")]
+	[Header("체크될 경우, 조건이 보여짐.")]
 	public bool isVisibleCondition;
 
 	//비필수
@@ -127,7 +127,7 @@ public class CompleteAtom
 
 	public bool isCompleted => curRepeatCount >= repeatCount;
 
-	int curRepeatCount;
+	internal int curRepeatCount;
 
 	internal int? examineStartTime;
 
@@ -265,6 +265,7 @@ public class QuestManager
 	public void InvokeOnChanged(CompletionAct type, string prm, int amt = 1)
 	{
 		CheckQuests(type, prm, amt);
+		GameManager.instance.uiManager.UpdateQuestUI();
 	}
 
 	public static void AssignQuest(string name, Character giver = null)

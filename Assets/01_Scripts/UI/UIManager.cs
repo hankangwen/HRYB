@@ -135,6 +135,11 @@ using Unity.VisualScripting;
 		medicineDetail.RefreshInfo();
 	}
 
+	public void UpdateQuestUI()
+	{
+		questUI.Refresh();
+	}
+
 	public void OnInven()
 	{
 		invenPanel.SetActive(true);

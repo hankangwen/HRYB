@@ -84,14 +84,8 @@ public class NodeUtility
 
 	public static string GetName(PlayerNode inf)
 	{
-		System.Text.StringBuilder sb = GameManager.globalStringBuilder;
-		bool usingGlobal = true;
-		if (GameManager.globalStringBuilderUsing)
-		{
-			usingGlobal = false;
-			sb = new System.Text.StringBuilder();
-		}
-		GameManager.globalStringBuilderUsing = true;
+		System.Text.StringBuilder sb;
+		bool usingGlobal = GameManager.GetGlobalSB(out sb);
 		switch (inf.nodeType)
 		{
 			case StatUpgradeType.White:
@@ -128,10 +122,8 @@ public class NodeUtility
 		sb.Append("혈");
 		string res = sb.ToString();
 		sb.Clear();
-		if (usingGlobal)
-		{
-			GameManager.globalStringBuilderUsing = false;
-		}
+		GameManager.ReturnGlobalSB(usingGlobal);
+		
 		return res;
 	}
 

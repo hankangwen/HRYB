@@ -231,7 +231,6 @@ public class SkillInventory
 			if(item.info == info)
 			{
 				GameManager.instance.qManager.InvokeOnChanged(CompletionAct.LearnSkill, info.name, cnt);
-
 				InvenSkill sk = item;
 				data.Remove(item);
 				sk.number += cnt;

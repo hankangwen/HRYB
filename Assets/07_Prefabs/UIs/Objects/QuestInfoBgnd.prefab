@@ -146,6 +146,7 @@ GameObject:
   - component: {fileID: 5445693676219418810}
   - component: {fileID: 6910980605070514644}
   - component: {fileID: 6369656160011376822}
+  - component: {fileID: -863829027551711379}
   m_Layer: 5
   m_Name: QuestInfoBgnd
   m_TagString: Untagged
@@ -255,7 +256,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6910980605070514644}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -863829027551711379}
+        m_TargetAssemblyTypeName: QuestInfoUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &-863829027551711379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3424512445364678370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: add1293139de76849a712b0eab51b27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4584118896335571055
 GameObject:
   m_ObjectHideFlags: 0

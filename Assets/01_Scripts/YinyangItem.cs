@@ -27,14 +27,8 @@ public class YinyangItem : Item
 	{
 		get
 		{
-			StringBuilder sb = GameManager.globalStringBuilder;
-			bool usingGlobal = true;
-			if (GameManager.globalStringBuilderUsing)
-			{
-				sb = new StringBuilder();
-				usingGlobal = false;
-			}
-			GameManager.globalStringBuilderUsing = true;
+			StringBuilder sb;
+			bool usingGlobal = GameManager.GetGlobalSB(out sb);
 
 			if (processes.Contains(ProcessType.Stir))
 			{
@@ -55,8 +49,8 @@ public class YinyangItem : Item
 			sb.Append(base.MyName);
 			string res = sb.ToString();
 			sb.Clear();
-			if(usingGlobal)
-				GameManager.globalStringBuilderUsing = false;
+			GameManager.ReturnGlobalSB(usingGlobal);
+
 			return res;
 		} 
 		set => base.MyName = value;

@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 1985902819689941317}
   - component: {fileID: 6669912581049748469}
   - component: {fileID: 4453971583155635091}
+  - component: {fileID: -3943520513763265256}
   m_Layer: 5
   m_Name: CompletionAtomBgnd
   m_TagString: Untagged
@@ -211,6 +212,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1.5
+--- !u!114 &-3943520513763265256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4959807715622417259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d960038e762d84abe1388bbc7e5085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6571491224473577027
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,8 +258,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -292, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -91.34671, y: 0}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7784583082319555821
 CanvasRenderer:
@@ -276,8 +289,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<#00cc00>\uC0B0\uC0BC</color>\uC744(\uB97C) <#cc00cc>\uD68D\uB4DD</color>\uD558\uC9C0
-    <#c40000>\uC54A\uAE30</color>."
+  m_text: "<#00cc00>\uADF8\uC2A8\uC0C8</color>\uC744(\uB97C) <#0000dd>\uC720\uC131\uAC15\uD0C0</color>
+    \uC2A4\uD0AC\uB85C <#cc00cc>\uCC98\uCE58\uD558\uC9C0</color> <#dd0000>\uC54A\uAE30</color>."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bda310b57c97d4a4f8761a0ef2fe6252, type: 2}
   m_sharedMaterial: {fileID: -931324035390038609, guid: bda310b57c97d4a4f8761a0ef2fe6252, type: 2}

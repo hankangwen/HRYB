@@ -13,15 +13,15 @@ public class QuestInfoUI : MonoBehaviour
 
 	QuestInfo curShown;
 
-	public void Refresh(QuestInfo inf)
+	public void ShowInfo(QuestInfo inf)
 	{
 		if(questName == null)
 		{
-			questName = transform.Find("").GetComponent<TextMeshProUGUI>();
+			questName = transform.Find("QuestName").GetComponent<TextMeshProUGUI>();
 		}
 		if (accompCount == null)
 		{
-			accompCount = transform.Find("").GetComponent<TextMeshProUGUI>();
+			accompCount = transform.Find("QuestCompletionCountText").GetComponent<TextMeshProUGUI>();
 		}
 		if (selfButton == null)
 		{
@@ -44,8 +44,31 @@ public class QuestInfoUI : MonoBehaviour
 		sb.Append("</color> / ");
 		sb.Append(inf.completableCount);
 
+		accompCount.text = sb.ToString();
+
 		GameManager.ReturnGlobalSB(usingGlobal);
 
+	}
+
+	public void RefreshNum()
+	{
+		System.Text.StringBuilder sb;
+		bool usingGlobal = GameManager.GetGlobalSB(out sb);
+		if (curShown.IsDeprived)
+		{
+			sb.Append("<#00dd00>");
+		}
+		else
+		{
+			sb.Append("<#dd0000>");
+		}
+		sb.Append(curShown.curCompletedAmount);
+		sb.Append("</color> / ");
+		sb.Append(curShown.completableCount);
+
+		accompCount.text = sb.ToString();
+
+		GameManager.ReturnGlobalSB(usingGlobal);
 	}
 
 	public void OnClick()
