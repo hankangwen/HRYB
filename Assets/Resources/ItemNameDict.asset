@@ -19,9 +19,9 @@ MonoBehaviour:
     - key: Bow
       value: "\uD65C"
     - key: Deerfoot
-      value: "\uB179\uAC01"
-    - key: DearHorn
       value: "\uB179\uC81C"
+    - key: DearHorn
+      value: "\uB179\uAC01"
     - key: Fiber
       value: "\uC12C\uC720"
     - key: Insam

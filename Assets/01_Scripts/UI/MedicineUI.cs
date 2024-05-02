@@ -60,8 +60,29 @@ public class MedicineUI : MonoBehaviour, IOpenableWindowUI
 		
 	}
 
-	public void RefreshUIs()
+	public void Refresh()
 	{
+		for (int i = 0; i < slotUI.Length; i++)
+		{
+			slotUI[i].value = -1;
+		}
+
+		medicineValue.Clear();
+
+		for (int i = 0; i < GameManager.instance.pinven.cap; i++)
+		{
+			if (GameManager.instance.pinven.inven[i].info is YinyangItem)
+			{
+				medicineValue.Add(i);
+			}
+
+		}
+
+		for (int i = 0; i < medicineValue.Count; i++)
+		{
+			slotUI[i].value = medicineValue[i];
+		}
+
 		for (int i = 0; i < slotUI.Length; i++)
 		{
 			slotUI[i].UpdateItem();

@@ -213,7 +213,6 @@ public class PlayerCast : CastModule
 				//GameManager.instance.uiManager.debugText.text += $"  FUNC EXECUTING {(GetActor().sight as PlayerInter).curFocused}...  ";
 				(GetActor().sight as PlayerInter).curFocused.InteractWith();
 				(GetActor().sight as PlayerInter).Check();
-				GameManager.instance.qManager.InvokeOnChanged(CompletionAct.InteractWith, (GetActor().sight as PlayerInter).curFocused.Name);
 			}
 		},
 		() =>
@@ -235,7 +234,6 @@ public class PlayerCast : CastModule
 			{
 				(GetActor().sight as PlayerInter).curFocused.AltInterWith();
 				(GetActor().sight as PlayerInter).Check();
-				GameManager.instance.qManager.InvokeOnChanged(CompletionAct.InteractWith, (GetActor().sight as PlayerInter).curFocused.Name);
 			}
 		},
 		() =>

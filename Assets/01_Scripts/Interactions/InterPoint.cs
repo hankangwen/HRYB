@@ -49,8 +49,8 @@ public class InterPoint : MonoBehaviour, IInterable
 
 	public void InteractWith()
 	{
-		Inter();
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.InteractWith, transform.name);
+		Inter();
 	}
 
 	public virtual void Inter()

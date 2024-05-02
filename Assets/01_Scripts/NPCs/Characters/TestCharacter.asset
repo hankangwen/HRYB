@@ -7,11 +7,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea3d931a3f2dec940a71998aaf5634ba, type: 3}
   m_Name: TestCharacter
   m_EditorClassIdentifier: 
   baseName: "\uBC15\uC528"
   subName: "\uC218\uC11D \uC758\uC6D0"
-  talkData: {fileID: 11400000, guid: e423c01f3f66df440847296487483e38, type: 2}
+  initDia: {fileID: 11400000, guid: e423c01f3f66df440847296487483e38, type: 2}

@@ -168,6 +168,7 @@ public class Inventory
 		{
 			if (!this[i].isEmpty() && this[i].info == info)
 			{
+				Debug.Log(info.MyName + " 을" + this[i].number + " 개 찾음");
 				sum += this[i].number;
 			}
 		}
@@ -230,7 +231,6 @@ public class SkillInventory
 			if(item.info == info)
 			{
 				GameManager.instance.qManager.InvokeOnChanged(CompletionAct.LearnSkill, info.name, cnt);
-
 				InvenSkill sk = item;
 				data.Remove(item);
 				sk.number += cnt;
@@ -459,10 +459,10 @@ public class PlayerInven : MonoBehaviour
 			{
 				return true;
 			}
-			Debug.Log("아이템 숫자 부족.");
+			Debug.Log(data.MyName + " 아이템 숫자 부족.");
 			return false;
 		}
-		Debug.Log("아이템 없음.");
+		Debug.Log(data.MyName + " 아이템 없음.");
 		return false;
 	}
 

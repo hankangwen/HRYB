@@ -19,13 +19,30 @@ public class Character : ScriptableObject
     public string baseName;
 	public string subName;
 
-	public Dialogue talkData;
+	public Dialogue initDia;
+
+	Dialogue dia;
+
+	private void Awake()
+	{
+		dia = initDia.Copy();
+	}
+
+	public void SetDialogue(Dialogue dia)
+	{
+		this.dia = dia;
+	}
+
+	public void ResetDialogue()
+	{
+		dia = initDia.Copy();
+	}
 	
 	public void OnTalk()
 	{
 		GameManager.instance.uiManager.dialogueUI.talker = this;
 		//GameManager.instance.uiManager.dialogueUI.talker = this;
 		Debug.Log($"{FullName}이 말하는 중 ...");
-		talkData.OnShown();
+		dia.OnShown(this);
 	}
 }
