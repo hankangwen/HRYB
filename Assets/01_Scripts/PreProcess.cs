@@ -33,20 +33,20 @@ public class PreProcess
 		{
 			info = new YinyangItem(yy);
 			type = t;
-			switch (t)
-			{
-				case ProcessType.None:
-					break;
-				case ProcessType.Fry:
-					prefix = "작";
-					break;
-				case ProcessType.Burn:
-					prefix = "소";
-					break;
-				default:
-					Debug.LogWarning($"{type} 상태에 대한 단어는 정의되어있지 않습니다");
-					break;
-			}
+			//switch (t)
+			//{
+			//	case ProcessType.None:
+			//		break;
+			//	case ProcessType.Fry:
+			//		prefix = "작";
+			//		break;
+			//	case ProcessType.Burn:
+			//		prefix = "소";
+			//		break;
+			//	default:
+			//		Debug.LogWarning($"{type} 상태에 대한 단어는 정의되어있지 않습니다");
+			//		break;
+			//}
 		}
 		else
 		{

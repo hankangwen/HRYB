@@ -9,37 +9,36 @@ public enum ToolState
 	Quest,
 	Node,
 	Setting,
+	Fusion,
+
+
 	None
 }
 public class ToolBarManager : MonoBehaviour
 {
     public ToolState state;
 
-	public GameObject Inventory;
-	public GameObject Medicine;
-	public GameObject Quest;
-	public GameObject Node;
-	public GameObject Setting;
+	Dictionary<ToolState, GameObject> windows = new Dictionary<ToolState, GameObject>();
+	Dictionary<ToolState, IOpenableWindowUI> openables = new Dictionary<ToolState, IOpenableWindowUI>();
 
 	public List<ToolBtn> toolButtons;
 
 	IOpenableWindowUI curOpened;
 
-	IOpenableWindowUI invenWindow;
-	IOpenableWindowUI medicineWindow;
-	IOpenableWindowUI questWindow;
-	IOpenableWindowUI nodeWindow;
-	IOpenableWindowUI settingWindow;
-
 	private void Awake()
 	{
-
-		invenWindow = Inventory.GetComponent<IOpenableWindowUI>();
-		
-		medicineWindow = Medicine.GetComponent<IOpenableWindowUI>();
-		questWindow = Quest.GetComponent<IOpenableWindowUI>();
-		nodeWindow = Node.GetComponent<IOpenableWindowUI>();
-		settingWindow = Setting.GetComponent<IOpenableWindowUI>();
+		List<Transform> childs = new List<Transform>();
+		ToolState[] arr = (ToolState[])System.Enum.GetValues(typeof(ToolState));
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			childs.Add(transform.GetChild(i));
+		}
+		for (int i = 0; i < arr.Length - 1; i++)
+		{
+			Transform c = childs.Find(item => item.name == arr[i].ToString());
+			windows.Add(arr[i], c.gameObject);
+			openables.Add(arr[i], c.GetComponent<IOpenableWindowUI>());
+		}
 
 		toolButtons = new List<ToolBtn>(GetComponentsInChildren<ToolBtn>());
 	}
@@ -66,82 +65,20 @@ public class ToolBarManager : MonoBehaviour
 			curOpened.OnClose();
 		}
 		state = windowStat;
-		BtnOff();
-		switch (state)
+		RefreshButtons();
+		if(state != ToolState.None)
 		{
-			case ToolState.Inventory:
-				Inventory.SetActive(true);
-				if (invenWindow != null)
-				{
-					curOpened = invenWindow;
-					curOpened.OnOpen();
-				}
-				else
-				{
-					curOpened = null;
-				}
-				break;
-			case ToolState.Medicine:
-				Medicine.SetActive(true);
-				if (medicineWindow != null)
-				{
-					curOpened = medicineWindow;
-					curOpened.OnOpen();
-				}
-				else
-				{
-					curOpened = null;
-				}
-				break;
-
-			case ToolState.Quest:
-				Quest.SetActive(true);
-				if (questWindow != null)
-				{
-					curOpened = questWindow;
-					curOpened.OnOpen();
-				}
-				else
-				{
-					curOpened = null;
-				}
-				break;
-
-			case ToolState.Node:
-				Node.SetActive(true);
-				if (nodeWindow != null)
-				{
-					curOpened = nodeWindow;
-					curOpened.OnOpen();
-				}
-				else
-				{
-					curOpened = null;
-				}
-				break;
-
-			case ToolState.Setting:
-				Setting.SetActive(true);
-				if (settingWindow != null)
-				{
-					curOpened = settingWindow;
-					curOpened.OnOpen();
-				}
-				else
-				{
-					curOpened = null;
-				}
-				break;
-
-			case ToolState.None:
-				if (curOpened != null)
-				{
-					curOpened.OnClose();
-				}
-				curOpened = null;
-
-				//BtnOff();
-				break;
+			windows[state]?.SetActive(true);
+			curOpened = openables[state];
+			curOpened?.OnOpen();
+		}
+		else
+		{
+			if (curOpened != null)
+			{
+				curOpened.OnClose();
+			}
+			curOpened = null;
 		}
 	}
 
@@ -152,13 +89,17 @@ public class ToolBarManager : MonoBehaviour
 
 	void ToolOff()
 	{
-		Inventory.SetActive(false);
-		Medicine.SetActive(false);
-		Quest.SetActive(false);
-		Node.SetActive(false);
-		Setting.SetActive(false);
+		if(curOpened != null)
+		{
+			curOpened.OnClose();
+			curOpened = null;
+		}
+		foreach (var item in windows.Values)
+		{
+			item.SetActive(false);
+		}
 	}
-	public void BtnOff()
+	public void RefreshButtons()
 	{
 		for (int i = 0; i < toolButtons.Count; i++)
 		{
@@ -169,6 +110,17 @@ public class ToolBarManager : MonoBehaviour
 			else
 			{
 				toolButtons[i].ResetButton();
+			}
+		}
+	}
+
+	public void RefreshWindows()
+	{
+		foreach (var item in openables.Values)
+		{ 
+			if(item != null)
+			{
+				item.Refresh();
 			}
 		}
 	}

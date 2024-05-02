@@ -31,7 +31,7 @@ public enum CompletionAct
 	None = -1,
 
 	GetItem, //획득시 달성으로 취급.  V
-	HaveItem, //소지한 동안 달성으로 취급.  V
+	HaveItem, //소지한 동안 달성으로 취급.  V (비활성화 상태의 퀘스트에도 검사해주어야하는가..)
 	LoseItem, //잃을 경우 달성으로 취급.  V
 	UseItem, //사용할 경우 달성으로 취급.  V
 
@@ -42,6 +42,7 @@ public enum CompletionAct
 	InteractWith, //대상과 상호작용. 대상에는 반드시  V
 
 	//n레벨 이하/동일/이상 일 경우 달성으로 취급. 레벨이 정해지면 더 자세히 나올듯.
+	//레벨 오를 때 이전 레벨의 BelowLevel -1, 이전 레벨의 Eq - 1, 현재 레벨의 Eq + 1, 현재 레벨의 Above + 1
 	BelowLevel, 
 	EqualLevel,
 	AboveLevel,
@@ -86,6 +87,13 @@ public enum RewardType
 	Quest,
 }
 
+public enum QuestType
+{
+	Main,
+	Sub,
+
+}
+
 
 
 
@@ -104,6 +112,12 @@ public class CompleteAtom
 	[Header("체크될 경우, 위 조건이 달성되지 않은 동안 완료로 취급.")]
 	public bool inverted;
 
+	[Header("체크될 경우, 퀘스트가 활성화되지 않아도 카운트함. (히든퀘/누적형)")]
+	public bool everSince;
+
+	[Header("체크될 경우, 조건이 보여짐.")]
+	public bool isVisibleCondition;
+
 	//비필수
 	[Header("아이템을 제거할 것인가?")]
 	public ItemHandleMode itemMode;
@@ -113,14 +127,19 @@ public class CompleteAtom
 
 	public bool isCompleted => curRepeatCount >= repeatCount;
 
-	int curRepeatCount;
+	internal int curRepeatCount;
 
 	internal int? examineStartTime;
 
-	public void OnNotification(CompletionAct data, string parameter, int amt)
+	internal bool conditionFrozen = false;
+
+	public bool OnNotification(CompletionAct data, string parameter, int amt)
 	{
+		if(conditionFrozen)
+			return false;
+
 		if(objective == data)
-		{
+		{ 
 			switch (data)
 			{
 				case CompletionAct.DefeatTarget:
@@ -149,7 +168,7 @@ public class CompleteAtom
 					try
 					{
 						if (int.Parse(parameter) > int.Parse(this.parameter) + examineStartTime)
-						{
+						{ 
 							curRepeatCount += amt;
 						}
 					}
@@ -181,11 +200,25 @@ public class CompleteAtom
 					break;
 			}
 		}
+		Debug.Log("검사됨 : " + objective);
+		return isCompleted;
+	}
+
+	public void Freeze()
+	{
+		conditionFrozen = true;
+	}
+
+	public void UnFreeze()
+	{
+		conditionFrozen = false;
 	}
 
 	public void OnResetCall()
 	{
 		curRepeatCount = 0;
+		conditionFrozen = false;
+		Debug.Log("초기화됨 : " + objective);
 	}
 
 	public void OnResetTime()
@@ -205,6 +238,7 @@ public class RewardAtom
 {
 	public RewardType rewardType;
 	public string parameter;
+	public int amount;
 }
 
 
@@ -221,9 +255,6 @@ public class QuestManager
 
 	//UnityAction<CompletionAct, string, int> invokers;
 
-	List<int> completedIndex = new List<int>();
-	List<int> removeIndex = new List<int>();
-	List<QuestInfo> nextAbleQuest;
 	bool inited = false;
 
 	public const string QUESTINFOPATH = "Quests/AllQuests/";
@@ -233,22 +264,25 @@ public class QuestManager
 	//이제 이놈을 행동하는 데마다 하나씩 꼽아주면 됨.
 	public void InvokeOnChanged(CompletionAct type, string prm, int amt = 1)
 	{
-		for (int i = 0; i < currentAbleQuest.Count; i++)
-		{
-			currentAbleQuest[i].Notify(type, prm, amt);
-		}
-		
+		CheckQuests(type, prm, amt);
+		GameManager.instance.uiManager.UpdateQuestUI();
 	}
 
-	public static void AssignQuest(string name)
+	public static void AssignQuest(string name, Character giver = null)
 	{
 		
 		if (nameQuestPair != null)
 		{
 			if (!nameQuestPair.ContainsKey(name))
 				return;
-
-			GameManager.instance.qManager.currentAbleQuest.Add(nameQuestPair[name]);
+			QuestInfo data = nameQuestPair[name];
+			GameManager.instance.qManager.currentAbleQuest.Add(data);
+			if (giver != null && data.questingDia != null)
+			{
+				giver.SetDialogue(data.questingDia);
+				data.giver = giver;
+			}
+			nameQuestPair[name].assigned = true;
 			nameQuestPair[name].onAssignedAction?.Invoke();
 		}
 	}
@@ -258,6 +292,7 @@ public class QuestManager
 		if (allQuests != null)
 		{
 			GameManager.instance.qManager.currentAbleQuest.Add(allQuests[idx]);
+			allQuests[idx].assigned = true;
 			allQuests[idx].onAssignedAction?.Invoke();
 		}
 	}
@@ -269,10 +304,16 @@ public class QuestManager
 		{
 			if (!nameQuestPair.ContainsKey(name))
 				return;
-			if (GameManager.instance.qManager.currentAbleQuest.Contains(nameQuestPair[name]))
+			QuestInfo inf = nameQuestPair[name];
+			if (GameManager.instance.qManager.currentAbleQuest.Contains(inf))
 			{
-				GameManager.instance.qManager.currentAbleQuest.Remove(nameQuestPair[name]);
-				nameQuestPair[name].onDismissedAction?.Invoke();
+				GameManager.instance.qManager.currentAbleQuest.Remove(inf);
+				if(inf.questingDia != null && inf.giver != null)
+				{
+					inf.giver.self.talk.ResetStatus();
+				}
+				inf.assigned = false;
+				inf.onDismissedAction?.Invoke();
 			}
 
 				
@@ -284,41 +325,37 @@ public class QuestManager
 		if (allQuests != null)
 		{
 			GameManager.instance.qManager.currentAbleQuest.Remove(allQuests[idx]);
+			allQuests[idx].assigned = false;
 			allQuests[idx].onDismissedAction?.Invoke();
 		}
 	}
 
-	public void UpdateQuest()
+	public void CheckQuests(CompletionAct type, string prm, int amt)
 	{
-		for (int i = 0; i < currentAbleQuest.Count; i++)
+		List<QuestInfo> completeds = new List<QuestInfo>();
+		
+		for (int i = 0; i < allQuests.Count; i++)
 		{
-			if (currentAbleQuest[i].ExamineCompleteStatus())
+			if (!allQuests[i].rewarding && allQuests[i].NeedCheck && allQuests[i].ExamineCompleteStatus(type, prm, amt))
 			{
-				completedIndex.Add(i);
+				if (currentAbleQuest.Contains(allQuests[i]))
+				{
+					completeds.Add(allQuests[i]);
+				}
 			}
 		}
-	}
 
-	public void LateUpdateQuest()
-	{
-		for (int i = 0; i < completedIndex.Count; i++)
+		for (int i = 0; i < completeds.Count; i++)
 		{
-			currentAbleQuest[i].GiveReward();
-			currentAbleQuest[i].curCompletedAmount += 1;
-			if(currentAbleQuest[i].completableCount > 0 && currentAbleQuest[i].IsDeprived)
+
+			completeds[i].GiveReward();
+			completeds[i].curCompletedAmount += 1;
+			if(completeds[i].IsDeprived && completeds[i].assigned)
 			{
-				removeIndex.Add(i);
+				currentAbleQuest.Remove(completeds[i]);
 			}
 		}
-		nextAbleQuest = new List<QuestInfo>(currentAbleQuest);
-		for (int i = 0; i < removeIndex.Count; i++)
-		{
-			nextAbleQuest.Remove(currentAbleQuest[i]);
-		}
-		currentAbleQuest = new List<QuestInfo>(nextAbleQuest);
-
-		removeIndex.Clear();
-		completedIndex.Clear();
+		completeds.Clear();
 	}
 
 	public QuestManager()
@@ -335,8 +372,6 @@ public class QuestManager
 			inited = true;
 
 			currentAbleQuest = new List<QuestInfo>();
-			completedIndex = new List<int>();
-			removeIndex = new List<int>();
 		}
 	}
 
@@ -398,7 +433,7 @@ public class QuestManager
 			case CompletionAct.RemainNear:
 				return "근처에 머무르기. 대상 : ";
 			case CompletionAct.ClearQuest:
-				return "퀘스트 클리어하기. 파일명 : ";
+				return "퀘스트 클리어하기. 식별명 : ";
 			case CompletionAct.LearnSkill:
 				return "스킬 배우기. 스킬명 : ";
 			default:
