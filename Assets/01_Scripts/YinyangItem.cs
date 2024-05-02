@@ -5,6 +5,42 @@ using System.Text;
 using UnityEngine;
 
 
+public enum DetailParameter
+{
+	Sweet,
+	Sour,
+	Bitter,
+	Salty,
+	Spicy,
+	Moist,
+	Poison,
+
+	Max
+}
+
+[Serializable]
+public class DetailAmount : Dictionary<DetailParameter, float>, ISerializationCallbackReceiver
+{
+	[SerializeField]
+	public List<float> values = new List<float>();
+	public void OnAfterDeserialize()
+	{
+		for (int i = ((int)DetailParameter.Sweet); i < ((int)DetailParameter.Max); i++)
+		{
+			//@@@@@@@@@@@@@@@@@@
+		}
+	}
+
+	public void OnBeforeSerialize()
+	{
+		values.Clear();
+		foreach (var item in this)
+		{
+			values.Add(item.Value);
+		}
+	}
+}
+
 [System.Serializable]
 public class YinyangItem : Item
 {
@@ -22,6 +58,8 @@ public class YinyangItem : Item
 	//}
 
 	public HashSet<ProcessType> processes = new HashSet<ProcessType>();
+
+	public DetailAmount detailParams = new DetailAmount();
 
 	public override string MyName
 	{

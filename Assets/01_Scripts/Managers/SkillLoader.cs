@@ -66,9 +66,9 @@ public class SkillLoader
 
 	public SkillRoot GetSkill(string name)
 	{
-		if (HumenSkillDb.info.ContainsKey(name))
+		if (HumanSkillDb.info.ContainsKey(name))
 		{
-			return HumenSkillDb.info[name];
+			return HumanSkillDb.info[name];
 
 		}
 		else if (YohoSkillDb.info.ContainsKey(name))
