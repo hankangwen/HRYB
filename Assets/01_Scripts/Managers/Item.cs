@@ -157,7 +157,7 @@ public class Item : IComparable // #################
 
 	public static bool operator ==(Item left, Item right)
 	{
-		Debug.Log($"{left?.MyName} == {right?.MyName} --> {left?.MyName == right?.MyName }");
+		//Debug.Log($"{left?.MyName} == {right?.MyName} --> {left?.MyName == right?.MyName }");
 		return left?.MyName == right?.MyName ;
 	}
 

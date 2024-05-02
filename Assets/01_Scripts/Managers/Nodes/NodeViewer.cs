@@ -90,4 +90,9 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 	{
 		ClearView();
 	}
+
+	public void Refresh()
+	{
+
+	}
 }

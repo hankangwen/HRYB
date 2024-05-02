@@ -108,21 +108,28 @@ public struct Recipe
 
 	public override string ToString()
 	{
+		string ret;
 
-		GameManager.globalStringBuilder.Append("(Ingredients : ");
+		StringBuilder sb;
+		bool usingGlobal = GameManager.GetGlobalSB(out sb);
+
+		sb.Append("(Ingredients : ");
 		foreach (var item in recipe)
 		{
-			GameManager.globalStringBuilder.Append($" [{item.info.MyName} : {item.num}] , ");
+			sb.Append($" [{item.info.MyName} : {item.num}] , ");
 		}
-		GameManager.globalStringBuilder.Append(")(Requirements : ");
+		sb.Append(")(Requirements : ");
 		foreach (var item in requirement)
 		{
-			GameManager.globalStringBuilder.Append($" [{item}] , ");
+			sb.Append($" [{item}] , ");
 		}
-		GameManager.globalStringBuilder.Append("), ->");
-		GameManager.globalStringBuilder.Append(category);
-		string ret = GameManager.globalStringBuilder.ToString();
-		GameManager.globalStringBuilder.Clear();
+		sb.Append("), ->");
+		sb.Append(category);
+		ret = sb.ToString();
+
+		GameManager.ReturnGlobalSB(usingGlobal);
+		
+		
 		return ret;
 	}
 
@@ -162,7 +169,7 @@ public class Crafter
 	{
 		{ new Recipe(new HashSet<ItemAmountPair>{ new ItemAmountPair("섬유", 5) }, new HashSet<CraftMethod>{  CraftMethod.None}, "도구" ), new ItemAmountPair("밧줄") },
 		{ new Recipe(new HashSet<ItemAmountPair>{ new ItemAmountPair("나뭇가지", 8), new ItemAmountPair("섬유", 3) }, new HashSet<CraftMethod>{  CraftMethod.None}, "무기" ),new ItemAmountPair("활")},
-		{ new Recipe(new HashSet<ItemAmountPair>{ new ItemAmountPair("녹용", 2), new ItemAmountPair("녹제") }, new HashSet<CraftMethod>{  CraftMethod.Medicine}, "" ),new ItemAmountPair("도약탕") }
+		{ new Recipe(new HashSet<ItemAmountPair>{ new ItemAmountPair("인삼", 2), new ItemAmountPair("녹각") }, new HashSet<CraftMethod>{  CraftMethod.Medicine}, "" ),new ItemAmountPair("도약탕") },
 		
 	};
 
@@ -308,7 +315,7 @@ public class Crafter
 				}
 			}
 
-			if (recipe.requirement.Contains(curMethod))
+			if (true /*recipe.requirement.Contains(curMethod)*/)
 			{
 				foreach (ItemAmountPair items in recipe.recipe)
 				{

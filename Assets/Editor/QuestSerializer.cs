@@ -192,27 +192,34 @@ public class QuestSerializer : Editor
 
 	public static string CombineAppendComma(string appendText, params string[] combiners)
 	{
+		System.Text.StringBuilder sb;
+		bool usingGlobal = GameManager.GetGlobalSB(out sb);
 		for (int i = 0; i < combiners.Length; i++)
 		{
-			GameManager.globalStringBuilder.Append(combiners[i]);
-			GameManager.globalStringBuilder.Append(appendText);
-			GameManager.globalStringBuilder.Append(',');
+			sb.Append(combiners[i]);
+			sb.Append(appendText);
+			sb.Append(',');
 		}
-		string res= GameManager.globalStringBuilder.ToString();
-		GameManager.globalStringBuilder.Clear();
+		string res= sb.ToString();
+		sb.Clear();
+
+		GameManager.ReturnGlobalSB(usingGlobal);
 		return res;
 	}
 
 	public static string CombineAppendTab(string appendText, params string[] combiners)
 	{
+		System.Text.StringBuilder sb;
+		bool usingGlobal = GameManager.GetGlobalSB(out sb);
 		for (int i = 0; i < combiners.Length; i++)
 		{
-			GameManager.globalStringBuilder.Append(combiners[i]);
-			GameManager.globalStringBuilder.Append(appendText);
-			GameManager.globalStringBuilder.Append('\t');
+			sb.Append(combiners[i]);
+			sb.Append(appendText);
+			sb.Append('\t');
 		}
-		string res = GameManager.globalStringBuilder.ToString();
-		GameManager.globalStringBuilder.Clear();
+		string res = sb.ToString();
+		sb.Clear();
+		GameManager.ReturnGlobalSB(usingGlobal);
 		return res;
 	}
 }

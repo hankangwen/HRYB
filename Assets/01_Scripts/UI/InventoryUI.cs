@@ -55,7 +55,7 @@ public class InventoryUI : MonoBehaviour, IOpenableWindowUI
 		//throw new System.NotImplementedException();
 	}
 
-	public void ShowInfo()
+	public void Refresh()
 	{
 		if(GameManager.instance.pinven.CurHoldingItem.info != null)
 		{

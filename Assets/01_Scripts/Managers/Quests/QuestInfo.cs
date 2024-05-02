@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class QuestInfo : ScriptableObject
+public class QuestInfo : ScriptableObject, System.IComparable
 {
 	[Header("이름")]
 	public string questName;
@@ -21,12 +21,46 @@ public class QuestInfo : ScriptableObject
 	public UnityEvent onAssignedAction;
 	public UnityEvent onDismissedAction;
 
+	[Header("퀘스트 중 교체될 대사.")]
+	public Dialogue questingDia;
+
+	[Header("퀘스트 후 교체될 대사.")]
+	public Dialogue questedDia;
+
 	[Header("퀘스트 설명. 한 퀘스트당 하나")]
 	public string descriptions;
 
+	[Header("퀘스트 종류.")]
+	public QuestType type;
+
 	internal int curCompletedAmount;
+	internal Character giver;
+	internal bool assigned = false;
+
+	internal bool rewarding = false;
 
 	public bool IsDeprived => completableCount >= 0 && curCompletedAmount >= completableCount;
+
+	bool? everSince = null;
+	public bool NeedCheck
+	{
+		get
+		{
+			if(everSince == null)
+			{
+				everSince = myInfo.Find(item => item.everSince) != null;
+			}
+			return !IsDeprived && (assigned || (bool)everSince);
+		}
+	}
+
+	protected virtual void OnEnable()
+	{
+		ResetQuestCall();
+		ResetQuestStartTime();
+		curCompletedAmount = 0;
+		assigned = false;
+	}
 
 	public void ResetQuestStartTime(CompletionAct cond = CompletionAct.None)
 	{
@@ -56,6 +90,9 @@ public class QuestInfo : ScriptableObject
 		myInfo = new List<CompleteAtom>();
 		rewardInfo = new List<RewardAtom>();
 		completableCount = 1;
+		assigned = false;
+		everSince = null;
+		rewarding = false;
 	}
 
 	public QuestInfo(QuestInfo copy)
@@ -66,6 +103,9 @@ public class QuestInfo : ScriptableObject
 			myInfo = new List<CompleteAtom>(copy.myInfo);
 			rewardInfo = new List<RewardAtom>(copy.rewardInfo);
 			completableCount = copy.completableCount;
+			assigned = copy.assigned;
+			everSince = copy.everSince;
+			rewarding = true;
 		}
 		else
 		{
@@ -73,18 +113,23 @@ public class QuestInfo : ScriptableObject
 			myInfo = new List<CompleteAtom>();
 			rewardInfo = new List<RewardAtom>();
 			completableCount = 1;
+			assigned = false;
+			everSince = null;
+			rewarding = false;
 		}
 	}
 
-	public void Notify(CompletionAct data, string parameter, int amt)
-	{
-		for (int i = 0; i < myInfo.Count; i++)
-		{
-			myInfo[i].OnNotification(data, parameter, amt);
-		}
-	}
+	//public bool Notify(CompletionAct data, string parameter, int amt)
+	//{
+	//	bool res = false;
+	//	for (int i = 0; i < myInfo.Count; i++)
+	//	{
+	//		res |= myInfo[i].OnNotification(data, parameter, amt);
+	//	}
+	//	return res;
+	//}
 
-	public bool ExamineCompleteStatus()
+	public bool ExamineCompleteStatus(CompletionAct type, string prm, int amt)
 	{
 		bool compStat = false;
 
@@ -98,7 +143,8 @@ public class QuestInfo : ScriptableObject
 				myInfo[head].examineStartTime = (int)Time.time;
 			}
 
-			bool res = myInfo[head].isCompleted;
+			bool res = myInfo[head].OnNotification(type, prm, amt);
+			Debug.Log(myInfo[head].objective + " : " + res);
 			if(head == 0)
 			{
 				compStat = res;
@@ -113,10 +159,18 @@ public class QuestInfo : ScriptableObject
 					compStat |= res;
 					break;
 				case AfterComplete.AFTER:
-					if(!compStat)
+					if (!compStat)
+					{
+						myInfo[head].Freeze();
+						Debug.Log(QuestManager.ToStringKorean(myInfo[head - 1].objective) + " 가 아직 완료되지 않아서 " + QuestManager.ToStringKorean(myInfo[head].objective) + " 동결.");
 						return false;
+					}
 					else
+					{
+						myInfo[head].UnFreeze();
+						Debug.Log(QuestManager.ToStringKorean(myInfo[head - 1].objective) + " 가 완료되어 " + QuestManager.ToStringKorean(myInfo[head].objective) + " 동결 해제.");
 						compStat &= res;
+					}
 					break;
 				default:
 					break;
@@ -134,7 +188,20 @@ public class QuestInfo : ScriptableObject
 
 	public void GiveReward()
 	{
+		rewarding = true;
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.ClearQuest, questName);
+
+		for (int i = 0; i < myInfo.Count; i++)
+		{
+			if(myInfo[i].objective == CompletionAct.GetItem || myInfo[i].objective == CompletionAct.HaveItem)
+			{
+				if(myInfo[i].itemMode == ItemHandleMode.Remove)
+				{
+					GameManager.instance.pinven.RemoveItem(Item.GetItem(myInfo[i].parameter), myInfo[i].repeatCount);
+				}
+			}
+		}
+
 		for (int i = 0; i < rewardInfo.Count; i++)
 		{
 			switch (rewardInfo[i].rewardType)
@@ -153,6 +220,7 @@ public class QuestInfo : ScriptableObject
 				case RewardType.Item:
 					{
 						Debug.Log($"아이템 {rewardInfo[i].parameter} 제공함");
+						GameManager.instance.pinven.AddItem(Item.GetItem(rewardInfo[i].parameter), rewardInfo[i].amount);
 					}
 					break;
 				case RewardType.HealWhite:
@@ -177,6 +245,12 @@ public class QuestInfo : ScriptableObject
 			}
 		}
 
+		if(giver != null && questedDia != null)
+		{
+			giver.SetDialogue(questedDia);
+		}
+		
+		rewarding = false;
 		onCompleteAction?.Invoke();
 	}
 
@@ -193,5 +267,14 @@ public class QuestInfo : ScriptableObject
 	public override int GetHashCode()
 	{
 		return System.HashCode.Combine(questName);
+	}
+
+	public int CompareTo(object obj)
+	{
+		if(obj is QuestInfo q)
+		{
+			return name.CompareTo(q.name);
+		}
+		return 0;
 	}
 }

@@ -29,10 +29,10 @@ public class ItemPedia
 			}
 		}
 
-		foreach (var item in materialCollections)
-		{
-			Debug.Log($"{item.Key.originalName} : {item.Value.myItem.MyName}");
-		}
+		//foreach (var item in materialCollections)
+		//{
+		//	Debug.Log($"{item.Key.originalName} : {item.Value.myItem.MyName}");
+		//}
 	}
 
 	public void GotItem(YinyangItem data)

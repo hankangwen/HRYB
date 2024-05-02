@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+public enum DiaChangeMode
+{
+	Questing,
+	Completed
+}
 
 public class TalkModule : Module, IInterable
 {
     public Character charInfo;
 
-	Dialogue defaultDia;
 
 	public string Name => charInfo.baseName;
 
@@ -18,9 +24,10 @@ public class TalkModule : Module, IInterable
 	public InterType interType { get; set; } = InterType.Talk;
 	public AltInterType altInterType { get; set; }
 
+	public UnityEvent onNextTalk;
+
 	private void Awake()
 	{
-		defaultDia = charInfo.talkData;
 		charInfo.self = GetActor();
 	}
 
@@ -46,6 +53,7 @@ public class TalkModule : Module, IInterable
 
 	public void Inter()
 	{
+		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.InteractWith, transform.name);
 		charInfo.OnTalk();
 	}
 
@@ -56,12 +64,12 @@ public class TalkModule : Module, IInterable
 
 	public void SetDialogue(Dialogue dia)
 	{
-		charInfo.talkData = dia;
+		charInfo.SetDialogue(dia);
 	}
 
 	public override void ResetStatus()
 	{
 		base.ResetStatus();
-		charInfo.talkData = defaultDia;
+		charInfo.ResetDialogue();
 	}
 }
