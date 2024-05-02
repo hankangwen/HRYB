@@ -17,6 +17,7 @@ public class EnemyLifeModule : LifeModule
 	[SerializeField] bool _66PercentWhite = false;
 	[SerializeField] bool _33PercentBlack = false;
 	[SerializeField] bool _33PercentWhite = false;
+	[SerializeField] bool _isDie = false;
 
 	public override void Awake()
 	{
@@ -128,11 +129,8 @@ public class EnemyLifeModule : LifeModule
 
 	void OutValue(float t)
 	{
-		float x = Random.Range(-2.0f, 2.0f);
-		float y = Random.Range(0.4f, 0.6f);
-		float z = Random.Range(-2.0f, 2.0f);
-		Vector3 vec = transform.position + new Vector3(x, y, z);
-		GameObject obj = PoolManager.GetObject("JunGI", vec, transform.rotation);
+
+		GameObject obj = PoolManager.GetObject("JunGI", transform.position + new Vector3(0,0.5f,0), Quaternion.identity);
 		obj.transform.parent = null;
 
 		if(t < 0)
@@ -140,17 +138,10 @@ public class EnemyLifeModule : LifeModule
 			t *= -1;
 		}
 
-		if (obj.TryGetComponent<ColliderCast>(out ColliderCast cols))
-		{
-			cols.Now(transform, (_life) =>
-			{
-				if (_life.TryGetComponent<PlayerLife>(out PlayerLife pl))
-				{
-					pl.yy.black += t;
-					cols.End();
-				}
-			});
-		}
+		obj.GetComponent<JungGI>().Init(transform.position, t);
+
+
+
 	}
 }
 
