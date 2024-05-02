@@ -98,7 +98,7 @@ public class HumanNormalAttack : AttackBase
 							},
 							(_life) =>
 							{
-								DoDamage(_life.GetActor(), self, _dmgs[1], obj.transform.position);
+								DoDamage(_life.GetActor(), self, _dmgs[0], obj.transform.position);
 							},
 							(_trm, _life) =>
 							{
@@ -127,7 +127,7 @@ public class HumanNormalAttack : AttackBase
 						},
 						(_life) =>
 						{
-							DoDamage(_life.GetActor(), self, _dmgs[2], obj.transform.position);
+							DoDamage(_life.GetActor(), self, _dmgs[0], obj.transform.position);
 							_life.GetActor().move.forceDir = (obj.transform.position - _life.transform.position).normalized * 5;
 						},
 						(_trm, _life) =>
@@ -185,6 +185,6 @@ public class HumanNormalAttack : AttackBase
 
 	public override int ListValue()
 	{
-		return 2;
+		return 1;
 	}
 }

@@ -9,30 +9,32 @@ using static Gpm.Ui.MultiLayout;
 public class DamageSettings
 {
 	[Header("SkillDmg")]
-	public float black = 0;
-	public float white = 0;
+	public float black = 1;
+	public float white = 1;
 	[Header("GrogeDmg")]
 	public float _grogeDamage = 0;
 	[Header("ComboDmg")]
 	public float _comboDamage = 0;
 
 
-	public YinYang SkillDamage()
-	{
-		return new YinYang(black, white);
-	}
 }
 
 public abstract class AttackBase : Leaf
 {
 	public string relateTrmName;
 
-	private void OnValidate()
+	public void OnValidate()
 	{
 		for (int i = _dmgs.Count; i < ListValue(); i++)
 		{
 			_dmgs.Add(new DamageSettings());
 		}
+
+		for (int i = _dmgs.Count -1; i >= ListValue(); i--)
+		{
+			_dmgs.RemoveAt(i);
+		}
+
 	}
 
 	public abstract int ListValue();
@@ -74,8 +76,10 @@ public abstract class AttackBase : Leaf
 		}
 
 
-		float white = by.atk.Damage.white * value.SkillDamage().white;
-		float black = by.atk.Damage.black * value.SkillDamage().black;
+		float white = by.atk.Damage.white * value.white;
+		float black = by.atk.Damage.black * value.black;
+
+		Debug.LogError($"DMGS : {value.white} | {value.black}");
 
 		if (white > 0)
 		{
