@@ -144,7 +144,7 @@ public class JangsungGirlAI : AISetter
     {
 		if(self.life.isDead==false)
 		{
-			Debug.LogError("도는중이긴함");
+			//Debug.LogError("도는중이긴함");
 			Vector3 lookPos = player.transform.position - transform.position;
 			lookPos.y = transform.position.y;
 			transform.rotation = Quaternion.LookRotation(lookPos);

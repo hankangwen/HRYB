@@ -22,10 +22,16 @@ public class SkillRoot : Composite
 	public float cooldown;
 	public Sprite skillIcon;
 
+	[Header("SuperArmor")]
 	public bool isSuperArmor;
+	public float _superArmorTime = 0;
 
+	[Header("Slot")]
 	SkillSlotInfo mySlotInfo;
+	[Header("Mana")]
 	public float _useMana = 0;
+
+	protected Coroutine _superArmorCorutine = null;
 
 	public SkillSlotInfo MySlotInfo { private get => mySlotInfo; set => mySlotInfo = value;}
 
@@ -36,7 +42,11 @@ public class SkillRoot : Composite
 		self.transform.rotation = Quaternion.LookRotation(dir);
 		if (isSuperArmor)
 		{
-			self.life.superArmor = true;
+			if(_superArmorCorutine != null)
+			{
+				GameManager.instance.StopCoroutine(_superArmorCorutine);
+			}
+			_superArmorCorutine = GameManager.instance.StartCoroutine(isSuperArmorCO(self, _superArmorTime));
 		}
 		base.Operate(self);
 		//GameManager.instance.StartCoroutine(DelOperate(self));
@@ -56,10 +66,19 @@ public class SkillRoot : Composite
 			Debug.Log("각종강화효과지우기");
 			atk.HandleRemoveCall();
 		}
+	}
+
+	protected IEnumerator isSuperArmorCO(Actor self, float t)
+	{
+		self.life.superArmor = true;
+		Debug.LogError("슈퍼아머 돌입");
+		yield return new WaitForSeconds(t);
 		if (isSuperArmor)
 		{
-			Debug.Log("슈퍼아머끝");
 			self.life.superArmor = false;
+			Debug.LogError("슈퍼아머 방출");
 		}
 	}
+
+	
 }

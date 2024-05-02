@@ -44,7 +44,7 @@ public class TwoPunchGrabSkill : AttackBase
 	public override void OnAnimationMove(Actor self, AnimationEvent evt)
 	{
 		
-		self.move.forceDir = self.transform.forward * 16 + new Vector3(0, 24, 0);
+		self.move.forceDir = -self.transform.forward * 11 + new Vector3(0, 7, 0);
 	}
 
 	public override void OnAnimationEvent(Actor self, AnimationEvent evt)
@@ -60,25 +60,34 @@ public class TwoPunchGrabSkill : AttackBase
 		{
 			_cols.Now(self.transform, (_life) =>
 			{
-				DoDamage(_life.GetActor(), self, default, _baseInfo);
 
-				CameraManager.instance.ShakeCamFor(0.12f, 8, 8);
+				CameraManager.instance.ShakeCamFor(0.12f, 20, 20);
+
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Stun, 4f);
 				
-				_life.GetActor().move.forceDir += self.transform.forward * 30 + new Vector3(0, -20, 0);
-			});
+			}, (tls, _life) =>
+			{
+
+				DoDamage(_life.GetActor(), self, _dmgs[0]);
+			
+				_life.GetActor().move.forceDir= self.transform.forward * 30 + new Vector3(0,-10, 0);
+				GameObject objs = PoolManager.GetObject("YohoGrab_Down", _life.transform);
+				if(objs.TryGetComponent<ColliderCast>(out ColliderCast _cols2))
+				{
+					_cols2.Now(_life.transform, (_life) =>
+					{
+						DoDamage(_life.GetActor(), self, _dmgs[2]);
+						StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Stun, 4f);
+						_life.GetActor().move.forceDir += self.transform.forward * 12f;
+					}, default, default, default, 1.2f);
+				}
+			}, default, default, 0.2f);
 		}
 	}
 
 
 	public override void OnAnimationEnd(Actor self, AnimationEvent evt)
 	{
-		PlayerAttack tt = self.atk as PlayerAttack;
-		if (_cols != null)
-		{
-			_cols.End();
-			_cols = null;
-		}
-		
 	}
 
 	public override void OnAnimationStop(Actor self, AnimationEvent evt)
@@ -87,6 +96,8 @@ public class TwoPunchGrabSkill : AttackBase
 		
 	}
 
-
-	
+	public override int ListValue()
+	{
+		return 2;
+	}
 }

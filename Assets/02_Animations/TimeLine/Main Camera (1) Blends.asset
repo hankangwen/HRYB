@@ -36,10 +36,10 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
   - m_From: PCam
-    m_To: '**ANY CAMERA**'
+    m_To: YusungSmithCam
     m_Blend:
       m_Style: 3
-      m_Time: 1.2
+      m_Time: 0.2
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
@@ -51,6 +51,17 @@ MonoBehaviour:
     m_Blend:
       m_Style: 3
       m_Time: 0.4
+      m_CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+  - m_From: PCam
+    m_To: '**ANY CAMERA**'
+    m_Blend:
+      m_Style: 3
+      m_Time: 1.2
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

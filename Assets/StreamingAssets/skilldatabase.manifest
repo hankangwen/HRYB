@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 3543577327
+CRC: 4094057908
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8e304dc3f928afd7274310a3456cc324
+    Hash: 801334219a47653ade588db90a61cc25
   TypeTreeHash:
     serializedVersion: 2
-    Hash: a4cf4eaef884cb67dab22a3cb6bebadd
+    Hash: 0e35176b52c58c4d8af09d48fb50cd9a
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 8e304dc3f928afd7274310a3456cc324
+    Hash: 801334219a47653ade588db90a61cc25
 HashAppended: 0
 ClassTypes:
 - Class: 28
@@ -31,6 +31,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 86543760e5c9a86429f31b073693729a, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: b129b3888125bfb4d8688535398e9393, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: ffcb0ab658f16f7449753808851e411d, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 695d2838aef5f394286eefee40269a5c, type: 3}
@@ -47,6 +49,8 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: DamageSettings
 - AssemblyName: Assembly-CSharp
   ClassName: NameSkillPair
 - AssemblyName: Assembly-CSharp

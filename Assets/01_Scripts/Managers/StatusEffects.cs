@@ -408,8 +408,7 @@ public class StatusEffects
 		}
 	}
 
-	public static Dictionary<StatEffID, float> _bufferDurations = new();
-	
+
 
 	public static void ApplyStat(Actor to, Actor by, StatEffID id, float dur, float pow = 1)
 	{
@@ -455,7 +454,7 @@ public class StatusEffects
 				}
 			}
 			float t = 0;
-			_bufferDurations[id] = dur - t;
+			to.life._bufferDurations[id] = dur - t;
 			//Debug.LogError($"dddd : " + _bufferDurations[id] + " " + id);
 			//foreach (var item in to.life.appliedDebuff)
 			//{
@@ -471,7 +470,7 @@ public class StatusEffects
 				//Debug.Log(id + " : TIMEPASSING");
 				yield return null;
 				t += Time.deltaTime;
-				_bufferDurations[id] = dur - t;
+				to.life._bufferDurations[id] = dur - t;
 
 			}
 			Debug.Log($"{guid} : {id} ENDED");

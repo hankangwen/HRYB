@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 
@@ -7,8 +8,8 @@ using UnityEngine;
 public class SkyBirtgh : AttackBase
 {
 	ColliderCast _cols = null;
-	
-    internal override void MyOperation(Actor self)
+	[Description("3타짜리 스킬")]
+	internal override void MyOperation(Actor self)
     {
 
     }
@@ -70,7 +71,7 @@ public class SkyBirtgh : AttackBase
 						    //GameManager.instance.TimeFreeze(0, 0.1f);
 						    Actor to = _life.GetActor();
 						    Actor by = self;
-						    DoDamage(to,by, 0.1f, obj.transform.position, _baseInfo);
+						    DoDamage(to,by, _dmgs[0], obj.transform.position);
 						    
 					    }, (transform, module) =>
 					    {
@@ -97,7 +98,7 @@ public class SkyBirtgh : AttackBase
 						    
 						    Actor to = _life.GetActor();
 						    Actor by = self;
-						    DoDamage(to,by, 0.4f, obj.transform.position, _baseInfo);
+						    DoDamage(to,by, _dmgs[1], obj.transform.position);
 					    }, (transform, module) =>
 					    {
 							Debug.LogError("기");
@@ -149,7 +150,7 @@ public class SkyBirtgh : AttackBase
 						    _life.GetActor().move.forceDir = self.transform.forward * 18 + new Vector3(0, -24, 0);
 						    Actor to = _life.GetActor();
 						    Actor by = self;
-						    DoDamage(to,by, 0.8f, obj.transform.position, _baseInfo);
+						    DoDamage(to,by, _dmgs[2], obj.transform.position);
 						    CameraManager.instance.ShakeCamFor(0.18f, 12, 12);
 						    //GameManager.instance.TimeFreeze(0.3f, 0.08f);
 					    });
@@ -175,9 +176,13 @@ public class SkyBirtgh : AttackBase
 	    }
     }
 	
-	
     public override void OnAnimationStop(Actor self, AnimationEvent evt)
     {
 	    GameManager.instance.EnableCtrl();
     }
+
+	public override int ListValue()
+	{
+		return 3;
+	}
 }

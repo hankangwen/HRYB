@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: YohoGrab
   m_EditorClassIdentifier: 
   animClip: {fileID: 7400000, guid: 0ec32a880d16d8d40ad2ead2deb59427, type: 2}
+  animClipLoopings: {fileID: 0}
   animClipDisop: {fileID: 0}
   audioClipName: 
   tags:
@@ -21,13 +22,17 @@ MonoBehaviour:
   childs:
   - {fileID: 11400000, guid: 62c83ffc0ce499f46be9b8c91322bf60, type: 2}
   - {fileID: 11400000, guid: 1d75d440254e7594581e18b4c156bce8, type: 2}
-  composeDel: 0
+  composeDel: 0.2
   isPlayAnim: 1
   isPlayDisopAnim: 0
   wx: 0
   useType: 0
   castTime: 0
-  cooldown: 0.5
+  cooldown: 4
+  skillIcon: {fileID: 0}
+  isSuperArmor: 1
+  _superArmorTime: 2
+  _useMana: 0
   initCombo: 0
   resetSec: 2
   resetThreshold: 0

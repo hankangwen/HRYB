@@ -84,7 +84,10 @@ public class LifeModule : Module
 
 	public Action _dieEvent;
 	public Action _hitEvent;
-	
+
+
+	public Dictionary<StatEffID, float> _bufferDurations = new();
+
 	internal Dictionary<string, AppliedStatus> appliedDebuff = new Dictionary<string, AppliedStatus>();
 
 	internal Dictionary<int, List<Coroutine>> ongoingTickDamages = new Dictionary<int, List<Coroutine>>() ;
@@ -148,6 +151,15 @@ public class LifeModule : Module
 		//{
 		//	Debug.Log(name + " Effefct : " + item.Key.name + " For " + item.Value);
 		//}
+
+		if(yy.white > initYinYang.white)
+		{
+			yy.white = initYinYang.white;
+		}
+		if(yy.black > initYinYang.black)
+		{
+			yy.black = initYinYang.black;
+		}
 	}
 
 	void DecreaseYY(float amt, YYInfo to)

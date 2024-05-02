@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class YGComboAttackBase : AttackBase
+public abstract class YGComboAttackBase : AttackBase
 {
 	protected Action _nextTo = null;
 	protected Action _cancel = null;
@@ -16,7 +16,8 @@ public class YGComboAttackBase : AttackBase
 		_cancel = v;
 	}
 
-    internal override void MyOperation(Actor self)
+
+	internal override void MyOperation(Actor self)
     {
     }
 

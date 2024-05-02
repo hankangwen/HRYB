@@ -51,7 +51,7 @@ public class NextEnter : AttackBase
 		{
 			_cols.Now(self.transform, (_life) =>
 			{
-				DoDamage(_life.GetActor(), self, default,_baseInfo);
+				DoDamage(_life.GetActor(), self, _dmgs[0]);
 
 
 			}, (tls, _life) =>
@@ -130,4 +130,8 @@ public class NextEnter : AttackBase
 		GameManager.instance.EnableCtrl();
 	}
 
+	public override int ListValue()
+	{
+		return 1;
+	}
 }
