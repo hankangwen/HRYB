@@ -6,6 +6,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skills/Human/벼락내리기")]
 public class HumanLighting : AttackBase
 {
+
+	public override int ListValue()
+	{
+		return 2;
+	}
+
 	public override void UpdateStatus()
 	{
 	}
@@ -37,13 +43,14 @@ public class HumanLighting : AttackBase
 					_cols2.Now(self.transform, (_life) =>
 					{
 
-						DoDamage(_life.GetActor(), self, 0.1f, _life.transform.position, _baseInfo);
-					}, (tls, module) =>
+						DoDamage(_life.GetActor(), self, _dmgs[0], _life.transform.position);
+					}, 
+					(tls, module) => 
 					{
-						DoDamage(module.GetActor(), self, module.transform.position, _baseInfo);
+						DoDamage(module.GetActor(), self, _dmgs[1], module.transform.position);
 						CameraManager.instance.ShakeCamFor(0.08f, 2, 2);
 						
-						
+							
 						GameObject eff = PoolManager.GetObject("LightingEffectHuman", _life.transform);
 						if (eff.TryGetComponent<EffectObject>(out EffectObject eff2))
 						{
@@ -53,7 +60,7 @@ public class HumanLighting : AttackBase
 
 					}, default, default, 0.4f);
 				}
-			},null, default, default, 1f);
+			}, null, default, default, 1f);
 		}
 	}
 
@@ -61,4 +68,6 @@ public class HumanLighting : AttackBase
 	{
 		GameManager.instance.EnableCtrl();
 	}
+
+
 }

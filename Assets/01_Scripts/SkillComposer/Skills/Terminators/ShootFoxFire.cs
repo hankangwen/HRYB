@@ -39,4 +39,9 @@ public class ShootFoxFire : AttackBase
 			GameManager.instance.foxfire.Follow();
 		}
 	}
+
+	public override int ListValue()
+	{
+		return 0;
+	}
 }

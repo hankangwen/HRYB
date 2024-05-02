@@ -33,4 +33,9 @@ public class ExplodeFoxFire : AttackBase
 			GameManager.instance.audioPlayer.PlayPoint(audioClipName, self.transform.position);
 		}
 	}
+
+	public override int ListValue()
+	{
+		return 0;
+	}
 }

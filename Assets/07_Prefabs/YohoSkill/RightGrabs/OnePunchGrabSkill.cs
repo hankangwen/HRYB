@@ -13,7 +13,7 @@ public class OnePunchGrabSkill : YGComboAttackBase
 
 	public override void OnAnimationMove(Actor self, AnimationEvent evt)
 	{
-		self.move.forceDir += self.transform.forward * 20;
+		self.move.forceDir += self.transform.forward * 16;
 	}
 
 	public override void OnAnimationEvent(Actor self, AnimationEvent evt)
@@ -35,12 +35,12 @@ public class OnePunchGrabSkill : YGComboAttackBase
 			{
 				
 				
-				_life.GetActor().move.forceDir += self.transform.forward * 32 + new Vector3(0,7,0);
+				//_life.GetActor().move.forceDir += self.transform.forward * 5 + new Vector3(0,7,0);
 				
 				
 			}, (trm, _life) =>
 			{
-				CameraManager.instance.ShakeCamFor(0.12f, 3, 3);
+				CameraManager.instance.ShakeCamFor(0.12f, 12, 12);
 				self.move.forceDir = Vector3.zero;
 				int t = 0;
 				foreach (var value in _life.appliedDebuff)
@@ -55,26 +55,33 @@ public class OnePunchGrabSkill : YGComboAttackBase
 
 				tt._grabedEnemy = _life.gameObject;
 				
-				Debug.LogError(tt._grabedEnemy);
+				//Debug.LogError(tt._grabedEnemy);
 
-				DoDamage(_life.GetActor(), self, t, default, _baseInfo);
+				DoDamage(_life.GetActor(), self, _dmgs[0]);
+
+
+
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Stun, 2f);
 
 				if (t >= 10)
 				{
 					_nextTo?.Invoke();
 					PlayerAttack pl = self.atk as PlayerAttack;
 					pl.BleedValue = t;
+
+					(self.cast as PlayerCast).SetCooldownTo(SkillSlotInfo.RClick, 0.2f);
 				}
 				else
 				{
 					_nextTo?.Invoke();
 					PlayerAttack pl = self.atk as PlayerAttack;
 					pl.BleedValue = t;
-					
+
+					(self.cast as PlayerCast).SetCooldownTo(SkillSlotInfo.RClick, 0.2f);
 					//_life.RemoveAllStatEff(StatEffID.Bleeding);
 				}
 
-			});
+			}, default, default, 0.4f);
 		}
 		
 	}
@@ -93,8 +100,9 @@ public class OnePunchGrabSkill : YGComboAttackBase
 	{
 		GameManager.instance.EnableCtrl();
 	}
-	
 
-
-	
+	public override int ListValue()
+	{
+		return 1;
+	}
 }

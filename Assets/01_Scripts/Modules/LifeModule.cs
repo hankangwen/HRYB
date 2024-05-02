@@ -84,7 +84,10 @@ public class LifeModule : Module
 
 	public Action _dieEvent;
 	public Action _hitEvent;
-	
+
+
+	public Dictionary<StatEffID, float> _bufferDurations = new();
+
 	internal Dictionary<string, AppliedStatus> appliedDebuff = new Dictionary<string, AppliedStatus>();
 
 	internal Dictionary<int, List<Coroutine>> ongoingTickDamages = new Dictionary<int, List<Coroutine>>() ;

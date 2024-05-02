@@ -58,11 +58,15 @@ public class Kick : AttackBase
 				(self.atk as PlayerAttack).onNextSkill?.Invoke(self, this);
 				(self.atk as PlayerAttack).onNextHit?.Invoke(effPos);
 
-				DoDamage(life.GetActor(), self, default, _baseInfo);
+				DoDamage(life.GetActor(), self, _dmgs[0]);
 				PoolManager.GetObject("Hit 26", effPos, -caster.transform.forward, 2.5f);
 			}
 			
 		});
 	}
-	
+
+	public override int ListValue()
+	{
+		return 1;
+	}
 }

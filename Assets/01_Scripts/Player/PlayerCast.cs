@@ -195,9 +195,10 @@ public class PlayerCast : CastModule
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("EnhanceIce"), SkillSlotInfo.Three, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("LightingDown"), SkillSlotInfo.Q, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("SwordRain"), SkillSlotInfo.E, PlayerForm.Magic);
-
+		
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("YohoNormalAttack"), SkillSlotInfo.LClick, PlayerForm.Yoho);
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("NextEnter"), SkillSlotInfo.RClick, PlayerForm.Yoho);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("YohoGrab"), SkillSlotInfo.RClick, PlayerForm.Yoho);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("NextEnter"), SkillSlotInfo.Q, PlayerForm.Yoho);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("SkyBritgh"), SkillSlotInfo.One, PlayerForm.Yoho);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("YusungSmith"), SkillSlotInfo.Three, PlayerForm.Yoho);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("YohoSharpnessAtt"), SkillSlotInfo.Two, PlayerForm.Yoho);
@@ -620,6 +621,15 @@ public class PlayerCast : CastModule
 		if (nowSkillSlot[((int)info)] != null)
 		{
 			nowSkillSlot[((int)info)].CurCooledTime = nowSkillSlot[((int)info)].skInfo.cooldown - amt;
+		}
+	}
+
+	public void SetCooldownSet(SkillSlotInfo info, float amt)
+	{
+		if (nowSkillSlot[((int)info)] != null)
+		{
+			nowSkillSlot[((int)info)].CurCooledTime = amt;
+			//Debug.LogError("이건 불려져오긴하는거기함");
 		}
 	}
 
