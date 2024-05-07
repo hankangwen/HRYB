@@ -34,6 +34,9 @@ using Unity.VisualScripting;
 	public MedicineButtonsUI medicineButton;
 	public MedicineDetailUI medicineDetail;
 
+	public CollectionButtonUI collectionButton;
+	public YinyangItemDetailUI yinyangitemDetail;
+
 	public ToolBarManager toolbarUIShower;
 
 	public AnimationCurve dropDownCurve;
