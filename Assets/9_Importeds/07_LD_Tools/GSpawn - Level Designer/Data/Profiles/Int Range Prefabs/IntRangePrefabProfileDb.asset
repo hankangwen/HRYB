@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _profiles:
   - {fileID: 11400000, guid: d8b8ce1a9438e5542ba6f7f34e313d66, type: 2}
-  _activeProfile: {fileID: 0}
+  _activeProfile: {fileID: 11400000, guid: d8b8ce1a9438e5542ba6f7f34e313d66, type: 2}
 --- !u!114 &1610373014304430375
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedItems:
     _serializedList:
-    - _guidString: 3a462e06-0cc3-4762-8273-c452a11cc5c4
+    - _guidString: 0d5be81a-61ab-44a6-bdd1-77931d20b59b
   collapsedItems:
     _serializedList:
     - _guidString: 9a66c465-0ff8-432c-9ef3-54f1ada951d4
@@ -24,13 +24,18 @@ MonoBehaviour:
     - _guidString: 97bc3f01-ab8a-4115-8e83-30ba65924cd0
     - _guidString: fcf17adc-84ee-45d3-b5e8-75b4e6e6baca
     - _guidString: 34919047-7854-4fe6-aced-bfa5a4cb8bd8
+    - _guidString: e21d2b0d-a42d-40d7-995e-c6d7494ea82c
+    - _guidString: 872253bf-2def-4c28-a396-5d58b1c9a1bf
+    - _guidString: 261e0be7-10e5-4595-969f-70c57e41853a
+    - _guidString: 8ddaa4ec-9132-4a46-9bae-0dd57f1c7a7f
+    - _guidString: fc87bacc-c764-400e-af2b-1da442e70cf5
   selectRangeBeginId:
-    _guidString: 3a462e06-0cc3-4762-8273-c452a11cc5c4
+    _guidString: 0d5be81a-61ab-44a6-bdd1-77931d20b59b
   selectRangeEndId:
-    _guidString: 3a462e06-0cc3-4762-8273-c452a11cc5c4
+    _guidString: 0d5be81a-61ab-44a6-bdd1-77931d20b59b
   hasSelectRange: 1
-  scrollOffset: {x: 0, y: 540}
-  vertScrollHighValue: NaN
+  scrollOffset: {x: 0, y: 0}
+  vertScrollHighValue: 0
   vertScrollLowValue: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -46,8 +51,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _profiles:
   - {fileID: 11400000, guid: c17b55711a6d5eb4bbfbbcdbd82f02fe, type: 2}
-  _activeProfile: {fileID: 11400000, guid: c17b55711a6d5eb4bbfbbcdbd82f02fe, type: 2}
-  _prefabCreationSettingsUI: {fileID: 0}
+  - {fileID: 11400000, guid: 07b7597c0f63a4e48988acfe5b1de7ba, type: 2}
+  _activeProfile: {fileID: 11400000, guid: 07b7597c0f63a4e48988acfe5b1de7ba, type: 2}
+  _prefabCreationSettingsUI: {fileID: 11400000, guid: 4d3b209705c576f4b9c85c5646cdf666, type: 2}
   _objectGroupCreationSettingsUI: {fileID: 0}
 --- !u!114 &1644453034404820101
 MonoBehaviour:
@@ -63,12 +69,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedItems:
     _serializedList:
-    - _guidString: dd8a5efc-dc95-43d6-beb0-1705e7aebbb3
+    - _guidString: 733e2e09-4f5a-4655-8478-ba1900539a86
   selectRangeBeginId:
-    _guidString: 0dfdf0af-259e-4e09-b3f9-a8000800655e
+    _guidString: 1af6018a-1e3d-48d3-85df-c6033a87454c
   selectRangeEndId:
-    _guidString: 0dfdf0af-259e-4e09-b3f9-a8000800655e
+    _guidString: 1af6018a-1e3d-48d3-85df-c6033a87454c
   hasSelectRange: 0
-  scrollOffset: {x: 0, y: 54}
-  vertScrollHighValue: NaN
+  scrollOffset: {x: 0, y: 153}
+  vertScrollHighValue: 153
   vertScrollLowValue: 0
