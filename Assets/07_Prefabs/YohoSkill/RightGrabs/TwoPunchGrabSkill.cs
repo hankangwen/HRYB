@@ -61,12 +61,12 @@ public class TwoPunchGrabSkill : AttackBase
 			_cols.Now(self.transform, (_life) =>
 			{
 
-				CameraManager.instance.ShakeCamFor(0.12f, 20, 20);
 
 				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Stun, 4f);
 				
 			}, (tls, _life) =>
 			{
+				CameraManager.instance.ShakeCamFor(0.24f, 20, 20);
 
 				DoDamage(_life.GetActor(), self, _dmgs[0]);
 			
