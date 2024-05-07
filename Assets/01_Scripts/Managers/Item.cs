@@ -68,6 +68,46 @@ public class Item : IComparable // #################
 		{"도약탕".GetHashCode(), new Medicines("도약탕", "다리의 힘을 비약적으로 상승시켜 땅을 박차고 공중으로 도약할 수 있게 해준다.", ItemType.Liquid, 1, null, false, new YinYang(0)) },
 	}; //같은 이름의 아이템을 같은 물건으로 취급하기 위해 사용.
 
+	static Hashtable allYinyangItems;
+	public static Hashtable AllYinyangItems
+	{
+		get
+		{
+			if(allYinyangItems == null)
+			{
+				allYinyangItems = new Hashtable();
+				foreach (int item in nameDataHashT.Keys)
+				{
+					if(nameDataHashT[item] is YinyangItem yy && !(nameDataHashT[item] is Medicines))
+					{
+						allYinyangItems.Add(item, nameDataHashT[item]);
+					}
+				}
+			}
+			return allYinyangItems;
+		}
+	}
+
+	static Hashtable allMedicines;
+	public static Hashtable AllMedicines
+	{
+		get
+		{
+			if (allMedicines == null)
+			{
+				allMedicines = new Hashtable();
+				foreach (int item in nameDataHashT.Keys)
+				{
+					if ((nameDataHashT[item] is Medicines))
+					{
+						allMedicines.Add(item, nameDataHashT[item]);
+					}
+				}
+			}
+			return allMedicines;
+		}
+	}
+
 	public static Item GetItem(string name)
 	{
 		return (Item)nameDataHashT[name.GetHashCode()];
