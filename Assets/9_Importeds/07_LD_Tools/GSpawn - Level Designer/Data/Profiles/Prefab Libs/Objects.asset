@@ -5903,7 +5903,7 @@ MonoBehaviour:
   - {fileID: -616979180670376927}
   - {fileID: 3733358001091545951}
   - {fileID: -3696828613519582591}
-  _uiSelected: 0
+  _uiSelected: 1
 --- !u!114 &-996132995366591264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9373,7 +9373,7 @@ MonoBehaviour:
   _prefabs:
   - {fileID: 3359501395279464325}
   - {fileID: -2714512553446080530}
-  _uiSelected: 1
+  _uiSelected: 0
 --- !u!114 &4060799644243620105
 MonoBehaviour:
   m_ObjectHideFlags: 0
