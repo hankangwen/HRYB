@@ -474,7 +474,8 @@ public class StatusEffects
 
 			}
 			Debug.Log($"{guid} : {id} ENDED");
-			to.life.EndStaus(guid, updateAct, power);
+			if(to?.life)
+				to.life.EndStaus(guid, updateAct, power);
 			if (effs.Count > 0)
 			{
 				for (int i = 0; i < effs.Count; i++)

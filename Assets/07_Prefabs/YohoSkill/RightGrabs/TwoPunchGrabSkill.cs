@@ -36,8 +36,15 @@ public class TwoPunchGrabSkill : AttackBase
 		tt._grabedEnemy.transform.position = tt._grabPos.position;
 		tt._grabedEnemy.GetComponent<Actor>().move.gravity = false;
 		tt.BleedValue = 0;
-		tt._grabedEnemy.GetComponent<CharacterController>().enabled = false;
-		tt._grabedEnemy.GetComponent<NavMeshAgent>().enabled = false;
+		if(tt._grabedEnemy.TryGetComponent<CharacterController>(out CharacterController c))
+		{
+			c.enabled = false;
+		}
+
+		if (tt._grabedEnemy.TryGetComponent<NavMeshAgent>(out NavMeshAgent n))
+		{
+			n.enabled = false;
+		}
 		Debug.LogError(tt._grabedEnemy);
 	}
 
@@ -56,6 +63,9 @@ public class TwoPunchGrabSkill : AttackBase
 		tt._grabedEnemy.GetComponent<Actor>().move.gravity = true;
 		tt._grabedEnemy.GetComponent<CharacterController>().enabled = true;
 		//tt._grabedEnemy.GetComponent<Actor>().move.forceDir = new Vector3(0, 1, 0);
+
+					int f = tt.BleedValue;
+		tt.BleedValue = 0;
 		if (obj.TryGetComponent<ColliderCast>(out _cols))
 		{
 			_cols.Now(self.transform, (_life) =>
@@ -68,17 +78,17 @@ public class TwoPunchGrabSkill : AttackBase
 			{
 				CameraManager.instance.ShakeCamFor(0.24f, 20, 20);
 
-				DoDamage(_life.GetActor(), self, _dmgs[0]);
-			
+				DoDamage(_life.GetActor(), self, _dmgs[0], default, f);
+
 				_life.GetActor().move.forceDir= self.transform.forward * 30 + new Vector3(0,-10, 0);
 				GameObject objs = PoolManager.GetObject("YohoGrab_Down", _life.transform);
 				if(objs.TryGetComponent<ColliderCast>(out ColliderCast _cols2))
 				{
-					_cols2.Now(_life.transform, (_life) =>
+					_cols2.Now(_life.transform, (_lifes) =>
 					{
-						DoDamage(_life.GetActor(), self, _dmgs[2]);
-						StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Stun, 4f);
-						_life.GetActor().move.forceDir += self.transform.forward * 12f;
+						DoDamage(_lifes.GetActor(), self, _dmgs[1], default, f * 0.1f);
+						StatusEffects.ApplyStat(_lifes.GetActor(), self, StatEffID.Stun, 4f);
+						_lifes.GetActor().move.forceDir += self.transform.forward * 12f;
 					}, default, default, default, 1.2f);
 				}
 			}, default, default, 0.2f);

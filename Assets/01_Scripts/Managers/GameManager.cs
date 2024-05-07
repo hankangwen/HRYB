@@ -524,7 +524,6 @@ public class GameManager : MonoBehaviour
 	{
 		if(Input.GetKeyDown(KeyCode.B))
 		{
-			Debug.LogError("이걸 보고 있다면 아직 유공이 안넣은거임");
 			GameObject objs = GameObject.Find("JSPosition");
 			player.GetComponent<PlayerMove>().PlayerTeleport(objs.transform.position);
 		}
@@ -548,7 +547,10 @@ public class GameManager : MonoBehaviour
 		{
 			LockUnlockCursor();
 		}
-
+		if(Input.GetKeyDown(KeyCode.U))
+		{
+			LockCursor();
+		}
 
 		if(Time.time % 1 <= float.Epsilon)
 		{
