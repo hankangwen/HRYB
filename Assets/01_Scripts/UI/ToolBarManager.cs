@@ -10,6 +10,7 @@ public enum ToolState
 	Node,
 	Setting,
 	Fusion,
+	Collection,
 
 
 	None

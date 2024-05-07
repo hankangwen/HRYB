@@ -80,6 +80,8 @@ using Unity.VisualScripting;
 		medicineButton = canvas.transform.Find("ToolPanel/Medicine/DrugStore").GetComponent<MedicineButtonsUI>();
 		medicineDetail = canvas.transform.Find("ToolPanel/Fusion/MedicineDetail").GetComponent<MedicineDetailUI>();
 
+		yinyangitemDetail = canvas.transform.Find("ToolPanel/Collection").GetComponent<YinyangItemDetailUI>();
+
 		toolbarUIShower = GameObject.Find("ToolPanel").GetComponent<ToolBarManager>();
 
 		invenPanel.SetActive(true);
@@ -188,6 +190,7 @@ using Unity.VisualScripting;
 			OnOption();
 		}
 	}
+
 
 	public void OffCanvas()
 	{

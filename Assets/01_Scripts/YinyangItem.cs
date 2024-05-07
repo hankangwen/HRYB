@@ -19,7 +19,7 @@ public enum DetailParameter
 }
 
 [Serializable]
-public class DetailAmount : Dictionary<DetailParameter, float>, ISerializationCallbackReceiver
+public class DetailAmount : Dictionary<DetailParameter, float>
 {
 	[SerializeField]
 	public List<float> values = new List<float>();
@@ -31,7 +31,8 @@ public class DetailAmount : Dictionary<DetailParameter, float>, ISerializationCa
 			DetailAmount res = new DetailAmount();
 			for (int i = ((int)DetailParameter.Sweet); i < ((int)DetailParameter.Max); i++)
 			{
-				res[(DetailParameter)i] =  Mathf.Round(UnityEngine.Random.Range(0, 1) * 100) / 100f;
+				res[(DetailParameter)i] =  Mathf.Round(UnityEngine.Random.Range(0f, 1f) * 100) / 100f;
+				
 			}
 			return res;
 		}
@@ -45,22 +46,7 @@ public class DetailAmount : Dictionary<DetailParameter, float>, ISerializationCa
 		}
 	}
 
-	public void OnAfterDeserialize()
-	{
-		for (int i = ((int)DetailParameter.Sweet); i < ((int)DetailParameter.Max); i++)
-		{
-			this[(DetailParameter)i] = values[i];
-		}
-	}
 
-	public void OnBeforeSerialize()
-	{
-		values.Clear();
-		foreach (var item in this)
-		{
-			values.Add(item.Value);
-		}
-	}
 }
 
 [System.Serializable]
@@ -157,6 +143,7 @@ public class YinyangItem : Item
 		{
 			nameAsChar = ch;
 		}
+		detailParams = DetailAmount.Random;
 	}
 
 	public override void Use()

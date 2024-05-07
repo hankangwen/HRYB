@@ -8,12 +8,10 @@ public class CollectionButtonUI : MonoBehaviour
 {
 	Image img;
 	TextMeshProUGUI itemName;
-
-
 	Item connected;
-	HashSet<ItemAmountPair> reqItem;
 	public void SetInfo(Item i)
 	{
+		Debug.LogError("Set");
 		connected = i;
 		if (img == null)
 		{
@@ -31,9 +29,8 @@ public class CollectionButtonUI : MonoBehaviour
 
 	public void OnClick()
 	{
-		if (connected is YinyangItem yyItem)
-		{
-			GameManager.instance.uiManager.yinyangitemDetail.SetInfo(yyItem);
-		}
+
+		if(connected is YinyangItem yinyang)
+		GameManager.instance.uiManager.yinyangitemDetail.SetInfo(yinyang);
 	}
 }

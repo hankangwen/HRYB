@@ -3,65 +3,92 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
 public class YinyangItemDetailUI : MonoBehaviour
 {
 	YinyangItem cur;
-	HashSet<ItemAmountPair> reqs;
 
 	Image image;
 	TextMeshProUGUI itemName;
+	TextMeshProUGUI itemDesc;
+	UIPolygon statPolygon;
+	Image moistGauge;
+	Image poisonGauge;
+
+
 	Transform content;
 
-	List<ItemReqUI> reqItems = new List<ItemReqUI>();
-
-	const string REQITEM = "ReqItem";
+	public const string MAKABLEITEM = "CollectionItem";
 	private void Awake()
 	{
 		gameObject.SetActive(false);
 	}
-	public void SetInfo(YinyangItem med, bool isRefresh = false)
+	public void SetInfo(YinyangItem item)
 	{
 		if (image == null)
 		{
-			image = transform.Find("Image").GetComponent<Image>();
+			image = transform.Find("Img/ItemImg").GetComponent<Image>();
 		}
 		if (itemName == null)
 		{
-			itemName = transform.Find("Name").GetComponent<TextMeshProUGUI>();
+			itemName = transform.Find("Name/ItemName").GetComponent<TextMeshProUGUI>();
+		}
+		if(itemDesc == null)
+		{
+			itemDesc = transform.Find("Desc/DescText").GetComponent<TextMeshProUGUI>();
 		}
 		if (content == null)
 		{
-			content = transform.Find("Req/Viewport/Content");
+			content = transform.Find("ItemBack/ResultView/Content");
 		}
-
-
-		for (int i = 0; i < reqItems.Count; i++)
+		if (statPolygon == null)
 		{
-			PoolManager.ReturnObject(reqItems[i].gameObject);
+			statPolygon = transform.Find("StatBack/StatPolygon").GetComponent<UIPolygon>();
 		}
-		reqItems.Clear();
-
-		if (med == null || (cur == med && !isRefresh))
+		if(moistGauge == null)
 		{
-			gameObject.SetActive(false);
-			cur = null;
+			moistGauge = transform.Find("StatBack/MoistGauge").GetComponent<Image>();
 		}
-		else
+		if(poisonGauge == null)
 		{
-			gameObject.SetActive(true);
-
-			image.sprite = med.icon;
-			itemName.text = med.MyName;
-			bool res = true;
-
-			cur = med;
+			poisonGauge = transform.Find("StatBack/PoisonGauge").GetComponent<Image>();
 		}
+
+		gameObject.SetActive(true);
+
+		image.sprite = item.icon;
+		itemName.text = item.MyName;
+		itemDesc.text = item.desc;
+		statPolygon.VerticesDistances[0] = item.detailParams[DetailParameter.Sweet];
+		statPolygon.VerticesDistances[1] = item.detailParams[DetailParameter.Sour];
+		statPolygon.VerticesDistances[2] = item.detailParams[DetailParameter.Bitter];
+		statPolygon.VerticesDistances[3] = item.detailParams[DetailParameter.Salty];
+		statPolygon.VerticesDistances[4] = item.detailParams[DetailParameter.Spicy];
+		statPolygon.SetVerticesDirty();
+		moistGauge.fillAmount = item.detailParams[DetailParameter.Moist];
+		poisonGauge.fillAmount = item.detailParams[DetailParameter.Poison];
+
+		foreach (ItemAmountPair i in Crafter.recipeItemTableTrim.Keys)
+		{
+			if(i.info.originalName == item.originalName)
+			{
+
+				//HashSet<ItemAmountPair>
+				//Crafter.recipeItemTableTrim[i];
+				GameObject g = PoolManager.GetObject(MAKABLEITEM, content);
+				CollectionButtonUI btn = g.GetComponent<CollectionButtonUI>();
+				btn.SetInfo(item as YinyangItem);
+				//buttons.Add(g);
+			}
+		}
+		
+		cur = item;
 
 	}
 
 	public void RefreshInfo()
 	{
-		SetInfo(cur, true);
+		SetInfo(cur);
 	}
 }
