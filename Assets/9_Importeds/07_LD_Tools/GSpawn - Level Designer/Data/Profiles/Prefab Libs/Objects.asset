@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8267b50b48934ad468b191edae8905f8, type: 3}
-  m_Name: PrefabFromSelectedObjectsCreationSettings
+  m_Script: {fileID: 11500000, guid: 8d27d60231fbfd54a8dd0a2b498f7841, type: 3}
+  m_Name: Objects
   m_EditorClassIdentifier: 
-  _prefabName: adfasdf
-  _destinationFolder: 
-  _pivot: 4
-  _pivotObjectName: 
+  _profileName: Objects
+  _libs: []
