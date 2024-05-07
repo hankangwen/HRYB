@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: ScatterBrushPrefabProfileDbUI_PrefabViewState
   m_EditorClassIdentifier: 
   selectedItems:
-    _serializedList:
-    - _guidString: 82f6f95f-ecdf-4657-94c3-df7da55baa4d
+    _serializedList: []
   selectRangeBeginId:
     _guidString: 82f6f95f-ecdf-4657-94c3-df7da55baa4d
   selectRangeEndId:
     _guidString: 82f6f95f-ecdf-4657-94c3-df7da55baa4d
-  hasSelectRange: 1
+  hasSelectRange: 0
   scrollOffset: {x: 0, y: 0}
   vertScrollHighValue: 0
   vertScrollLowValue: 0
