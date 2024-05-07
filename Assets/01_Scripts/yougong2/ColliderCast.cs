@@ -91,7 +91,7 @@ public abstract class ColliderCast : MonoBehaviour
 		isFirst = false;
 
 		_quaternion = Owner.rotation;
-
+		CheckDic.Clear();
 
 		_attackAbleCount = attackAble;
 		if(StartSec > 0)
@@ -100,7 +100,6 @@ public abstract class ColliderCast : MonoBehaviour
 		}
 		else
 		{
-			CheckDic.Clear();
 			//Debug.LogError("시작");
 			_isRunning = true;
 			if (act != null)
