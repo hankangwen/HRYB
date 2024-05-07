@@ -23,11 +23,33 @@ public class DetailAmount : Dictionary<DetailParameter, float>, ISerializationCa
 {
 	[SerializeField]
 	public List<float> values = new List<float>();
+
+	public static DetailAmount Random
+	{
+		get
+		{
+			DetailAmount res = new DetailAmount();
+			for (int i = ((int)DetailParameter.Sweet); i < ((int)DetailParameter.Max); i++)
+			{
+				res[(DetailParameter)i] =  Mathf.Round(UnityEngine.Random.Range(0, 1) * 100) / 100f;
+			}
+			return res;
+		}
+	}
+
+	public static DetailAmount Empty
+	{
+		get
+		{
+			return new DetailAmount();
+		}
+	}
+
 	public void OnAfterDeserialize()
 	{
 		for (int i = ((int)DetailParameter.Sweet); i < ((int)DetailParameter.Max); i++)
 		{
-			//@@@@@@@@@@@@@@@@@@
+			this[(DetailParameter)i] = values[i];
 		}
 	}
 
@@ -121,6 +143,7 @@ public class YinyangItem : Item
 		{
 			nameAsChar = item.nameAsChar;
 		}
+		detailParams = item.detailParams;
 	}
 
     public YinyangItem(string name, string desc, ItemType iType, int max, Specials used, bool isNewItem, YinYang yyData, string ch = "") : base(name, desc, iType, max, used, isNewItem)
