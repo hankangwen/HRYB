@@ -49,7 +49,7 @@ public class HumanMasterSpark : AttackBase
 			{
 				_cols.Now(self.transform, (_life) =>
 				{
-					DoDamage(_life.GetActor(), self, _life.transform.position, _baseInfo);
+					DoDamage(_life.GetActor(), self, _dmgs[0], _life.transform.position);
 				}, (sans, enemy) =>
 				{
 					CameraManager.instance.ShakeCamFor(0.08f, 2, 2);
@@ -65,5 +65,10 @@ public class HumanMasterSpark : AttackBase
 	public override void OnAnimationStop(Actor self, AnimationEvent evt)
 	{
 		GameManager.instance.EnableCtrl();
+	}
+
+	public override int ListValue()
+	{
+		return 1;
 	}
 }

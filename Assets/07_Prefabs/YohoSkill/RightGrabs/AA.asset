@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: AA
   m_EditorClassIdentifier: 
   animClip: {fileID: 7400000, guid: 0ec32a880d16d8d40ad2ead2deb59427, type: 2}
+  animClipLoopings: {fileID: 0}
   animClipDisop: {fileID: 0}
   audioClipName: 
   tags:
     value: 0
   level: 0
-  damageMult: 0
-  relateTrmName: 
   statEff: []
+  damageMult: 1
+  relateTrmName: 
+  _baseInfo: 0

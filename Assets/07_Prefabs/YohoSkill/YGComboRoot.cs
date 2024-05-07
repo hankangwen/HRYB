@@ -19,12 +19,18 @@ public int initCombo;
 
 	public override void Operate(Actor self)
 	{
-		if(Time.time - prevOperateSec >= composeDel)
+		if (isSuperArmor)
 		{
-			if (isSuperArmor)
+			if (_superArmorCorutine != null)
 			{
-				self.life.superArmor = true;
+				GameManager.instance.StopCoroutine(_superArmorCorutine);
 			}
+			_superArmorCorutine = GameManager.instance.StartCoroutine(isSuperArmorCO(self, _superArmorTime));
+		}
+
+		if (Time.time - prevOperateSec >= composeDel)
+		{
+
 			if (self.anim is PlayerAnim pa)
 			{
 				pa.SetAttackTrigger(curCombo); 
@@ -204,10 +210,6 @@ public int initCombo;
 		{
 			Debug.Log("각종강화효과지우기");
 			atk.HandleRemoveCall();
-		}
-		if (isSuperArmor)
-		{
-			self.life.superArmor = false;
 		}
 	}
 

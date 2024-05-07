@@ -22,9 +22,10 @@ public class GrogeNode : INode
 			self.anim.SetBoolModify("Stun", true);
 			return NodeStatus.Run;
 		}
-		else if (StatusEffects._bufferDurations.ContainsKey(StatEffID.Stun))
+		else if (self.life._bufferDurations.ContainsKey(StatEffID.Stun))
 		{
-			if (StatusEffects._bufferDurations[StatEffID.Stun] < 0)
+			
+			if (self.life._bufferDurations[StatEffID.Stun] < 0)
 			{
 				self.anim.SetBoolModify("Stun", false);
 

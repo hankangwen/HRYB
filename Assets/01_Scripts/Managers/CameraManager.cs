@@ -43,6 +43,8 @@ public class CameraManager : MonoBehaviour
 
 	public void RegisterSkillCam(SkillProduction _sk)
 	{
+		if(_skillProduct.Count >0)
+			_skillProduct[0].End();
 		_skillProduct.Clear();
 		_skillProduct.Add(_sk);
 	}

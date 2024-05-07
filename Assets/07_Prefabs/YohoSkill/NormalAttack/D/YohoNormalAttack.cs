@@ -108,11 +108,8 @@ public class YohoNormalAttack : AttackBase
 			_cols.Now(self.transform, (_life) =>
 			{
 				CameraManager.instance.ShakeCamFor(0.08f, 2, 2);
-				DoDamage(_life.GetActor(), self, obj.transform.position, _baseInfo);
-				if (_life.TryGetComponent<EnemyLifeModule>(out EnemyLifeModule eme))
-				{
-					eme.DoGrogeDamage(50);
-				}
+				DoDamage(_life.GetActor(), self, _dmgs[0], obj.transform.position);
+
 				    
 			}, (transform, module) =>
 			{
@@ -142,5 +139,10 @@ public class YohoNormalAttack : AttackBase
 	public override void OnAnimationStop(Actor self, AnimationEvent evt)
 	{
 		GameManager.instance.EnableCtrl();
+	}
+
+	public override int ListValue()
+	{
+		return 1;
 	}
 }

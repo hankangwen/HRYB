@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/07_Prefabs/HumanSkill/Lighting/HumanLightingAttack.prefab.meta
+guid: bfb0372ed6ff9ca4d81f4b7f244eda8a
+PrefabImporter:
+========
 guid: 77d7a57a7d0ae5e4a92dc9937fd0068e
 folderAsset: yes
 DefaultImporter:
+>>>>>>>> NewMain:Assets/02_Animations/Animations/ObjectAnims/EffAnims/SparkAnim.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

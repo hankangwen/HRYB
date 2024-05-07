@@ -39,7 +39,7 @@ public class FireArrowAtOnce : AttackBase
 		pos.x += Mathf.Cos(circularAngle * Mathf.Deg2Rad) * circularRad;
 		pos.y += Mathf.Sin(circularAngle * Mathf.Deg2Rad) * circularRad;
 		arrow = PoolManager.GetObject(arrowPrefabName, pos, relatedTransform.forward).GetComponent<Arrow>();
-		arrow.SetInfo(self.atk.Damage * damageMult, statEff, self);
+		//arrow.SetInfo(self.atk.Damage * _dmgs[0]._skillDamage, statEff, self);
 		(self.atk as PlayerAttack).onNextUse?.Invoke(arrow.gameObject);
 		(self.atk as PlayerAttack).onNextSkill?.Invoke(self, this);
 		arrow.SetHitEff((self.atk as PlayerAttack).onNextHit);
@@ -60,5 +60,10 @@ public class FireArrowAtOnce : AttackBase
 			arrow.transform.forward = relatedTransform.forward;
 		}
 		
+	}
+
+	public override int ListValue()
+	{
+		return 1;
 	}
 }

@@ -3,7 +3,12 @@ guid: ebd725a6082a3954fb1a7db06a3ab80c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beacon Fire Mat
+    second: {fileID: 2100000, guid: 3db9df85a33620d469d10d78a2add479, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

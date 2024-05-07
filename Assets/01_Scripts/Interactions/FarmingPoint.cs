@@ -18,6 +18,8 @@ public class FarmingPoint : MonoBehaviour, IInterable
 	public List<string> resItem;
 	public int amount;
 
+	
+
 	public string Name { get => transform.name; }
 	public bool IsInterable { get => isInterable; set => isInterable = value; }
 	public float InterTime { get => interTime; set => interTime = value; }

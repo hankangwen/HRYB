@@ -429,11 +429,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _1st2nd_Shades_Feather: 0.105
-    - _1st_ShadeColor_Feather: 0.111
-    - _1st_ShadeColor_Step: 0.228
-    - _2nd_ShadeColor_Feather: 0.105
-    - _2nd_ShadeColor_Step: 0.112
+    - _1st2nd_Shades_Feather: 0.4
+    - _1st_ShadeColor_Feather: 0.582
+    - _1st_ShadeColor_Step: 0.789
+    - _2nd_ShadeColor_Feather: 0.4
+    - _2nd_ShadeColor_Step: 0.411
     - _AAStrength: 1
     - _AORemapMax: 1
     - _AORemapMin: 0
@@ -507,8 +507,8 @@ Material:
     - _BacklightViewStrength: 1
     - _BaseColorOverridden: 0
     - _BaseColorVisible: 1
-    - _BaseColor_Step: 0.228
-    - _BaseShade_Feather: 0.111
+    - _BaseColor_Step: 0.789
+    - _BaseShade_Feather: 0.582
     - _Base_Speed: 0
     - _BeforeExposureLimit: 10000
     - _BitKey0: 0
@@ -636,7 +636,7 @@ Material:
     - _FirstShadeOverridden: 0
     - _FirstShadeVisible: 1
     - _FlipNormal: 0
-    - _GI_Intensity: 1
+    - _GI_Intensity: 0.07
     - _GSAAStrength: 0
     - _GlitterAngleRandomize: 0
     - _GlitterApplyShape: 0
@@ -664,7 +664,7 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
-    - _HighColor_Power: 0.163
+    - _HighColor_Power: 0.042
     - _HighlightOverridden: 0
     - _HighlightVisible: 1
     - _IDMask1: 0
@@ -888,7 +888,7 @@ Material:
     - _RimLightVisible: 1
     - _RimLight_FeatherOff: 0
     - _RimLight_InsideMask: 0.288
-    - _RimLight_Power: 0.3
+    - _RimLight_Power: 0.058
     - _RimMainStrength: 0
     - _RimNormalStrength: 1
     - _RimShadeBlur: 1
@@ -908,7 +908,7 @@ Material:
     - _SecondShadeOverridden: 0
     - _SecondShadeVisible: 1
     - _Set_SystemShadowsToBase: 1
-    - _ShadeColor_Step: 0.112
+    - _ShadeColor_Step: 0.411
     - _Shadow2ndBlur: 0.064
     - _Shadow2ndBorder: 0.144
     - _Shadow2ndNormalStrength: 1
@@ -1012,7 +1012,7 @@ Material:
     - _Tweak_MatcapMaskLevel: 0
     - _Tweak_RimLightMaskLevel: -0.73
     - _Tweak_ShadingGradeMapLevel: 0
-    - _Tweak_SystemShadowsLevel: 0
+    - _Tweak_SystemShadowsLevel: -0.382
     - _Tweak_transparency: 0
     - _UDIMDiscardCompile: 0
     - _UDIMDiscardMode: 0
@@ -1037,7 +1037,7 @@ Material:
     - _UVDetail: 0
     - _UVEmissive: 0
     - _UVSec: 0
-    - _Unlit_Intensity: 1
+    - _Unlit_Intensity: 0
     - _UseAnisotropy: 0
     - _UseAudioLink: 0
     - _UseBacklight: 0

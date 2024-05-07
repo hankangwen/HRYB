@@ -12,10 +12,19 @@ public class EnemyLifeModule : LifeModule
 	public float GetGrogeValue => _currentGrogeValue;
 	bool _isGroge;
 	public bool IsGroge => _isGroge;
+	[Header("JunGI")]
+	[SerializeField] bool _66PercentBlack = false;
+	[SerializeField] bool _66PercentWhite = false;
+	[SerializeField] bool _33PercentBlack = false;
+	[SerializeField] bool _33PercentWhite = false;
+	[SerializeField] bool _isDie = false;
+
 	public override void Awake()
 	{
 		base.Awake();
 		_currentGrogeValue = _grogeInitValue;
+
+		_dieEvent += OutJeungGi;
 	}
 	public override void Update()
 	{
@@ -30,6 +39,8 @@ public class EnemyLifeModule : LifeModule
 				_isGroge = false;
 			}
 		}
+
+
 	}
 	
 	public void DoGrogeDamage(float value)
@@ -47,19 +58,51 @@ public class EnemyLifeModule : LifeModule
 
 	public override void DamageYY(float black, float white, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel = DamageChannel.None)
 	{
-		OutJeungGi(black, white);
 		base.DamageYY(black, white, type, dur, tick, attacker, channel);
+		OutJeungGi();
 	}
 
 	public override void DamageYY(YinYang data, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel = DamageChannel.None)
 	{
 
-		OutJeungGi(data.black, data.white);
 		base.DamageYY(data, type, dur, tick, attacker, channel);
+		OutJeungGi();
 	}
 
-	public void OutJeungGi(float black, float white)
+	public void OutJeungGi()
 	{
+		if(initYinYang.white * 0.66f > yy.white && _66PercentWhite ==false)
+		{
+			_66PercentWhite = true;
+			OutValue(initYinYang.white * 0.2f);
+		}
+		if (initYinYang.white * 0.33f > yy.white && _33PercentWhite == false)
+		{
+			_33PercentWhite = true;
+			OutValue(initYinYang.white * 0.2f);
+		}
+		if(yy.white <= 0)
+		{
+			OutValue(initYinYang.white * 0.2f);
+		}
+
+		if (initYinYang.black * 0.66f > yy.black && _66PercentBlack == false)
+		{
+			_66PercentBlack = true;
+			OutValue(initYinYang.black * 0.2f);
+		}
+		if (initYinYang.black * 0.33f > yy.black && _33PercentBlack == false)
+		{
+			_33PercentBlack = true;
+			OutValue(initYinYang.black * 0.2f);
+		}
+
+		if (yy.black <= 0)
+		{
+			OutValue(initYinYang.black * 0.2f);
+		}
+
+		/*
 		if (black > 0)
 		{
 			if (yy.black - black > 0)
@@ -81,16 +124,13 @@ public class EnemyLifeModule : LifeModule
 			{
 				OutValue(yy.white / 10);
 			}
-		}
+		}*/
 	}
 
 	void OutValue(float t)
 	{
-		float x = Random.Range(-2.0f, 2.0f);
-		float y = Random.Range(0.4f, 0.6f);
-		float z = Random.Range(-2.0f, 2.0f);
-		Vector3 vec = transform.position + new Vector3(x, y, z);
-		GameObject obj = PoolManager.GetObject("JunGI", vec, transform.rotation);
+
+		GameObject obj = PoolManager.GetObject("JunGI", transform.position + new Vector3(0,0.5f,0), Quaternion.identity);
 		obj.transform.parent = null;
 
 		if(t < 0)
@@ -98,17 +138,10 @@ public class EnemyLifeModule : LifeModule
 			t *= -1;
 		}
 
-		if (obj.TryGetComponent<ColliderCast>(out ColliderCast cols))
-		{
-			cols.Now(transform, (_life) =>
-			{
-				if (_life.TryGetComponent<PlayerLife>(out PlayerLife pl))
-				{
-					pl.yy.black += t;
-					cols.End();
-				}
-			});
-		}
+		obj.GetComponent<JungGI>().Init(transform.position, t);
+
+
+
 	}
 }
 

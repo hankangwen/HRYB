@@ -37,7 +37,7 @@ public class ShootArrowContinuous : AttackBase
 		localRot.y += Random.Range(-angleJitterAmt, angleJitterAmt);
 		r.transform.localEulerAngles = localRot;
 		//UnityEditor.EditorApplication.isPaused = true;
-		r.SetInfo(self.atk.Damage * damageMult, statEff, self);
+		//r.SetInfo(self.atk.Damage * _dmgs[0]._skillDamage, statEff, self);
 		(self.atk as PlayerAttack).onNextUse?.Invoke(r.gameObject);
 		(self.atk as PlayerAttack).onNextSkill?.Invoke(self, this);
 		r.SetHitEff((self.atk as PlayerAttack).onNextHit);
@@ -48,5 +48,10 @@ public class ShootArrowContinuous : AttackBase
 		}
 		r.Shoot(aMode);
 		GameManager.instance.audioPlayer.PlayPoint(audioClipName, self.transform.position);
+	}
+
+	public override int ListValue()
+	{
+		return 1;
 	}
 }

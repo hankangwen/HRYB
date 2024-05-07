@@ -49,6 +49,19 @@ public class PlayerLife : LifeModule
 		};
 	}
 
+	public IEnumerator JunGIUP(float t)
+	{
+		// t == 총 회복량
+		float time = 0;
+		while(time <= 0.5f)
+		{
+			yield return null;
+			time += Time.deltaTime;
+			yy.black += t * Time.deltaTime * 2;
+
+		}
+	}
+
 	protected override IEnumerator PlayWakeAgain(float t)
 	{
 		GameManager.instance.DisableCtrl(false);
