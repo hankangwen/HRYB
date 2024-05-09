@@ -346,58 +346,7 @@ public class LifeModule : Module
 
 	public virtual void DamageYY(float black, float white, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel= DamageChannel.None)
 	{
-		_isFirstHit = true;
-		//Debug.Log("ATK : " + attacker);
-		YinYang data = new YinYang(black, white);
-		
-		switch (type)
-		{
-			case DamageType.DirectHit:
-				if (!(isImmune))
-				{
-					DamageYYBase(data);
-					if (!superArmor)
-					{
-						GetActor().anim.SetHitTrigger();
-						_hitEvent?.Invoke();
-					}
-					StatusEffects.ApplyStat(GetActor(), attacker, StatEffID.Immune, IMMUNETIME);
-					onNextDamaged?.Invoke(GetActor(), attacker, data);
-				}
-				break;
-			case DamageType.DotDamage:
-			case DamageType.Continuous:
-				//
-				ongoingTickDamages[((int)channel)].Add(StartCoroutine(DelDmgYYWX(data, dur, tick, type, channel)));
-				break;
-			case DamageType.NoEvadeHit:
-				DamageYYBase(data);
-				if (!superArmor)
-				{
-					GetActor().anim.SetHitTrigger();
-				}
-				StatusEffects.ApplyStat(GetActor(), attacker, StatEffID.Immune, IMMUNETIME);
-				onNextDamaged?.Invoke(GetActor(), attacker, data);
-				_hitEvent?.Invoke();
-				break;
-			case DamageType.NoHit:
-				if (!(isImmune))
-				{
-					DamageYYBase(data);
-					StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, IMMUNETIME);
-					onNextDamaged?.Invoke(GetActor(), attacker, data);
-				}
-				break;
-			default:
-				break;
-		}
-		if(attacker == GameManager.instance.pActor)
-		{
-			GameManager.instance.recentDamage = white;
-			GameManager.instance.recentDamageType = type;
-			GameManager.instance.recentEnemy = GetActor();
-			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.DefeatTarget, GetActor().name);
-		}
+		DamageYY(new YinYang(black, white), type, dur, tick, attacker, channel);
 	}
 
 	public virtual void DamageYY(YinYang data, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel = DamageChannel.None)

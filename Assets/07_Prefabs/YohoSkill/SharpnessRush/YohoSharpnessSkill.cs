@@ -39,6 +39,7 @@ public class YohoSharpnessSkill : AttackBase
 			_cols = null;
 		}
 
+
 		string[] tt = evt.stringParameter.Split("$");
 		switch (tt[0])
 		{
@@ -101,6 +102,7 @@ public class YohoSharpnessSkill : AttackBase
 			_cols.Now(self.transform, (_life) =>
 			{
 				CameraManager.instance.ShakeCamFor(0.08f, 2, 2);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
 				DoDamage(_life.GetActor(), self, _dmgs[0], obj.transform.position);
 				_life.GetActor().move.forceDir = self.transform.forward * 0.4f + new Vector3(0,0.5f,0);
 			},

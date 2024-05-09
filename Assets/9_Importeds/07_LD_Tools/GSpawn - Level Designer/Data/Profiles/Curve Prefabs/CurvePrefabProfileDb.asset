@@ -33,13 +33,12 @@ MonoBehaviour:
   m_Name: CurvePrefabProfileDbUI_PrefabViewState
   m_EditorClassIdentifier: 
   selectedItems:
-    _serializedList:
-    - _guidString: 0756c466-ae1b-4fba-ac4d-d693b69334b1
+    _serializedList: []
   selectRangeBeginId:
     _guidString: 0756c466-ae1b-4fba-ac4d-d693b69334b1
   selectRangeEndId:
     _guidString: 0756c466-ae1b-4fba-ac4d-d693b69334b1
-  hasSelectRange: 1
+  hasSelectRange: 0
   scrollOffset: {x: 0, y: 0}
   vertScrollHighValue: 0
   vertScrollLowValue: 0

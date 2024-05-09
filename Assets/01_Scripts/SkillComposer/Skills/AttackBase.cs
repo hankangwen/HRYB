@@ -66,7 +66,7 @@ public abstract class AttackBase : Leaf
 
 
 
-	protected virtual void DoDamage(Actor to, Actor by, DamageSettings value, Vector3 vec = new Vector3())
+	protected virtual void DoDamage(Actor to, Actor by, DamageSettings value, Vector3 vec = new Vector3(), float AddValue = 1)
 	{
 		Vector3 pos = to.transform.position;
 
@@ -76,8 +76,8 @@ public abstract class AttackBase : Leaf
 		}
 
 
-		float white = by.atk.Damage.white * value.white;
-		float black = by.atk.Damage.black * value.black;
+		float white = by.atk.Damage.white * value.white * AddValue;
+		float black = by.atk.Damage.black * value.black * AddValue;
 
 		Debug.LogError($"DMGS : {value.white} | {value.black}");
 
@@ -95,6 +95,7 @@ public abstract class AttackBase : Leaf
 		if (to.TryGetComponent<EnemyLifeModule>(out EnemyLifeModule eme))
 		{
 			eme.DoGrogeDamage(value._grogeDamage);
+			eme.AddComboDamage(value._comboDamage);
 		}
 
 

@@ -1,4 +1,4 @@
-using GSpawn;
+
 using MalbersAnimations;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +23,8 @@ public class JungGI : MonoBehaviour
 
 		forceDir = new Vector3(x,y,z);
 		_init = true;
+		_goPlayer = false;
+		_followPlayer = false;
 	}
 
 	private void FixedUpdate()
@@ -60,7 +62,6 @@ public class JungGI : MonoBehaviour
 	}
 	IEnumerator FollowingDelay(float t)
 	{
-		yield return new WaitForSeconds(t);
 		if (gameObject.TryGetComponent<ColliderCast>(out ColliderCast cols))
 		{
 			cols.Now(transform, (_life) =>
@@ -68,12 +69,13 @@ public class JungGI : MonoBehaviour
 				if (_life.TryGetComponent<PlayerLife>(out PlayerLife pl))
 				{
 
-					pl.StartCoroutine(pl.JunGIUP(t));
-					cols.End();
+					pl.StartCoroutine(pl.JunGIUP(cols, t));
+
 				}
 			});
 		}
 
+		yield return new WaitForSeconds(t);
 		_goPlayer = true;
 	}
 

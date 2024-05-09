@@ -23,5 +23,9 @@ MonoBehaviour:
   - id: 10
     power: 0
     duration: 3
-  damageMult: 0.4
   relateTrmName: 
+  _dmgs:
+  - black: 1
+    white: 1
+    _grogeDamage: 0
+    _comboDamage: 100
