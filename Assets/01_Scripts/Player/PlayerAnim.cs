@@ -39,6 +39,8 @@ public class PlayerAnim : AnimModule
 
 	internal Composite curEquipped;
 
+	
+
 	public override void Awake()
 	{
 		Animator[] anims = GetComponentsInChildren<Animator>();
@@ -48,6 +50,7 @@ public class PlayerAnim : AnimModule
 	private void Start()
 	{
 		pmove = GetActor().move as PlayerMove;
+		
 	}
 
 	internal void SetLoopState()
@@ -60,9 +63,13 @@ public class PlayerAnim : AnimModule
 		anim.SetBool(loopAfterHash, false);
 	}
 
+	
+
 	private void LateUpdate()
 	{
-		if(!GetActor().move.idling)
+		
+
+		if (!GetActor().move.idling)
 		{
 			switch (CameraManager.instance.curCamStat)
 			{

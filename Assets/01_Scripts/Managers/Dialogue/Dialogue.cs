@@ -8,6 +8,8 @@ using Unity.VisualScripting;
 [CreateAssetMenu(menuName = "대화/일반")]
 public class Dialogue : ScriptableObject
 {
+	public const string DIALOGUEPATH = "Dialogues/";
+
 	public string text;
 	public float typeDel;
 
@@ -22,7 +24,7 @@ public class Dialogue : ScriptableObject
 
 	public virtual Dialogue Copy()
 	{
-		Dialogue ret = new Dialogue();
+		Dialogue ret = CreateInstance<Dialogue>();
 		ret.text = text;
 		ret.typeDel = typeDel;
 		ret.owner = owner;

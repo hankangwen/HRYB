@@ -31,6 +31,10 @@ public class PlayerAnimActions : MonoBehaviour
 	readonly int fireHash = Animator.StringToHash("Fire");
 	readonly int formHash = Animator.StringToHash("Form");
 
+
+	Ray rayCache;
+	RaycastHit hitCache;
+
 	private void Awake()
 	{
 		self = GetComponentInParent<Actor>();
@@ -59,6 +63,35 @@ public class PlayerAnimActions : MonoBehaviour
 	{
 		transform.localPosition = new Vector3(0, 0, 0);
 		transform.localRotation = UnityEngine.Quaternion.identity;
+	}
+
+	private void OnAnimatorIK(int layerIndex)
+	{
+		return;
+		if(!self)
+			return;
+
+		animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
+		animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
+		animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
+		animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
+
+		rayCache = new Ray(animator.GetIKPosition(AvatarIKGoal.LeftFoot) + Vector3.up, Vector3.down);
+		if (Physics.Raycast(rayCache, out hitCache, self.move.groundThreshold, 1 << GameManager.GROUNDLAYER))
+		{
+			Vector3 p = hitCache.point;
+			p.y -= self.move.groundThreshold;
+			animator.SetIKPosition(AvatarIKGoal.LeftFoot, hitCache.point);
+			animator.SetIKRotation(AvatarIKGoal.LeftFoot, UnityEngine.Quaternion.LookRotation(transform.forward, hitCache.normal));
+		}
+		rayCache = new Ray(animator.GetIKPosition(AvatarIKGoal.RightFoot) + Vector3.up, Vector3.down);
+		if (Physics.Raycast(rayCache, out hitCache, self.move.groundThreshold, 1 << GameManager.GROUNDLAYER))
+		{
+			Vector3 p = hitCache.point;
+			p.y -= self.move.groundThreshold;
+			animator.SetIKPosition(AvatarIKGoal.RightFoot, hitCache.point);
+			animator.SetIKRotation(AvatarIKGoal.RightFoot, UnityEngine.Quaternion.LookRotation(transform.forward, hitCache.normal));
+		}
 	}
 
 	public void LoadArrow()

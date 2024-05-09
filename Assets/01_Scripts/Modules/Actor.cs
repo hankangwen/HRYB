@@ -72,4 +72,37 @@ public class Actor : MonoBehaviour
 		anim.ResetStatus();
 		talk?.ResetStatus();
 	}
+
+	public void AddStat(float amt, StatUpgradeType type)
+	{
+		switch (type)
+		{
+			case StatUpgradeType.White:
+				life.initYinYang.white += amt;
+				life.yy.white += amt;
+				break;
+			case StatUpgradeType.Black:
+				life.initYinYang.black += amt;
+				life.yy.black += amt;
+				break;
+			case StatUpgradeType.WhiteAtk:
+				atk.initDamage.white += amt;
+				atk.Damage.white += amt;
+				break;
+			case StatUpgradeType.BlackAtk:
+				atk.initDamage.black += amt;
+				atk.Damage.black += amt;
+				break;
+			case StatUpgradeType.MoveSpeed:
+				move.moveModuleStat.HandleSpeed(-amt, ModuleController.SpeedMode.Slow); //공식이 있나?
+				break;
+			case StatUpgradeType.CooldownRdc:
+				cast.cooldownModuleStat.HandleSpeed(amt, ModuleController.SpeedMode.Slow);
+				break;
+			case StatUpgradeType.Callback:
+				break;
+			default:
+				break;
+		}
+	}
 }

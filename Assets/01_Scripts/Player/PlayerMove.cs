@@ -84,8 +84,8 @@ public class PlayerMove : MoveModule
 		{
 			if (Physics.Raycast(transform.position + new Vector3(0, 0.1f, 0), Vector3.down, groundThreshold, (1 << GameManager.GROUNDLAYER) | (1 << GameManager.ENEMYLAYER)))
 			{
-				//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.cyan, 1000f);
 				return true;
+				//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.cyan, 1000f);
 			}
 			//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.red, 1000f);
 			return false;
@@ -276,6 +276,34 @@ public class PlayerMove : MoveModule
 		if (moveStat == MoveStates.Climb)
 		{
 			CalcClimbState();
+		}
+	}
+
+	public override void GravityCalc()
+	{
+		if (isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundThreshold + 0.2f, 1 << GameManager.GROUNDLAYER | 1 << GameManager.ENEMYLAYER))
+		{
+			PlayerTeleport(hit.point);
+		}
+
+		if (gravity && !isGrounded)
+		{
+			forceDir -= Vector3.up * GameManager.GRAVITY * Time.deltaTime;
+		}
+		else if (IsActualGrounded && forceDir.y < 0)
+		{
+			Vector3 v = forceDir;
+			v.y = 0;
+			forceDir = v;
+		}
+		if (forced && !isGrounded)
+		{
+			forceFlied = true;
+		}
+		if (forceFlied && isGrounded)
+		{
+			forced = false;
+			forceFlied = false;
 		}
 	}
 
@@ -493,7 +521,7 @@ public class PlayerMove : MoveModule
 			pAttack.target = null;
 		}
 
-		ctrl.Move((dir) * Time.fixedDeltaTime);
+		ctrl.Move((dir) * Time.fixedDeltaTime * 0); //####
 
 		
 		

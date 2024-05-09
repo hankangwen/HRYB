@@ -25,7 +25,15 @@ public class Character : ScriptableObject
 
 	private void Awake()
 	{
-		dia = initDia.Copy();
+		DoInit();
+	}
+
+	public void DoInit()
+	{
+		if(initDia != null)
+		{
+			dia = initDia.Copy();
+		}
 	}
 
 	public void SetDialogue(Dialogue dia)
@@ -44,5 +52,6 @@ public class Character : ScriptableObject
 		//GameManager.instance.uiManager.dialogueUI.talker = this;
 		Debug.Log($"{FullName}이 말하는 중 ...");
 		dia.OnShown(this);
+
 	}
 }

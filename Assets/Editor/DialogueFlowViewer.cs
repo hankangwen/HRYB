@@ -140,12 +140,12 @@ public class DialogueFlowViewer : EditorWindow
 {
 	static List<string> allDialogueHeads;
 
-	static string curShown;
-	static DialogueTree curTree;
+	string curShown;
+	DialogueTree curTree;
 
 	int selectedIdx = 0;
 
-	const string DIALOGUEPATH = "Dialogues/";
+	
 
 	public const int NODESIZEX = 160;
 	public const int NODESIZEY = 100;
@@ -156,17 +156,11 @@ public class DialogueFlowViewer : EditorWindow
 	public const int SUBNODEX = 90;
 	public const int SUBNODEY = 50;
 
-	[MenuItem("대화/대화 플로우 확인하기")]
+	[MenuItem("NPC/대화 플로우 확인하기")]
 	public static void DoShow()
 	{
+		allDialogueHeads = new List<string>(DialogueLoader.ConversationDialoguePair.Keys);
 		EditorWindow.GetWindow(typeof(DialogueFlowViewer));
-		allDialogueHeads = new List<string>();
-		string[] res = (Directory.GetFiles($"{QuestManager.ASSETPATH}{DIALOGUEPATH}", "*.meta", SearchOption.TopDirectoryOnly));
-		int pLeng = $"{QuestManager.ASSETPATH}{DIALOGUEPATH}".Length;
-		foreach (var item in res)
-		{
-			allDialogueHeads.Add(item.Substring(pLeng).Split('.')[0]);
-		}
 	}
 
 	private void OnGUI()
@@ -176,8 +170,7 @@ public class DialogueFlowViewer : EditorWindow
 
 		if(curShown != "")
 		{
-			Dialogue[] dia = Resources.LoadAll<Dialogue>($"{DIALOGUEPATH}{curShown}/");
-			curTree = new DialogueTree(dia[0]);
+			curTree = new DialogueTree( DialogueLoader.ConversationDialoguePair[curShown] );
 
 
 			GUIStyle nodeSt = new GUIStyle();
