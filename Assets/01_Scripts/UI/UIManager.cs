@@ -5,6 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using GSpawn;
+using System.Linq;
+
+
+
+
+
+
 
 
 
@@ -46,8 +54,15 @@ using Unity.VisualScripting;
 
 	public TMPro.TextMeshProUGUI debugText;
 
+	public Transform GetitemUITransform;
+
     public int DragPoint;
     public int DropPoint;
+
+	public List<GetItemBack> getItemList = new List<GetItemBack>();
+
+	public Transform getUIDefault;
+	float getUITime = 0.3f;
 
 	public bool isWholeScreenUIOn
 	{
@@ -60,8 +75,12 @@ using Unity.VisualScripting;
 	List<SlotUI> uis = new List<SlotUI>();
 	List<QuickSlot> quickSlot = new List<QuickSlot>();
 
+	public List<RectTransform> getItemUiSlot = new List<RectTransform>();
+
 	private void Awake()
 	{
+		getUIDefault = GameObject.Find("GetItemTransform").transform;
+		GetitemUITransform = GameObject.Find("GetItemGroup").transform;
 		canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 		invenPanel = canvas.transform.Find("ToolPanel").gameObject;
 		optionPanel = canvas.transform.Find("OptionUI").gameObject;
@@ -86,6 +105,9 @@ using Unity.VisualScripting;
 
 		invenPanel.SetActive(true);
 		optionPanel.SetActive(false);
+
+		getItemUiSlot = GetitemUITransform.GetComponentsInChildren<RectTransform>().ToList();
+		getItemUiSlot.RemoveAt(0); //GetitemUITransform 제거
 	}
 
 	private void Start()
@@ -200,5 +222,29 @@ using Unity.VisualScripting;
 	public void OnCanvas()
 	{
 		canvas.gameObject.SetActive(true);
+	}
+
+
+	int ListCnt = 3;
+
+
+	public void RefreshGetItemQ(GetItemBack obj)
+	{
+		//TO DO by 정유철
+		/*
+		 * 1. 아이템을 먹으면 UI를 소환!
+		 * 2. 받은 아이템 정보를 표기해주고 3초뒤에 사라지게 한다.
+		 * 3. 만약에 새로운 아이템을 획득하여 또 UI가 소환된다면 전의 UI는 한칸 내린다.
+		 * 4. 또 만약에 위에 3개가 있다면 즉시 사라지게 한다.
+		*/
+
+
+		for (int i = getItemList.Count-1; i >= 0; i--) // 뒤로 쌓임을 이용
+		{
+			getItemList[i].Move();
+		}
+
+		getItemList.Add(obj);
+
 	}
 }

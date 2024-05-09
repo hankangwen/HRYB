@@ -539,8 +539,11 @@ public class GameManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.P))
 		{
 			GameManager.instance.pinven.AddItem(Item.GetItem("인삼"), 1);
-			GameManager.instance.pinven.AddItem(Item.GetItem("밧줄"), 1);
-			GameManager.instance.pinven.AddItem(Item.GetItem("녹각"), 1);
+			GameManager.instance.pinven.AddItem(Item.GetItem("녹각"), 2);
+		}
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			GameManager.instance.pinven.AddItem(Item.GetItem("밧줄"), 3);
 		}
 
 
@@ -667,4 +670,6 @@ public class GameManager : MonoBehaviour
 			globalStringBuilderUsing = false;
 		}
 	}
+
+
 }

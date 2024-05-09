@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +9,16 @@ public class CollectionButtonUI : MonoBehaviour
 {
 	Image img;
 	TextMeshProUGUI itemName;
-	Item connected;
-	public void SetInfo(Item i)
+	GameObject mask;
+	ItemCollection connected;
+
+	string name;
+
+	
+	public void SetInfo(ItemCollection i)
 	{
-		Debug.LogError("Set");
 		connected = i;
+
 		if (img == null)
 		{
 			img = transform.Find("Image").GetComponent<Image>();
@@ -22,15 +28,34 @@ public class CollectionButtonUI : MonoBehaviour
 
 			itemName = transform.Find("Name").GetComponent<TextMeshProUGUI>();
 		}
+		if(mask == null)
+		{
+			mask = transform.Find("Image/ImageMask").gameObject;
+		}
+		
+		
+		img.sprite = connected.myItem.icon;
 
-		img.sprite = connected.icon;
-		itemName.text = connected.MyName;
+		if(i.discovered)
+		{
+			mask.SetActive(false);
+			itemName.text = connected.myItem.MyName;
+		}
+		else
+		{
+			mask.SetActive(true);
+			itemName.text = "???";
+		}
+	}
+
+	public void RefreshInfo()
+	{
+		SetInfo(connected);
 	}
 
 	public void OnClick()
 	{
 
-		if(connected is YinyangItem yinyang)
-		GameManager.instance.uiManager.yinyangitemDetail.SetInfo(yinyang);
+		GameManager.instance.uiManager.yinyangitemDetail.SetInfo(connected);
 	}
 }

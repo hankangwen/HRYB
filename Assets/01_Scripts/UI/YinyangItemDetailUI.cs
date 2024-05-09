@@ -7,25 +7,38 @@ using UnityEngine.UI.Extensions;
 
 public class YinyangItemDetailUI : MonoBehaviour
 {
-	YinyangItem cur;
+	ItemCollection cur;
 
 	Image image;
+	
 	TextMeshProUGUI itemName;
 	TextMeshProUGUI itemDesc;
+	
 	UIPolygon statPolygon;
+	
 	Image moistGauge;
 	Image poisonGauge;
 
+	GameObject maskItem;
+	GameObject maskGroup;
+	List<GameObject> buttons = new List<GameObject>();
 
 	Transform content;
 
-	public const string MAKABLEITEM = "CollectionItem";
+	public const string MAKABLEITEM = "GettableItem";
 	private void Awake()
 	{
 		gameObject.SetActive(false);
 	}
-	public void SetInfo(YinyangItem item)
+	public void SetInfo(ItemCollection item)
 	{
+
+		for (int i = 0; i < buttons.Count; i++)
+		{
+			PoolManager.ReturnObject(buttons[i]);
+		}
+		buttons.Clear();
+
 		if (image == null)
 		{
 			image = transform.Find("Img/ItemImg").GetComponent<Image>();
@@ -40,7 +53,7 @@ public class YinyangItemDetailUI : MonoBehaviour
 		}
 		if (content == null)
 		{
-			content = transform.Find("ItemBack/ResultView/Content");
+			content = transform.Find("ItemBack/ResultView/Viewport/Content");
 		}
 		if (statPolygon == null)
 		{
@@ -54,35 +67,55 @@ public class YinyangItemDetailUI : MonoBehaviour
 		{
 			poisonGauge = transform.Find("StatBack/PoisonGauge").GetComponent<Image>();
 		}
+		if (maskItem == null)
+		{
+			maskItem = transform.Find("Img/ItemImg/ItemMask").gameObject;
+		}
+		if (maskGroup == null)
+		{
+			maskGroup = transform.Find("StatBack/MaskGroup").gameObject;
+		}
 
 		gameObject.SetActive(true);
 
-		image.sprite = item.icon;
-		itemName.text = item.MyName;
-		itemDesc.text = item.desc;
-		statPolygon.VerticesDistances[0] = item.detailParams[DetailParameter.Sweet];
-		statPolygon.VerticesDistances[1] = item.detailParams[DetailParameter.Sour];
-		statPolygon.VerticesDistances[2] = item.detailParams[DetailParameter.Bitter];
-		statPolygon.VerticesDistances[3] = item.detailParams[DetailParameter.Salty];
-		statPolygon.VerticesDistances[4] = item.detailParams[DetailParameter.Spicy];
+		
+
+		image.sprite = item.myItem.icon;
+		itemName.text = item.myItem.MyName;
+		itemDesc.text = item.myItem.desc;
+		statPolygon.VerticesDistances[0] = ((YinyangItem)item.myItem).detailParams[DetailParameter.Sweet];
+		statPolygon.VerticesDistances[1] = ((YinyangItem)item.myItem).detailParams[DetailParameter.Sour];
+		statPolygon.VerticesDistances[2] = ((YinyangItem)item.myItem).detailParams[DetailParameter.Bitter];
+		statPolygon.VerticesDistances[3] = ((YinyangItem)item.myItem).detailParams[DetailParameter.Salty];
+		statPolygon.VerticesDistances[4] = ((YinyangItem)item.myItem).detailParams[DetailParameter.Spicy];
 		statPolygon.SetVerticesDirty();
-		moistGauge.fillAmount = item.detailParams[DetailParameter.Moist];
-		poisonGauge.fillAmount = item.detailParams[DetailParameter.Poison];
+		moistGauge.fillAmount = ((YinyangItem)item.myItem).detailParams[DetailParameter.Moist];
+		poisonGauge.fillAmount = ((YinyangItem)item.myItem).detailParams[DetailParameter.Poison];
 
-		foreach (ItemAmountPair i in Crafter.recipeItemTableTrim.Keys)
+		foreach (Item i in item.ResultItems)
 		{
-			if(i.info.originalName == item.originalName)
-			{
+			
 
-				//HashSet<ItemAmountPair>
-				//Crafter.recipeItemTableTrim[i];
+			if(i is YinyangItem)
+			{
 				GameObject g = PoolManager.GetObject(MAKABLEITEM, content);
 				CollectionButtonUI btn = g.GetComponent<CollectionButtonUI>();
-				btn.SetInfo(item as YinyangItem);
-				//buttons.Add(g);
+				btn.SetInfo(GameManager.instance.pedia.materialCollections[(YinyangItem)i]);
+				buttons.Add(g);
 			}
 		}
-		
+
+		if (item.discovered)
+		{
+			maskItem.SetActive(false);
+			maskGroup.SetActive(false);
+		}
+		else
+		{
+			maskItem.SetActive(true);
+			maskGroup.SetActive(true);
+		}
+
 		cur = item;
 
 	}

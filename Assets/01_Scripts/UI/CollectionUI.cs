@@ -1,27 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static MalbersAnimations.UI.StatMonitorUI;
 using static UnityEditor.Progress;
 
 public class CollectionUI : MonoBehaviour, IOpenableWindowUI
 {
 	Transform content;
 	public const string COLLECTIONBUTTON = "CollectionItem";
-	
 	List<GameObject> buttons = new List<GameObject>();
+
+	
 
 	private void Awake()
 	{
 		content = transform.Find("ItemView/Viewport/Content");
+		
 	}
 
 	public void OnOpen()
 	{
-		foreach (Item item in Item.AllYinyangItems.Values)
+		foreach (ItemCollection item in GameManager.instance.pedia.materialCollections.Values)
 		{
 			GameObject g = PoolManager.GetObject(COLLECTIONBUTTON, content);
 			CollectionButtonUI btn = g.GetComponent<CollectionButtonUI>();
-			btn.SetInfo(item as YinyangItem);
+			btn.SetInfo(item);
 			buttons.Add(g);
 		}
 	}
@@ -37,11 +40,25 @@ public class CollectionUI : MonoBehaviour, IOpenableWindowUI
 
 	public void WhileOpening()
 	{
-		
 	}
 
 	public void Refresh()
 	{
-		
+		for (int i = 0; i < buttons.Count; i++)
+		{
+			if(buttons[i].GetComponent<CollectionButtonUI>() != null)
+			{
+				buttons[i].GetComponent<CollectionButtonUI>().RefreshInfo();
+			}
+
+
+			if(buttons[i].GetComponent<YinyangItemDetailUI>() != null)
+			{
+				buttons[i].GetComponent<YinyangItemDetailUI>().RefreshInfo();
+			}
+
+			
+			
+		}
 	}
 }
