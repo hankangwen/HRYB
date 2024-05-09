@@ -145,6 +145,12 @@ public class EnemyLifeModule : LifeModule
 
 
 	}
+
+	public void AddComboDamage(float t)
+	{
+		// 나중에 엘리트몹 보스몹 나눠주기
+		GameManager.instance.ComboRankManager.AddValue(t);
+	}
 }
 
 

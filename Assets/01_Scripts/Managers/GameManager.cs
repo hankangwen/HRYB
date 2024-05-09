@@ -294,6 +294,7 @@ public class GameManager : MonoBehaviour
 
 	public Transform outCaveTmp;
 
+	public ComboRank ComboRankManager;
 	
 	
 
@@ -338,6 +339,10 @@ public class GameManager : MonoBehaviour
 		uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 		terrain = GameObject.Find("Terrain").GetComponentInChildren<Terrain>();
 		audioPlayer = GameObject.Find("AudioManager").GetComponent<AudioPlayer>();
+
+		ComboRankManager = GameObject.Find("ComboRankManager").GetComponent<ComboRank>();
+
+
 		//sManager = GameObject.Find("SectionManager").GetComponent<SectionManager>();
 		//timeliner = GameObject.Find("Timeliner").GetComponent<PlayableDirector>(); //////////#####타임라인매니저?????
 		//timeliner2 = GameObject.Find("Timeliner2").GetComponent<PlayableDirector>();

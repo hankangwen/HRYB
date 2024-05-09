@@ -480,7 +480,8 @@ public class StatusEffects
 			{
 				for (int i = 0; i < effs.Count; i++)
 				{
-					PoolManager.ReturnObject(effs[i]);
+					if (effs[i] != null)
+						PoolManager.ReturnObject(effs[i]);
 				}
 			}
 		}

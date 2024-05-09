@@ -95,6 +95,7 @@ public abstract class AttackBase : Leaf
 		if (to.TryGetComponent<EnemyLifeModule>(out EnemyLifeModule eme))
 		{
 			eme.DoGrogeDamage(value._grogeDamage);
+			eme.AddComboDamage(value._comboDamage);
 		}
 
 
