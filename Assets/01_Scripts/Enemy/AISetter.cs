@@ -32,6 +32,7 @@ public abstract class AISetter : MonoBehaviour
 		Vector3 lookPos = t.position - transform.position;
 		lookPos.y = transform.position.y;
 		transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookPos), Time.deltaTime * 40);
+		transform.rotation = new Quaternion(0, transform.rotation.y, 0, 1);
 	}
 
 	public virtual void DieEvent()

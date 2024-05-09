@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdc5f1e3ddab65418bb342193ece696, type: 3}
   m_Name: ObjectGroupDb
   m_EditorClassIdentifier: 
-  _actionFilters: {fileID: 0}
+  _actionFilters: {fileID: 4559385284044771512}
   _sceneToObjectGroups:
     _serializedKeys: []
     _serializedValues: []
@@ -43,3 +43,18 @@ MonoBehaviour:
   scrollOffset: {x: 0, y: 0}
   vertScrollHighValue: 0
   vertScrollLowValue: 0
+--- !u!114 &4559385284044771512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e65aff9267f84c04e9ceb3f9b5e44777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _belowGrid: 1
+  _aboveGrid: 1
+  _onGrid: 1
