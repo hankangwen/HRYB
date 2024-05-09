@@ -41,14 +41,15 @@ public class YohoSharpnessSkill : AttackBase
 
 
 		string[] tt = evt.stringParameter.Split("$");
+		EffectObject eff=null;
 		switch (tt[0])
 		{
 			case "1":
 				{
 					GameObject obj1 = PoolManager.GetObject("YusungSmithleft", self.transform);
-					if (obj1.TryGetComponent<EffectObject>(out EffectObject eff1))
+					if (obj1.TryGetComponent<EffectObject>(out eff))
 					{
-						eff1.Begin();
+						eff.Begin();
 						self.StartCoroutine(DeleteObj(obj1));
 					}
 
@@ -58,9 +59,9 @@ public class YohoSharpnessSkill : AttackBase
 			case "2":
 				{
 					GameObject obj2 = PoolManager.GetObject("YusungSmithright", self.transform);
-					if (obj2.TryGetComponent<EffectObject>(out EffectObject eff2))
+					if (obj2.TryGetComponent<EffectObject>(out eff))
 					{
-						eff2.Begin();
+						eff.Begin();
 						self.StartCoroutine(DeleteObj(obj2));
 					}
 				}
@@ -68,9 +69,9 @@ public class YohoSharpnessSkill : AttackBase
 			case "3":
 				{
 					GameObject obj1 = PoolManager.GetObject("YusungSmithleft", self.transform);
-					if (obj1.TryGetComponent<EffectObject>(out EffectObject eff1))
+					if (obj1.TryGetComponent<EffectObject>(out eff))
 					{
-						eff1.Begin();
+						eff.Begin();
 						self.StartCoroutine(DeleteObj(obj1));
 					}
 					
@@ -80,9 +81,20 @@ public class YohoSharpnessSkill : AttackBase
 			case "4":
 				{
 					GameObject obj2 = PoolManager.GetObject("YusungSmithright", self.transform);
-					if (obj2.TryGetComponent<EffectObject>(out EffectObject eff2))
+					if (obj2.TryGetComponent<EffectObject>(out eff))
 					{
-						eff2.Begin();
+						eff.Begin();
+						self.StartCoroutine(DeleteObj(obj2));
+					}
+					//GameManager.instance.audioPlayer.PlayPoint("CrawLow", self.transform.position);
+				}
+				break;
+			default:
+				{
+					GameObject obj2 = PoolManager.GetObject("YusungSmithright", self.transform);
+					if (obj2.TryGetComponent<EffectObject>(out eff))
+					{
+						eff.Begin();
 						self.StartCoroutine(DeleteObj(obj2));
 					}
 					//GameManager.instance.audioPlayer.PlayPoint("CrawLow", self.transform.position);
@@ -108,6 +120,8 @@ public class YohoSharpnessSkill : AttackBase
 			},
 			(sans, enemy)=>
 			{
+
+				GameManager.instance.TimeManager.TimeSlow(self, enemy.GetActor(), eff);
 				self.move.forceDir = self.transform.forward * 0.4f + new Vector3(0,0.5f,0);
 			});
 		}

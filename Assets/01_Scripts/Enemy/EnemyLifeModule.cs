@@ -1,3 +1,4 @@
+using MalbersAnimations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,12 +20,19 @@ public class EnemyLifeModule : LifeModule
 	[SerializeField] bool _33PercentWhite = false;
 	[SerializeField] bool _isDie = false;
 
+	[Header("HitEffect")]
+	[SerializeField] string _hit;
+
+	Transform _middle;
+
 	public override void Awake()
 	{
 		base.Awake();
+		_middle = transform.Find("Middle").transform;
 		_currentGrogeValue = _grogeInitValue;
 
 		_dieEvent += OutJeungGi;
+		_hitEvent += OutHitEffect;
 	}
 	public override void Update()
 	{
@@ -146,6 +154,14 @@ public class EnemyLifeModule : LifeModule
 
 	}
 
+	void OutHitEffect()
+	{
+		if(_hit != "")
+		{
+			EffectObject eff = PoolManager.GetEffect(_hit, _middle);
+			eff.Begin();
+		}
+	}
 	public void AddComboDamage(float t)
 	{
 		// 나중에 엘리트몹 보스몹 나눠주기

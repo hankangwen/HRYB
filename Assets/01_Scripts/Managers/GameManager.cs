@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using Cinemachine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public enum CamStatus
 {
@@ -295,8 +296,10 @@ public class GameManager : MonoBehaviour
 	public Transform outCaveTmp;
 
 	public ComboRank ComboRankManager;
-	
-	
+
+	public TimeController TimeManager;
+
+
 
 	public WaitForSeconds waitSec = new WaitForSeconds(1.0f);
 
@@ -341,7 +344,7 @@ public class GameManager : MonoBehaviour
 		audioPlayer = GameObject.Find("AudioManager").GetComponent<AudioPlayer>();
 
 		ComboRankManager = GameObject.Find("ComboRankManager").GetComponent<ComboRank>();
-
+		TimeManager = GameObject.Find("TimeManager").GetComponent<TimeController>();
 
 		//sManager = GameObject.Find("SectionManager").GetComponent<SectionManager>();
 		//timeliner = GameObject.Find("Timeliner").GetComponent<PlayableDirector>(); //////////#####타임라인매니저?????
@@ -616,18 +619,6 @@ public class GameManager : MonoBehaviour
 	public void KillPlayer()
 	{
 		pActor.life.DamageYY(1000, 1000, DamageType.NoEvadeHit);
-	}
-
-	public void TimeFreeze(float t, float duration = 0.04f)
-	{
-		StartCoroutine(TimeFreezeCO(t, duration));
-	}
-
-	IEnumerator TimeFreezeCO(float t, float duration)
-	{
-		Time.timeScale = t;
-		yield return new WaitForSecondsRealtime(duration);
-		Time.timeScale = 1;
 	}
 
 

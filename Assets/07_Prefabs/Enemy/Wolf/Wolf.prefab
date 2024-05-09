@@ -2006,6 +2006,12 @@ MonoBehaviour:
   _isItGroge: 0
   _grogeInitValue: 100
   _timePerGrogeAdd: 50
+  _66PercentBlack: 0
+  _66PercentWhite: 0
+  _33PercentBlack: 0
+  _33PercentWhite: 0
+  _isDie: 0
+  _hit: Effect_17_ArrowHit
 --- !u!1 &7948914570566699178
 GameObject:
   m_ObjectHideFlags: 0

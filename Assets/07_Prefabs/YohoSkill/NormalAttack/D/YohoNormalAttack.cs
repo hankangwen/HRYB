@@ -75,14 +75,15 @@ public class YohoNormalAttack : AttackBase
 		
 		string[] tt = evt.stringParameter.Split("$");
 		Debug.LogError(tt[0]);
+		EffectObject eff = null;
 		switch (tt[0])
 		{
 			case "1":
 				{
 					GameObject obj1 = PoolManager.GetObject("YusungSmithleft", self.transform);
-					if (obj1.TryGetComponent<EffectObject>(out EffectObject eff1))
+					if (obj1.TryGetComponent<EffectObject>(out eff))
 					{
-						eff1.Begin();
+						eff.Begin();
 						self.StartCoroutine(DeleteObj(obj1));
 					}
 				}
@@ -91,9 +92,9 @@ public class YohoNormalAttack : AttackBase
 			case "2":
 				{
 					GameObject obj2 = PoolManager.GetObject("YusungSmithright", self.transform);
-					if (obj2.TryGetComponent<EffectObject>(out EffectObject eff2))
+					if (obj2.TryGetComponent<EffectObject>(out eff))
 					{
-						eff2.Begin();
+						eff.Begin();
 						self.StartCoroutine(DeleteObj(obj2));
 					}
 				}
@@ -107,10 +108,11 @@ public class YohoNormalAttack : AttackBase
 			GameManager.instance.audioPlayer.PlayPoint("CrawLow", self.transform.position);
 			_cols.Now(self.transform, (_life) =>
 			{
-				CameraManager.instance.ShakeCamFor(0.08f, 2, 2);
+				CameraManager.instance.ShakeCamFor(0.15f, 6, 6);
 				DoDamage(_life.GetActor(), self, _dmgs[0], obj.transform.position);
+				GameManager.instance.TimeManager.TimeSlow(self, _life.GetActor(), eff);
 
-				    
+
 			}, (transform, module) =>
 			{
 			});

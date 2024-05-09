@@ -12,7 +12,7 @@ public class EffectObject : MonoBehaviour
 	private bool _isPlay = false;
 	[Description("Infinity = -1")]
 	public float _durationTime = -1.0f;
-	private ParticleSystem Particle
+	public ParticleSystem Particle
 	{
 		get
 		{
@@ -28,10 +28,10 @@ public class EffectObject : MonoBehaviour
 	private void Update()
 	{
 
-		if (Particle.isPlaying == false && _isPlay==true)
+		if (Particle.isPlaying == false && _isPlay==true && Particle.isPaused == false)
 		{
 			_isPlay = false;
-			PoolManager.ReturnObject(gameObject);
+			//PoolManager.ReturnObject(gameObject);
 		}
 	}
 

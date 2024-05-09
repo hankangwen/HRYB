@@ -72,12 +72,12 @@ public class SkyBirtgh : AttackBase
 						    Actor to = _life.GetActor();
 						    Actor by = self;
 						    DoDamage(to,by, _dmgs[0], obj.transform.position);
-						    
-					    }, (transform, module) =>
+
+						}, (transform, module) =>
 					    {
 						    CameraManager.instance.ShakeCamFor(0.18f, 12, 12);
-						    GameManager.instance.TimeFreeze(0.3f, 0.08f);
-					    });
+
+						});
 				    }
 
 					GameManager.instance.audioPlayer.PlayPoint("HitSound", self.transform.position);
@@ -105,8 +105,6 @@ public class SkyBirtgh : AttackBase
 							self.move.forceDir += new Vector3(0, 1f, 0);
 							Debug.LogError("기2");
 							CameraManager.instance.ShakeCamFor(0.1f, 2, 2);
-							Debug.LogError("기3");
-							GameManager.instance.TimeFreeze(0.1f, 0.01f);
 							Debug.LogError("기4");
 							GameObject obj1 = PoolManager.GetObject("SlashMiddle", self.transform);
 							Debug.LogError("기5");
