@@ -281,10 +281,10 @@ public class PlayerMove : MoveModule
 
 	public override void GravityCalc()
 	{
-		if (isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundThreshold + 0.2f, 1 << GameManager.GROUNDLAYER | 1 << GameManager.ENEMYLAYER))
-		{
-			PlayerTeleport(hit.point);
-		}
+		//if (isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundThreshold + 0.2f, 1 << GameManager.GROUNDLAYER | 1 << GameManager.ENEMYLAYER))
+		//{
+		//	PlayerTeleport(hit.point);
+		//}
 
 		if (gravity && !isGrounded)
 		{
@@ -521,7 +521,7 @@ public class PlayerMove : MoveModule
 			pAttack.target = null;
 		}
 
-		ctrl.Move((dir) * Time.fixedDeltaTime * 0); //####
+		ctrl.Move((dir) * Time.fixedDeltaTime);
 
 		
 		
