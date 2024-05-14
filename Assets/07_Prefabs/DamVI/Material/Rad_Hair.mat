@@ -902,8 +902,8 @@ Material:
     - _RimLightOverridden: 0
     - _RimLightVisible: 1
     - _RimLight_FeatherOff: 0
-    - _RimLight_InsideMask: 0.098
-    - _RimLight_Power: 0.356
+    - _RimLight_InsideMask: 0.21
+    - _RimLight_Power: 0.47
     - _RimMainStrength: 0
     - _RimNormalStrength: 0.347
     - _RimShadeBlur: 1
@@ -1189,7 +1189,7 @@ Material:
     - _ReflectionCubeColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 0.9339623, g: 0.895931, b: 0.7885814, a: 1}
     - _RimIndirColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RimLightColor: {r: 1, g: 0.96815664, b: 0.92156863, a: 1}
+    - _RimLightColor: {r: 0.4490565, g: 0.4490565, b: 0.4490565, a: 1}
     - _RimLightMaskColor: {r: 1, g: 0, b: 1, a: 1}
     - _RimShadeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _SecondShadeMaskColor: {r: 0, g: 0, b: 1, a: 1}
