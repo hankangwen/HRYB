@@ -108,21 +108,9 @@ public class Item : IComparable // #################
 		}
 	}
 
-	public static Item GetItem(string name)
+	public static T GetItem<T>(string name) where T : Item
 	{
-		return (Item)nameDataHashT[name.GetHashCode()];
-	}
-
-	public static Item GetItemOrCreate(string name)
-	{
-		if (nameDataHashT.ContainsKey(name.GetHashCode()))
-		{
-			return (Item)nameDataHashT[name.GetHashCode()];
-		}
-		else
-		{
-			return new Item(name, "", ItemType.None, 9999, null, true);
-		}
+		return (T)nameDataHashT[name.GetHashCode()];
 	}
 
 	public static Dictionary<Item, int> useCount = new Dictionary<Item, int>();

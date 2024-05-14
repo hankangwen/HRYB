@@ -19,7 +19,7 @@ public struct ItemAmountPair
 
     public ItemAmountPair(string name, int cnt = 1)
 	{
-        info = Item.GetItem(name);
+        info = Item.GetItem<Item>(name);
 		if(info == null)
 		{
 			info = new Item(name, "", ItemType.None, 10, null, true);
@@ -197,7 +197,9 @@ public class Crafter
 			}
 			string originalName = data.GetAttribute(i, ORIGINALNAME);
 			string afterName = data.GetAttribute(i, TRIMPARSEFROM);
-			YinyangItem item = (YinyangItem)Item.GetItemOrCreate(originalName);
+			YinyangItem item = Item.GetItem<YinyangItem>(originalName);
+			if(item == null)
+				item = new YinyangItem(originalName, "", ItemType.None, 9999, null, true, YinYang.Zero, DetailAmount.Empty, false);
 			
 			if (afterName.Contains(PreProcess.STIRPREFIX))
 			{
