@@ -49,8 +49,9 @@ public class PlayerLife : LifeModule
 		};
 	}
 
-	public IEnumerator JunGIUP(float t)
+	public IEnumerator JunGIUP(ColliderCast cols, float t)
 	{
+		cols.End();
 		// t == 총 회복량
 		float time = 0;
 		while(time <= 0.5f)

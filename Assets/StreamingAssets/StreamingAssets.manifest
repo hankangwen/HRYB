@@ -1,38 +1,15 @@
 ManifestFileVersion: 0
-<<<<<<< Updated upstream
-CRC: 286701093
-=======
-CRC: 2606410474
->>>>>>> Stashed changes
+CRC: 2718387072
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: bosshp
-      Dependencies: {}
-    Info_1:
-<<<<<<< Updated upstream
-      Name: yohoskilldatabase
-      Dependencies: {}
-    Info_2:
-      Name: inven
-=======
-      Name: inven
-      Dependencies: {}
-    Info_2:
       Name: itemicons
       Dependencies: {}
-    Info_3:
+    Info_1:
       Name: yohoskilldatabase
       Dependencies: {}
-    Info_4:
-      Name: hp
-      Dependencies: {}
-    Info_5:
-      Name: skilldatabase
-      Dependencies: {}
-    Info_6:
-      Name: quickslot
->>>>>>> Stashed changes
+    Info_2:
+      Name: inven
       Dependencies: {}
     Info_3:
       Name: jangsunghp

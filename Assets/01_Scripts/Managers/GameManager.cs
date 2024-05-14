@@ -294,6 +294,7 @@ public class GameManager : MonoBehaviour
 
 	public Transform outCaveTmp;
 
+	public ComboRank ComboRankManager;
 	
 	
 
@@ -338,6 +339,10 @@ public class GameManager : MonoBehaviour
 		uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 		terrain = GameObject.Find("Terrain").GetComponentInChildren<Terrain>();
 		audioPlayer = GameObject.Find("AudioManager").GetComponent<AudioPlayer>();
+
+		ComboRankManager = GameObject.Find("ComboRankManager").GetComponent<ComboRank>();
+
+
 		//sManager = GameObject.Find("SectionManager").GetComponent<SectionManager>();
 		//timeliner = GameObject.Find("Timeliner").GetComponent<PlayableDirector>(); //////////#####타임라인매니저?????
 		//timeliner2 = GameObject.Find("Timeliner2").GetComponent<PlayableDirector>();
@@ -524,7 +529,6 @@ public class GameManager : MonoBehaviour
 	{
 		if(Input.GetKeyDown(KeyCode.B))
 		{
-			Debug.LogError("이걸 보고 있다면 아직 유공이 안넣은거임");
 			GameObject objs = GameObject.Find("JSPosition");
 			player.GetComponent<PlayerMove>().PlayerTeleport(objs.transform.position);
 		}
@@ -539,8 +543,11 @@ public class GameManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.P))
 		{
 			GameManager.instance.pinven.AddItem(Item.GetItem("인삼"), 1);
-			GameManager.instance.pinven.AddItem(Item.GetItem("밧줄"), 1);
-			GameManager.instance.pinven.AddItem(Item.GetItem("녹각"), 1);
+			GameManager.instance.pinven.AddItem(Item.GetItem("녹각"), 2);
+		}
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			GameManager.instance.pinven.AddItem(Item.GetItem("밧줄"), 3);
 		}
 
 
@@ -548,7 +555,10 @@ public class GameManager : MonoBehaviour
 		{
 			LockUnlockCursor();
 		}
-
+		if(Input.GetKeyDown(KeyCode.U))
+		{
+			LockCursor();
+		}
 
 		if(Time.time % 1 <= float.Epsilon)
 		{
@@ -667,4 +677,6 @@ public class GameManager : MonoBehaviour
 			globalStringBuilderUsing = false;
 		}
 	}
+
+
 }

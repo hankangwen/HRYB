@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct ItemCollection
+public class ItemCollection
 {
     public Item myItem;
 	public int discoverCount;

@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 public class CameraManager : MonoBehaviour
 {
 	public List<CinemachineBasicMultiChannelPerlin> camShakers = new List<CinemachineBasicMultiChannelPerlin>();
-	List<SkillProduction> _skillProduct= new();
+	SkillProduction _skillProduct;
 	public CamStatus curCamStat;
 	
 	public const int FORWARDCAM = 20;
@@ -43,10 +43,10 @@ public class CameraManager : MonoBehaviour
 
 	public void RegisterSkillCam(SkillProduction _sk)
 	{
-		if(_skillProduct.Count >0)
-			_skillProduct[0].End();
-		_skillProduct.Clear();
-		_skillProduct.Add(_sk);
+		if(_skillProduct != null)
+			_skillProduct.End();
+
+		_skillProduct = _sk;
 	}
 
 
@@ -82,16 +82,10 @@ public class CameraManager : MonoBehaviour
 
 	private void Update()
 	{
-		if(_playerModule.moveModuleStat.Paused == false && _skillProduct.Count > 0)
+		if(_playerModule.moveModuleStat.Paused == false && _skillProduct != null)
 		{
-			int i = 0;
-			for (i =0; i < _skillProduct.Count; ++i)
-			{
-				_skillProduct[i].End();
-				_skillProduct[i]._shakes.m_AmplitudeGain = 0;
-				_skillProduct[i]._shakes.m_FrequencyGain = 0;
-			}
-			_skillProduct.Clear();
+			_skillProduct.End();
+			_skillProduct = null;
 		}
 	}
 
@@ -181,10 +175,10 @@ public class CameraManager : MonoBehaviour
 			camShakers[i].m_FrequencyGain += frqGain;
 		}
 
-		if (_skillProduct.Count > 0)
+		if (_skillProduct != null)
 		{
-			_skillProduct[0]._shakes.m_AmplitudeGain = ampGain;
-			_skillProduct[0]._shakes.m_FrequencyGain = frqGain;
+			_skillProduct._shakes.m_AmplitudeGain = ampGain;
+			_skillProduct._shakes.m_FrequencyGain = frqGain;
 
 		}
 	}

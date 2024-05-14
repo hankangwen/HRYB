@@ -1987,7 +1987,7 @@ MonoBehaviour:
   isImmune: 0
   initYinYang:
     black: 125
-    white: 125
+    white: 250
   initAdequity:
     black: 1
     white: 1
@@ -2312,6 +2312,10 @@ PrefabInstance:
     - target: {fileID: 8063281413345801639, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8913458165041896682, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.88
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

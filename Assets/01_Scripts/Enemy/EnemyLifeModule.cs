@@ -81,8 +81,9 @@ public class EnemyLifeModule : LifeModule
 			_33PercentWhite = true;
 			OutValue(initYinYang.white * 0.2f);
 		}
-		if(yy.white <= 0)
+		if(yy.white <= 0 && _isDie == false)
 		{
+			_isDie = true;
 			OutValue(initYinYang.white * 0.2f);
 		}
 
@@ -97,8 +98,9 @@ public class EnemyLifeModule : LifeModule
 			OutValue(initYinYang.black * 0.2f);
 		}
 
-		if (yy.black <= 0)
+		if (yy.black <= 0 && _isDie ==false)
 		{
+			_isDie = true;
 			OutValue(initYinYang.black * 0.2f);
 		}
 
@@ -142,6 +144,12 @@ public class EnemyLifeModule : LifeModule
 
 
 
+	}
+
+	public void AddComboDamage(float t)
+	{
+		// 나중에 엘리트몹 보스몹 나눠주기
+		GameManager.instance.ComboRankManager.AddValue(t);
 	}
 }
 

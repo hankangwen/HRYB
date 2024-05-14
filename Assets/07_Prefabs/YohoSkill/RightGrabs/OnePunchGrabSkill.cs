@@ -36,12 +36,34 @@ public class OnePunchGrabSkill : YGComboAttackBase
 				
 				
 				//_life.GetActor().move.forceDir += self.transform.forward * 5 + new Vector3(0,7,0);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Stun, 3f);
 				
 				
 			}, (trm, _life) =>
 			{
+
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
+
 				CameraManager.instance.ShakeCamFor(0.12f, 12, 12);
-				self.move.forceDir = Vector3.zero;
 				int t = 0;
 				foreach (var value in _life.appliedDebuff)
 				{
@@ -51,33 +73,57 @@ public class OnePunchGrabSkill : YGComboAttackBase
 						t++;
 					}
 				}
+
+
 				PlayerAttack tt = self.atk as PlayerAttack;
 
 				tt._grabedEnemy = _life.gameObject;
 				
 				//Debug.LogError(tt._grabedEnemy);
 
-				DoDamage(_life.GetActor(), self, _dmgs[0]);
+				DoDamage(_life.GetActor(), self, _dmgs[0], default, t * 0.5f);
 
 
 
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Stun, 2f);
 
 				if (t >= 10)
 				{
-					_nextTo?.Invoke();
-					PlayerAttack pl = self.atk as PlayerAttack;
-					pl.BleedValue = t;
+					if((_life.yy.black > 0 && _life.yy.white > 0))
+					{
 
-					(self.cast as PlayerCast).SetCooldownTo(SkillSlotInfo.RClick, 0.2f);
+						_nextTo?.Invoke();
+						PlayerAttack pl = self.atk as PlayerAttack;
+						pl.BleedValue = t;
+
+						(self.cast as PlayerCast).SetCooldownTo(SkillSlotInfo.RClick, 0.2f);
+					}
+					else
+					{
+						GameObject obj2 = PoolManager.GetObject("MasterSparkCols", self.transform);
+
+						EffectObject effFailed = PoolManager.GetEffect("Softbluebuff", self.transform);
+						effFailed.Begin();
+
+						if (obj2.TryGetComponent<ColliderCast>(out ColliderCast _cols2))
+						{
+							_cols2.Now(self.transform, (_life2) =>
+							{
+								DoDamage(_life2.GetActor(), self, _dmgs[1], default, t * 0.25f);
+							}, (tls, tl2) =>
+							{
+
+								CameraManager.instance.ShakeCamFor(0.12f, 24, 24);
+							}, default,0.5f,0.7f);
+						}
+					}
+
 				}
 				else
 				{
 					_nextTo?.Invoke();
-					PlayerAttack pl = self.atk as PlayerAttack;
-					pl.BleedValue = t;
 
-					(self.cast as PlayerCast).SetCooldownTo(SkillSlotInfo.RClick, 0.2f);
+
+					//(self.cast as PlayerCast).SetCooldownTo(SkillSlotInfo.RClick, 0.2f);
 					//_life.RemoveAllStatEff(StatEffID.Bleeding);
 				}
 
@@ -103,6 +149,6 @@ public class OnePunchGrabSkill : YGComboAttackBase
 
 	public override int ListValue()
 	{
-		return 1;
+		return 2;
 	}
 }
