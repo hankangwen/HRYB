@@ -49,8 +49,8 @@ public class Item : IComparable // #################
     public static Hashtable nameDataHashT = new Hashtable()
 	{
 		{"나뭇가지".GetHashCode(), new Item("나뭇가지","나무에서 열리는 가지를 나뭇가지라고 부르더라", ItemType.Solid, 999, null, false) },
-		{"인삼".GetHashCode(), new YinyangItem("인삼", "사실 인삼이나 산삼이나 거기서 거기다", ItemType.Solid, 999, null, false, new YinYang(0), "삼") },
-		{"물".GetHashCode(), new YinyangItem("물", "물로 보지 말랜다", ItemType.Liquid,  999, null, false, new YinYang(0), "수")},
+		{"인삼".GetHashCode(), new YinyangItem("인삼", "사실 인삼이나 산삼이나 거기서 거기다", ItemType.Solid, 999, null, false, new YinYang(0), DetailAmount.Empty, false, "삼") },
+		{"물".GetHashCode(), new YinyangItem("물", "물로 보지 말랜다", ItemType.Liquid,  999, null, false, new YinYang(0), DetailAmount.Empty, false, "수")},
 		{"활".GetHashCode(), new Item("활", "적당한 나무활이다. 사용해서 장착해볼까?", ItemType.Solid, 999, new Specials(()=>{
 			GameManager.instance.pinven.ObtainWeapon();
 			return true;
@@ -60,12 +60,12 @@ public class Item : IComparable // #################
 			return (GameManager.instance.pActor.atk as PlayerAttack).ThrowRope();
 		}, Mathf.Infinity), false) },
 		{"섬유".GetHashCode(), new Item("섬유", "튼튼한 섬유이다.", ItemType.Solid, 999, null, false) },
-		{"산삼".GetHashCode(), new YinyangItem("산삼", "심 봤 다", ItemType.Solid, 999, null, false, null, "삼") },
-		{"잘린 산삼".GetHashCode(), new YinyangItem("잘린 산삼", "손질 완료된 산삼이다.", ItemType.Solid, 999, null, false, null, "삼") },
-		{"녹제".GetHashCode(), new YinyangItem("녹제", "사슴의 발굽이다.", ItemType.Solid, 999, null, false, new YinYang(0)) },
-		{"녹각".GetHashCode(), new YinyangItem("녹각", "사슴의 뿔이다.", ItemType.Solid, 999, null, false, new YinYang(0)) },
-		{"녹용".GetHashCode(), new YinyangItem("녹용", "사슴의 뿔을 손질했다.", ItemType.Solid, 999, null, false, new YinYang(0)) },
-		{"도약탕".GetHashCode(), new Medicines("도약탕", "다리의 힘을 비약적으로 상승시켜 땅을 박차고 공중으로 도약할 수 있게 해준다.", ItemType.Liquid, 999, null, false, new YinYang(0)) },
+		{"산삼".GetHashCode(), new YinyangItem("산삼", "심 봤 다", ItemType.Solid, 999, null, false, null, DetailAmount.Empty, false, "삼") },
+		{"잘린 산삼".GetHashCode(), new YinyangItem("잘린 산삼", "손질 완료된 산삼이다.", ItemType.Solid, 999, null, false, null, DetailAmount.Empty, false, "삼") },
+		{"녹제".GetHashCode(), new YinyangItem("녹제", "사슴의 발굽이다.", ItemType.Solid, 999, null, false, new YinYang(0), DetailAmount.Empty, false) },
+		{"녹각".GetHashCode(), new YinyangItem("녹각", "사슴의 뿔이다.", ItemType.Solid, 999, null, false, new YinYang(0), DetailAmount.Empty, false) },
+		{"녹용".GetHashCode(), new YinyangItem("녹용", "사슴의 뿔을 손질했다.", ItemType.Solid, 999, null, false, new YinYang(0), DetailAmount.Empty, false) },
+		{"도약탕".GetHashCode(), new Medicines("도약탕", "다리의 힘을 비약적으로 상승시켜 땅을 박차고 공중으로 도약할 수 있게 해준다.", ItemType.Liquid, 999, null, false, new YinYang(0), DetailAmount.Empty) },
 	}; //같은 이름의 아이템을 같은 물건으로 취급하기 위해 사용.
 
 	static Hashtable allYinyangItems;
