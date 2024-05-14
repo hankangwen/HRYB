@@ -197,7 +197,7 @@ public class Crafter
 			}
 			string originalName = data.GetAttribute(i, ORIGINALNAME);
 			string afterName = data.GetAttribute(i, TRIMPARSEFROM);
-			YinyangItem item = new YinyangItem(originalName, "", ItemType.None, 10, null, Item.nameDataHashT.ContainsKey(originalName), null);
+			YinyangItem item = (YinyangItem)Item.GetItemOrCreate(originalName);
 			
 			if (afterName.Contains(PreProcess.STIRPREFIX))
 			{

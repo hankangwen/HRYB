@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1d193132cd19cf46a56aa9189e78b26, type: 3}
-  m_Name: 1_GiveReward
+  m_Script: {fileID: 11500000, guid: e3d14248067c47940bc51eeba018c6d2, type: 3}
+  m_Name: 2_Nothing
   m_EditorClassIdentifier: 
-  text: "\uC624\uC624! \uACE0\uB9D9\uB124. \uB2F5\uB840\uB85C <#00ff00>\uC778\uC0BC
-    10\uAC1C</color>\uB97C \uC8FC\uC9C0."
-  typeDel: 0.03
+  text: "\uD558\uD558\uD558! \uBCC4 \uAC83 \uC544\uB2C8\uB2C8 <color=#ff0000>\uC2E0\uACBD\uC4F0\uC9C0
+    \uB9D0\uAC8C</color>."
+  typeDel: 0.07
   owner: {fileID: 11400000, guid: 05139beb55c27874b889b195ef4416c9, type: 2}
   next: {fileID: 0}
-  afterChange: {fileID: 11400000, guid: 3d4696a4d9b4fab4baf9d46d42b332d6, type: 2}

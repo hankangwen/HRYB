@@ -15,6 +15,7 @@ public class AttackModule : Module, IAnimationEvent
 	public YinYang Damage
 	{
 		get => damage;
+		set => damage = value;
 	}
 
 	protected float atkDist;

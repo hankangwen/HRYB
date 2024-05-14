@@ -25,7 +25,7 @@ MonoBehaviour:
     defeatMode: 0
     defeatParameter: 
   - objective: 7
-    parameter: Sphere
+    parameter: MrPark
     repeatCount: 1
     afterAct: 3
     inverted: 0

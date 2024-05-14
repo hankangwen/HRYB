@@ -18,11 +18,27 @@ public enum DetailParameter
 	Max
 }
 
-[Serializable]
 public class DetailAmount : Dictionary<DetailParameter, float>
 {
-	[SerializeField]
-	public List<float> values = new List<float>();
+
+	public DetailAmount()
+	{
+		for (int i = ((int)DetailParameter.Sweet); i < ((int)DetailParameter.Max); i++)
+		{
+			this.Add((DetailParameter)i , Mathf.Round(UnityEngine.Random.Range(0, 1) * 100) / 100f);
+		}
+	}
+
+	public DetailAmount(float sw, float sr, float bt, float sa, float sp, float mo, float po)
+	{
+		this.Add(DetailParameter.Sweet, sw);
+		this.Add(DetailParameter.Sour, sr);
+		this.Add(DetailParameter.Bitter, bt);
+		this.Add(DetailParameter.Salty, sa);
+		this.Add(DetailParameter.Spicy, sp);
+		this.Add(DetailParameter.Moist, mo);
+		this.Add(DetailParameter.Poison, po);
+	}
 
 	public static DetailAmount Random
 	{
@@ -42,11 +58,9 @@ public class DetailAmount : Dictionary<DetailParameter, float>
 	{
 		get
 		{
-			return new DetailAmount();
+			return new DetailAmount(0,0,0,0,0,0,0);
 		}
 	}
-
-
 }
 
 [System.Serializable]
@@ -106,6 +120,7 @@ public class YinyangItem : Item
 	//public float decPerSec;
 
 	public string nameAsChar;
+	public bool usable;
 
 	//public float applySpeed = 1f;
 	
@@ -132,7 +147,7 @@ public class YinyangItem : Item
 		detailParams = item.detailParams;
 	}
 
-    public YinyangItem(string name, string desc, ItemType iType, int max, Specials used, bool isNewItem, YinYang yyData, string ch = "") : base(name, desc, iType, max, used, isNewItem)
+    public YinyangItem(string name, string desc, ItemType iType, int max, Specials used, bool isNewItem, YinYang yyData, DetailAmount det, bool isUsable, string ch = "") : base(name, desc, iType, max, used, isNewItem)
 	{
 		//data = yyData;
 		if(ch == "")
@@ -143,14 +158,19 @@ public class YinyangItem : Item
 		{
 			nameAsChar = ch;
 		}
-		detailParams = DetailAmount.Random;
+		detailParams = det;
+		this.usable = isUsable;
 	}
 
 	public override void Use()
 	{
-		//GameManager.instance.pActor.life.DamageYY(yy, DamageType.Continuous, ApplySpeed);
-		GameManager.instance.pedia.UseItem(this);
-		base.Use();
+		if (usable)
+		{
+
+			//GameManager.instance.pActor.life.DamageYY(yy, DamageType.Continuous, ApplySpeed);
+			GameManager.instance.pedia.UseItem(this);
+			base.Use();
+		}
 	}
 
 	public override int GetHashCode()
