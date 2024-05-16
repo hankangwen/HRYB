@@ -21,7 +21,9 @@ public class NodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 				break;
 			case StatUpgradeType.Black:
 				break;
-			case StatUpgradeType.Atk:
+			case StatUpgradeType.WhiteAtk:
+				break;
+			case StatUpgradeType.BlackAtk:
 				break;
 			case StatUpgradeType.MoveSpeed:
 				break;

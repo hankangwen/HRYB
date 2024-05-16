@@ -51,20 +51,11 @@ public class PlayerNode : ScriptableObject
 		{
 			switch (nodeType) //@@@@@@@@스탯올려주기.
 			{
-				case StatUpgradeType.White:
-					break;
-				case StatUpgradeType.Black:
-					break;
-				case StatUpgradeType.Atk:
-					break;
-				case StatUpgradeType.MoveSpeed:
-					break;
-				case StatUpgradeType.CooldownRdc:
-					break;
 				case StatUpgradeType.Callback:
 					onLearn?.Invoke();
 					break;
 				default:
+					GameManager.instance.pActor.AddStat(amt, nodeType);
 					break;
 			}
 			

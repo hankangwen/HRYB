@@ -36,7 +36,7 @@ public class QuestRewardUI : MonoBehaviour
 				typeImg.sprite = GameManager.instance.skillLoader.GetSkill(rew.parameter).skillIcon;
 				break;
 			case RewardType.Item:
-				typeImg.sprite = Item.GetItem(rew.parameter).icon;
+				typeImg.sprite = Item.GetItem<Item>(rew.parameter).icon;
 				break;
 			case RewardType.HealWhite:
 			case RewardType.HealBlack:

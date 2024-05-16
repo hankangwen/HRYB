@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/07_Prefabs/UIs/Objects/GettableItem.prefab.meta
+guid: f007e978cf252534085eae745c304f6d
+========
 guid: 4a75509115beec14faebd2d561d209fd
+>>>>>>>> NewMain:Assets/9_Importeds/01_Effects(VFX)/FantasyVFXPack3/SpellsPack3/Spell_DragonGlyph_Fire.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

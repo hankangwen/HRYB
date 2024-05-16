@@ -27,7 +27,7 @@ public class SkillSlots
 	float curCooledTime;
 	public float CurCooledTime
 	{
-		get => curCooledTime;
+		get => curCooledTime * (1 / GameManager.instance.pActor.cast.cooldownModuleStat.Speed);
 		set => curCooledTime = value;
 	}
 
