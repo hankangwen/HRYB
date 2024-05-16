@@ -27,8 +27,9 @@ public class YusungSmith : AttackBase
 
     public override void OnAnimationStart(Actor self, AnimationEvent evt )
     {
-	    // 이팩트 기타등등셋팅
-	    GameManager.instance.DisableCtrl(true);
+		(self.anim as PlayerAnim).AnimAct.PlayerAfterImage(0.1f, 1.4f, 0.66f);
+		// 이팩트 기타등등셋팅
+		GameManager.instance.DisableCtrl(true);
 			
 		if(_pro != null)
 		{

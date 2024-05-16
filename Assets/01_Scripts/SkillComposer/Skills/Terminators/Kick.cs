@@ -5,14 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skills/Infos/Kick")]
 public class Kick : AttackBase
 {
-	BoxColliderCast caster;
+	ColliderCast caster;
 
 
 
 	protected override void Awake()
 	{
 		base.Awake();
-		caster = relatedTransform.GetComponent<BoxColliderCast>();
+		caster = relatedTransform.GetComponent<ColliderCast>();
 		if(caster == null)
 		{
 			Debug.Log($"NO BOXCOLLIDERCAST FOUND IN : {relatedTransform.name}");

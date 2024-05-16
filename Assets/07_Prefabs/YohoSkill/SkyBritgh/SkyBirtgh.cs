@@ -26,6 +26,7 @@ public class SkyBirtgh : AttackBase
 
     public override void OnAnimationStart(Actor self, AnimationEvent evt)
     {
+		(self.anim as PlayerAnim).AnimAct.PlayerAfterImage(0.2f, 3f, 0.66f);
 	    GameManager.instance.DisableCtrl(true);
     }
 

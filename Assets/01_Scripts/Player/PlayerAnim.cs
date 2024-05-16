@@ -36,6 +36,8 @@ public class PlayerAnim : AnimModule
 
 
 	PlayerMove pmove;
+	PlayerAnimActions animAction;
+	public PlayerAnimActions AnimAct => animAction;
 
 	internal Composite curEquipped;
 
@@ -44,6 +46,7 @@ public class PlayerAnim : AnimModule
 	public override void Awake()
 	{
 		Animator[] anims = GetComponentsInChildren<Animator>();
+		animAction = GetComponentInChildren<PlayerAnimActions>();
 		anim = anims[1];
 	}
 

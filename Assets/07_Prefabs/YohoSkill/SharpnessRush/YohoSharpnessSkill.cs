@@ -26,6 +26,7 @@ public class YohoSharpnessSkill : AttackBase
 	public override void OnAnimationStart(Actor self, AnimationEvent evt)
 	{
 		GameManager.instance.DisableCtrl(false);
+		(self.anim as PlayerAnim).AnimAct.PlayerAfterImage(0.2f, 3f, 0.66f);
 	}
 
 	public override void OnAnimationEvent(Actor self, AnimationEvent evt)
@@ -121,7 +122,7 @@ public class YohoSharpnessSkill : AttackBase
 			(sans, enemy)=>
 			{
 
-				GameManager.instance.TimeManager.TimeSlow(self, enemy.GetActor(), eff);
+				//GameManager.instance.TimeManager.TimeSlow(self, enemy.GetActor(), eff);
 				self.move.forceDir = self.transform.forward * 0.4f + new Vector3(0,0.5f,0);
 			});
 		}

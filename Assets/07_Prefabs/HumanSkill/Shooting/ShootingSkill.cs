@@ -27,6 +27,7 @@ public class ShootingSkill : AttackBase
 	public override void OnAnimationStart(Actor self, AnimationEvent evt)
 	{
 		GameManager.instance.DisableCtrl(false);
+		(self.anim as PlayerAnim).AnimAct.PlayerAfterImage(0.2f, 1.7f, 0.66f);
 	}
 
 	public override void OnAnimationEvent(Actor self, AnimationEvent evt)

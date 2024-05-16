@@ -27,11 +27,10 @@ public class EffectObject : MonoBehaviour
 
 	private void Update()
 	{
-
-		if (Particle.isPlaying == false && _isPlay==true && Particle.isPaused == false)
+		if(Particle.isPlaying==false && _isPlay == true)
 		{
 			_isPlay = false;
-			//PoolManager.ReturnObject(gameObject);
+			StartCoroutine(LifeDuration());
 		}
 	}
 
@@ -56,8 +55,12 @@ public class EffectObject : MonoBehaviour
 
 	public IEnumerator LifeDuration()
 	{
-		yield return new WaitForSeconds(_durationTime);
-		PoolManager.ReturnObject(this.gameObject);
+		yield return new WaitForSeconds(0.5f);
+
+		if (Particle.isPlaying)
+			_isPlay = true;
+		else
+			PoolManager.ReturnObject(this.gameObject);
 	}
 
 	public void Stop()

@@ -445,10 +445,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _1st2nd_Shades_Feather: 0.067
-    - _1st_ShadeColor_Feather: 0.114
-    - _1st_ShadeColor_Step: 0.27
+    - _1st_ShadeColor_Feather: 0.25
+    - _1st_ShadeColor_Step: 0.97
     - _2nd_ShadeColor_Feather: 0.067
-    - _2nd_ShadeColor_Step: 0.166
+    - _2nd_ShadeColor_Step: 0.22
     - _AAStrength: 1
     - _AORemapMax: 1
     - _AORemapMin: 0
@@ -522,8 +522,8 @@ Material:
     - _BacklightViewStrength: 1
     - _BaseColorOverridden: 0
     - _BaseColorVisible: 1
-    - _BaseColor_Step: 0.27
-    - _BaseShade_Feather: 0.114
+    - _BaseColor_Step: 0.97
+    - _BaseShade_Feather: 0.25
     - _Base_Speed: 0
     - _BeforeExposureLimit: 10000
     - _BitKey0: 0
@@ -679,7 +679,7 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
-    - _HighColor_Power: 0.252
+    - _HighColor_Power: 0
     - _HighlightOverridden: 0
     - _HighlightVisible: 1
     - _IDMask1: 0
@@ -923,7 +923,7 @@ Material:
     - _SecondShadeOverridden: 0
     - _SecondShadeVisible: 1
     - _Set_SystemShadowsToBase: 1
-    - _ShadeColor_Step: 0.166
+    - _ShadeColor_Step: 0.22
     - _Shadow2ndBlur: 0.159
     - _Shadow2ndBorder: 0.212
     - _Shadow2ndNormalStrength: 1
@@ -1101,8 +1101,8 @@ Material:
     - _utsTechnique: 0
     - _utsVersion: 2.08
     - _utsVersionX: 0
-    - _utsVersionY: 9
-    - _utsVersionZ: 7
+    - _utsVersionY: 10
+    - _utsVersionZ: 0
     m_Colors:
     - _1st_ShadeColor: {r: 0.68134165, g: 0.68134165, b: 0.68134165, a: 1}
     - _2nd_ShadeColor: {r: 0.45073366, g: 0.45057616, b: 0.45026118, a: 1}
@@ -1151,7 +1151,7 @@ Material:
     - _GlitterColor: {r: 1, g: 1, b: 1, a: 1}
     - _GlitterParams1: {r: 256, g: 256, b: 0.16, a: 50}
     - _GlitterParams2: {r: 0.25, g: 0, b: 0, a: 0}
-    - _HighColor: {r: 0.30817616, g: 0.30817616, b: 0.30817616, a: 1}
+    - _HighColor: {r: 0, g: 0, b: 0, a: 1}
     - _HighlightMaskColor: {r: 1, g: 1, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}

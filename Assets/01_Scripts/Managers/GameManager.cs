@@ -441,6 +441,7 @@ public class GameManager : MonoBehaviour
 		Debug.Log("(*(*(*(*(*(");
 		(pActor.move as PlayerMove).moveModuleStat.Pause(mode, true);
 		pActor.atk.attackModuleStat.Pause(mode, true);
+		_isCharacterInput = false;
 	}
 
 	public void EnableCtrl(ControlModuleMode mode)
@@ -450,8 +451,11 @@ public class GameManager : MonoBehaviour
 		pActor.atk.attackModuleStat.Pause(mode, false);
 
 		(pActor.atk as PlayerAttack).HandleRemoveCall();
+
+		_isCharacterInput = true;
 	}
 
+	public bool _isCharacterInput = true;
 
 
 	/// <summary>
