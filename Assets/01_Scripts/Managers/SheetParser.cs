@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// export?format=tsv&gid=1525999156&range=B3:P
+/// export?format=tsv&gid=XXXX&range=B3:P
 /// </summary>
 public class SheetParser
 {
@@ -13,6 +13,8 @@ public class SheetParser
 	string tsvFormatText;
 
 	public readonly int attributeCount;
+
+	//데이터갯수
 	public int cardinality { get; private set;}
 
 	bool indexed;
@@ -41,8 +43,10 @@ public class SheetParser
 	{
 		if (!inited)
 			throw new UnityException("시트의 데이터가 초기화되지 않았습니다.");
+		if(rowOrder >= cardinality)
+			throw new UnityException($"값의 갯수는 {rowOrder}보다 적습니다.");
 		if (columnOrder >= attributeCount)
-			throw new UnityException($"값의 갯수가 {columnOrder}보다 적습니다.");
+			throw new UnityException($"값의 갯수는 {columnOrder}보다 적습니다.");
 		return tupleDatas[rowOrder][columnOrder];
 	}
 
@@ -51,10 +55,28 @@ public class SheetParser
 		if (!inited)
 			throw new UnityException("시트의 데이터가 초기화되지 않았습니다.");
 		if(!headValuesPair.ContainsKey(headName))
-			throw new UnityException($"이름 : {headName}인 인덱스가 조재하지 않습니다.");
+			throw new UnityException($"이름 : {headName}인 인덱스가 존재하지 않습니다.");
 		if (rowOrder >= attributeCount)
-			throw new UnityException($"값의 갯수가 {rowOrder}보다 적습니다.");
+			throw new UnityException($"값의 갯수는 {rowOrder}보다 적습니다.");
 		return headValuesPair[headName][rowOrder];
+	}
+
+	public List<string> GetTuple(int idx)
+	{
+		if (!inited)
+			throw new UnityException("시트의 데이터가 초기화되지 않았습니다.");
+		if (idx >= cardinality)
+			throw new UnityException($"값의 갯수는 {idx}보다 적습니다.");
+		return tupleDatas[idx];
+	}
+
+	public List<string> GetTupleByIndex(string index)
+	{
+		if (!inited)
+			throw new UnityException("시트의 데이터가 초기화되지 않았습니다.");
+		if (!indexAttributePairs.ContainsKey(index))
+			throw new UnityException($"이름 : {index}인 인덱스가 존재하지 않습니다.");
+		return indexAttributePairs[index];
 	}
 
 	public string GetAttributeByIndex(string index, int columnOrder)
@@ -62,9 +84,9 @@ public class SheetParser
 		if (!inited)
 			throw new UnityException("시트의 데이터가 초기화되지 않았습니다.");
 		if (!indexAttributePairs.ContainsKey(index))
-			throw new UnityException($"이름 : {index}인 인덱스가 조재하지 않습니다.");
+			throw new UnityException($"이름 : {index}인 인덱스가 존재하지 않습니다.");
 		if(columnOrder >= attributeCount)
-			throw new UnityException($"값의 갯수가 {columnOrder}보다 적습니다.");
+			throw new UnityException($"값의 갯수는 {columnOrder}보다 적습니다.");
 		return indexAttributePairs[index][columnOrder];
 	}
 
@@ -102,7 +124,6 @@ public class SheetParser
 		attributeCount = t - f + 1;
 
 		GameManager.instance.StartCoroutine(Load());
-
 	}
 
 

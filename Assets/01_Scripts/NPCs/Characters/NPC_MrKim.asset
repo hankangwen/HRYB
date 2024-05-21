@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34bf9a0dd9b00534b9289e6ee0de3fd4, type: 3}
-  m_Name: ItemNameDict
+  m_Script: {fileID: 11500000, guid: ea3d931a3f2dec940a71998aaf5634ba, type: 3}
+  m_Name: NPC_MrKim
   m_EditorClassIdentifier: 
-  Dict:
-    keyValues: []
+  baseName: "\uAE40\uC528"
+  subName: "\uD638\uC704\uBB34\uC0AC"
+  initDia: {fileID: 11400000, guid: 3d4696a4d9b4fab4baf9d46d42b332d6, type: 2}

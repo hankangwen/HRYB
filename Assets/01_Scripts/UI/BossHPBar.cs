@@ -16,7 +16,7 @@ public class BossHPBar : MonoBehaviour
 
 	void Update()
 	{
-		_hpBar.fillAmount = lf.yy.white / lf.initYinYang.white;
+		_hpBar.fillAmount = lf.yy.white.Value / lf.yy.white.MaxValue;
 	}
 	
 }

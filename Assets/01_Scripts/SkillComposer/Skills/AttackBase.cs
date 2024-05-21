@@ -76,8 +76,8 @@ public abstract class AttackBase : Leaf
 		}
 
 
-		float white = by.atk.Damage.white * value.white * AddValue;
-		float black = by.atk.Damage.black * value.black * AddValue;
+		float white = by.atk.Damage.white.Value * value.white * AddValue;
+		float black = by.atk.Damage.black.Value * value.black * AddValue;
 
 		Debug.LogError($"DMGS : {value.white} | {value.black}");
 

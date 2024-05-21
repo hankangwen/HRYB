@@ -170,7 +170,7 @@ public class PlayerMove : MoveModule
 				if (moveStat != MoveStates.Climb)
 				{
 					curStat = MoveStates.Sit;
-					speed = crouchSpeed;
+					speed = crouchSpeed.MaxValue;
 				}
 			}
 			else
@@ -182,8 +182,9 @@ public class PlayerMove : MoveModule
 
 	Transform middle;
 
-	private void Awake()
+	public override void Awake()
 	{
+		base.Awake();
 		ctrl = GetComponent<CharacterController>();
 		middle = transform.Find("Middle");
 		initPos = transform.position;
@@ -292,7 +293,7 @@ public class PlayerMove : MoveModule
 		
 		if (moveModuleStat.Paused)
 		{
-			Debug.LogError("Pause");
+			//Debug.LogError("Pause");
 			return;
 		}
 		if (moveStat != MoveStates.Climb)

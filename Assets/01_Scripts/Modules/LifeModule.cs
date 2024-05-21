@@ -58,14 +58,14 @@ public class LifeModule : Module
 
 	public bool isImmune = false;
 
-	public YinYang initYinYang;
-	public YinYang initAdequity;
-	//public float initSoul;
-
-	//[HideInInspector]
+	public float initBlack;
+	public float initWhite;
 	public YinYang yy;
 
-	protected YinYang adequity;
+	public float initAdeBlack;
+	public float initAdeWhite;
+	public YinYang adequity;
+	//public float initSoul;
 
 	//[HideInInspector]
 	//public float maxSoul;
@@ -77,10 +77,10 @@ public class LifeModule : Module
 
 	public float regenThreshold = 10f;
 
-	public float applyMod = 1f;
-	float baseApplySpeed = 1f;
+	//public float applyMod = 1f;
+	//float baseApplySpeed = 1f;
 
-	public float TotalApplySpeed { get => baseApplySpeed * applyMod;}
+	//public float TotalApplySpeed { get => baseApplySpeed * applyMod;}
 
 	public Action _dieEvent;
 	public Action _hitEvent;
@@ -97,7 +97,7 @@ public class LifeModule : Module
 
 	public virtual bool isDead
 	{
-		get => yy.white <= 0 || yy.black <= 0;
+		get => yy.white.Value <= 0;
 	}
 
 	public bool superArmor = false;
@@ -123,6 +123,9 @@ public class LifeModule : Module
 				_stopCoroutine = StartCoroutine(PlayWakeAgain(0.2f));  
 			}
 		};
+		yy = new YinYang(initBlack, initWhite);
+
+		adequity = new YinYang(initAdeBlack, initAdeWhite);
 	}
 	protected virtual IEnumerator PlayWakeAgain(float t)
 	{
@@ -152,14 +155,14 @@ public class LifeModule : Module
 		//	Debug.Log(name + " Effefct : " + item.Key.name + " For " + item.Value);
 		//}
 
-		if(yy.white > initYinYang.white)
-		{
-			yy.white = initYinYang.white;
-		}
-		if(yy.black > initYinYang.black)
-		{
-			yy.black = initYinYang.black;
-		}
+		//if(yy.white.Value > yy.white.MaxValue)
+		//{
+		//	yy.white = initYinYang.white;
+		//}
+		//if(yy.black > initYinYang.black)
+		//{
+		//	yy.black = initYinYang.black;
+		//}
 	}
 
 	void DecreaseYY(float amt, YYInfo to)
@@ -340,8 +343,8 @@ public class LifeModule : Module
 
 	protected virtual void DamageYYBase(YinYang data)
 	{
-		DecreaseYY(data.black, YYInfo.Black);
-		DecreaseYY(data.white, YYInfo.White);
+		DecreaseYY(data.black.Value, YYInfo.Black);
+		DecreaseYY(data.white.Value, YYInfo.White);
 	}
 
 	public virtual void DamageYY(float black, float white, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel= DamageChannel.None)
@@ -397,7 +400,7 @@ public class LifeModule : Module
 		}
 		if (attacker == GameManager.instance.pActor)
 		{
-			GameManager.instance.recentDamage = yy.white;
+			GameManager.instance.recentDamage = yy.white.Value;
 			GameManager.instance.recentDamageType = type;
 			GameManager.instance.recentEnemy = GetActor();
 			GameManager.instance.qManager.InvokeOnChanged(CompletionAct.DefeatTarget, GetActor().name);
@@ -442,20 +445,18 @@ public class LifeModule : Module
 					yield return w;
 					DamageYYBase(data);
 					Debug.Log("DAMAGED OF" + channel + ": " + data.white);
-					if (data.white > 0)
+					if (data.white.Value > 0)
 					{
-						GameManager.instance.shower.GenerateDamageText(transform.position, data.white, YYInfo.White, channel, 0.7f);
+						GameManager.instance.shower.GenerateDamageText(transform.position, data.white.Value, YYInfo.White, channel, 0.7f);
 					}
-					if (data.black > 0)
+					if (data.black.Value > 0)
 					{
-						GameManager.instance.shower.GenerateDamageText(transform.position, data.black, YYInfo.Black, channel, 0.7f);
+						GameManager.instance.shower.GenerateDamageText(transform.position, data.black.Value, YYInfo.Black, channel, 0.7f);
 					}
 				}
 				break;
 			case DamageType.Continuous:
-				YinYang incPerSec = YinYang.Zero;
-				incPerSec.black = data.black / dur;
-				incPerSec.white = data.white / dur;
+				YinYang incPerSec = new YinYang(data.black.Value / dur, data.white.Value / dur);
 				while (curT < dur || dur < 0)
 				{
 					if(dur >= 0)
@@ -464,13 +465,13 @@ public class LifeModule : Module
 					}
 					yield return w;
 					DamageYYBase(incPerSec * Time.deltaTime);
-					if (incPerSec.white > 0)
+					if (incPerSec.white.Value > 0)
 					{
-						GameManager.instance.shower.GenerateDamageText(transform.position, incPerSec.white, YYInfo.White, channel, 0.7f);
+						GameManager.instance.shower.GenerateDamageText(transform.position, incPerSec.white.Value, YYInfo.White, channel, 0.7f);
 					}
-					if (incPerSec.black > 0)
+					if (incPerSec.black.Value > 0)
 					{
-						GameManager.instance.shower.GenerateDamageText(transform.position, incPerSec.black, YYInfo.Black, channel, 0.7f);
+						GameManager.instance.shower.GenerateDamageText(transform.position, incPerSec.black.Value, YYInfo.Black, channel, 0.7f);
 					}
 				}
 				break;
@@ -511,16 +512,18 @@ public class LifeModule : Module
 	public override void ResetStatus()
 	{
 		base.ResetStatus();
-		yy = new YinYang(initYinYang);
-		adequity = initAdequity;
+		yy.black.ResetCompletely();
+		yy.white.ResetCompletely();
+		adequity.black.ResetCompletely();
+		adequity.white.ResetCompletely();
 		//maxSoul = initSoul;
 		regenMod = YinYang.One;
 		regenOn = true;
 		regenThreshold =10;
 		baseRegen = 1;
 		isImmune = false;
-		applyMod = 1;
-		baseApplySpeed = 1;
+		//applyMod = 1;
+		//baseApplySpeed = 1;
 		fixedRegenMod = null;
 		
 

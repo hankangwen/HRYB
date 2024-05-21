@@ -19,10 +19,10 @@ public struct ItemAmountPair
 
     public ItemAmountPair(string name, int cnt = 1)
 	{
-        info = Item.GetItem(name);
+        info = Item.GetItem<Item>(name);
 		if(info == null)
 		{
-			info = new Item(name, "", ItemType.None, 10, null, true);
+			info = new Item(name, "", ItemType.None, 9999, null, -1, true);
 		}
         num = cnt;
 	}
@@ -167,9 +167,8 @@ public class Crafter
 
     public static Hashtable recipeItemTable = new Hashtable()
 	{
-		{ new Recipe(new HashSet<ItemAmountPair>{ new ItemAmountPair("섬유", 5) }, new HashSet<CraftMethod>{  CraftMethod.None}, "도구" ), new ItemAmountPair("밧줄") },
-		{ new Recipe(new HashSet<ItemAmountPair>{ new ItemAmountPair("나뭇가지", 8), new ItemAmountPair("섬유", 3) }, new HashSet<CraftMethod>{  CraftMethod.None}, "무기" ),new ItemAmountPair("활")},
-		{ new Recipe(new HashSet<ItemAmountPair>{ new ItemAmountPair("인삼", 2), new ItemAmountPair("녹각") }, new HashSet<CraftMethod>{  CraftMethod.Medicine}, "" ),new ItemAmountPair("도약탕") },
+		
+		//{ new Recipe(new HashSet<ItemAmountPair>{ new ItemAmountPair("인삼", 2), new ItemAmountPair("녹각") }, new HashSet<CraftMethod>{  CraftMethod.Medicine}, "" ),new ItemAmountPair("도약탕") },
 		
 	};
 
@@ -197,7 +196,10 @@ public class Crafter
 			}
 			string originalName = data.GetAttribute(i, ORIGINALNAME);
 			string afterName = data.GetAttribute(i, TRIMPARSEFROM);
-			YinyangItem item = new YinyangItem(originalName, "", ItemType.None, 10, null, Item.nameDataHashT.ContainsKey(originalName), null);
+			YinyangItem item = Item.GetItem<YinyangItem>(originalName);
+			if(item == null)
+				item = new YinyangItem(originalName, "", ItemType.None, 9999, null, true, -1, DetailAmount.Empty, false);
+			item = new YinyangItem(item);
 			
 			if (afterName.Contains(PreProcess.STIRPREFIX))
 			{

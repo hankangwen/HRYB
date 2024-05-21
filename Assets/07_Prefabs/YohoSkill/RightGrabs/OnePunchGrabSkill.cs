@@ -88,7 +88,7 @@ public class OnePunchGrabSkill : YGComboAttackBase
 
 				if (t >= 10)
 				{
-					if((_life.yy.black > 0 && _life.yy.white > 0))
+					if((_life.yy.black.Value > 0 && _life.yy.white.Value > 0))
 					{
 
 						_nextTo?.Invoke();

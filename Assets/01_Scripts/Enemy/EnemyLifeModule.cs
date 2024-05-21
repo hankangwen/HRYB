@@ -71,37 +71,37 @@ public class EnemyLifeModule : LifeModule
 
 	public void OutJeungGi()
 	{
-		if(initYinYang.white * 0.66f > yy.white && _66PercentWhite ==false)
+		if(yy.white.MaxValue * 0.66f > yy.white.Value && _66PercentWhite ==false)
 		{
 			_66PercentWhite = true;
-			OutValue(initYinYang.white * 0.2f);
+			OutValue(yy.white.MaxValue * 0.2f);
 		}
-		if (initYinYang.white * 0.33f > yy.white && _33PercentWhite == false)
+		if (yy.white.MaxValue * 0.33f > yy.white.Value && _33PercentWhite == false)
 		{
 			_33PercentWhite = true;
-			OutValue(initYinYang.white * 0.2f);
+			OutValue(yy.white.MaxValue * 0.2f);
 		}
-		if(yy.white <= 0 && _isDie == false)
+		if(yy.white.Value <= 0 && _isDie == false)
 		{
 			_isDie = true;
-			OutValue(initYinYang.white * 0.2f);
+			OutValue(yy.white.MaxValue * 0.2f);
 		}
 
-		if (initYinYang.black * 0.66f > yy.black && _66PercentBlack == false)
+		if (yy.black.MaxValue * 0.66f > yy.black.Value && _66PercentBlack == false)
 		{
 			_66PercentBlack = true;
-			OutValue(initYinYang.black * 0.2f);
+			OutValue(yy.black.MaxValue * 0.2f);
 		}
-		if (initYinYang.black * 0.33f > yy.black && _33PercentBlack == false)
+		if (yy.black.MaxValue * 0.33f > yy.black.Value && _33PercentBlack == false)
 		{
 			_33PercentBlack = true;
-			OutValue(initYinYang.black * 0.2f);
+			OutValue(yy.black.MaxValue * 0.2f);
 		}
 
-		if (yy.black <= 0 && _isDie ==false)
+		if (yy.black.Value <= 0 && _isDie ==false)
 		{
 			_isDie = true;
-			OutValue(initYinYang.black * 0.2f);
+			OutValue(yy.black.MaxValue * 0.2f);
 		}
 
 		/*

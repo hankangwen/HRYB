@@ -375,10 +375,12 @@ public class GameManager : MonoBehaviour
 	{
 		//아이템을 초기화
 		//제작법을 초기허ㅘ하맙.
+		yield return StartCoroutine(Item.InitializeItem());
 
 		yield return StartCoroutine(Crafter.InitializeTrim());
 
 		pedia = new ItemPedia();
+		imageManager.DoLoad();
 	}
 
 

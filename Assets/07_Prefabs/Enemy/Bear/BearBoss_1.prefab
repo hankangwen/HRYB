@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 587915716887254442}
   - component: {fileID: 6058713294426786377}
   - component: {fileID: -510076408697515796}
+  - component: {fileID: 4326635324537322347}
   m_Layer: 9
   m_Name: BearBoss_1
   m_TagString: Untagged
@@ -312,9 +313,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDir: {x: 0, y: 0, z: 0}
-  runSpeed: 0
-  walkSpeed: 0
-  crouchSpeed: 0
+  initRunSpeed: 0
+  initWalkSpeed: 0
+  initCrouchSpeed: 0
   gravity: 1
   groundThreshold: 0.5
   _isCanMove: 0
@@ -332,9 +333,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initAtkDist: 40
   initAtkGap: 0
-  initDamage:
-    black: 0
-    white: 0
+  blackDamage: 0
+  whiteDamage: 0
   target: {fileID: 0}
   _firePos: {fileID: 1496734230019600107}
 --- !u!114 &4443986112699179410
@@ -414,6 +414,7 @@ MonoBehaviour:
   cast: {fileID: 0}
   anim: {fileID: 0}
   talk: {fileID: 0}
+  wallet: {fileID: 0}
   _ai: {fileID: 0}
 --- !u!114 &-510076408697515796
 MonoBehaviour:
@@ -428,23 +429,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isImmune: 0
-  initYinYang:
-    black: 500
-    white: 500
-  initAdequity:
-    black: 1
-    white: 1
-  yy:
-    black: 0
-    white: 0
-  regenMod:
-    black: 1
-    white: 1
-  fixedRegenMod:
-    black: 0
-    white: 0
+  initBlack: 450
+  initWhite: 450
+  initAdeBlack: 1
+  initAdeWhite: 1
   regenThreshold: 10
-  applyMod: 1
   superArmor: 0
   _isItGroge: 0
   _grogeInitValue: 100
@@ -454,6 +443,23 @@ MonoBehaviour:
   _33PercentBlack: 0
   _33PercentWhite: 0
   _isDie: 0
+--- !u!114 &4326635324537322347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068531570469127118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de989f67e94724646a8e8e3457d88ba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMoney: -1
+  moneyRegenRate: 1000
+  purchaseBias: 0.8
+  debtAble: 0
+  shopList: []
 --- !u!1 &1115335750636031985
 GameObject:
   m_ObjectHideFlags: 0
@@ -2563,7 +2569,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8063281413345801639, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8063281413345801639, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_LocalPosition.z

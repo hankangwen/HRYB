@@ -256,7 +256,7 @@ public class FollowingFoxFire : MonoBehaviour
 		if(mode == FoxFireMode.Attatched)
 		{
 			Debug.Log("DAMAGE ADDED : " + dmg.white);
-			accDmg += dmg.white;
+			accDmg += dmg.white.Value;
 			// if(accDmg > maxAccDmg)
 			if(_isBomb) 
 			{

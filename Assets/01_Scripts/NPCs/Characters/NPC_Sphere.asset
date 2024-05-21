@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34bf9a0dd9b00534b9289e6ee0de3fd4, type: 3}
-  m_Name: ItemNameDict
+  m_Script: {fileID: 11500000, guid: ea3d931a3f2dec940a71998aaf5634ba, type: 3}
+  m_Name: NPC_Sphere
   m_EditorClassIdentifier: 
-  Dict:
-    keyValues: []
+  baseName: "\uBC15\uC528"
+  subName: "\uC758\uC6D0"
+  initDia: {fileID: 11400000, guid: e423c01f3f66df440847296487483e38, type: 2}

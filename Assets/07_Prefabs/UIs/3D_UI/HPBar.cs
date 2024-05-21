@@ -1,42 +1,68 @@
+//using AmplifyShaderEditor;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Unity.VisualScripting;
+
 
 public class HPBar : MonoBehaviour
 {
-	LifeModule lf;
-	Image hp;
-	TextMeshProUGUI nameText;
+	public LifeModule lf;
+	public Image hpBarBlack;
+	public Image blackBack;
+	public Image whiteBack;
+	public Image hpBarWhite;
 
-	Image whiteAdequity;
+	float value = 0;
+	const float fullHpwidth = 300;
 
-	private void Awake()
+
+	private void Start()
 	{
 
-		hp = transform.Find("HPBar/HP").GetComponent<Image>();
-		lf = GetComponentInParent<LifeModule>();
-		nameText = transform.Find("NameBack/NameText").GetComponent<TextMeshProUGUI>();
-		whiteAdequity = transform.Find("BlackBack/WhiteBack").GetComponent<Image>();
+		hpBarBlack = transform.Find("BlackHP/Black").GetComponent<Image>();
+		blackBack = transform.Find("BlackHP/Background").GetComponent<Image>();
+		hpBarWhite = transform.Find("WhiteHP/White").GetComponent<Image>();
+		whiteBack = transform.Find("WhiteHP/Background").GetComponent<Image>();
 
-		nameText.text = lf.gameObject.name;
+
+		lf = GetComponentInParent<LifeModule>();
+
+		//비율에 따라 HP바 크기 재조정
+		if(lf.yy.white.MaxValue > lf.yy.black.MaxValue)
+		{
+			value = lf.yy.black.MaxValue / lf.yy.white.MaxValue;
+			ResizeHpBar(value, blackBack, hpBarBlack);
+		}
+		else
+		{
+			value = lf.yy.white.MaxValue / lf.yy.black.MaxValue;
+			ResizeHpBar(value, whiteBack, hpBarWhite);
+		}
 	}
 
 	private void Update()
 	{
-		hp.fillAmount = lf.yy.white / lf.initYinYang.white;
-		whiteAdequity.fillAmount = lf.initAdequity.white / (lf.initAdequity.white + lf.initAdequity.black);
-
-		if (lf.yy.white == lf.initYinYang.white || lf.yy.white <= 0)
-		{
-			this.GetComponentInParent<Canvas>().enabled = false;
-		}
-		else
-		{
-			this.GetComponentInParent<Canvas>().enabled = true;
-		}
+		hpBarWhite.fillAmount = lf.yy.white.Value / lf.yy.white.MaxValue;
+		hpBarBlack.fillAmount = lf.yy.black.Value / lf.yy.black.MaxValue;
 		
+
+		//HP가 만땅이거나, 0이면 숨기기
+		if ((lf.yy.white.Value >= lf.yy.white.MaxValue && lf.yy.black.Value >= lf.yy.black.MaxValue) || (lf.yy.white.Value <= 0 && lf.yy.black.Value <= 0))
+			this.GetComponentInParent<Canvas>().enabled = false;
+		else
+			this.GetComponentInParent<Canvas>().enabled = true;
+		
+	}
+
+
+	private void ResizeHpBar(float sizeVlaue, Image background, Image hpbar)
+	{
+		hpbar.rectTransform.sizeDelta = new Vector2(fullHpwidth * sizeVlaue, hpbar.rectTransform.sizeDelta.y);
+		hpbar.rectTransform.anchoredPosition = new Vector2(-(fullHpwidth * sizeVlaue) / 2, hpbar.rectTransform.anchoredPosition.y);
+
+		background.rectTransform.sizeDelta = new Vector2(fullHpwidth * sizeVlaue, background.rectTransform.sizeDelta.y);
+		background.rectTransform.anchoredPosition = new Vector2(-(fullHpwidth * sizeVlaue) / 2, background.rectTransform.anchoredPosition.y);
 	}
 }

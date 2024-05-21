@@ -56,6 +56,8 @@ public class QuestInfo : ScriptableObject, System.IComparable
 
 	protected virtual void OnEnable()
 	{
+		if (myInfo == null)
+			return;
 		ResetQuestCall();
 		ResetQuestStartTime();
 		curCompletedAmount = 0;
@@ -64,6 +66,7 @@ public class QuestInfo : ScriptableObject, System.IComparable
 
 	public void ResetQuestStartTime(CompletionAct cond = CompletionAct.None)
 	{
+		
 		for (int i = 0; i < myInfo.Count; i++)
 		{
 			if(cond == CompletionAct.None || myInfo[i].objective == cond)
