@@ -4,6 +4,8 @@ using UnityEngine;
 using static MalbersAnimations.UI.StatMonitorUI;
 //using static UnityEditor.Progress;
 
+
+
 public class CollectionUI : MonoBehaviour, IOpenableWindowUI
 {
 	Transform content;
