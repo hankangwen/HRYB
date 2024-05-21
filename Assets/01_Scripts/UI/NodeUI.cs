@@ -18,16 +18,22 @@ public class NodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 		switch (indicating.nodeType) //여기서 이미지를 정해주든 뭐든
 		{
 			case StatUpgradeType.White:
+				//양
 				break;
 			case StatUpgradeType.Black:
+				//음
 				break;
 			case StatUpgradeType.WhiteAtk:
+				//양공격력
 				break;
 			case StatUpgradeType.BlackAtk:
+				//음공격력
 				break;
 			case StatUpgradeType.MoveSpeed:
+				//이속
 				break;
 			case StatUpgradeType.CooldownRdc:
+				//쿨감?
 				break;
 			default:
 				break;
