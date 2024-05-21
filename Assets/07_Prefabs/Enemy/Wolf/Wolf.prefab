@@ -1989,7 +1989,7 @@ MonoBehaviour:
     black: 125
     white: 125
   initAdequity:
-    black: 1
+    black: 0
     white: 1
   yy:
     black: 0
@@ -2006,6 +2006,11 @@ MonoBehaviour:
   _isItGroge: 0
   _grogeInitValue: 100
   _timePerGrogeAdd: 50
+  _66PercentBlack: 0
+  _66PercentWhite: 0
+  _33PercentBlack: 0
+  _33PercentWhite: 0
+  _isDie: 0
 --- !u!1 &7948914570566699178
 GameObject:
   m_ObjectHideFlags: 0
@@ -2312,6 +2317,18 @@ PrefabInstance:
     - target: {fileID: 8063281413345801639, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200637863505297546, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8913458165041896682, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 8913458165041896682, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

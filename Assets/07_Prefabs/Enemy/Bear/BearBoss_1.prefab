@@ -449,6 +449,11 @@ MonoBehaviour:
   _isItGroge: 0
   _grogeInitValue: 100
   _timePerGrogeAdd: 50
+  _66PercentBlack: 0
+  _66PercentWhite: 0
+  _33PercentBlack: 0
+  _33PercentWhite: 0
+  _isDie: 0
 --- !u!1 &1115335750636031985
 GameObject:
   m_ObjectHideFlags: 0
@@ -2558,7 +2563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8063281413345801639, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8063281413345801639, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_LocalPosition.z

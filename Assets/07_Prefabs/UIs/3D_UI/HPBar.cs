@@ -1,30 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
+using Unity.VisualScripting;
 
 public class HPBar : MonoBehaviour
 {
-	public LifeModule lf;
-	public Image hpBarBlack;
-	public Image hpBarWhite;
+	LifeModule lf;
+	Image hp;
+	TextMeshProUGUI nameText;
+
+	Image whiteAdequity;
 
 	private void Awake()
 	{
 
-		hpBarBlack = transform.Find("BlackHP/Black").GetComponent<Image>();
-		hpBarWhite = transform.Find("WhiteHP/White").GetComponent<Image>();
-		lf = GetComponentInParent<LifeModule>(); 
+		hp = transform.Find("HPBar/HP").GetComponent<Image>();
+		lf = GetComponentInParent<LifeModule>();
+		nameText = transform.Find("NameBack/NameText").GetComponent<TextMeshProUGUI>();
+		whiteAdequity = transform.Find("BlackBack/WhiteBack").GetComponent<Image>();
+
+		nameText.text = lf.gameObject.name;
 	}
 
 	private void Update()
 	{
-		hpBarWhite.fillAmount = lf.yy.white / lf.initYinYang.white;
-		hpBarBlack.fillAmount = lf.yy.black / lf.initYinYang.black;
+		hp.fillAmount = lf.yy.white / lf.initYinYang.white;
+		whiteAdequity.fillAmount = lf.initAdequity.white / (lf.initAdequity.white + lf.initAdequity.black);
 
-		if ((lf.yy.white >= lf.initYinYang.white && lf.yy.black >= lf.initYinYang.black) || (lf.yy.white <= 0 && lf.yy.black <= 0))
+		if (lf.yy.white == lf.initYinYang.white || lf.yy.white <= 0)
 		{
 			this.GetComponentInParent<Canvas>().enabled = false;
 		}
@@ -32,5 +37,6 @@ public class HPBar : MonoBehaviour
 		{
 			this.GetComponentInParent<Canvas>().enabled = true;
 		}
+		
 	}
 }
