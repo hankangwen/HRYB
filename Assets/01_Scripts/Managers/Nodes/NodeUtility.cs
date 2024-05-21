@@ -7,7 +7,10 @@ public enum StatUpgradeType
 {
 	White,
 	Black,
-	Atk,
+	 WhiteAtk,
+	 //WhiteAtk,
+	 BlackAtk,
+	 //BlackAtk,
 	MoveSpeed,
 	CooldownRdc,
 
@@ -98,11 +101,16 @@ public class NodeUtility
 				sb.Append(inf.amt);
 				sb.Append("의");
 				break;
-			case StatUpgradeType.Atk:
-				sb.Append("힘 + ");
-				sb.Append(inf.amt);
-				sb.Append("의");
-				break;
+			 case StatUpgradeType.WhiteAtk:
+				 sb.Append("힘 + ");
+				 sb.Append(inf.amt);
+				 sb.Append("의");
+				 break;
+			 case StatUpgradeType.BlackAtk:
+				 sb.Append("정신 + ");
+				 sb.Append(inf.amt);
+				 sb.Append("의");
+				 break;
 			case StatUpgradeType.MoveSpeed:
 				sb.Append("신속 + ");
 				sb.Append(inf.amt);
@@ -135,8 +143,10 @@ public class NodeUtility
 				return "양(하얀거)";
 			case StatUpgradeType.Black:
 				return "음(검은거)";
-			case StatUpgradeType.Atk:
-				return "공격";
+			 case StatUpgradeType.WhiteAtk:
+				 return "양 공격력";
+			 case StatUpgradeType.BlackAtk:
+				 return "음 공격력";
 			case StatUpgradeType.MoveSpeed:
 				return "이동속도";
 			case StatUpgradeType.CooldownRdc:
