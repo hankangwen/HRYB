@@ -31,6 +31,9 @@ public class CastModule : Module
 
 	public ModuleController castModuleStat = new ModuleController(false);
 
+	 public ModuleController cooldownModuleStat = new ModuleController(false);
+
+
 	public void Cast(string name)
 	{
 		if (ongoing == null)

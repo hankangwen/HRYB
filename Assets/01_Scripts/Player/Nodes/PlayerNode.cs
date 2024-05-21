@@ -49,24 +49,15 @@ public class PlayerNode : ScriptableObject
 
 		if (res)
 		{
-			switch (nodeType) //@@@@@@@@스탯올려주기.
-			{
-				case StatUpgradeType.White:
-					break;
-				case StatUpgradeType.Black:
-					break;
-				case StatUpgradeType.Atk:
-					break;
-				case StatUpgradeType.MoveSpeed:
-					break;
-				case StatUpgradeType.CooldownRdc:
-					break;
-				case StatUpgradeType.Callback:
-					onLearn?.Invoke();
-					break;
-				default:
-					break;
-			}
+			 switch (nodeType)
+			 {
+			 	case StatUpgradeType.Callback:
+			 		onLearn?.Invoke();
+			 		break;
+			 	default:
+			 		GameManager.instance.pActor.AddStat(amt, nodeType); //곱연산 노드는 없나?
+			 		break;
+			 }
 			
 			//자원 소비시켜주기.
 		}
