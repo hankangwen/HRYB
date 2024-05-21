@@ -26,9 +26,9 @@ public class EnemyMoveModule : MoveModule
 	public UnityEngine.AI.NavMeshAgent Agent => agent;
 	public CharacterController Character => _char;
 
-	private void Awake()
+	public override void Awake()
 	{
-
+		base.Awake();
 		_char = GetComponent<CharacterController>();
 		agent.speed = speed;
 		agent.acceleration = speed;

@@ -73,7 +73,7 @@ public class ChoiceDialogue : Dialogue
 		GameManager.instance.uiManager.dialogueUI.OffChoice();
 		choosing =false;
 		chooseComp = true;
-		Debug.LogError("아오");
+		//Debug.LogError("아오");
 
 
 		///아무튼 다음 대사를 선택지로 정하고 그걸로 띄우기.

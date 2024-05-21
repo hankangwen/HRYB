@@ -56,8 +56,9 @@ public class PlayerAttack : AttackModule
 	List<StatEffID> skillEndRemovers = new List<StatEffID>(); //사용 종료시 제거되는 효과
 
 
-	private void Awake()
+	public override void Awake()
 	{
+		base.Awake();
 		ShootPos = GameObject.Find("ShootPos").transform;
 
 		
@@ -212,6 +213,8 @@ public class PlayerAttack : AttackModule
 	{
 		base.ResetStatus();
 		secPerCharge = initSecPerCharge;
+		damage.black.ResetCompletely();
+		damage.white.ResetCompletely();
 	}
 
 	public void AddRemoveCall(StatEffID id)

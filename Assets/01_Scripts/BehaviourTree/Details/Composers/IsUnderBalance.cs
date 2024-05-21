@@ -14,7 +14,7 @@ public class IsUnderBalance : INode
 	}
 	public NodeStatus Examine()
 	{
-		if(self.life.yy.white > standard)
+		if(self.life.yy.white.Value > standard)
 		{
 			return NodeStatus.Fail;
 		}

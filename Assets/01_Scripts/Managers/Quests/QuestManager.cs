@@ -143,6 +143,8 @@ public class DetailConditionList : List<DetailCondition>
 {
 	public bool ExamineStatus(YinyangItem item)
 	{
+		if(this.Count <= 0)
+			return true;
 		int head = 0;
 		bool res = true;
 		bool valid = true;

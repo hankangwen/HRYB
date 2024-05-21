@@ -63,6 +63,8 @@ public class DetailAmount : Dictionary<DetailParameter, float>
 	}
 }
 
+
+
 [System.Serializable]
 public class YinyangItem : Item
 {
@@ -147,7 +149,7 @@ public class YinyangItem : Item
 		detailParams = item.detailParams;
 	}
 
-    public YinyangItem(string name, string desc, ItemType iType, int max, Specials used, bool isNewItem, YinYang yyData, DetailAmount det, bool isUsable, string ch = "") : base(name, desc, iType, max, used, isNewItem)
+    public YinyangItem(string name, string desc, ItemType iType, int max, Specials used, bool isNewItem, int price, DetailAmount det, bool isUsable, string ch = "") : base(name, desc, iType, max, used, price, isNewItem)
 	{
 		//data = yyData;
 		if(ch == "")

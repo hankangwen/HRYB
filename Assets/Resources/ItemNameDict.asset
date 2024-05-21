@@ -13,28 +13,4 @@ MonoBehaviour:
   m_Name: ItemNameDict
   m_EditorClassIdentifier: 
   Dict:
-    keyValues:
-    - key: Branch
-      value: "\uB098\uBB47\uAC00\uC9C0"
-    - key: Bow
-      value: "\uD65C"
-    - key: Deerfoot
-      value: "\uB179\uC81C"
-    - key: DearHorn
-      value: "\uB179\uAC01"
-    - key: Fiber
-      value: "\uC12C\uC720"
-    - key: Insam
-      value: "\uC778\uC0BC"
-    - key: LiquidMedicine
-      value: "\uD0D5\uC57D"
-    - key: LiquidMedicine1
-      value: "\uB3C4\uC57D\uD0D5"
-    - key: RopeLine
-      value: "\uBC27\uC904"
-    - key: Nokyong
-      value: "\uB179\uC6A9"
-    - key: Sam
-      value: "\uC0BC"
-    - key: Water
-      value: "\uBB3C"
+    keyValues: []

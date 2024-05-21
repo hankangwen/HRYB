@@ -595,7 +595,7 @@ public class PlayerInven : MonoBehaviour
 	{
 		if (!inven[curHolding].isEmpty())
 		{
-			inven[curHolding].info.onUse.onActivated.Invoke();
+			inven[curHolding].info.Use();
 		}
 		GameManager.instance.uiManager.UpdateInvenUI();
 	}

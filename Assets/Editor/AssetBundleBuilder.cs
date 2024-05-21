@@ -12,13 +12,20 @@ public class AssetBundleBuilder
 	[MenuItem("Assets/Build AssetBundles")]
 	static void BuildAllAssetBundles()
 	{
-		string assetBundleDirectory = "Assets/StreamingAssets";
-		if (!Directory.Exists(assetBundleDirectory))
+		try
 		{
-			Directory.CreateDirectory(assetBundleDirectory);
+			string assetBundleDirectory = "Assets/StreamingAssets";
+			if (!Directory.Exists(assetBundleDirectory))
+			{
+				Directory.CreateDirectory(assetBundleDirectory);
+			}
+			BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
+			Debug.Log("BUILDED");
 		}
-		BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
-		Debug.Log("BUILDED");
+		catch
+		{
+			Debug.LogError("BUILD FAILED");
+		}
 	}
 
 	static AssetBundleBuilder()

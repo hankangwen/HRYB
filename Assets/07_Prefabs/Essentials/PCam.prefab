@@ -548,8 +548,10 @@ MonoBehaviour:
   YAxisDamping: 1
   XSecond: 0
   XThreshold: 0.1
+  XIgnoreJitterPow: 999
   YSecond: 0
-  YThreshold: 0.4
+  YThreshold: 0.1
+  YIgnoreJitterPow: 999
 --- !u!1 &6590693245299270088
 GameObject:
   m_ObjectHideFlags: 0

@@ -84,10 +84,10 @@ public class PlayerMove : MoveModule
 		{
 			if (Physics.Raycast(transform.position + new Vector3(0, 0.1f, 0), Vector3.down, groundThreshold, (1 << GameManager.GROUNDLAYER) | (1 << GameManager.ENEMYLAYER)))
 			{
-				Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.cyan, 1000f);
+				//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.cyan, 1000f);
 				return true;
 			}
-			Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.red, 1000f);
+			//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.red, 1000f);
 			return false;
 		}
 	}
@@ -170,7 +170,7 @@ public class PlayerMove : MoveModule
 				if (moveStat != MoveStates.Climb)
 				{
 					curStat = MoveStates.Sit;
-					speed = crouchSpeed;
+					speed = crouchSpeed.MaxValue;
 				}
 			}
 			else
@@ -182,8 +182,9 @@ public class PlayerMove : MoveModule
 
 	Transform middle;
 
-	private void Awake()
+	public override void Awake()
 	{
+		base.Awake();
 		ctrl = GetComponent<CharacterController>();
 		middle = transform.Find("Middle");
 		initPos = transform.position;
@@ -320,7 +321,7 @@ public class PlayerMove : MoveModule
 		
 		if (moveModuleStat.Paused)
 		{
-			Debug.LogError("Pause");
+			//Debug.LogError("Pause");
 			return;
 		}
 		if (moveStat != MoveStates.Climb)

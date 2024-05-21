@@ -1,4 +1,4 @@
-using AmplifyShaderEditor;
+//using AmplifyShaderEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
@@ -18,7 +18,7 @@ public class HPBar : MonoBehaviour
 	const float fullHpwidth = 300;
 
 
-	private void Awake()
+	private void Start()
 	{
 
 		hpBarBlack = transform.Find("BlackHP/Black").GetComponent<Image>();
@@ -30,26 +30,26 @@ public class HPBar : MonoBehaviour
 		lf = GetComponentInParent<LifeModule>();
 
 		//비율에 따라 HP바 크기 재조정
-		if(lf.initYinYang.white > lf.initYinYang.black)
+		if(lf.yy.white.MaxValue > lf.yy.black.MaxValue)
 		{
-			value = lf.initYinYang.black / lf.initYinYang.white;
+			value = lf.yy.black.MaxValue / lf.yy.white.MaxValue;
 			ResizeHpBar(value, blackBack, hpBarBlack);
 		}
 		else
 		{
-			value = lf.initYinYang.white / lf.initYinYang.black;
+			value = lf.yy.white.MaxValue / lf.yy.black.MaxValue;
 			ResizeHpBar(value, whiteBack, hpBarWhite);
 		}
 	}
 
 	private void Update()
 	{
-		hpBarWhite.fillAmount = lf.yy.white / lf.initYinYang.white;
-		hpBarBlack.fillAmount = lf.yy.black / lf.initYinYang.black;
+		hpBarWhite.fillAmount = lf.yy.white.Value / lf.yy.white.MaxValue;
+		hpBarBlack.fillAmount = lf.yy.black.Value / lf.yy.black.MaxValue;
 		
 
 		//HP가 만땅이거나, 0이면 숨기기
-		if ((lf.yy.white >= lf.initYinYang.white && lf.yy.black >= lf.initYinYang.black) || (lf.yy.white <= 0 && lf.yy.black <= 0))
+		if ((lf.yy.white.Value >= lf.yy.white.MaxValue && lf.yy.black.Value >= lf.yy.black.MaxValue) || (lf.yy.white.Value <= 0 && lf.yy.black.Value <= 0))
 			this.GetComponentInParent<Canvas>().enabled = false;
 		else
 			this.GetComponentInParent<Canvas>().enabled = true;

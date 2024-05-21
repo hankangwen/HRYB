@@ -19,8 +19,9 @@ public class JangSungMoveModule : MoveModule
 	private bool _moveDecalOnShot = false;
 	public override float Speed { get => base.Speed; set { base.Speed = value; agent.speed = base.Speed; } }
 
-	private void Awake()
+	public override void Awake()
 	{
+		base.Awake();
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 		agent.speed = Speed;
 	}

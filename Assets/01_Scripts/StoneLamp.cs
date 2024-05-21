@@ -127,9 +127,9 @@ public class StoneLamp : MonoBehaviour
 			else
 			{
 				//플레이어가 체력이 없을때
-				if (!((GameManager.instance.pActor.life.yy.white + GameManager.instance.pActor.life.initYinYang.white * 0.02f) >= GameManager.instance.pActor.life.initYinYang.white))
+				if (!((GameManager.instance.pActor.life.yy.white.Value + GameManager.instance.pActor.life.yy.white.MaxValue * 0.02f) >= GameManager.instance.pActor.life.yy.white.MaxValue))
 				{
-					GameManager.instance.pActor.life.yy.white += GameManager.instance.pActor.life.initYinYang.white * 0.02f;
+					GameManager.instance.pActor.life.yy.white.Value += GameManager.instance.pActor.life.yy.white.MaxValue * 0.02f;
 
 					if (effectObj == null)
 					{

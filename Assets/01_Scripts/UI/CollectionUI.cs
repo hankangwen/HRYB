@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static MalbersAnimations.UI.StatMonitorUI;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress;
 
 public class CollectionUI : MonoBehaviour, IOpenableWindowUI
 {
