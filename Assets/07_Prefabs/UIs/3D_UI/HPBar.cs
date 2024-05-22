@@ -15,7 +15,6 @@ public class HPBar : MonoBehaviour
 
 	private void Awake()
 	{
-
 		hp = transform.Find("HPBar/HP").GetComponent<Image>();
 		lf = GetComponentInParent<LifeModule>();
 		nameText = transform.Find("NameBack/NameText").GetComponent<TextMeshProUGUI>();
