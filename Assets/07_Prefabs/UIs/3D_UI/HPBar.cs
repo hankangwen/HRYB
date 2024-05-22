@@ -13,28 +13,31 @@ public class HPBar : MonoBehaviour
 
 	Image whiteAdequity;
 
+	Canvas parent;
+
 	private void Awake()
 	{
 		hp = transform.Find("HPBar/HP").GetComponent<Image>();
 		lf = GetComponentInParent<LifeModule>();
 		nameText = transform.Find("NameBack/NameText").GetComponent<TextMeshProUGUI>();
 		whiteAdequity = transform.Find("BlackBack/WhiteBack").GetComponent<Image>();
+		parent = GetComponentInParent<Canvas>();
 
 		nameText.text = lf.gameObject.name;
 	}
 
 	private void Update()
 	{
-		hp.fillAmount = lf.yy.white / lf.initYinYang.white;
-		whiteAdequity.fillAmount = lf.initAdequity.white / (lf.initAdequity.white + lf.initAdequity.black);
+		hp.fillAmount = lf.yy.white.Value / lf.yy.white.MaxValue;
+		whiteAdequity.fillAmount = lf.adequity.white.Value / (lf.adequity.white.Value + lf.adequity.black.Value);
 
-		if (lf.yy.white == lf.initYinYang.white || lf.yy.white <= 0)
+		if (lf.yy.white.Value >= lf.yy.white.MaxValue || lf.yy.white.Value <= 0)
 		{
-			this.GetComponentInParent<Canvas>().enabled = false;
+			parent.enabled = false;
 		}
 		else
 		{
-			this.GetComponentInParent<Canvas>().enabled = true;
+			parent.enabled = true;
 		}
 		
 	}

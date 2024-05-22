@@ -22,8 +22,10 @@ public class CollectionUI : MonoBehaviour, IOpenableWindowUI
 
 	public void OnOpen()
 	{
+		Debug.Log(GameManager.instance.pedia.materialCollections.Values.Count);
 		foreach (ItemCollection item in GameManager.instance.pedia.materialCollections.Values)
 		{
+			Debug.Log(item.myItem.MyName + " : " + item.myItem.desc);
 			GameObject g = PoolManager.GetObject(COLLECTIONBUTTON, content);
 			CollectionButtonUI btn = g.GetComponent<CollectionButtonUI>();
 			btn.SetInfo(item);

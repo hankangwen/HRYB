@@ -202,10 +202,10 @@ public class Item : IComparable // #################
 		for (int i = 0; i < data.cardinality; i++)
 		{
 			List<string> tup = data.GetTuple(i);
-			for (int j = 0; j < tup.Count; j++)
-			{
-				Debug.Log(j + " : " +tup[j]);
-			}
+			//for (int j = 0; j < tup.Count; j++)
+			//{
+			//	Debug.Log(j + " : " +tup[j]);
+			//}
 			Item itm = null;
 			Specials sp = null;
 			if (tup[NAMEFROM + 10].Length > 0)
@@ -244,7 +244,7 @@ public class Item : IComparable // #################
 							(float)int.Parse(tup[NAMEFROM + 8]) / 100.0f,
 							(float)int.Parse(tup[NAMEFROM + 9]) / 100.0f
 							));
-					Debug.Log(itm.MyName + " : " + itm.desc);
+					//Debug.Log(itm.MyName + " : " + itm.desc);
 					break;
 				default:
 					break;
@@ -256,10 +256,10 @@ public class Item : IComparable // #################
 
 		Debug.Log("아이템 초기화 완료.");
 
-		foreach (Item item in nameDataHashT.Values)
-		{
-			Debug.Log($"{item.MyName} : {item.desc}");
-		}
+		//foreach (Item item in nameDataHashT.Values)
+		//{
+		//	Debug.Log($"{item.MyName} : {item.desc}");
+		//}
 	}
 
 	public Item(Item dat)
