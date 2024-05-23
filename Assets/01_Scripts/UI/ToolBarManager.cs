@@ -23,6 +23,7 @@ public class ToolBarManager : MonoBehaviour
 	Dictionary<ToolState, IOpenableWindowUI> openables = new Dictionary<ToolState, IOpenableWindowUI>();
 
 	public List<ToolBtn> toolButtons;
+	List<ToolBtn> parents;
 
 	IOpenableWindowUI curOpened;
 
@@ -42,6 +43,12 @@ public class ToolBarManager : MonoBehaviour
 		}
 
 		toolButtons = new List<ToolBtn>(GetComponentsInChildren<ToolBtn>());
+		parents = new List<ToolBtn>();
+		for (int i = 0; i < toolButtons.Count; i++)
+		{
+			if(toolButtons[i].indicating == ToolState.None)
+				parents.Add(toolButtons[i]);
+		}
 	}
 
 	private void Start()
@@ -102,17 +109,21 @@ public class ToolBarManager : MonoBehaviour
 	}
 	public void RefreshButtons()
 	{
+		
 		for (int i = 0; i < toolButtons.Count; i++)
 		{
-			if(toolButtons[i].indicating == state)
+			toolButtons[i].ResetButton();
+			
+			if (state != ToolState.None && toolButtons[i].indicating == state)
 			{
 				toolButtons[i].Focus();
 			}
-			else
-			{
-				toolButtons[i].ResetButton();
-			}
 		}
+		for (int i = 0; i < parents.Count; i++)
+		{
+			parents[i].ParentButtonRefresh();
+		}
+		
 	}
 
 	public void RefreshWindows()

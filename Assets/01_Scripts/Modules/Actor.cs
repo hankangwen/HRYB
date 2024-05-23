@@ -194,6 +194,8 @@ public class UpgradableStatus
 	{
 		modValueAdd = 0;
 		modValueMult = 0;
+		value = MaxValue;
+
 	}
 
 	public UpgradableStatus(int roundFrom, float initValue)

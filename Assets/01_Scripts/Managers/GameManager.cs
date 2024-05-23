@@ -295,6 +295,8 @@ public class GameManager : MonoBehaviour
 	public Transform outCaveTmp;
 
 	public ComboRank ComboRankManager;
+
+	public MinimapManager minimap;
 	
 	
 
@@ -357,7 +359,7 @@ public class GameManager : MonoBehaviour
 		shower = GameObject.Find("DamageTextManager").GetComponent<DamageTextShower>();
 		decalCtrl = GameObject.Find("DecalControl").GetComponent<DecalControl>();
 		
-		
+		minimap = GameObject.Find("MinimapManager").GetComponent<MinimapManager>();
 
 		saver = GameObject.Find("PreservedDataManager").GetComponent<PreservedDataManager>();
 
