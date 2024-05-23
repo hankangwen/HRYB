@@ -89,7 +89,8 @@ public class PlayerAttack : AttackModule
 	IEnumerator GrabCorotine()
 	{
 		yield return new WaitForSeconds(3.0f);
-		_grabedEnemy.transform.parent = null;
+		if(_grabedEnemy)
+			_grabedEnemy.transform.parent = null;
 		_grabedEnemy = null;
 		_NoInterect = false;
 	}
@@ -133,9 +134,6 @@ public class PlayerAttack : AttackModule
 					return;
 				if (context.started && !clickL)
 				{
-					Vector3 dir = Camera.main.transform.forward;
-					dir.y = 0;
-					transform.rotation = Quaternion.LookRotation(dir);
 					clickL = true;
 					(GetActor().cast as PlayerCast).SetSkillUse(SkillSlotInfo.LClick);
 				}

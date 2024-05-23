@@ -173,6 +173,7 @@ public class BearAI : AISetter
 
 			IsOutRange LongaRange = new IsOutRange(self, player.transform, OutSectionRanged, null, () =>
 			{
+				_moveModule.StopMove();
 			});
 			IsInRange Idler = new IsInRange(self, player.transform, Attackrange, null, () =>
 			{

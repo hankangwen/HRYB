@@ -431,8 +431,8 @@ MonoBehaviour:
   isImmune: 0
   initBlack: 450
   initWhite: 450
-  initAdeBlack: 1
-  initAdeWhite: 1
+  initAdeBlack: 30
+  initAdeWhite: 70
   regenThreshold: 10
   superArmor: 0
   _isItGroge: 0
@@ -2569,7 +2569,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8063281413345801639, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.61
       objectReference: {fileID: 0}
     - target: {fileID: 8063281413345801639, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_LocalPosition.z

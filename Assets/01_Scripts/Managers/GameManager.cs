@@ -295,10 +295,14 @@ public class GameManager : MonoBehaviour
 	public Transform outCaveTmp;
 
 	public ComboRank ComboRankManager;
+
+	public MinimapManager minimap;
 	
 	
 
 	public WaitForSeconds waitSec = new WaitForSeconds(1.0f);
+
+	public bool _isCharacterInput =true;
 
 
 	//캡쳐용 변수
@@ -357,7 +361,7 @@ public class GameManager : MonoBehaviour
 		shower = GameObject.Find("DamageTextManager").GetComponent<DamageTextShower>();
 		decalCtrl = GameObject.Find("DecalControl").GetComponent<DecalControl>();
 		
-		
+		minimap = GameObject.Find("MinimapManager").GetComponent<MinimapManager>();
 
 		saver = GameObject.Find("PreservedDataManager").GetComponent<PreservedDataManager>();
 
@@ -427,6 +431,7 @@ public class GameManager : MonoBehaviour
 	
 	public void EnableCtrl()
 	{
+
 		Debug.Log(")!)!)!)");
 		player.layer = LayerMask.NameToLayer("Player");
 		//GameManager.instance.pinp.ActivateInput();
@@ -437,6 +442,7 @@ public class GameManager : MonoBehaviour
 	
 	public void DisableCtrl(ControlModuleMode mode)
 	{
+		_isCharacterInput = false;
 		Debug.Log("(*(*(*(*(*(");
 		(pActor.move as PlayerMove).moveModuleStat.Pause(mode, true);
 		pActor.atk.attackModuleStat.Pause(mode, true);
@@ -444,6 +450,7 @@ public class GameManager : MonoBehaviour
 
 	public void EnableCtrl(ControlModuleMode mode)
 	{
+		_isCharacterInput = true;
 		Debug.Log("*)*)*)*)*)*)");
 		(pActor.move as PlayerMove).moveModuleStat.Pause(mode, false);
 		pActor.atk.attackModuleStat.Pause(mode, false);
@@ -634,14 +641,22 @@ public class GameManager : MonoBehaviour
 
 	public void PlayerDeath()
 	{
-		AISetter[] objs = GameObject.FindObjectsOfType<AISetter>();
+		
 
+		AISetter[] objs = GameObject.FindObjectsOfType<AISetter>();
 		foreach (var item in objs)
 		{
 			item.GetComponent<Actor>().Respawn();
 		}
+		try
+		{
 
 		GameObject.FindObjectOfType<JSInitBattle>().StartReseet();
+		}
+		catch
+		{
+
+		}
 	}
 
 	public void LoadMinigame(Minigames mode)

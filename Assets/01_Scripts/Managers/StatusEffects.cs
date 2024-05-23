@@ -149,7 +149,7 @@ public class StatusEffects
 
 	void OnBlindActivated(Actor self, Actor inflicter, float power)
 	{
-		self.sight.sightRange *= power;
+		self.sight.sightRange.MultMod(power);
 	}
 	void OnBlindUpdated(Actor self, float power)
 	{
@@ -157,7 +157,7 @@ public class StatusEffects
 	}
 	void OnBlindEnded(Actor self, float power)
 	{
-		self.sight.sightRange /= power;
+		self.sight.sightRange.MultMod(-power);
 	}
 
 	void OnSlowActivated(Actor self, Actor inflicter, float power)

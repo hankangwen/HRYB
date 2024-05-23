@@ -12,6 +12,7 @@ public class JungGI : MonoBehaviour
 	bool _init = false;
 	bool _followPlayer = false;
 	bool _goPlayer = false;
+	Transform tls;
 
 	public void Init(Vector3 enemyPos, float t)
 	{
@@ -25,6 +26,7 @@ public class JungGI : MonoBehaviour
 		_init = true;
 		_goPlayer = false;
 		_followPlayer = false;
+		tls = GameManager.instance.player.transform;
 	}
 
 	private void FixedUpdate()
@@ -33,7 +35,7 @@ public class JungGI : MonoBehaviour
 			MoveSet();
 		if(_goPlayer == true)
 		{
-			transform.position += (GameManager.instance.player.transform.position - transform.position) * 4 * Time.deltaTime;
+			transform.position += (tls.position - transform.position) * 4 * Time.deltaTime;
 		}
 	}
 
