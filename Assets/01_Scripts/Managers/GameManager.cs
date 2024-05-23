@@ -300,6 +300,8 @@ public class GameManager : MonoBehaviour
 
 	public WaitForSeconds waitSec = new WaitForSeconds(1.0f);
 
+	public bool _isCharacterInput =true;
+
 
 	//캡쳐용 변수
 	System.Text.StringBuilder capturer = new System.Text.StringBuilder();
@@ -427,6 +429,7 @@ public class GameManager : MonoBehaviour
 	
 	public void EnableCtrl()
 	{
+
 		Debug.Log(")!)!)!)");
 		player.layer = LayerMask.NameToLayer("Player");
 		//GameManager.instance.pinp.ActivateInput();
@@ -437,6 +440,7 @@ public class GameManager : MonoBehaviour
 	
 	public void DisableCtrl(ControlModuleMode mode)
 	{
+		_isCharacterInput = false;
 		Debug.Log("(*(*(*(*(*(");
 		(pActor.move as PlayerMove).moveModuleStat.Pause(mode, true);
 		pActor.atk.attackModuleStat.Pause(mode, true);
@@ -444,6 +448,7 @@ public class GameManager : MonoBehaviour
 
 	public void EnableCtrl(ControlModuleMode mode)
 	{
+		_isCharacterInput = true;
 		Debug.Log("*)*)*)*)*)*)");
 		(pActor.move as PlayerMove).moveModuleStat.Pause(mode, false);
 		pActor.atk.attackModuleStat.Pause(mode, false);

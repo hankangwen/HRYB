@@ -89,7 +89,8 @@ public class PlayerAttack : AttackModule
 	IEnumerator GrabCorotine()
 	{
 		yield return new WaitForSeconds(3.0f);
-		_grabedEnemy.transform.parent = null;
+		if(_grabedEnemy)
+			_grabedEnemy.transform.parent = null;
 		_grabedEnemy = null;
 		_NoInterect = false;
 	}
