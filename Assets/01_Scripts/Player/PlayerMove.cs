@@ -653,7 +653,7 @@ public class PlayerMove : MoveModule
 		{
 			if (context.started)
 			{
-				Collider[] c = Physics.OverlapSphere(transform.position, lockOnDist, ~((1 << GameManager.PLAYERATTACKLAYER) | 1 << GameManager.PLAYERLAYER | 1 << GameManager.GROUNDLAYER));
+				Collider[] c = Physics.OverlapSphere(transform.position, lockOnDist, 1 << GameManager.ENEMYLAYER);
 				if (c.Length > 0)
 				{
 					prevTargets = targets;
@@ -686,7 +686,7 @@ public class PlayerMove : MoveModule
 						if (!already.Contains(targets[i]))
 						{
 							target = targets[i];
-							pAttack.target = target;
+							pAttack.target = target.Find("Middle");
 
 							CameraManager.instance.SwitchTo(CamStatus.Locked);
 

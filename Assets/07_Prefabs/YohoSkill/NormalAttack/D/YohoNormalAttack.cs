@@ -110,7 +110,7 @@ public class YohoNormalAttack : AttackBase
 			{
 				CameraManager.instance.ShakeCamFor(0.15f, 6, 6);
 				DoDamage(_life.GetActor(), self, _dmgs[0], obj.transform.position);
-				GameManager.instance.TimeManager.TimeSlow(self, _life.GetActor(), eff);
+				//GameManager.instance.TimeManager.TimeSlow(self, _life.GetActor(), eff);
 
 
 			}, (transform, module) =>

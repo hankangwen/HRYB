@@ -72,6 +72,8 @@ public class SkyBirtgh : AttackBase
 						    //GameManager.instance.TimeFreeze(0, 0.1f);
 						    Actor to = _life.GetActor();
 						    Actor by = self;
+
+							Debug.Log($"AAA : {obj} | {to} | {by}");
 						    DoDamage(to,by, _dmgs[0], obj.transform.position);
 
 						}, (transform, module) =>

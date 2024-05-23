@@ -132,9 +132,6 @@ public class PlayerAttack : AttackModule
 					return;
 				if (context.started && !clickL)
 				{
-					Vector3 dir = Camera.main.transform.forward;
-					dir.y = 0;
-					transform.rotation = Quaternion.LookRotation(dir);
 					clickL = true;
 					(GetActor().cast as PlayerCast).SetSkillUse(SkillSlotInfo.LClick);
 				}

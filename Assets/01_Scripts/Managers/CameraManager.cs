@@ -10,6 +10,7 @@ public class CameraManager : MonoBehaviour
 	public List<CinemachineBasicMultiChannelPerlin> camShakers = new List<CinemachineBasicMultiChannelPerlin>();
 	SkillProduction _skillProduct;
 	public CamStatus curCamStat;
+	GameObject _middleCamObj = null;
 	
 	public const int FORWARDCAM = 20;
 	public const int BACKWARDCAM = 10;
@@ -24,7 +25,10 @@ public class CameraManager : MonoBehaviour
 	float originYSpeed;
 
 	public static CameraManager instance;
-	
+
+	PlayerMove _playerModule;
+
+
 	public Camera MainCam
 	{
 		get
@@ -38,8 +42,7 @@ public class CameraManager : MonoBehaviour
 		}
 	}
 
-	MoveModule _playerModule;
-
+	
 
 	public void RegisterSkillCam(SkillProduction _sk)
 	{
@@ -50,13 +53,15 @@ public class CameraManager : MonoBehaviour
 	}
 
 
-	private void Awake()
+	private void Start()
 	{
 		instance = this;
 		_main = Camera.main;
 		
 		pCam = GetComponent<CinemachineFreeLook>();
 		aimCam = GameObject.Find("AimCam").GetComponent<CinemachineVirtualCamera>();
+
+		_playerModule = (GameManager.instance.pActor.move as PlayerMove);
 		SwitchTo(CamStatus.Freelook);
 		for (int i = 0; i < 3; i++)
 		{
@@ -74,12 +79,6 @@ public class CameraManager : MonoBehaviour
 		originYSpeed = pCam.m_YAxis.m_MaxSpeed;
 	}
 
-	private void Start()
-	{
-
-		_playerModule = GameManager.instance.player.GetComponent<MoveModule>();
-	}
-
 	private void Update()
 	{
 		if(_playerModule.moveModuleStat.Paused == false && _skillProduct != null)
@@ -87,6 +86,33 @@ public class CameraManager : MonoBehaviour
 			_skillProduct.End();
 			_skillProduct = null;
 		}
+		
+		if(curCamStat == CamStatus.Locked && _playerModule.GetActor().atk.target != null)
+		{
+			Vector3 a = _playerModule.transform.position;
+			Vector3 b = _playerModule.GetActor().atk.target.position;
+			float value = ((b - a).sqrMagnitude) / (_playerModule.lockOnDist * _playerModule.lockOnDist);
+			//Debug.LogError($"Value : {value}");
+
+			pCam.m_XAxis.Value = Mathf.Clamp(pCam.m_XAxis.Value, -37f, 37f);
+			pCam.m_YAxis.Value = 0.48f;
+			Vector3 vec;
+
+			if (value >= 0.25f)
+				vec = Vector3.Lerp(a, b + new Vector3(0, 2.4f, 0), value);
+			else
+				vec = Vector3.Lerp(b + new Vector3(0, 1.2f, 0), a, value);
+
+
+			_middleCamObj.transform.position = Vector3.Lerp(_middleCamObj.transform.position, vec, Time.deltaTime * 5);
+			//pCam.m_YAxis.Value
+		}
+
+		if(_playerModule.GetActor().atk.target==null)
+		{
+			SwitchTo(CamStatus.Freelook);
+		}
+
 	}
 
 	public void SwitchTo(CamStatus stat)
@@ -96,8 +122,8 @@ public class CameraManager : MonoBehaviour
 		{
 			case CamStatus.Freelook:
 				pCam.m_BindingMode = CinemachineTransposer.BindingMode.WorldSpace;
-				pCam.m_XAxis.m_Wrap = true;
 				pCam.Priority = FORWARDCAM;
+				pCam.LookAt = _playerModule.transform.Find("Middle").transform;
 				aimCam.Priority = BACKWARDCAM;
 				break;
 			case CamStatus.Aim:
@@ -106,9 +132,15 @@ public class CameraManager : MonoBehaviour
 				break;
 			case CamStatus.Locked:
 				pCam.m_BindingMode = CinemachineTransposer.BindingMode.LockToTargetWithWorldUp;
-				pCam.m_XAxis.m_Wrap = false;
+
 				pCam.Priority = FORWARDCAM;
 				aimCam.Priority = BACKWARDCAM;
+				
+				if(_middleCamObj == null)
+					_middleCamObj = new GameObject();
+				pCam.LookAt = _middleCamObj.transform;
+				
+
 				break;
 			default:
 				break;

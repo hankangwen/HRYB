@@ -156,11 +156,11 @@ public class EnemyLifeModule : LifeModule
 
 	void OutHitEffect()
 	{
-		if(_hit != "")
-		{
-			EffectObject eff = PoolManager.GetEffect(_hit, _middle);
-			eff.Begin();
-		}
+		//if(_hit != "")
+		//{
+		//	EffectObject eff = PoolManager.GetEffect(_hit, _middle);
+		//	eff.Begin();
+		//}
 	}
 	public void AddComboDamage(float t)
 	{
