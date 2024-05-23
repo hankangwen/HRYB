@@ -753,6 +753,37 @@ MonoBehaviour:
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 1.5481781, y: 1.6847856, z: 0.607719}
   _uiSelected: 0
+--- !u!114 &-8197018229011410239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Statues_Moak
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: e96c64ef-3ec5-4b9f-bac2-b9f4d82725c7
+  _prefabAsset: {fileID: 1215529899689962, guid: 5abdea2528b85964a86b7c57cf88af1f, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1215529899689962, guid: 5abdea2528b85964a86b7c57cf88af1f, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: 0, y: 0, z: 0}
+    _rotation: {x: 0, y: 0, z: 0, w: 1}
+    _scale: {x: 1, y: 1, z: 1}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 0.85107017, y: 1.9833812, z: 1.0554446}
+  _uiSelected: 1
 --- !u!114 &-8183668145739489882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2021,7 +2052,11 @@ MonoBehaviour:
   _folderPath:
     _path: Assets/9_Importeds/04_Objects/PBR_Statues_pack\Statue_Woman\Prefab
     _reveresedPath: Prefab/Statue_Woman/PBR_Statues_pack/04_Objects/9_Importeds/Assets
-  _prefabs: []
+  _prefabs:
+  - {fileID: 4213597793091590074}
+  - {fileID: 1007646869954761104}
+  - {fileID: 2525889413501799888}
+  - {fileID: -2115029729795526307}
   _uiSelected: 0
 --- !u!114 &-6159664680280727352
 MonoBehaviour:
@@ -4101,6 +4136,37 @@ MonoBehaviour:
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 4, y: 0.26627535, z: 1.0277281}
   _uiSelected: 0
+--- !u!114 &-3458798565069426601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Statue_God_Bronze1
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: 54dd5081-02b6-45c5-8663-0d5d8580bbe6
+  _prefabAsset: {fileID: 1806532716889014, guid: f8263a55d2748fd4c8585b87dea2b277, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1806532716889014, guid: f8263a55d2748fd4c8585b87dea2b277, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: -0, y: 0, z: 0}
+    _rotation: {x: 0.000000021855694, y: 0.00000008742278, z: -1.9106855e-15, w: 1}
+    _scale: {x: 1, y: 1, z: 1}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 1.4276354, y: 1.9993937, z: 1.2041037}
+  _uiSelected: 0
 --- !u!114 &-3442239115577301122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4873,6 +4939,37 @@ MonoBehaviour:
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 28.581074, y: 11.758751, z: 24.977043}
   _uiSelected: 0
+--- !u!114 &-2714512553446080530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Stone_02
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: 2626f442-1e49-4952-a772-78f2467b6a34
+  _prefabAsset: {fileID: 1779416118987320, guid: 0d0b028e536147845bc7bf87d17e663c, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1779416118987320, guid: 0d0b028e536147845bc7bf87d17e663c, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: -0, y: 0, z: 0}
+    _rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+    _scale: {x: 1, y: 1, z: 1}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 2.6496387, y: 2.0116978, z: 0.39369583}
+  _uiSelected: 0
 --- !u!114 &-2698472827997006932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5152,6 +5249,37 @@ MonoBehaviour:
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 7.905992, y: 7.906505, z: 2.2719998}
   _uiSelected: 0
+--- !u!114 &-2168666269824889841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Statue_God_Bronze2
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: a6011ec8-374c-4130-8816-2dd5bb78857d
+  _prefabAsset: {fileID: 1585157236228026, guid: 2df636ae9a843f64b8badfdcfd6b6585, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1585157236228026, guid: 2df636ae9a843f64b8badfdcfd6b6585, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: -0, y: 0, z: 0}
+    _rotation: {x: 0.000000021855694, y: 0.00000008742278, z: -1.9106855e-15, w: 1}
+    _scale: {x: 1, y: 1, z: 1}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 1.4276354, y: 1.9993937, z: 1.2041037}
+  _uiSelected: 1
 --- !u!114 &-2141693487673027830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5182,6 +5310,37 @@ MonoBehaviour:
   _modularSnapVerticalStep: 0
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 15.663605, y: 13.206955, z: 6.8478203}
+  _uiSelected: 0
+--- !u!114 &-2115029729795526307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Statue_Women_Stone
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: 14e8c0d3-fa20-46a8-9d3a-63e3d7a048ab
+  _prefabAsset: {fileID: 1716562263352092, guid: 8099fb244e3c7de48b20f5f49090b01b, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1716562263352092, guid: 8099fb244e3c7de48b20f5f49090b01b, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: -0.000000010583577, y: 0, z: 0}
+    _rotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
+    _scale: {x: 1.145125, y: 1.145125, z: 1.145125}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 1.1739414, y: 1.9837497, z: 1.4138702}
   _uiSelected: 0
 --- !u!114 &-2061124840544634550
 MonoBehaviour:
@@ -6466,7 +6625,8 @@ MonoBehaviour:
   _folderPath:
     _path: Assets/9_Importeds/04_Objects/PBR_Statues_pack\Statues_Moak\Prefab
     _reveresedPath: Prefab/Statues_Moak/PBR_Statues_pack/04_Objects/9_Importeds/Assets
-  _prefabs: []
+  _prefabs:
+  - {fileID: -8197018229011410239}
   _uiSelected: 0
 --- !u!114 &-13020146026626460
 MonoBehaviour:
@@ -6980,6 +7140,37 @@ MonoBehaviour:
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 12.465114, y: 11.868713, z: 10.02536}
   _uiSelected: 0
+--- !u!114 &630494691805205300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Statue_God_stone1
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: 147d4dfb-593e-496c-8831-7139c670c436
+  _prefabAsset: {fileID: 1154174198394676, guid: f57df46a07a9b8e428fb535c62a42af8, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1154174198394676, guid: f57df46a07a9b8e428fb535c62a42af8, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: -0, y: 0, z: 0}
+    _rotation: {x: 0.000000021855694, y: 0.00000008742278, z: -1.9106855e-15, w: 1}
+    _scale: {x: 1, y: 1, z: 1}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 1.4276354, y: 1.9993937, z: 1.2041037}
+  _uiSelected: 0
 --- !u!114 &652516273788395922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7370,6 +7561,37 @@ MonoBehaviour:
   _modularSnapVerticalStep: 0
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 0.13901599, y: 0.13291214, z: 3}
+  _uiSelected: 0
+--- !u!114 &1007646869954761104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Statue_Women_Bronze2
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: de3b1a34-c9eb-4163-afd6-ccdfb911f8e1
+  _prefabAsset: {fileID: 1626201156068066, guid: 548bcaa7193f5354da034efba7a31f30, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1626201156068066, guid: 548bcaa7193f5354da034efba7a31f30, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: -0.000000010583577, y: 0, z: 0}
+    _rotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
+    _scale: {x: 1.145125, y: 1.145125, z: 1.145125}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 1.1739414, y: 1.9837497, z: 1.4138702}
   _uiSelected: 0
 --- !u!114 &1018277178421140915
 MonoBehaviour:
@@ -7826,7 +8048,11 @@ MonoBehaviour:
   _folderPath:
     _path: Assets/9_Importeds/04_Objects/PBR_Statues_pack\Statue_God\Prefab
     _reveresedPath: Prefab/Statue_God/PBR_Statues_pack/04_Objects/9_Importeds/Assets
-  _prefabs: []
+  _prefabs:
+  - {fileID: -3458798565069426601}
+  - {fileID: -2168666269824889841}
+  - {fileID: 630494691805205300}
+  - {fileID: 1844679670678833889}
   _uiSelected: 0
 --- !u!114 &1665685233267965527
 MonoBehaviour:
@@ -7889,6 +8115,37 @@ MonoBehaviour:
   _modularSnapVerticalStep: 0
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 2.3395405, y: 1.5715259, z: 1.9390134}
+  _uiSelected: 0
+--- !u!114 &1844679670678833889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Statue_God_stone2
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: 48625358-3f14-4ce3-bbfd-bb93de7dda90
+  _prefabAsset: {fileID: 1886284192719950, guid: eeb2cf4d44ab7c045bbe00976a244fff, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1886284192719950, guid: eeb2cf4d44ab7c045bbe00976a244fff, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: -0.134, y: 0, z: 0}
+    _rotation: {x: 0.000000021855694, y: 0.00000008742278, z: -1.9106855e-15, w: 1}
+    _scale: {x: 1, y: 1, z: 1}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 1.4276354, y: 1.9993937, z: 1.2041037}
   _uiSelected: 0
 --- !u!114 &1896879727869227945
 MonoBehaviour:
@@ -8298,6 +8555,37 @@ MonoBehaviour:
   _modularSnapVerticalStep: 0
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 2, y: 0.61269474, z: 1.0191834}
+  _uiSelected: 0
+--- !u!114 &2525889413501799888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Statue_Women_Granite
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: 0e704091-0b3e-4305-82d5-7086660e0c04
+  _prefabAsset: {fileID: 1341168490421198, guid: 1ae267f78f6ccc8448a3c15d50e90eba, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1341168490421198, guid: 1ae267f78f6ccc8448a3c15d50e90eba, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: -0.000000010583577, y: 0, z: 0}
+    _rotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
+    _scale: {x: 1.145125, y: 1.145125, z: 1.145125}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 1.1739414, y: 1.9837497, z: 1.4138702}
   _uiSelected: 0
 --- !u!114 &2536030257289151636
 MonoBehaviour:
@@ -8782,6 +9070,37 @@ MonoBehaviour:
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 15.065325, y: 10.874494, z: 14.983016}
   _uiSelected: 0
+--- !u!114 &3359501395279464325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Stone_01
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: 1af6018a-1e3d-48d3-85df-c6033a87454c
+  _prefabAsset: {fileID: 1953128006348380, guid: 1b88ff9d59519c644976d2defef79c16, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1953128006348380, guid: 1b88ff9d59519c644976d2defef79c16, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: -0, y: 0, z: 0}
+    _rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+    _scale: {x: 1, y: 1, z: 1}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 1.2754118, y: 2.2428002, z: 1.273165}
+  _uiSelected: 1
 --- !u!114 &3453387421593803949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9051,7 +9370,9 @@ MonoBehaviour:
   _folderPath:
     _path: Assets/9_Importeds/04_Objects/PBR_Statues_pack\Statues_Viking\Prefab
     _reveresedPath: Prefab/Statues_Viking/PBR_Statues_pack/04_Objects/9_Importeds/Assets
-  _prefabs: []
+  _prefabs:
+  - {fileID: 3359501395279464325}
+  - {fileID: -2714512553446080530}
   _uiSelected: 0
 --- !u!114 &4060799644243620105
 MonoBehaviour:
@@ -9146,6 +9467,37 @@ MonoBehaviour:
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 0.68841994, y: 0.28977785, z: 0.7255439}
   _uiSelected: 0
+--- !u!114 &4213597793091590074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bfdaf7f2c4c1d04580d676ed3717f21, type: 3}
+  m_Name: Statue_Women_Bronze1
+  m_EditorClassIdentifier: 
+  _guid:
+    _guidString: a74f1f53-50a3-4219-8781-07dde84f76f4
+  _prefabAsset: {fileID: 1982171774964814, guid: 2d4ee2aef8f38e74dabdf2407dc07203, type: 3}
+  _preview:
+    _prefabAsset: {fileID: 1982171774964814, guid: 2d4ee2aef8f38e74dabdf2407dc07203, type: 3}
+    _texture: {fileID: 0}
+    _yaw: 0
+    _pitch: 0
+  _sceneToObjectGroup:
+    _serializedKeys: []
+    _serializedValues: []
+  _spawnGuideTransformTRS:
+    _position: {x: -0.000000010583577, y: 0, z: 0}
+    _rotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
+    _scale: {x: 1.145125, y: 1.145125, z: 1.145125}
+  _modularSnapVerticalStep: 0
+  _surfaceSnapAppliedOffsetFromSurface: 0
+  _modelSize: {x: 1.1739414, y: 1.9837497, z: 1.4138702}
+  _uiSelected: 1
 --- !u!114 &4233459337466275698
 MonoBehaviour:
   m_ObjectHideFlags: 0

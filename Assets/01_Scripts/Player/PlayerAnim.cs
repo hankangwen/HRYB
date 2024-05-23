@@ -36,24 +36,18 @@ public class PlayerAnim : AnimModule
 
 
 	PlayerMove pmove;
-	PlayerAnimActions animAction;
-	public PlayerAnimActions AnimAct => animAction;
 
 	internal Composite curEquipped;
-
-	
 
 	public override void Awake()
 	{
 		Animator[] anims = GetComponentsInChildren<Animator>();
-		animAction = GetComponentInChildren<PlayerAnimActions>();
 		anim = anims[1];
 	}
 
 	private void Start()
 	{
 		pmove = GetActor().move as PlayerMove;
-		
 	}
 
 	internal void SetLoopState()
@@ -66,13 +60,9 @@ public class PlayerAnim : AnimModule
 		anim.SetBool(loopAfterHash, false);
 	}
 
-	
-
 	private void LateUpdate()
 	{
-		
-
-		if (!GetActor().move.idling)
+		if(!GetActor().move.idling)
 		{
 			switch (CameraManager.instance.curCamStat)
 			{
@@ -81,13 +71,13 @@ public class PlayerAnim : AnimModule
 					switch (GetActor().move.moveStat)
 					{
 						case MoveStates.Walk:
-							anim.SetFloat(moveYHash, GetActor().move.walkSpeed);
+							anim.SetFloat(moveYHash, GetActor().move.initWalkSpeed);
 							break;
 						case MoveStates.Run:
-							anim.SetFloat(moveYHash, GetActor().move.runSpeed);
+							anim.SetFloat(moveYHash, GetActor().move.initRunSpeed);
 							break;
 						case MoveStates.Sit:
-							anim.SetFloat(moveYHash, GetActor().move.crouchSpeed);
+							anim.SetFloat(moveYHash, GetActor().move.initCrouchSpeed);
 							break;
 						case MoveStates.Climb:
 							

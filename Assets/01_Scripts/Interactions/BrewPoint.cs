@@ -115,7 +115,7 @@ public class BrewPoint : CraftPoint
 		else
 		{
 			Debug.Log("NO");
-			resultItem = new Medicines(GetMedicineName(), "약이다.", ItemType.Liquid, 1, null, true, YinYang.Zero, DetailAmount.Empty);
+			resultItem = new Medicines(GetMedicineName(), "약이다.", ItemType.Liquid, 1, null, true, -1, DetailAmount.Empty);
 			ongoing = StartCoroutine(DelAddStat());
 		}
 	}

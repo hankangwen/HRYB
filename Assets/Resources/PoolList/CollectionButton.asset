@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CollectionButton
   m_EditorClassIdentifier: 
   data:
-    obj: {fileID: 896900729312045420, guid: 41465134b2970c14a980b121e0714fbb, type: 3}
-    num: 5
+    obj: {fileID: 896900729312045420, guid: d3269c5940a7c5b489c4abefaa7ad18f, type: 3}
+    num: 10

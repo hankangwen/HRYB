@@ -19,7 +19,7 @@ public class PlayerLife : LifeModule
 
 	public override bool isDead
 	{
-		get => yy.white <= 0;
+		get => yy.white.Value <= 0;
 	}
 
 
@@ -58,7 +58,7 @@ public class PlayerLife : LifeModule
 		{
 			yield return null;
 			time += Time.deltaTime;
-			yy.black += t * Time.deltaTime * 2;
+			yy.black.Value += t * Time.deltaTime * 2;
 
 		}
 	}

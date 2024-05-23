@@ -53,9 +53,14 @@ public class MoveModule : Module
 		get => !forced && isGrounded;
 	}
 
-	public float runSpeed;
-	public float walkSpeed;
-	public float crouchSpeed;
+	public int initRunSpeed;
+	public UpgradableStatus runSpeed;
+
+	public int initWalkSpeed;
+	public UpgradableStatus walkSpeed;
+
+	public int initCrouchSpeed;
+	public UpgradableStatus crouchSpeed;
 
 	public bool gravity = false;
 	public float groundThreshold = 0.5f;
@@ -87,15 +92,15 @@ public class MoveModule : Module
 			{
 				case MoveStates.Walk:
 					curStat = MoveStates.Walk;
-					speed = walkSpeed;
+					speed = walkSpeed.MaxValue;
 					break;
 				case MoveStates.Run:
 					curStat = MoveStates.Run;
-					speed = runSpeed;
+					speed = runSpeed.MaxValue;
 					break;
 				case MoveStates.Sit:
 					curStat = MoveStates.Sit;
-					speed = crouchSpeed;
+					speed = crouchSpeed.MaxValue;
 					break;
 				default:
 					break;
@@ -114,6 +119,13 @@ public class MoveModule : Module
 		ForceCalc();
 		GravityCalc();
 		transform.Translate(forceDir * Time.fixedDeltaTime, Space.World);
+	}
+
+	public virtual void Awake()
+	{
+		walkSpeed = new UpgradableStatus(2, initWalkSpeed);
+		runSpeed = new UpgradableStatus(2, initRunSpeed);
+		crouchSpeed = new UpgradableStatus(2, initCrouchSpeed);
 	}
 
 	public virtual void FixedUpdate()
@@ -175,5 +187,9 @@ public class MoveModule : Module
 		moveDir = Vector3.zero;
 		forceDir = Vector3.zero;
 		moveModuleStat.CompleteReset();
+
+		runSpeed.ResetCompletely();
+		walkSpeed.ResetCompletely();
+		crouchSpeed.ResetCompletely();
 	}
 }

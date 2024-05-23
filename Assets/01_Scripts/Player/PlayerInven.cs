@@ -264,7 +264,7 @@ public class PlayerInven : MonoBehaviour
     public Inventory inven;
 	public SkillInventory skInven = new SkillInventory();
     public int cap = 30;
-	
+
 	public string swapEffectName;
 	public Vector3 swapEffectRot;
 	public Vector3 swapEffectScale;
@@ -320,14 +320,14 @@ public class PlayerInven : MonoBehaviour
 
 	public int AddItem(Item data, int num = 1) //새로운 아이템을 얻는 것이나.
 	{
+		if(data == null)
+		{
+			Debug.LogError($"존재하지 않는 아이템을 얻으려 함.");
+			return num;
+		}
 		List<int> idxes;
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.GetItem, data.MyName, num);
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.HaveItem, data.MyName, num);
-
-		GetItemBack btn = PoolManager.GetObject("GetItemBack", GameManager.instance.uiManager.GetitemUITransform).GetComponent<GetItemBack>();
-		btn.transform.localPosition = GameManager.instance.uiManager.getItemUiSlot[0].localPosition;
-		btn.SetInfo(data, num);
-
 		if(data is YinyangItem yy)
 		{
 			GameManager.instance.pedia.GotItem(yy);
@@ -595,7 +595,7 @@ public class PlayerInven : MonoBehaviour
 	{
 		if (!inven[curHolding].isEmpty())
 		{
-			inven[curHolding].info.onUse.onActivated.Invoke();
+			inven[curHolding].info.Use();
 		}
 		GameManager.instance.uiManager.UpdateInvenUI();
 	}

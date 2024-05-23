@@ -8,14 +8,15 @@ public class AttackModule : Module, IAnimationEvent
 {
 	public float initAtkDist;
 	public float initAtkGap;
-	public YinYang initDamage;
+
+	public float blackDamage;
+	public float whiteDamage;
 
 	protected YinYang damage;
 
 	public YinYang Damage
 	{
 		get => damage;
-		set => damage = value;
 	}
 
 	protected float atkDist;
@@ -33,6 +34,11 @@ public class AttackModule : Module, IAnimationEvent
 		set => curAtkGap = value;
 	}
 
+	public virtual void Awake()
+	{
+		damage = new YinYang(blackDamage, whiteDamage);
+	}
+
 	public float GetDist()
 	{
 		return atkDist;
@@ -48,7 +54,7 @@ public class AttackModule : Module, IAnimationEvent
 		atkDist = initAtkDist;
 		curAtkGap = initAtkGap;
 		fixedAtkGap = null;
-		damage = initDamage;
+		damage = new YinYang(blackDamage, whiteDamage);
 		attackModuleStat.CompleteReset();
 	}
 

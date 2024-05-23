@@ -22,13 +22,13 @@ public class DamageObject : MonoBehaviour
 			{
 				StatusEffects.ApplyStat(yc.GetActor(), owner, statData[i].id, statData[i].duration, statData[i].power);
 			}
-			if (yy.white > 0)
+			if (yy.white.Value > 0)
 			{
-				GameManager.instance.shower.GenerateDamageText(hitPos, yy.white, YYInfo.White);
+				GameManager.instance.shower.GenerateDamageText(hitPos, yy.white.Value, YYInfo.White);
 			}
-			if (yy.black > 0)
+			if (yy.black.Value > 0)
 			{
-				GameManager.instance.shower.GenerateDamageText(hitPos, yy.black, YYInfo.Black);
+				GameManager.instance.shower.GenerateDamageText(hitPos, yy.black.Value, YYInfo.Black);
 			}
 		}
 	}

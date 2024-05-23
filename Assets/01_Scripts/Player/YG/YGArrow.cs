@@ -19,15 +19,10 @@ public class YGArrow : MonoBehaviour
 	bool _isFollow = false;
 	float _currentTime = 0;
 
-	BezierCurveScript _bezier;
-	public BezierCurveScript Bezier => _bezier;
-	
-
 	private void OnEnable()
 	{
 		_cols = gameObject.GetComponent<ColliderCast>();
 		_isFire = false;
-		_bezier = new BezierCurveScript();
 	}
 
 	public void Ready(Actor owner, Vector3 pos, Action<Vector3, Vector3, float> moveAction = null, Action<LifeModule> act = null, Action<Transform, LifeModule> act2 = null, bool isFollow = true, float duration = 3f)
@@ -52,6 +47,7 @@ public class YGArrow : MonoBehaviour
 		if(_owner.atk.target != null && _isFollow )
 		{
 			SetTarget(_owner.atk.target.transform);
+
 		}
 		else
 		{

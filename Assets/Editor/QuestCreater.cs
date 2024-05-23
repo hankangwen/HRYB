@@ -27,9 +27,15 @@ public class QuestCreater : EditorWindow
 	static List<string> allRewardTypes;
 	static List<int> allRewardTypesValue;
 
+	static List<string> detailParameters;
+	static List<int> detailParametersValue;
+
+	static List<string> comparers;
+	static List<int> comparersValue;
 
 
 	static bool conditionOn = false;
+	static bool detailOn = false;
 	static bool rewardOn = false;
 	static List<bool> elementOnOffStat;
 
@@ -144,6 +150,46 @@ public class QuestCreater : EditorWindow
 				for (int i = 0; i < lst.Count; i++)
 				{
 					allRewardTypesValue.Add(((int)lst[i]));
+				}
+			}
+		}
+		if(detailParameters == null || detailParametersValue == null)
+		{
+			List<DetailParameter> lst = new List<DetailParameter>(System.Enum.GetValues(typeof(DetailParameter)).Cast<DetailParameter>());
+			if (detailParameters == null)
+			{
+				detailParameters = new List<string>();
+				for (int i = 0; i < lst.Count; i++)
+				{
+					detailParameters.Add(QuestManager.ToStringKorean(lst[i]));
+				}
+			}
+			if (detailParametersValue == null)
+			{
+				detailParametersValue = new List<int>();
+				for (int i = 0; i < lst.Count; i++)
+				{
+					detailParametersValue.Add(((int)lst[i]));
+				}
+			}
+		}
+		if (comparers == null || comparersValue == null)
+		{
+			List<Comparer> lst = new List<Comparer>(System.Enum.GetValues(typeof(Comparer)).Cast<Comparer>());
+			if (comparers == null)
+			{
+				comparers = new List<string>();
+				for (int i = 0; i < lst.Count; i++)
+				{
+					comparers.Add(QuestManager.ToStringKorean(lst[i]));
+				}
+			}
+			if (comparersValue == null)
+			{
+				comparersValue = new List<int>();
+				for (int i = 0; i < lst.Count; i++)
+				{
+					comparersValue.Add(((int)lst[i]));
 				}
 			}
 		}
@@ -281,6 +327,67 @@ public class QuestCreater : EditorWindow
 						EditorGUILayout.Space(20);
 						info.myInfo[i].itemMode = (ItemHandleMode)EditorGUILayout.IntPopup(((int)info.myInfo[i].itemMode), allHandleItems.ToArray(), allHandleItemsValue.ToArray());
 						EditorGUILayout.EndHorizontal();
+					}
+
+					if(info.myInfo[i].objective == CompletionAct.GetItem || info.myInfo[i].objective == CompletionAct.HaveItem ||
+						info.myInfo[i].objective == CompletionAct.LoseItem || info.myInfo[i].objective == CompletionAct.UseItem)
+					{
+						EditorGUILayout.BeginHorizontal();
+						EditorGUILayout.Space(25);
+						if(GUILayout.Button(info.myInfo[i].itemRequirement ? "세부 조건 있음." : "세부 조건 없음."))
+						{
+							info.myInfo[i].itemRequirement = !info.myInfo[i].itemRequirement;
+						}
+						EditorGUILayout.EndHorizontal();
+						
+						if (info.myInfo[i].itemRequirement)
+						{
+							EditorGUILayout.BeginHorizontal();
+							GUILayout.Space(10);
+							if (GUILayout.Button("추가"))
+							{
+								info.myInfo[i].conds.Add(new DetailCondition());
+								detailOn = true;
+							}
+							if (GUILayout.Button("제거"))
+							{
+								if(info.myInfo[i].conds.Count > 0)
+								{
+									info.myInfo[i].conds.RemoveAt(info.myInfo[i].conds.Count - 1);
+								}
+							}
+							
+
+							EditorGUILayout.EndHorizontal();
+
+							if(detailOn = EditorGUILayout.Foldout(detailOn, "세부 조건"))
+							{
+								EditorGUILayout.BeginVertical();
+								GUILayout.Space(10);
+								for (int j = 0; j < info.myInfo[i].conds.Count; j++)
+								{
+									GUILayout.Space(5);
+									EditorGUILayout.Space(3);
+									EditorGUI.DrawRect(EditorGUILayout.GetControlRect(false, 1f), Color.black);
+									EditorGUILayout.Space(3);
+
+									EditorGUILayout.BeginHorizontal();
+
+									info.myInfo[i].conds[j].paramType = (DetailParameter)EditorGUILayout.IntPopup($"{j}번째 조건 : ", ((int)info.myInfo[i].conds[j].paramType), detailParameters.ToArray(), detailParametersValue.ToArray());
+									info.myInfo[i].conds[j].comp = (Comparer)EditorGUILayout.IntPopup(((int)info.myInfo[i].conds[j].comp), comparers.ToArray(), comparersValue.ToArray());
+									info.myInfo[i].conds[j].value = EditorGUILayout.FloatField(info.myInfo[i].conds[j].value);
+									if (GUILayout.Button(info.myInfo[i].conds[j].inverted ? "아닐때" : "일 때"))
+									{
+										info.myInfo[i].conds[j].inverted = !info.myInfo[i].conds[j].inverted;
+									}
+									info.myInfo[i].conds[j].after = info.myInfo[i].afterAct = (AfterComplete)EditorGUILayout.IntPopup(((int)info.myInfo[i].conds[j].after), allCompleteAfters.ToArray(), allCompleteAftersValue.ToArray());
+
+									EditorGUILayout.EndHorizontal();
+								}
+								EditorGUILayout.EndVertical();
+							}
+							
+						}
 					}
 					
 					EditorGUILayout.BeginHorizontal();

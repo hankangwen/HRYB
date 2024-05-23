@@ -76,11 +76,10 @@ public class TwoPunchGrabSkill : AttackBase
 				
 			}, (tls, _life) =>
 			{
-				//CameraManager.instance.ShakeCamFor(0.24f, 20, 20);
+				CameraManager.instance.ShakeCamFor(0.24f, 20, 20);
 
 				DoDamage(_life.GetActor(), self, _dmgs[0], default, f);
 
-				//GameManager.instance.TimeManager.TimeSlow(self, _life.GetActor());
 				_life.GetActor().move.forceDir= self.transform.forward * 30 + new Vector3(0,-10, 0);
 				GameObject objs = PoolManager.GetObject("YohoGrab_Down", _life.transform);
 				if(objs.TryGetComponent<ColliderCast>(out ColliderCast _cols2))

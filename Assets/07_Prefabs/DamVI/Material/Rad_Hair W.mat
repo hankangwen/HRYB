@@ -679,7 +679,7 @@ Material:
     - _HeightPoMAmplitude: 2
     - _HeightTessAmplitude: 2
     - _HeightTessCenter: 0.5
-    - _HighColor_Power: 0
+    - _HighColor_Power: 0.089
     - _HighlightOverridden: 0
     - _HighlightVisible: 1
     - _IDMask1: 0
@@ -902,8 +902,8 @@ Material:
     - _RimLightOverridden: 0
     - _RimLightVisible: 1
     - _RimLight_FeatherOff: 0
-    - _RimLight_InsideMask: 0.0001
-    - _RimLight_Power: 0.33
+    - _RimLight_InsideMask: 0.098
+    - _RimLight_Power: 0.356
     - _RimMainStrength: 0
     - _RimNormalStrength: 0.347
     - _RimShadeBlur: 1
@@ -1101,8 +1101,8 @@ Material:
     - _utsTechnique: 0
     - _utsVersion: 2.08
     - _utsVersionX: 0
-    - _utsVersionY: 10
-    - _utsVersionZ: 0
+    - _utsVersionY: 9
+    - _utsVersionZ: 7
     m_Colors:
     - _1st_ShadeColor: {r: 0.68134165, g: 0.68134165, b: 0.68134165, a: 1}
     - _2nd_ShadeColor: {r: 0.45073366, g: 0.45057616, b: 0.45026118, a: 1}
@@ -1151,7 +1151,7 @@ Material:
     - _GlitterColor: {r: 1, g: 1, b: 1, a: 1}
     - _GlitterParams1: {r: 256, g: 256, b: 0.16, a: 50}
     - _GlitterParams2: {r: 0.25, g: 0, b: 0, a: 0}
-    - _HighColor: {r: 0, g: 0, b: 0, a: 1}
+    - _HighColor: {r: 1, g: 1, b: 1, a: 1}
     - _HighlightMaskColor: {r: 1, g: 1, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}

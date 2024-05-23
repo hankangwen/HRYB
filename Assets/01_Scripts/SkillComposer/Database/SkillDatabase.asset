@@ -36,5 +36,3 @@ MonoBehaviour:
       skill: {fileID: 11400000, guid: 1a9a45dbf98502d45bc1952e921c6d36, type: 2}
     - name: LightingDown
       skill: {fileID: 11400000, guid: a0e4bb755a8551545a4df04088144377, type: 2}
-    - name: StarDust
-      skill: {fileID: 11400000, guid: 868691e6b99a87d4eafd6d08e30719eb, type: 2}

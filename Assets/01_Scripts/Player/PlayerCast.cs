@@ -27,7 +27,7 @@ public class SkillSlots
 	float curCooledTime;
 	public float CurCooledTime
 	{
-		get => curCooledTime * (1 / GameManager.instance.pActor.cast.cooldownModuleStat.Speed);
+		get => curCooledTime;
 		set => curCooledTime = value;
 	}
 
@@ -194,7 +194,7 @@ public class PlayerCast : CastModule
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("FireWall"), SkillSlotInfo.Two, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("EnhanceIce"), SkillSlotInfo.Three, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("LightingDown"), SkillSlotInfo.Q, PlayerForm.Magic);
-		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("StarDust"), SkillSlotInfo.E, PlayerForm.Magic);
+		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("SwordRain"), SkillSlotInfo.E, PlayerForm.Magic);
 		
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("YohoNormalAttack"), SkillSlotInfo.LClick, PlayerForm.Yoho);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetYohoSkill("YohoGrab"), SkillSlotInfo.RClick, PlayerForm.Yoho);
@@ -676,9 +676,9 @@ public class PlayerCast : CastModule
 
 	void UseSkillAt(SkillSlotInfo at)
 	{
-		if (nowSkillSlot[((int)at)].IsUsable && nowSkillSlot[((int)at)].GetMP() < self.life.yy.black)
+		if (nowSkillSlot[((int)at)].IsUsable && nowSkillSlot[((int)at)].GetMP() < self.life.yy.black.Value)
 		{
-			self.life.yy.black -= nowSkillSlot[((int)at)].GetMP();
+			self.life.yy.black.Value -= nowSkillSlot[((int)at)].GetMP();
 			switch (at)
 			{
 				case SkillSlotInfo.One:

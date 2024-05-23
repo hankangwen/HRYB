@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using Cinemachine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
 
 public enum CamStatus
 {
@@ -296,10 +295,8 @@ public class GameManager : MonoBehaviour
 	public Transform outCaveTmp;
 
 	public ComboRank ComboRankManager;
-
-	public TimeController TimeManager;
-
-
+	
+	
 
 	public WaitForSeconds waitSec = new WaitForSeconds(1.0f);
 
@@ -344,7 +341,7 @@ public class GameManager : MonoBehaviour
 		audioPlayer = GameObject.Find("AudioManager").GetComponent<AudioPlayer>();
 
 		ComboRankManager = GameObject.Find("ComboRankManager").GetComponent<ComboRank>();
-		TimeManager = GameObject.Find("TimeManager").GetComponent<TimeController>();
+
 
 		//sManager = GameObject.Find("SectionManager").GetComponent<SectionManager>();
 		//timeliner = GameObject.Find("Timeliner").GetComponent<PlayableDirector>(); //////////#####타임라인매니저?????
@@ -378,10 +375,12 @@ public class GameManager : MonoBehaviour
 	{
 		//아이템을 초기화
 		//제작법을 초기허ㅘ하맙.
+		yield return StartCoroutine(Item.InitializeItem());
 
 		yield return StartCoroutine(Crafter.InitializeTrim());
 
 		pedia = new ItemPedia();
+		imageManager.DoLoad();
 	}
 
 
@@ -441,7 +440,6 @@ public class GameManager : MonoBehaviour
 		Debug.Log("(*(*(*(*(*(");
 		(pActor.move as PlayerMove).moveModuleStat.Pause(mode, true);
 		pActor.atk.attackModuleStat.Pause(mode, true);
-		_isCharacterInput = false;
 	}
 
 	public void EnableCtrl(ControlModuleMode mode)
@@ -451,11 +449,8 @@ public class GameManager : MonoBehaviour
 		pActor.atk.attackModuleStat.Pause(mode, false);
 
 		(pActor.atk as PlayerAttack).HandleRemoveCall();
-
-		_isCharacterInput = true;
 	}
 
-	public bool _isCharacterInput = true;
 
 
 	/// <summary>
@@ -549,12 +544,8 @@ public class GameManager : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.P))
 		{
-			GameManager.instance.pinven.AddItem(Item.GetItem<Item>("인삼"), 1);
-			GameManager.instance.pinven.AddItem(Item.GetItem<Item>("녹각"), 2);
-		}
-		if (Input.GetKeyDown(KeyCode.O))
-		{
-			GameManager.instance.pinven.AddItem(Item.GetItem<Item>("밧줄"), 3);
+			GameManager.instance.pinven.AddItem(Item.GetItem <YinyangItem>("고사리"), 1);
+			GameManager.instance.pinven.AddItem(Item.GetItem <YinyangItem>("녹각"), 2);
 		}
 
 
@@ -626,6 +617,18 @@ public class GameManager : MonoBehaviour
 	public void KillPlayer()
 	{
 		pActor.life.DamageYY(1000, 1000, DamageType.NoEvadeHit);
+	}
+
+	public void TimeFreeze(float t, float duration = 0.04f)
+	{
+		StartCoroutine(TimeFreezeCO(t, duration));
+	}
+
+	IEnumerator TimeFreezeCO(float t, float duration)
+	{
+		Time.timeScale = t;
+		yield return new WaitForSecondsRealtime(duration);
+		Time.timeScale = 1;
 	}
 
 

@@ -74,9 +74,9 @@ public class FarmingPoint : MonoBehaviour, IInterable
 		int leftovers = 0;
 		for (int i = 0; i < resItem.Count; i++)
 		{
-			if (Item.nameDataHashT.ContainsKey(resItem[i].GetHashCode()))
+			if (Item.nameDataHashT.ContainsKey(resItem[i]))
 			{
-				Item result = (Item.nameDataHashT[resItem[i].GetHashCode()] as Item);
+				Item result = (Item.nameDataHashT[resItem[i]] as Item);
 				//result.SetRarity(spotStat);
 				leftovers += (GameManager.instance.pinven.AddItem(result, amount));
 			}

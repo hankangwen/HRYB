@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Animations;
+using Quaternion = System.Numerics.Quaternion;
 
 public class PlayerAnimActions : MonoBehaviour
 {
@@ -25,22 +26,16 @@ public class PlayerAnimActions : MonoBehaviour
 	PlayerForm form;
 
 	Animator animator;
-	PlayerAfterAnim _pAfterAnim;
 
 	readonly int aimHash = Animator.StringToHash("Aim");
 	readonly int fireHash = Animator.StringToHash("Fire");
 	readonly int formHash = Animator.StringToHash("Form");
-
-
-	Ray rayCache;
-	RaycastHit hitCache;
 
 	private void Awake()
 	{
 		self = GetComponentInParent<Actor>();
 		animator = GetComponent<Animator>();
 		animator.runtimeAnimatorController = _anim;
-		_pAfterAnim = GetComponent<PlayerAfterAnim>();
 		playerSound = GetComponentInParent<PlayerSound>();
 		hair = transform.Find("Rad_Hair").GetComponent<SkinnedMeshRenderer>();
 		head = transform.Find("Body").GetComponent<SkinnedMeshRenderer>();
@@ -64,47 +59,6 @@ public class PlayerAnimActions : MonoBehaviour
 	{
 		transform.localPosition = new Vector3(0, 0, 0);
 		transform.localRotation = UnityEngine.Quaternion.identity;
-	}
-
-	Coroutine ImageCo;
-
-	public void PlayerAfterImage(float frequency, float UseTime, float duration)
-	{
-		if(ImageCo != null)
-		{
-			StopCoroutine(ImageCo);
-		}
-
-		ImageCo = StartCoroutine(_pAfterAnim.UseAfterEffect(GameManager.instance.pActor, frequency, UseTime, duration));
-	}
-
-	private void OnAnimatorIK(int layerIndex)
-	{
-		return;
-		if(!self)
-			return;
-
-		animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
-		animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
-		animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
-		animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
-
-		rayCache = new Ray(animator.GetIKPosition(AvatarIKGoal.LeftFoot) + Vector3.up, Vector3.down);
-		if (Physics.Raycast(rayCache, out hitCache, self.move.groundThreshold, 1 << GameManager.GROUNDLAYER))
-		{
-			Vector3 p = hitCache.point;
-			p.y -= self.move.groundThreshold;
-			animator.SetIKPosition(AvatarIKGoal.LeftFoot, hitCache.point);
-			animator.SetIKRotation(AvatarIKGoal.LeftFoot, UnityEngine.Quaternion.LookRotation(transform.forward, hitCache.normal));
-		}
-		rayCache = new Ray(animator.GetIKPosition(AvatarIKGoal.RightFoot) + Vector3.up, Vector3.down);
-		if (Physics.Raycast(rayCache, out hitCache, self.move.groundThreshold, 1 << GameManager.GROUNDLAYER))
-		{
-			Vector3 p = hitCache.point;
-			p.y -= self.move.groundThreshold;
-			animator.SetIKPosition(AvatarIKGoal.RightFoot, hitCache.point);
-			animator.SetIKRotation(AvatarIKGoal.RightFoot, UnityEngine.Quaternion.LookRotation(transform.forward, hitCache.normal));
-		}
 	}
 
 	public void LoadArrow()
@@ -235,36 +189,15 @@ public class PlayerAnimActions : MonoBehaviour
 				ear.enabled = false;
 				hair.material = hairMats[((int)PlayerForm.Magic)];
 				head.materials[1] = eyeMats[((int)PlayerForm.Magic)];
-				
-				for(int i =0;i < foxCloth.transform.childCount; i++)
-				{
-					foxCloth.transform.GetChild(i).gameObject.SetActive(false);
-				}
 				foxCloth.SetActive(false);
-
 				humanCloth.SetActive(true);
-				for (int i = 0; i < humanCloth.transform.childCount; i++)
-				{
-					humanCloth.transform.GetChild(i).gameObject.SetActive(true);
-				}
-
 				break;
 			case PlayerForm.Yoho:
 				tail.enabled = true;
 				ear.enabled = true;
 				hair.material = hairMats[((int)PlayerForm.Yoho)];
 				head.materials[1] = eyeMats[((int)PlayerForm.Yoho)];
-
 				foxCloth.SetActive(true);
-				for (int i = 0; i < foxCloth.transform.childCount; i++)
-				{
-					foxCloth.transform.GetChild(i).gameObject.SetActive(true);
-				}
-
-				for (int i = 0; i < humanCloth.transform.childCount; i++)
-				{
-					humanCloth.transform.GetChild(i).gameObject.SetActive(false);
-				}
 				humanCloth.SetActive(false);
 				break;
 			default:

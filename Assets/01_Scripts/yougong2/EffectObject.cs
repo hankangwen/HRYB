@@ -12,7 +12,7 @@ public class EffectObject : MonoBehaviour
 	private bool _isPlay = false;
 	[Description("Infinity = -1")]
 	public float _durationTime = -1.0f;
-	public ParticleSystem Particle
+	private ParticleSystem Particle
 	{
 		get
 		{
@@ -27,10 +27,11 @@ public class EffectObject : MonoBehaviour
 
 	private void Update()
 	{
-		if(Particle.isPlaying==false && _isPlay == true)
+
+		if (Particle.isPlaying == false && _isPlay==true)
 		{
 			_isPlay = false;
-			StartCoroutine(LifeDuration());
+			PoolManager.ReturnObject(gameObject);
 		}
 	}
 
@@ -55,12 +56,8 @@ public class EffectObject : MonoBehaviour
 
 	public IEnumerator LifeDuration()
 	{
-		yield return new WaitForSeconds(0.5f);
-
-		if (Particle.isPlaying)
-			_isPlay = true;
-		else
-			PoolManager.ReturnObject(this.gameObject);
+		yield return new WaitForSeconds(_durationTime);
+		PoolManager.ReturnObject(this.gameObject);
 	}
 
 	public void Stop()

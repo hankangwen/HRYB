@@ -14,7 +14,7 @@ public class FusionUI : MonoBehaviour, IOpenableWindowUI
 
 	List<GameObject> buttons = new List<GameObject>();
 
-	public const string CRAFTBUTTON = "CraftableMedicine";
+	const string CRAFTBUTTON = "CraftableMedicine";
 
 	private void Awake()
 	{

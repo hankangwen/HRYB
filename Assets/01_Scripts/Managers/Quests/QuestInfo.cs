@@ -56,6 +56,8 @@ public class QuestInfo : ScriptableObject, System.IComparable
 
 	protected virtual void OnEnable()
 	{
+		if (myInfo == null)
+			return;
 		ResetQuestCall();
 		ResetQuestStartTime();
 		curCompletedAmount = 0;
@@ -64,6 +66,7 @@ public class QuestInfo : ScriptableObject, System.IComparable
 
 	public void ResetQuestStartTime(CompletionAct cond = CompletionAct.None)
 	{
+		
 		for (int i = 0; i < myInfo.Count; i++)
 		{
 			if(cond == CompletionAct.None || myInfo[i].objective == cond)
@@ -197,7 +200,7 @@ public class QuestInfo : ScriptableObject, System.IComparable
 			{
 				if(myInfo[i].itemMode == ItemHandleMode.Remove)
 				{
-					GameManager.instance.pinven.RemoveItem(Item.GetItem<Item>(myInfo[i].parameter), myInfo[i].repeatCount);
+					GameManager.instance.pinven.RemoveItem(Item.GetItem <Item> (myInfo[i].parameter), myInfo[i].repeatCount);
 				}
 			}
 		}
@@ -220,7 +223,7 @@ public class QuestInfo : ScriptableObject, System.IComparable
 				case RewardType.Item:
 					{
 						Debug.Log($"아이템 {rewardInfo[i].parameter} 제공함");
-						GameManager.instance.pinven.AddItem(Item.GetItem<Item>(rewardInfo[i].parameter), rewardInfo[i].amount);
+						GameManager.instance.pinven.AddItem(Item.GetItem <Item> (rewardInfo[i].parameter), rewardInfo[i].amount);
 					}
 					break;
 				case RewardType.HealWhite:

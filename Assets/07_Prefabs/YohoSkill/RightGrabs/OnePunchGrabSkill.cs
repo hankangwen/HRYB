@@ -63,7 +63,7 @@ public class OnePunchGrabSkill : YGComboAttackBase
 				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
 				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
 
-				//CameraManager.instance.ShakeCamFor(0.12f, 12, 12);
+				CameraManager.instance.ShakeCamFor(0.12f, 12, 12);
 				int t = 0;
 				foreach (var value in _life.appliedDebuff)
 				{
@@ -88,7 +88,7 @@ public class OnePunchGrabSkill : YGComboAttackBase
 
 				if (t >= 10)
 				{
-					if((_life.yy.black > 0 && _life.yy.white > 0))
+					if((_life.yy.black.Value > 0 && _life.yy.white.Value > 0))
 					{
 
 						_nextTo?.Invoke();
@@ -96,8 +96,6 @@ public class OnePunchGrabSkill : YGComboAttackBase
 						pl.BleedValue = t;
 
 						(self.cast as PlayerCast).SetCooldownTo(SkillSlotInfo.RClick, 0.2f);
-
-						//GameManager.instance.TimeManager.TimeSlow(self, _life.GetActor());
 					}
 					else
 					{

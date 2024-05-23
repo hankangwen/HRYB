@@ -84,8 +84,8 @@ public class PlayerMove : MoveModule
 		{
 			if (Physics.Raycast(transform.position + new Vector3(0, 0.1f, 0), Vector3.down, groundThreshold, (1 << GameManager.GROUNDLAYER) | (1 << GameManager.ENEMYLAYER)))
 			{
-				return true;
 				//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.cyan, 1000f);
+				return true;
 			}
 			//Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), Vector3.down * groundThreshold, Color.red, 1000f);
 			return false;
@@ -170,7 +170,7 @@ public class PlayerMove : MoveModule
 				if (moveStat != MoveStates.Climb)
 				{
 					curStat = MoveStates.Sit;
-					speed = crouchSpeed;
+					speed = crouchSpeed.MaxValue;
 				}
 			}
 			else
@@ -182,8 +182,9 @@ public class PlayerMove : MoveModule
 
 	Transform middle;
 
-	private void Awake()
+	public override void Awake()
 	{
+		base.Awake();
 		ctrl = GetComponent<CharacterController>();
 		middle = transform.Find("Middle");
 		initPos = transform.position;
@@ -279,34 +280,6 @@ public class PlayerMove : MoveModule
 		}
 	}
 
-	public override void GravityCalc()
-	{
-		//if (isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundThreshold + 0.2f, 1 << GameManager.GROUNDLAYER | 1 << GameManager.ENEMYLAYER))
-		//{
-		//	PlayerTeleport(hit.point);
-		//}
-
-		if (gravity && !isGrounded)
-		{
-			forceDir -= Vector3.up * GameManager.GRAVITY * Time.deltaTime;
-		}
-		else if (IsActualGrounded && forceDir.y < 0)
-		{
-			Vector3 v = forceDir;
-			v.y = 0;
-			forceDir = v;
-		}
-		if (forced && !isGrounded)
-		{
-			forceFlied = true;
-		}
-		if (forceFlied && isGrounded)
-		{
-			forced = false;
-			forceFlied = false;
-		}
-	}
-
 	public override void Move()
 	{
 		if (moveStat != MoveStates.Climb)
@@ -320,7 +293,7 @@ public class PlayerMove : MoveModule
 		
 		if (moveModuleStat.Paused)
 		{
-			Debug.LogError("Pause");
+			//Debug.LogError("Pause");
 			return;
 		}
 		if (moveStat != MoveStates.Climb)

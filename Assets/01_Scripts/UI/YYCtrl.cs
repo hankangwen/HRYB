@@ -48,7 +48,7 @@ public class YYCtrl : MonoBehaviour
 		//blk.recttransform.sizedelta = vector2.one * (uicircum * yy.yinamt / sum);
 		//wht.recttransform.sizedelta = vector2.one * (uicircum * yy.yangamt / sum);
 
-		blkGauge.fillAmount = yy.black / GameManager.instance.pActor.life.initYinYang.black;
-		whtGauge.fillAmount = yy.white / GameManager.instance.pActor.life.initYinYang.white;
+		blkGauge.fillAmount = yy.black.Value / GameManager.instance.pActor.life.yy.black.MaxValue;
+		whtGauge.fillAmount = yy.white.Value / GameManager.instance.pActor.life.yy.white.MaxValue;
 	}
 }

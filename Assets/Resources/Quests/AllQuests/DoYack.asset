@@ -17,11 +17,12 @@ MonoBehaviour:
   - objective: 1
     parameter: "\uB3C4\uC57D\uD0D5"
     repeatCount: 1
-    afterAct: 2
+    afterAct: 0
     inverted: 0
     everSince: 1
     isVisibleCondition: 1
     itemMode: 0
+    itemRequirement: 1
     defeatMode: 0
     defeatParameter: 
   - objective: 7
@@ -32,6 +33,7 @@ MonoBehaviour:
     everSince: 0
     isVisibleCondition: 0
     itemMode: 1
+    itemRequirement: 0
     defeatMode: 0
     defeatParameter: 
   rewardInfo:

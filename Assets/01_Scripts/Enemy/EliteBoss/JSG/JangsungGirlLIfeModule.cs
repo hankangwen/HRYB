@@ -23,7 +23,7 @@ public class JangsungGirlLifeModule : LifeModule
 
 	public override void DamageYY(YinYang data, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel = DamageChannel.None)
 	{
-		DamageYY(data.black, data.white, type, dur,tick,attacker,channel);
+		DamageYY(data.black.Value, data.white.Value, type, dur,tick,attacker,channel);
 	}
 	
 	public override void DamageYY(float black, float white, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel= DamageChannel.None)

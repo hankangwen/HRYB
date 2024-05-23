@@ -65,6 +65,15 @@ public enum ItemHandleMode
 	NoRemove,
 }
 
+
+public enum Comparer
+{
+	More,
+	Equal,
+	Less,
+
+}
+
 public enum DefeatEnemyMode
 {
 	None,
@@ -94,7 +103,82 @@ public enum QuestType
 
 }
 
+[Serializable]
+public class DetailCondition
+{
+	public DetailParameter paramType;
+	public bool inverted;
+	public Comparer comp;
+	public float value;
 
+	public AfterComplete after;
+
+	public bool ExamineStatus(YinyangItem item)
+	{
+		float v = item.detailParams[paramType];
+		bool r;
+		switch (comp)
+		{
+			case Comparer.More:
+				r = v > value;
+				break;
+			case Comparer.Equal:
+				r = v == value;
+				break;
+			case Comparer.Less:
+				r = v < value;
+				break;
+			default:
+				r = false;
+				break;
+		}
+		if(inverted)
+			r = !r;
+		return r;
+	}
+}
+
+[Serializable]
+public class DetailConditionList : List<DetailCondition>
+{
+	public bool ExamineStatus(YinyangItem item)
+	{
+		if(this.Count <= 0)
+			return true;
+		int head = 0;
+		bool res = true;
+		bool valid = true;
+		AfterComplete prev = AfterComplete.FINAL;
+		while (valid)
+		{
+			if(prev == AfterComplete.FINAL)
+				res = this[head].ExamineStatus(item);
+			else
+			{
+
+				switch (prev)
+				{
+					case AfterComplete.AND:
+						res &= this[head].ExamineStatus(item);
+						break;
+					case AfterComplete.OR:
+						res |= this[head].ExamineStatus(item);
+						break;
+					default:
+						res &= this[head].ExamineStatus(item);
+						break;
+				}
+
+			}
+			prev = this[head].after;
+
+			if(prev == AfterComplete.FINAL)
+				valid = false;
+			head += 1;
+		}
+		return res;
+	}
+}
 
 
 [System.Serializable]
@@ -121,6 +205,11 @@ public class CompleteAtom
 	//비필수
 	[Header("아이템을 제거할 것인가?")]
 	public ItemHandleMode itemMode;
+
+	[Header("아이템 세부 달성 조건")]
+	public bool itemRequirement;
+	public DetailConditionList conds;
+
 	[Header("어떻게 적을 잡을 것인가?")]
 	public DefeatEnemyMode defeatMode;
 	public string defeatParameter;
@@ -192,6 +281,25 @@ public class CompleteAtom
 					break;
 				case CompletionAct.Callback:
 					throw new NotImplementedException("콜백은 아직 적용되지 않았습니다.");
+				case CompletionAct.GetItem:
+				case CompletionAct.HaveItem:
+				case CompletionAct.LoseItem:
+				case CompletionAct.UseItem:
+					if(itemRequirement)
+					{
+						if (conds.ExamineStatus(Item.GetItem<YinyangItem>(parameter)))
+						{
+							curRepeatCount += amt;
+						}
+					}
+					else
+					{
+						if (parameter == this.parameter)
+						{
+							curRepeatCount += amt;
+						}
+					}
+					break;
 				default:
 					if(parameter == this.parameter)
 					{
@@ -475,6 +583,22 @@ public class QuestManager
 				return act.ToString();
 		}
 	}
+
+	public static string ToStringKorean(Comparer act)
+	{
+		switch (act)
+		{
+			case Comparer.More:
+				return " > ";
+			case Comparer.Equal:
+				return " == ";
+			case Comparer.Less:
+				return " < ";
+			default:
+				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
+				return act.ToString();
+		}
+	}
 	public static string ToStringKorean(DefeatEnemyMode act)
 	{
 		switch (act)
@@ -495,6 +619,30 @@ public class QuestManager
 				return " 상태를 가진 상태로 처치하기.";
 			case DefeatEnemyMode.None:
 				return "조건 없음.";
+			default:
+				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
+				return act.ToString();
+		}
+	}
+
+	public static string ToStringKorean(DetailParameter act)
+	{
+		switch (act)
+		{
+			case DetailParameter.Sweet:
+				return "단맛";
+			case DetailParameter.Sour:
+				return "신맛";
+			case DetailParameter.Bitter:
+				return "쓴맛";
+			case DetailParameter.Salty:
+				return "짠맛";
+			case DetailParameter.Spicy:
+				return "매운맛";
+			case DetailParameter.Moist:
+				return "수분";
+			case DetailParameter.Poison:
+				return "독성";
 			default:
 				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
 				return act.ToString();
