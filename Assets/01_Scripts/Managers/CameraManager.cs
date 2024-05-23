@@ -19,7 +19,18 @@ public class CameraManager : MonoBehaviour
 	Volume v;
 	Camera _main;
 	
-	public CinemachineFreeLook pCam;
+	public CinemachineFreeLook _pCam;
+	public CinemachineFreeLook pCam
+	{
+		get
+		{
+			if(_pCam == null)
+			{
+				_pCam = GetComponent<CinemachineFreeLook>();
+			}
+			return _pCam;
+		}
+	}
 	public CinemachineVirtualCamera aimCam;
 
 	float originYSpeed;
@@ -58,7 +69,7 @@ public class CameraManager : MonoBehaviour
 		instance = this;
 		_main = Camera.main;
 		
-		pCam = GetComponent<CinemachineFreeLook>();
+
 		aimCam = GameObject.Find("AimCam").GetComponent<CinemachineVirtualCamera>();
 
 		_playerModule = (GameManager.instance.pActor.move as PlayerMove);
@@ -171,6 +182,10 @@ public class CameraManager : MonoBehaviour
 
 	public void UnfreezeCamX()
 	{
+		if(!pCam)
+		{
+			return;
+		}
 		pCam.m_XAxis.m_MinValue = 0;
 		pCam.m_XAxis.m_MaxValue = 0;
 		pCam.m_XAxis.m_Wrap = true;
