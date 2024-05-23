@@ -19,17 +19,22 @@ public class YGArrow : MonoBehaviour
 	bool _isFollow = false;
 	float _currentTime = 0;
 
+	BezierCurveScript _bezier;
+	public BezierCurveScript Bezier => _bezier;
+
+
 	private void OnEnable()
 	{
 		_cols = gameObject.GetComponent<ColliderCast>();
 		_isFire = false;
+		_bezier = new BezierCurveScript();
 	}
 
 	public void Ready(Actor owner, Vector3 pos, Action<Vector3, Vector3, float> moveAction = null, Action<LifeModule> act = null, Action<Transform, LifeModule> act2 = null, bool isFollow = true, float duration = 3f)
 	{
 		_pos = pos;
 		transform.position = _pos;
-		_Act  = act;
+		_Act = act;
 		_Act2 = act2;
 		_lifeTime = duration;
 		tls = moveAction;
@@ -39,15 +44,14 @@ public class YGArrow : MonoBehaviour
 
 	public void Fire()
 	{
-		_cols.Now(transform ,_Act, _Act2);
+		_cols.Now(transform, _Act, _Act2);
 		_pos = transform.position;
 		transform.parent = null;
 		_isFire = true;
 		_currentTime = 0;
-		if(_owner.atk.target != null && _isFollow )
+		if (_owner.atk.target != null && _isFollow)
 		{
 			SetTarget(_owner.atk.target.transform);
-
 		}
 		else
 		{
@@ -71,16 +75,16 @@ public class YGArrow : MonoBehaviour
 
 	public void Update()
 	{
-		if(_isFire)
+		if (_isFire)
 		{
 			_currentTime += Time.deltaTime;
-			if(tls != null && _target != null)
+			if (tls != null && _target != null)
 			{
 				tls.Invoke(_pos, _target.position, _currentTime);
 			}
 			else
 			{
-				transform.position +=_shootDir * 8 * Time.deltaTime;
+				transform.position += _shootDir * 8 * Time.deltaTime;
 				//tls.Invoke(_pos, , _currentTime);
 			}
 		}

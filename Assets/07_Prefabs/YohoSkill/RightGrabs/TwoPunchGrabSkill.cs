@@ -25,8 +25,8 @@ public class TwoPunchGrabSkill : AttackBase
 	public override void OnAnimationStart(Actor self, AnimationEvent evt)
 	{
 		GameManager.instance.DisableCtrl();
-		
-		
+		(self.anim as PlayerAnim).AnimAct.PlayerAfterImage(0.2f, 1.3f, 0.66f);
+
 		PlayerAttack tt = self.atk as PlayerAttack;
 		if(tt._grabCO != null)
 			tt.StopCoroutine(tt._grabCO);

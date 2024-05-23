@@ -23,6 +23,8 @@ public class PlayerAnimActions : MonoBehaviour
 	public Material[] hairMats;
 	public Material[] eyeMats;
 
+	PlayerAfterAnim _plm;
+
 	PlayerForm form;
 
 	Animator animator;
@@ -43,7 +45,7 @@ public class PlayerAnimActions : MonoBehaviour
 		tail = transform.Find("Rad_Tail").GetComponent<SkinnedMeshRenderer>();
 		foxCloth = transform.Find("FoxCloth").gameObject;
 		humanCloth = transform.Find("HumanCloth").gameObject;
-
+		_plm = GetComponent<PlayerAfterAnim>();
 
 		//holdingBow  = GameObject.Find("HoldingBow");
 		//equipingBow = GameObject.Find("EquipingBow");
@@ -342,5 +344,10 @@ public class PlayerAnimActions : MonoBehaviour
 	public void StartMove()
 	{
 		GameManager.instance.EnableCtrl();
+	}
+
+	public void PlayerAfterImage(float v1, float v2, float v3)
+	{
+		StartCoroutine(_plm.UseAfterEffect(self, v1, v2, v3));
 	}
 }

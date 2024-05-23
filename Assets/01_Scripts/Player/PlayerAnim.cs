@@ -39,6 +39,18 @@ public class PlayerAnim : AnimModule
 
 	internal Composite curEquipped;
 
+	PlayerAnimActions _animAct;
+	public PlayerAnimActions AnimAct
+	{
+		get
+		{
+			if(_animAct == null)
+				_animAct = GetComponentInChildren<PlayerAnimActions>();
+
+			return _animAct;
+		}
+	}
+
 	public override void Awake()
 	{
 		Animator[] anims = GetComponentsInChildren<Animator>();

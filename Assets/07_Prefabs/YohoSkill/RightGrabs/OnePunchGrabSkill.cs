@@ -9,6 +9,7 @@ public class OnePunchGrabSkill : YGComboAttackBase
 	public override void OnAnimationStart(Actor self, AnimationEvent evt)
 	{
 		GameManager.instance.DisableCtrl();
+		(self.anim as PlayerAnim).AnimAct.PlayerAfterImage(0.2f, 0.6f, 0.66f);
 	}
 
 	public override void OnAnimationMove(Actor self, AnimationEvent evt)
@@ -24,6 +25,7 @@ public class OnePunchGrabSkill : YGComboAttackBase
 			_cols.End();
 			_cols = null;
 		}
+
 		
 		GameObject obj = PoolManager.GetObject("YohoGrab", self.transform);
 		if (obj.TryGetComponent<ColliderCast>(out _cols))
