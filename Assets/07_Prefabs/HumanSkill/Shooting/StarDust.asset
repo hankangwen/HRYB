@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23adbf644a197874e9ff9787ef8b221a, type: 3}
-  m_Name: HumenStarShooting
+  m_Script: {fileID: 11500000, guid: 318989bed1557a24e9b070ca9ab1234b, type: 3}
+  m_Name: StarDust
   m_EditorClassIdentifier: 
   animClip: {fileID: 7400000, guid: f329d574be7ff2e4689f933d87a1d55a, type: 2}
   animClipLoopings: {fileID: 0}
@@ -19,16 +19,14 @@ MonoBehaviour:
   tags:
     value: 0
   level: 0
-  childs:
-  - {fileID: 11400000, guid: 73b5fe7d06b7ba7469a8b8fb9d605d5b, type: 2}
-  composeDel: 0
-  isPlayAnim: 1
-  isPlayDisopAnim: 0
-  wx: 0
-  useType: 0
-  castTime: 0
-  cooldown: 5
-  skillIcon: {fileID: 21300000, guid: 16d84848ce4c3694a9261da471b29460, type: 3}
-  isSuperArmor: 0
-  _superArmorTime: 0
-  _useMana: 0
+  statEff: []
+  relateTrmName: 
+  _dmgs:
+  - black: 1
+    white: 1
+    _grogeDamage: 0
+    _comboDamage: 0
+  - black: 0.3
+    white: 0.3
+    _grogeDamage: 0
+    _comboDamage: 0
