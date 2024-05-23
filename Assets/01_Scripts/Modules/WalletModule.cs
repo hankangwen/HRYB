@@ -57,7 +57,7 @@ public class WalletModule : Module
 
 	public int GetPurchasePrice(string itemName, bool applyBias = true)
 	{
-		if (Item.nameDataHashT.ContainsKey(itemName.GetHashCode()))
+		if (Item.nameDataHashT.ContainsKey(itemName))
 		{
 			int price;
 			if (shopDict.ContainsKey(Item.GetItem<Item>(itemName)))

@@ -154,13 +154,13 @@ public class SheetParser
 			{
 				if(i == 0)
 				{
-					heads.Add(cols[j]);
-					headValuesPair.Add(cols[j], new List<string>());
+					heads.Add(cols[j].Trim());
+					headValuesPair.Add(cols[j].Trim(), new List<string>());
 				}
 				else
 				{
-					headValuesPair[heads[j]].Add(cols[j]);
-					colsSplit.Add(cols[j]);
+					headValuesPair[heads[j]].Add(cols[j].Trim());
+					colsSplit.Add(cols[j].Trim());
 				}
 			}
 			if(i != 0)

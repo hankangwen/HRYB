@@ -49,8 +49,8 @@ public class CraftReqItemUI : MonoBehaviour
 		}
 
 		gameObject.SetActive(true);
-		icon.sprite = (Item.nameDataHashT[name.GetHashCode()] as Item).icon;
-		itemName.text = (Item.nameDataHashT[name.GetHashCode()] as Item).MyName;
+		icon.sprite = (Item.nameDataHashT[name] as Item).icon;
+		itemName.text = (Item.nameDataHashT[name] as Item).MyName;
 		itemReqNum.text = $"{curNum}/{reqNum}";
 	}
 

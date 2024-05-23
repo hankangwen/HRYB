@@ -83,8 +83,8 @@ public class YinyangItemDetailUI : MonoBehaviour
 		
 
 		image.sprite = item.myItem.icon;
-		itemName.text = item.myItem.MyName;
-		itemDesc.text = item.myItem.desc;
+		itemName.text = item.discovered ? item.myItem.MyName : "???";
+		itemDesc.text = item.discovered ? item.myItem.desc : "???";
 		statPolygon.VerticesDistances[0] = ((YinyangItem)item.myItem).detailParams[DetailParameter.Sweet];
 		statPolygon.VerticesDistances[1] = ((YinyangItem)item.myItem).detailParams[DetailParameter.Sour];
 		statPolygon.VerticesDistances[2] = ((YinyangItem)item.myItem).detailParams[DetailParameter.Bitter];

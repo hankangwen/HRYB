@@ -29,10 +29,10 @@ public class ImageManager : MonoBehaviour
 				}
 				else
 				{
-					if (Item.nameDataHashT.ContainsKey(dictionary.Dict[allIcons[i].name].GetHashCode()))
+					if (Item.nameDataHashT.ContainsKey(dictionary.Dict[allIcons[i].name]))
 					{
-						(Item.nameDataHashT[(dictionary.Dict[allIcons[i].name]).GetHashCode()] as Item).icon = allIcons[i];
-						Debug.Log($"아이템 스프라이트 설정 완료 : {allIcons[i].name} -> {(Item.nameDataHashT[dictionary.Dict[allIcons[i].name].GetHashCode()] as Item).MyName}");
+						(Item.nameDataHashT[(dictionary.Dict[allIcons[i].name])] as Item).icon = allIcons[i];
+						Debug.Log($"아이템 스프라이트 설정 완료 : {allIcons[i].name} -> {(Item.nameDataHashT[dictionary.Dict[allIcons[i].name]] as Item).MyName}");
 					}
 					else
 					{
