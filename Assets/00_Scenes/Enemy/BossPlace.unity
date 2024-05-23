@@ -1416,11 +1416,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1480622149016750883, guid: e4d35515bac7a30488ee76800c7db886, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000016410379
+      value: -0.000000016410379
       objectReference: {fileID: 0}
     - target: {fileID: 1480622149016750883, guid: e4d35515bac7a30488ee76800c7db886, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000051729154
+      value: 0.0000000051729154
       objectReference: {fileID: 0}
     - target: {fileID: 2109712079635487170, guid: e4d35515bac7a30488ee76800c7db886, type: 3}
       propertyPath: m_Follow
@@ -1926,12 +1926,16 @@ PrefabInstance:
       value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: -510076408697515796, guid: 1a4e7b1d35ff134479a10f91ec2ee24d, type: 3}
+      propertyPath: _isItGroge
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -510076408697515796, guid: 1a4e7b1d35ff134479a10f91ec2ee24d, type: 3}
       propertyPath: _grogeInitValue
-      value: 1000
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: -510076408697515796, guid: 1a4e7b1d35ff134479a10f91ec2ee24d, type: 3}
       propertyPath: _timePerGrogeAdd
-      value: 333
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 1068531570469127118, guid: 1a4e7b1d35ff134479a10f91ec2ee24d, type: 3}
       propertyPath: m_Name

@@ -8,7 +8,7 @@ public class EnemyLifeModule : LifeModule
 	public bool _isItGroge = false;
 	public float _grogeInitValue = 100;
 	public float _timePerGrogeAdd = 50;
-	public float _currentGrogeValue;
+	 float _currentGrogeValue;
 	public float GetGrogeValue => _currentGrogeValue;
 	bool _isGroge;
 	public bool IsGroge => _isGroge;

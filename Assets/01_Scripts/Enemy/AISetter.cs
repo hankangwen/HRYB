@@ -33,7 +33,8 @@ public abstract class AISetter : MonoBehaviour
 		lookPos.y = transform.position.y;
 		transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookPos), Time.deltaTime * 40);
 
-		transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+		if(self.move.isGrounded) 
+			transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
 	}
 
 	public virtual void DieEvent()

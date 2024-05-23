@@ -634,14 +634,22 @@ public class GameManager : MonoBehaviour
 
 	public void PlayerDeath()
 	{
-		AISetter[] objs = GameObject.FindObjectsOfType<AISetter>();
+		
 
+		AISetter[] objs = GameObject.FindObjectsOfType<AISetter>();
 		foreach (var item in objs)
 		{
 			item.GetComponent<Actor>().Respawn();
 		}
+		try
+		{
 
 		GameObject.FindObjectOfType<JSInitBattle>().StartReseet();
+		}
+		catch
+		{
+
+		}
 	}
 
 	public void LoadMinigame(Minigames mode)
