@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class SightModule : Module
 {
-	public float initSightRange;
+	public float initSightRange = 10;
 
-	[HideInInspector]
-    public float sightRange;
+	public UpgradableStatus sightRange;
 
+	public virtual void Awake()
+	{
+		sightRange = new UpgradableStatus(2, initSightRange);
+	}
 
 	public float GetSightRange()
 	{
-		return sightRange;
+		return sightRange.MaxValue;
 	}
 
 	public override void ResetStatus()
 	{
 		base.ResetStatus();
-		sightRange = initSightRange;
+		sightRange.ResetCompletely();
 	}
 }

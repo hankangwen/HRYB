@@ -107,6 +107,17 @@ public class ToolBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		}
 	}
 
+	public void ParentButtonRefresh()
+	{
+		for (int i = 0; i < subButtons.Count; i++)
+		{
+			if (subButtons[i].state == BtnState.Focused)
+			{
+				Focus();
+			}
+		}
+	}
+
 	public void ResetButton()
 	{
 		state = BtnState.Off;
@@ -116,6 +127,10 @@ public class ToolBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 			for (int i = 0; i < subButtons.Count; i++)
 			{
 				subButtons[i].ResetButton();
+				if(subButtons[i].state == BtnState.Focused)
+				{
+					
+				}
 			}
 			if (droppingdown)
 			{
