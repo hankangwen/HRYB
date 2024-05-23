@@ -55,7 +55,7 @@ public class PlayerInter : SightModule
 				checkeds[i].GlowOff();
 			}
 		}
-		if ((hits = Physics.SphereCastAll(r, 1.0f, sightRange, (1 << 8))).Length > 0)
+		if ((hits = Physics.SphereCastAll(r, 1.0f, sightRange.MaxValue, (1 << 8))).Length > 0)
 		{
 			checkeds = hits.OrderByDescending(item => (transform.position - item.point).sqrMagnitude).Select(item => item.collider.GetComponent<IInterable>()).ToList();
 			curSel %= checkeds.Count;

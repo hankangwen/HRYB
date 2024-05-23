@@ -132,6 +132,8 @@ public class PlayerLife : LifeModule
 		{
 			pMove.PlayerTeleport(initPos);
 		}
+		yy.black.ResetCompletely();
+		yy.white.ResetCompletely();
 		GameManager.instance.EnableCtrl();
 	}
 
