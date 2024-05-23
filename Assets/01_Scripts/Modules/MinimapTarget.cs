@@ -4,9 +4,9 @@ using UnityEngine;
 
 public enum MinimapRenderType
 {
-	Player,
-	Enemy,
-	EliteEnemy,
+	MiniPlayer,
+	MiniEnemy,
+	MiniEliteEnemy,
 
 }
 
@@ -14,20 +14,27 @@ public class MinimapTarget : Module
 {
     public bool Rendered => (GameManager.instance.player.transform.position - transform.position).sqrMagnitude <= GameManager.instance.pActor.sight.GetSightRange() * GameManager.instance.pActor.sight.GetSightRange();
 	public MinimapRenderType type;
+	public bool ignoreAngle = false;
+	bool prevRenderState;
 
-	internal Sprite myRendered;
-
-	private void Awake()
+	private void Start()
 	{
-		myRendered = GameManager.instance.minimap.typeImage[((int)type)];
-
+		prevRenderState = false;
 	}
 
 	private void Update()
 	{
-		if (Rendered)
+		if (Rendered != prevRenderState)
 		{
-			GameManager.instance.minimap.AddRender(this);
+			prevRenderState = Rendered;
+			if (prevRenderState)
+			{
+				GameManager.instance.minimap.AddRender(this);
+			}
+			else
+			{
+				GameManager.instance.minimap.RemoveRender(this);
+			}
 		}
 	}
 }
