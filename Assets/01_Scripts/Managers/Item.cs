@@ -93,52 +93,56 @@ public class Item : IComparable // #################
 		//{"도약탕".GetHashCode(), new Medicines("도약탕", "다리의 힘을 비약적으로 상승시켜 땅을 박차고 공중으로 도약할 수 있게 해준다.", ItemType.Liquid, 999, null, false, -1, DetailAmount.Empty) },
 	}; //같은 이름의 아이템을 같은 물건으로 취급하기 위해 사용.
 
-	static Hashtable allYinyangItems;
-	public static Hashtable AllYinyangItems
-	{
-		get
-		{
-			if(allYinyangItems == null)
-			{
-				allYinyangItems = new Hashtable();
-				foreach (int item in nameDataHashT.Keys)
-				{
-					if(nameDataHashT[item] is YinyangItem yy && !(nameDataHashT[item] is Medicines))
-					{
-						allYinyangItems.Add(item, nameDataHashT[item]);
-					}
-				}
-			}
-			return allYinyangItems;
-		}
-	}
+	//static Hashtable allYinyangItems;
+	//public static Hashtable AllYinyangItems
+	//{
+	//	get
+	//	{
+	//		if(allYinyangItems == null)
+	//		{
+	//			allYinyangItems = new Hashtable();
+	//			foreach (int item in nameDataHashT.Keys)
+	//			{
+	//				if(nameDataHashT[item] is YinyangItem yy && !(nameDataHashT[item] is Medicines))
+	//				{
+	//					allYinyangItems.Add(item, nameDataHashT[item]);
+	//				}
+	//			}
+	//		}
+	//		return allYinyangItems;
+	//	}
+	//}
 
-	static Hashtable allMedicines;
-	public static Hashtable AllMedicines
-	{
-		get
-		{
-			if (allMedicines == null)
-			{
-				allMedicines = new Hashtable();
-				foreach (int item in nameDataHashT.Keys)
-				{
-					if ((nameDataHashT[item] is Medicines))
-					{
-						allMedicines.Add(item, nameDataHashT[item]);
-					}
-				}
-			}
-			return allMedicines;
-		}
-	}
+	//static Hashtable allMedicines;
+	//public static Hashtable AllMedicines
+	//{
+	//	get
+	//	{
+	//		if (allMedicines == null)
+	//		{
+	//			allMedicines = new Hashtable();
+	//			foreach (int item in nameDataHashT.Keys)
+	//			{
+	//				if ((nameDataHashT[item] is Medicines))
+	//				{
+	//					allMedicines.Add(item, nameDataHashT[item]);
+	//				}
+	//			}
+	//		}
+	//		return allMedicines;
+	//	}
+	//}
 
 	public static T GetItem<T>(string name) where T : Item
 	{
-		if(nameDataHashT[name.GetHashCode()] is T)
+		if(nameDataHashT[name] != null)
+			Debug.Log(nameDataHashT[name].GetType().ToString());
+		if(nameDataHashT[name] is T)
 		{
-			return (T)nameDataHashT[name.GetHashCode()];
+			Debug.Log("찾았습니다");
+			return (T)nameDataHashT[name];
 		}
+		Debug.Log("찾지 못했습ㄴ디ㅏ.");
 		return null;
 	}
 
@@ -194,6 +198,7 @@ public class Item : IComparable // #################
 
 	public static IEnumerator InitializeItem()
 	{
+		nameDataHashT.Clear();
 		GameManager.instance.imageManager.dictionary.Dict.Clear();
 		SheetParser data = new SheetParser("https://docs.google.com/spreadsheets/d/1U_d85oU7k3LJym1HeIO90zeiGZhk2D-k8w3PR9CgzaQ/export?format=tsv&gid=607348165&range=B3:R", "B", "R");
 		SheetParser useData = new SheetParser("https://docs.google.com/spreadsheets/d/1U_d85oU7k3LJym1HeIO90zeiGZhk2D-k8w3PR9CgzaQ/export?format=tsv&gid=36776999&range=B3:H", "B", "H");
@@ -291,10 +296,10 @@ public class Item : IComparable // #################
 
 	public virtual void InsertToTable()
 	{
-		if (!nameDataHashT.ContainsKey(Id))
+		if (!nameDataHashT.ContainsKey(MyName))
 		{
 			Debug.Log($"새로운 아이템 : {MyName}");
-			nameDataHashT.Add(Id, this);
+			nameDataHashT.Add(MyName, this);
 		}
 	}
 

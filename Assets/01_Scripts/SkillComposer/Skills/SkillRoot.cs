@@ -37,17 +37,22 @@ public class SkillRoot : Composite
 
 	public override void Operate(Actor self)
 	{
-		Vector3 dir = Camera.main.transform.forward;
-		dir.y = 0;
-		self.transform.rotation = Quaternion.LookRotation(dir);
+		if(GameManager.instance.camManager.curCamStat == CamStatus.Freelook)
+		{
+			Vector3 dir = Camera.main.transform.forward;
+			dir.y = 0;
+			self.transform.rotation = Quaternion.LookRotation(dir);
+
+		}
 		if (isSuperArmor)
 		{
-			if(_superArmorCorutine != null)
+			if (_superArmorCorutine != null)
 			{
 				GameManager.instance.StopCoroutine(_superArmorCorutine);
 			}
 			_superArmorCorutine = GameManager.instance.StartCoroutine(isSuperArmorCO(self, _superArmorTime));
 		}
+
 		base.Operate(self);
 		//GameManager.instance.StartCoroutine(DelOperate(self));
 		base.MyOperation(self);

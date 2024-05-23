@@ -544,12 +544,8 @@ public class GameManager : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.P))
 		{
-			GameManager.instance.pinven.AddItem(Item.GetItem <YinyangItem>("인삼"), 1);
+			GameManager.instance.pinven.AddItem(Item.GetItem <YinyangItem>("고사리"), 1);
 			GameManager.instance.pinven.AddItem(Item.GetItem <YinyangItem>("녹각"), 2);
-		}
-		if (Input.GetKeyDown(KeyCode.O))
-		{
-			GameManager.instance.pinven.AddItem(Item.GetItem <Item>("밧줄"), 3);
 		}
 
 
@@ -638,14 +634,22 @@ public class GameManager : MonoBehaviour
 
 	public void PlayerDeath()
 	{
-		AISetter[] objs = GameObject.FindObjectsOfType<AISetter>();
+		
 
+		AISetter[] objs = GameObject.FindObjectsOfType<AISetter>();
 		foreach (var item in objs)
 		{
 			item.GetComponent<Actor>().Respawn();
 		}
+		try
+		{
 
 		GameObject.FindObjectOfType<JSInitBattle>().StartReseet();
+		}
+		catch
+		{
+
+		}
 	}
 
 	public void LoadMinigame(Minigames mode)

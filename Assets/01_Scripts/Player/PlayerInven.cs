@@ -320,6 +320,11 @@ public class PlayerInven : MonoBehaviour
 
 	public int AddItem(Item data, int num = 1) //새로운 아이템을 얻는 것이나.
 	{
+		if(data == null)
+		{
+			Debug.LogError($"존재하지 않는 아이템을 얻으려 함.");
+			return num;
+		}
 		List<int> idxes;
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.GetItem, data.MyName, num);
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.HaveItem, data.MyName, num);
