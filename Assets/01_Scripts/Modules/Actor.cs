@@ -19,8 +19,10 @@ public class Actor : MonoBehaviour
 	public SightModule sight;
 	public CastModule cast;
 	public AnimModule anim;
-	public TalkModule talk;
 	public WalletModule wallet;
+
+	public TalkModule talk;
+	public MinimapTarget show;
 
 	public Action<Actor> updateActs;
 	public AISetter _ai;
@@ -52,6 +54,7 @@ public class Actor : MonoBehaviour
 		anim = GetComponent<AnimModule>();
 
 		talk = GetComponent<TalkModule>();
+		show = GetComponent<MinimapTarget>();
 		wallet = GetComponent<WalletModule>();
 	}
 	void Start()
@@ -74,6 +77,7 @@ public class Actor : MonoBehaviour
 		cast.ResetStatus();
 		anim.ResetStatus();
 		talk?.ResetStatus();
+		show?.ResetStatus();
 		wallet.ResetStatus();
 	}
 

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 4678642442708023600}
   - component: {fileID: 7593551870927441995}
   - component: {fileID: 770995054979345801}
+  - component: {fileID: 7575724313208287938}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -509,8 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cfa38d0aac433b49a3951792ad250bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initSightRange: 5
-  sightRange: 5
+  initSightRange: 10
   holdTime: 0.5
   curSel: 0
 --- !u!114 &9071705361245000819
@@ -618,8 +618,9 @@ MonoBehaviour:
   sight: {fileID: 0}
   cast: {fileID: 0}
   anim: {fileID: 0}
-  talk: {fileID: 0}
   wallet: {fileID: 0}
+  talk: {fileID: 0}
+  show: {fileID: 0}
   _ai: {fileID: 0}
 --- !u!95 &4678642442708023600
 Animator:
@@ -671,6 +672,19 @@ MonoBehaviour:
   purchaseBias: 0.8
   debtAble: 0
   shopList: []
+--- !u!114 &7575724313208287938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104876616053643956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a0acb6315fc34418788e6ed69ae1a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &220605965769024690
 GameObject:
   m_ObjectHideFlags: 0

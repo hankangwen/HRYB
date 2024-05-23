@@ -5,40 +5,69 @@ using UnityEngine;
 
 public class MinimapManager : MonoBehaviour
 {
-	public List<Sprite> typeImage;
-	public const int MINIMAPTEXQUALITY = 512;
+	
+	public const int MINIMAPTEXSIZE = 300;
 
 	MinimapShower shower;
-	Texture2D mapInfos;
 
-	List<MinimapTarget> targs;
+	List<MinimapTarget> targs = new List<MinimapTarget>();
+	List<GameObject> icons = new List<GameObject>();
 
 	private void Awake()
 	{
 		shower = GameObject.Find("MinimapContent").GetComponent<MinimapShower>();
-		mapInfos= new Texture2D(MINIMAPTEXQUALITY, MINIMAPTEXQUALITY);
-		shower.SetInfo(mapInfos);
-		targs = new List<MinimapTarget>();
 	}
+
+	private void LateUpdate()
+	{
+		for (int i = 0; i < targs.Count; i++)
+		{
+			Vector3 offset = targs[i].transform.position - GameManager.instance.player.transform.position;
+			float xDiff = MINIMAPTEXSIZE * 0.5f * (offset.x / GameManager.instance.pActor.sight.GetSightRange());
+			float yDiff = MINIMAPTEXSIZE * 0.5f * (offset.z / GameManager.instance.pActor.sight.GetSightRange());
+			if(!targs[i].ignoreAngle)
+				icons[i].transform.rotation = Quaternion.Euler(0, 0, -360 - targs[i].transform.eulerAngles.y);
+			else
+				icons[i].transform.rotation = Quaternion.identity;
+			icons[i].transform.localPosition = new Vector3(xDiff, yDiff, 0);
+		}
+	}
+
 
 	public void DoRender()
 	{
+		ClearRender();
 		for (int k = 0; k < targs.Count; k++)
 		{
-			float angleDiffY = targs[k].transform.eulerAngles.y;
-			for (int i = 0; i < targs[k].myRendered.texture.width; i++)
-			{
-				for (int j = 0; j < targs[k].myRendered.texture.height; j++)
-				{
-					
-				}
-			}
+			Vector3 offset = targs[k].transform.position - GameManager.instance.player.transform.position;
+			float xDiff = MINIMAPTEXSIZE * 0.5f * (offset.x / GameManager.instance.pActor.sight.GetSightRange());
+			float yDiff = MINIMAPTEXSIZE * 0.5f * (offset.z / GameManager.instance.pActor.sight.GetSightRange());
+			Quaternion q = Quaternion.Euler(0, 0, targs[k].transform.eulerAngles.y);
+
+			GameObject icon = PoolManager.GetObject(targs[k].type.ToString(), shower.transform);
+
+			icons.Add(icon);
 		}
-		
+	}
+
+	public void ClearRender()
+	{
+		for (int i = 0; i < icons.Count; i++)
+		{
+			PoolManager.ReturnObject(icons[i]);
+		}
+		icons.Clear();
 	}
 
 	public void AddRender(MinimapTarget targ)
 	{
 		targs.Add(targ);
+		DoRender();
+	}
+
+	public void RemoveRender(MinimapTarget targ)
+	{
+		targs.Remove(targ);
+		DoRender();
 	}
 }
