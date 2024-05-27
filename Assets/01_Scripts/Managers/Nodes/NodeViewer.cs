@@ -24,7 +24,7 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 	private void Awake()
 	{
 		allNodes = NodeUtility.LoadNodeData();
-		nodeViewTransform = GameObject.Find("PlayerNodeViewBoard").transform;
+		nodeViewTransform = GameObject.Find("PlayerNodeNodeViewBoard").transform;
 		lineViewTransform = GameObject.Find("PlayerNodeLineViewBoard").transform;
 		innermostNode = GameObject.Find("InnermostNode").transform;
 	}
@@ -78,7 +78,7 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 
 	public void OnOpen()
 	{
-		GenerateView();
+		//GenerateView();
 	}
 
 	public void WhileOpening()
@@ -88,7 +88,7 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 
 	public void OnClose()
 	{
-		ClearView();
+		//ClearView();
 	}
 
 	public void Refresh()

@@ -4,7 +4,15 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-
+public enum BodyPart
+{
+	Head,
+	Torso,
+	LeftArm,
+	RightArm,
+	LeftLeg,
+	RightLeg,
+}
 
 public class PlayerNode : ScriptableObject
 {
@@ -15,6 +23,7 @@ public class PlayerNode : ScriptableObject
 
 	public StatUpgradeType nodeType;
 	public float amt;
+	public bool percentage;
 
 	public bool learnable;
 
@@ -55,7 +64,14 @@ public class PlayerNode : ScriptableObject
 			 		onLearn?.Invoke();
 			 		break;
 			 	default:
-			 		GameManager.instance.pActor.AddStat(amt, nodeType); //곱연산 노드는 없나?
+					if (percentage)
+					{
+			 			GameManager.instance.pActor.MultStat(amt, nodeType);
+					}
+					else
+					{
+			 			GameManager.instance.pActor.AddStat(amt, nodeType);
+					}
 			 		break;
 			 }
 			
