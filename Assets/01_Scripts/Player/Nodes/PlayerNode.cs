@@ -7,17 +7,21 @@ using UnityEngine.Events;
 public enum BodyPart
 {
 	Head,
-	Torso,
-	LeftArm,
-	RightArm,
-	LeftLeg,
-	RightLeg,
+	Body,
+	LArm,
+	RArm,
+	LLeg,
+	RLeg,
+
+
+	Max
 }
 
 public class PlayerNode : ScriptableObject
 {
-	public int circleIndex;
+	//public int circleIndex;
 	public int orderIndex;
+	public BodyPart part;
 
 	public bool completed;
 
@@ -35,7 +39,7 @@ public class PlayerNode : ScriptableObject
 
 	public PlayerNode()
 	{
-		circleIndex = 0;
+		//circleIndex = 0;
 		orderIndex = 0;
 		completed =false;
 		amt = 0;

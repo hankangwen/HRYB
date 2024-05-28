@@ -32,6 +32,8 @@ public class NodeDetailUI : MonoBehaviour
 		}
 
 		nameTxt.text = NodeUtility.GetName(info);
+		if(info == null)
+			return;
 		reqTxt.text = info.needPoint.ToString();
 	}
 

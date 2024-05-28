@@ -12,8 +12,8 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 
 	List<List<PlayerNode>> allNodes;
 
-	Transform nodeViewTransform;
-	Transform lineViewTransform;
+	GameObject nodeSelection;
+	List<GameObject> partedNode;
 
 	Transform innermostNode;
 
@@ -23,40 +23,61 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 
 	private void Awake()
 	{
-		allNodes = NodeUtility.LoadNodeData();
-		nodeViewTransform = GameObject.Find("PlayerNodeNodeViewBoard").transform;
-		lineViewTransform = GameObject.Find("PlayerNodeLineViewBoard").transform;
-		innermostNode = GameObject.Find("InnermostNode").transform;
+		//allNodes = NodeUtility.LoadNodeData();
+		//nodeViewTransform = GameObject.Find("PlayerNodeNodeViewBoard").transform;
+		//lineViewTransform = GameObject.Find("PlayerNodeLineViewBoard").transform;
+		//innermostNode = GameObject.Find("InnermostNode").transform;
+		nodeSelection = GameObject.Find("BodyPartSelection").gameObject;
+		partedNode = new List<GameObject>();
+		for (int i = 0; i < (int)BodyPart.Max; i++)
+		{
+			partedNode.Add(GameObject.Find($"{((BodyPart)i).ToString()}Bgnd"));
+
+		}
+
+	}
+
+	private void Start()
+	{
+		
+		ResetView();
 	}
 
 
-
-	public void GenerateView()
+	public void ResetView()
 	{
-
-		for (int i = 0; i < allNodes.Count; i++)
+		nodeSelection.SetActive(true);
+		for (int i = 0; i < partedNode.Count; i++)
 		{
-			float angle = RADIAN360 / allNodes[i].Count;
-			for (int j =0; j < allNodes[i].Count; j++)
-			{
-				NodeUI node = PoolManager.GetObject(baseNodeName, nodeViewTransform).GetComponent<NodeUI>();
-				node.transform.localPosition = (Vector3.right * -Mathf.Sin(angle * -j) * circleRadiusScaler * (i + 1)) + (Vector3.up * Mathf.Cos(angle * -j) * circleRadiusScaler * (i + 1));
-				node.SetUpNodeUI(allNodes[i][j]);
-				nodes.Add(allNodes[i][j], node);
-				if(allNodes[i][j].requirements.Count > 0)
-				{
-					for (int k = 0; k < allNodes[i][j].requirements.Count; k++)
-					{
-						GenerateLine(nodes[allNodes[i][j].requirements[k]].transform, node.transform);
-					}
-				}
-				else
-				{
-					GenerateLine(innermostNode, node.transform);
-				}
-			}
+			partedNode[i].SetActive(false);
 		}
 	}
+	//public void GenerateView()
+	//{
+
+	//	for (int i = 0; i < allNodes.Count; i++)
+	//	{
+	//		float angle = RADIAN360 / allNodes[i].Count;
+	//		for (int j =0; j < allNodes[i].Count; j++)
+	//		{
+	//			NodeUI node = PoolManager.GetObject(baseNodeName, nodeViewTransform).GetComponent<NodeUI>();
+	//			node.transform.localPosition = (Vector3.right * -Mathf.Sin(angle * -j) * circleRadiusScaler * (i + 1)) + (Vector3.up * Mathf.Cos(angle * -j) * circleRadiusScaler * (i + 1));
+	//			node.SetUpNodeUI(allNodes[i][j]);
+	//			nodes.Add(allNodes[i][j], node);
+	//			if(allNodes[i][j].requirements.Count > 0)
+	//			{
+	//				for (int k = 0; k < allNodes[i][j].requirements.Count; k++)
+	//				{
+	//					GenerateLine(nodes[allNodes[i][j].requirements[k]].transform, node.transform);
+	//				}
+	//			}
+	//			else
+	//			{
+	//				GenerateLine(innermostNode, node.transform);
+	//			}
+	//		}
+	//	}
+	//}
 
 	public void ClearView()
 	{
@@ -67,18 +88,19 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 		nodes.Clear();
 	}
 
-	public void GenerateLine(Transform from, Transform to)
-	{
-		GameObject line = PoolManager.GetObject(baseLineName, lineViewTransform);
-		Vector3 dir = to.position - from.position;
-		line.transform.position = from.position;
-		line.transform.localRotation = Quaternion.Euler(Vector3.forward * Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - Vector3.forward * 90);
-		line.transform.localScale = Vector3.one + (Vector3.up * dir.magnitude);
-	}
+	//public void GenerateLine(Transform from, Transform to)
+	//{
+	//	GameObject line = PoolManager.GetObject(baseLineName, lineViewTransform);
+	//	Vector3 dir = to.position - from.position;
+	//	line.transform.position = from.position;
+	//	line.transform.localRotation = Quaternion.Euler(Vector3.forward * Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - Vector3.forward * 90);
+	//	line.transform.localScale = Vector3.one + (Vector3.up * dir.magnitude);
+	//}
 
 	public void OnOpen()
 	{
 		//GenerateView();
+		ResetView();
 	}
 
 	public void WhileOpening()
