@@ -27,6 +27,8 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 
 	Dictionary<PlayerNode, NodeUI> nodes = new Dictionary<PlayerNode, NodeUI>();
 
+	Coroutine ongoing;
+
 	private void Awake()
 	{
 		//allNodes = NodeUtility.LoadNodeData();
@@ -97,14 +99,20 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 
 	public void ShowLearner(PlayerNode node)
 	{
-		nodeLearner.On(node);
-		StartCoroutine(DelMoveViewport(true));
+		if (ongoing == null)
+		{
+			nodeLearner.On(node);
+			ongoing = StartCoroutine(DelMoveViewport(false));
+		}
 	}
 
 	public void UnshowLearner()
 	{
-		nodeLearner.Off();
-		StartCoroutine(DelMoveViewport(false));
+		if(ongoing == null)
+		{
+			nodeLearner.Off();
+			ongoing = StartCoroutine(DelMoveViewport(true));
+		}
 
 	}
 
@@ -122,6 +130,7 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 
 		}
 		viewport.position = originalPos + (direction ? Vector3.right : Vector3.left) * VIEWPORTOFFSET;
+		ongoing = null;
 	}
 
 	//public void GenerateLine(Transform from, Transform to)

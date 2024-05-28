@@ -15,7 +15,7 @@ public class NodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 	{
 		button = GetComponent<Button>();
 		img = GetComponent<Image>();
-		switch (indicating.nodeType) //여기서 이미지를 정해주든 뭐든
+		switch (indicating?.nodeType) //여기서 이미지를 정해주든 뭐든
 		{
 			case StatUpgradeType.White:
 				//양
