@@ -38,7 +38,7 @@ public class NodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 			default:
 				break;
 		}
-		button.onClick.AddListener(() => { indicating.LearnNode(); });
+		button.onClick.AddListener(() => { (GameManager.instance.uiManager.toolbarUIShower.openables[ToolState.Node] as NodeViewer)?.nodeLearner.OnOff(indicating);});
 	}
 
 	public void SetUpNodeUI(PlayerNode node)

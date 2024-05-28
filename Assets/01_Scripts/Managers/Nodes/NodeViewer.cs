@@ -15,9 +15,15 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 	GameObject nodeSelection;
 	List<GameObject> partedNode;
 
+	public NodeLearnUI nodeLearner;
+	Transform viewport;
+
 	Transform innermostNode;
 
 	public const float RADIAN360 = Mathf.PI * 2;
+	public const float VIEWPORTOFFSET = 300;
+	public const float CIRCLESEC = 0.5f;
+	public const float MOVESEC = 0.75f;
 
 	Dictionary<PlayerNode, NodeUI> nodes = new Dictionary<PlayerNode, NodeUI>();
 
@@ -34,7 +40,8 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 			partedNode.Add(GameObject.Find($"{((BodyPart)i).ToString()}Bgnd"));
 
 		}
-
+		nodeLearner = transform.Find("NodeLearnWindow").GetComponent<NodeLearnUI>();
+		viewport = transform.Find("NodeBgnd/Viewport");
 	}
 
 	private void Start()
@@ -86,6 +93,35 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 			PoolManager.ReturnAllChilds(item.Value.gameObject);
 		}
 		nodes.Clear();
+	}
+
+	public void ShowLearner(PlayerNode node)
+	{
+		nodeLearner.On(node);
+		StartCoroutine(DelMoveViewport(true));
+	}
+
+	public void UnshowLearner()
+	{
+		nodeLearner.Off();
+		StartCoroutine(DelMoveViewport(false));
+
+	}
+
+	IEnumerator DelMoveViewport(bool direction)
+	{
+		float t = 0;
+		Vector3 originalPos = viewport.position;
+		float accOffset = 0;
+		while(t < MOVESEC)
+		{
+			yield return null;
+			t += Time.deltaTime;
+			accOffset = Mathf.Lerp(0, VIEWPORTOFFSET, t / MOVESEC);
+			viewport.position = originalPos + (direction ? Vector3.right : Vector3.left) * accOffset;
+
+		}
+		viewport.position = originalPos + (direction ? Vector3.right : Vector3.left) * VIEWPORTOFFSET;
 	}
 
 	//public void GenerateLine(Transform from, Transform to)
