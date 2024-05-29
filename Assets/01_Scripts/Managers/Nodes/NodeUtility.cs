@@ -44,7 +44,7 @@ public class NodeUtility
 		return res;
 	}
 
-	public static List<PlayerNode> LoadNodeData(int circleIdx)
+	public static List<PlayerNode> LoadNodeData(string circleIdx)
 	{
 		List<PlayerNode> res = new List<PlayerNode>();
 		List<PlayerNode> datas = Resources.LoadAll<PlayerNode>(NODEPATH).ToList();
@@ -53,8 +53,7 @@ public class NodeUtility
 		for (int i = 0; i < datas.Count; i++) //무조건 순섲대로 정렬되어있다는 가정하에 한다.
 		{
 			splitter = datas[i].name.Split('_');
-			int cIdx = int.Parse(splitter[0]);
-			if(cIdx == circleIdx)
+			if(splitter[0] == circleIdx)
 			{
 				res.Add(datas[i]);
 			}
@@ -63,7 +62,7 @@ public class NodeUtility
 		return res;
 	}
 
-	public static PlayerNode LoadNodeData(int circleIdx, int orderIdx)
+	public static PlayerNode LoadNodeData(string circleIdx, int orderIdx)
 	{
 		PlayerNode res = null;
 		List<PlayerNode> datas = Resources.LoadAll<PlayerNode>(NODEPATH).ToList();
@@ -72,9 +71,8 @@ public class NodeUtility
 		for (int i = 0; i < datas.Count; i++) //무조건 순섲대로 정렬되어있다는 가정하에 한다.
 		{
 			splitter = datas[i].name.Split('_');
-			int cIdx = int.Parse(splitter[0]);
 			int oIdx = int.Parse(splitter[1]);
-			if (cIdx == circleIdx && oIdx == orderIdx)
+			if (splitter[0] == circleIdx && oIdx == orderIdx)
 			{
 				res = datas[i];
 				break;
@@ -87,6 +85,8 @@ public class NodeUtility
 
 	public static string GetName(PlayerNode inf)
 	{
+		if(inf == null)
+			return null;
 		System.Text.StringBuilder sb;
 		bool usingGlobal = GameManager.GetGlobalSB(out sb);
 		switch (inf.nodeType)
@@ -153,6 +153,28 @@ public class NodeUtility
 				return "쿨다운 감소";
 			case StatUpgradeType.Callback:
 				return "특수";
+			default:
+				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
+				return act.ToString();
+		}
+	}
+
+	public static string ToStringKorean(BodyPart act)
+	{
+		switch (act)
+		{
+			case BodyPart.Head:
+				return "머리";
+			case BodyPart.Body:
+				return "몸통";
+			case BodyPart.LArm:
+				return "왼팔";
+			case BodyPart.RArm:
+				return "오른팔";
+			case BodyPart.LLeg:
+				return "왼다리";
+			case BodyPart.RLeg:
+				return "오른다리";
 			default:
 				Debug.LogWarning($"{act} 상태에 대한 한글 번역이 제공되지 않습니다.");
 				return act.ToString();

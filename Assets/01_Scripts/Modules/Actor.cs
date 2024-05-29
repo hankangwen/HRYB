@@ -27,6 +27,8 @@ public class Actor : MonoBehaviour
 	public Action<Actor> updateActs;
 	public AISetter _ai;
 
+	List<TemporaryStatMods> ongoingTempStatMods = new List<TemporaryStatMods>();
+
 	public AISetter AI
 	{
 		get
@@ -79,6 +81,14 @@ public class Actor : MonoBehaviour
 		talk?.ResetStatus();
 		show?.ResetStatus();
 		wallet.ResetStatus();
+
+		for (int i = 0; i < ongoingTempStatMods.Count; i++)
+		{
+			HandleStatus(ongoingTempStatMods[i], true);
+			StopCoroutine(ongoingTempStatMods[i].c);
+		}
+
+		ongoingTempStatMods.Clear();
 	}
 
 	public void AddStat(float amt, StatUpgradeType type)
@@ -148,11 +158,49 @@ public class Actor : MonoBehaviour
 		if(timePeriod == Mathf.Infinity || timePeriod < 0)
 		{
 			AddStat(amtAdd, type);
+			MultStat(amtAdd, type);
 		}
 		else
 		{
-
+			ongoingTempStatMods.Add(new TemporaryStatMods(StartCoroutine(DelHandleStat(type, amtAdd, amtMult, timePeriod)), type, amtAdd, amtMult));
 		}
+	}
+
+	void HandleStatus(TemporaryStatMods mods, bool invert)
+	{
+		if (invert)
+		{
+			AddStat(-mods.amtAdd, mods.type);
+			MultStat(-mods.amtMult, mods.type);
+		}
+		else
+		{
+			AddStat(mods.amtAdd, mods.type);
+			MultStat(mods.amtMult, mods.type);
+		}
+		
+	}
+
+	IEnumerator DelHandleStat(StatUpgradeType type, float amtAdd, float amtMult, float time)
+	{
+		HandleStatus(type, amtAdd, amtMult, -1);
+		yield return new WaitForSeconds(time);
+		HandleStatus(type, -amtAdd, -amtMult, -1);
+	}
+}
+
+public struct TemporaryStatMods
+{
+	public Coroutine c;
+	public StatUpgradeType type;
+	public float amtAdd;
+	public float amtMult;
+	public TemporaryStatMods(Coroutine ongoing, StatUpgradeType t, float amtAdd, float amtMult)
+	{
+		c = ongoing;
+		type = t;
+		this.amtAdd = amtAdd;
+		this.amtMult = amtMult;
 	}
 }
 
