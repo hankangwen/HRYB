@@ -10,11 +10,14 @@ public class NodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
 	Button button;
 	Image img;
+	Image circleIndicator;
+	Coroutine ongoing;
 
 	private void Start()
 	{
 		button = GetComponent<Button>();
 		img = GetComponent<Image>();
+		circleIndicator = transform.Find("CircleIndicator").GetComponent<Image>();
 		switch (indicating?.nodeType) //여기서 이미지를 정해주든 뭐든
 		{
 			case StatUpgradeType.White:
@@ -38,7 +41,33 @@ public class NodeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 			default:
 				break;
 		}
+		circleIndicator.fillAmount = 0;
 		button.onClick.AddListener(() => { (GameManager.instance.uiManager.toolbarUIShower.openables[ToolState.Node] as NodeViewer)?.nodeLearner.OnOff(indicating);});
+		button.onClick.AddListener(() => { (GameManager.instance.uiManager.toolbarUIShower.openables[ToolState.Node] as NodeViewer)?.SetSelected(this); });
+	}
+
+	public void BrushStroke()
+	{
+		circleIndicator.enabled = true;
+		
+		ongoing = StartCoroutine(DelStroke());
+	}
+
+	public void OffBrush()
+	{
+		circleIndicator.enabled = false;
+	}
+
+	IEnumerator DelStroke()
+	{
+		float t = 0;
+		circleIndicator.fillAmount = 0;
+		while (t < NodeViewer.CIRCLESEC)
+		{
+			yield return null;
+			t += Time.deltaTime;
+			circleIndicator.fillAmount = Mathf.Lerp(0, 1, t / NodeViewer.CIRCLESEC);
+		}
 	}
 
 	public void SetUpNodeUI(PlayerNode node)

@@ -53,7 +53,7 @@ public class NodeLearnUI : MonoBehaviour
 
 	public void Learn()
 	{
-		if (isOn)
+		if (isOn && showing != null)
 		{
 			showing.LearnNode();
 		}
@@ -88,6 +88,7 @@ public class NodeLearnUI : MonoBehaviour
 
 	public void OnOff(PlayerNode node)
 	{
+		Debug.Log("창키고끄는중.....");
 		if (!isOn)
 		{
 			(GameManager.instance.uiManager.toolbarUIShower.openables[ToolState.Node] as NodeViewer)?.ShowLearner(node);	
@@ -101,6 +102,7 @@ public class NodeLearnUI : MonoBehaviour
 			else
 			{
 				RefreshInfo();
+				Debug.Log("이미켜져있다");
 			}
 		}
 	}

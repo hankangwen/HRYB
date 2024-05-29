@@ -18,6 +18,8 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 	public NodeLearnUI nodeLearner;
 	Transform viewport;
 
+	internal NodeUI curSelected;
+
 	Transform innermostNode;
 
 	public const float RADIAN360 = Mathf.PI * 2;
@@ -52,7 +54,6 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 		ResetView();
 	}
 
-
 	public void ResetView()
 	{
 		nodeSelection.SetActive(true);
@@ -60,6 +61,7 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 		{
 			partedNode[i].SetActive(false);
 		}
+		SetSelected(null);
 	}
 	//public void GenerateView()
 	//{
@@ -102,7 +104,8 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 		if (ongoing == null)
 		{
 			nodeLearner.On(node);
-			ongoing = StartCoroutine(DelMoveViewport(false));
+			ongoing = GameManager.instance.StartCoroutine(DelMoveViewport(false));
+			Debug.Log("켜라");
 		}
 	}
 
@@ -111,9 +114,31 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 		if(ongoing == null)
 		{
 			nodeLearner.Off();
-			ongoing = StartCoroutine(DelMoveViewport(true));
+			ongoing = GameManager.instance.StartCoroutine(DelMoveViewport(true));
+			Debug.Log("꺼라");
 		}
 
+	}
+
+	public void SetSelected(NodeUI node)
+	{
+		if(curSelected != null)
+		{
+			curSelected.OffBrush();
+		}
+		if(curSelected != node)
+		{
+			curSelected = node;
+		}
+		else
+		{
+			curSelected = null;
+		}
+		if(curSelected != null)
+		{
+			curSelected.BrushStroke();
+			Debug.Log(node.name + " 선택됨!!!!!!!11");
+		}
 	}
 
 	IEnumerator DelMoveViewport(bool direction)
@@ -121,16 +146,18 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 		float t = 0;
 		Vector3 originalPos = viewport.position;
 		float accOffset = 0;
+		Debug.Log("움직임시작함라 " + t + " / " + MOVESEC);
 		while(t < MOVESEC)
 		{
 			yield return null;
 			t += Time.deltaTime;
 			accOffset = Mathf.Lerp(0, VIEWPORTOFFSET, t / MOVESEC);
 			viewport.position = originalPos + (direction ? Vector3.right : Vector3.left) * accOffset;
-
+			Debug.Log("움직이는중임라");
 		}
 		viewport.position = originalPos + (direction ? Vector3.right : Vector3.left) * VIEWPORTOFFSET;
 		ongoing = null;
+		Debug.Log("다움직임라");
 	}
 
 	//public void GenerateLine(Transform from, Transform to)
