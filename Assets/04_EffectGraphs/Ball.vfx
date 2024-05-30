@@ -19,8 +19,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: -194
-    width: 2542
-    height: 1834
+    width: 2543
+    height: 1813
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -801,7 +801,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":0.18431365489959718,"g":0.548880398273468,"b":1.0592737197875977,"a":1.0},"time":0.0},{"color":{"r":0.034800004214048389,"g":0.103633351624012,"b":0.20000000298023225,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.2500038146972656},{"alpha":1.0,"time":0.7000076174736023},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":0.36862730979919436,"g":1.097760796546936,"b":2.1185474395751955,"a":1.0},"time":0.0},{"color":{"r":0.034800004214048389,"g":0.103633351624012,"b":0.20000000298023225,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.2500038146972656},{"alpha":1.0,"time":0.7000076174736023},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -2464,7 +2464,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":0.5213176608085632,"g":1.552467942237854,"b":2.9960780143737795,"a":1.0},"time":0.0},{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.2500038146972656},{"alpha":1.0,"time":0.7000076174736023},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":1.042635440826416,"g":3.104936361312866,"b":5.992156505584717,"a":1.0},"time":0.0},{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.2500038146972656},{"alpha":1.0,"time":0.7000076174736023},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -4080,7 +4080,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.479372501373291,"y":0.8468911051750183,"z":5.992157459259033}'
+      m_SerializableObject: '{"x":0.958745002746582,"y":1.6937822103500367,"z":11.984314918518067}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -6735,7 +6735,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.4893845021724701,"g":0.9509806036949158,"b":2.1185474395751955,"a":1.0}'
+      m_SerializableObject: '{"r":0.9787690043449402,"g":1.9019612073898316,"b":4.237094879150391,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _FrontColor
@@ -6905,7 +6905,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.48536452651023867,"g":1.6097887754440308,"b":5.992157459259033,"a":1.0}'
+      m_SerializableObject: '{"r":1.9414581060409547,"g":6.439155101776123,"b":23.968629837036134,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _BackColor
@@ -7211,7 +7211,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.1882353127002716,"g":0.8862745761871338,"b":1.4980392456054688,"a":1.0}'
+      m_SerializableObject: '{"r":0.3764706254005432,"g":1.7725491523742676,"b":2.9960784912109377,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _MainColor
