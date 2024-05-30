@@ -4,17 +4,30 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
+public enum BodyPart
+{
+	Head,
+	Body,
+	LArm,
+	RArm,
+	LLeg,
+	RLeg,
 
+
+	Max
+}
 
 public class PlayerNode : ScriptableObject
 {
-	public int circleIndex;
+	//public int circleIndex;
 	public int orderIndex;
+	public BodyPart part;
 
 	public bool completed;
 
 	public StatUpgradeType nodeType;
 	public float amt;
+	public bool percentage;
 
 	public bool learnable;
 
@@ -26,7 +39,7 @@ public class PlayerNode : ScriptableObject
 
 	public PlayerNode()
 	{
-		circleIndex = 0;
+		//circleIndex = 0;
 		orderIndex = 0;
 		completed =false;
 		amt = 0;
@@ -55,7 +68,14 @@ public class PlayerNode : ScriptableObject
 			 		onLearn?.Invoke();
 			 		break;
 			 	default:
-			 		GameManager.instance.pActor.AddStat(amt, nodeType); //곱연산 노드는 없나?
+					if (percentage)
+					{
+			 			GameManager.instance.pActor.MultStat(amt, nodeType);
+					}
+					else
+					{
+			 			GameManager.instance.pActor.AddStat(amt, nodeType);
+					}
 			 		break;
 			 }
 			

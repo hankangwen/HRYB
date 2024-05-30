@@ -10,7 +10,7 @@ public class NodeDetailUI : MonoBehaviour
 	public string displayReqAmt; //높은 확률로 이후 바뀔듯.
 
 	TextMeshProUGUI nameTxt;
-	TextMeshProUGUI reqTxt;
+	NeededResource reqTxt;
 
 	private void Awake()
 	{
@@ -28,11 +28,13 @@ public class NodeDetailUI : MonoBehaviour
 		}
 		if (reqTxt == null)
 		{
-			reqTxt = transform.Find("Neededs/Resource/ResourceAmount").GetComponent<TextMeshProUGUI>();
+			reqTxt = transform.Find("Neededs/NeededResource").GetComponent<NeededResource>();
 		}
 
 		nameTxt.text = NodeUtility.GetName(info);
-		reqTxt.text = info.needPoint.ToString();
+		if(info == null)
+			return;
+		reqTxt.SetInfo(((int)info.needPoint));
 	}
 
 	public void OffDetail()

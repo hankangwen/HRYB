@@ -12,7 +12,10 @@ public class NodeCreater : EditorWindow
 
 	static List<string> statUpgradeTypes;
 	static List<int> statUpgradeTypesValue;
-	
+
+	static List<string> bodyParts;
+	static List<int> bodyPartsValue;
+
 
 	[MenuItem("노드/노드 생성하기")]
 	public static void ShowWindow()
@@ -42,8 +45,28 @@ public class NodeCreater : EditorWindow
 				}
 			}
 		}
+		if (bodyParts == null || bodyPartsValue == null)
+		{
+			List<BodyPart> lst = new List<BodyPart>(System.Enum.GetValues(typeof(BodyPart)).Cast<BodyPart>());
+			if (bodyParts == null)
+			{
+				bodyParts = new List<string>();
+				for (int i = 0; i < lst.Count; i++)
+				{
+					bodyParts.Add(NodeUtility.ToStringKorean(lst[i]));
+				}
+			}
+			if (bodyPartsValue == null)
+			{
+				bodyPartsValue = new List<int>();
+				for (int i = 0; i < lst.Count; i++)
+				{
+					bodyPartsValue.Add(((int)lst[i]));
+				}
+			}
+		}
 
-		if(requirementVectors == null)
+		if (requirementVectors == null)
 		{
 			requirementVectors = new List<Vector2Int>();
 		}
@@ -61,20 +84,23 @@ public class NodeCreater : EditorWindow
 
 		EditorGUILayout.BeginVertical();
 
-		node.circleIndex = EditorGUILayout.IntField("몇 번째 동심원에 존재하는가?", node.circleIndex);
+		//node.circleIndex = EditorGUILayout.IntField("몇 번째 동심원에 존재하는가?", node.circleIndex);
 		try
 		{
-			node.orderIndex = NodeUtility.LoadNodeData(node.circleIndex).Count;
+			node.orderIndex = NodeUtility.LoadNodeData(node.part.ToString()).Count;
 		}
 		catch
 		{
-			Debug.Log("새로운 동심원에 들어갈 예정임.");
+			Debug.Log("새로운 부위");
 			node.orderIndex = 0;
 		}
-		
-		GUILayout.Label($"{node.orderIndex} 번째에 들어갈 예정. (시계방향)");
 
-		
+		//GUILayout.Label($"{node.orderIndex} 번째에 들어갈 예정. (시계방향)");
+
+		EditorGUILayout.BeginHorizontal();
+		GUILayout.Label("부위 : ");
+		node.part = (BodyPart)EditorGUILayout.IntPopup((int)node.part, bodyParts.ToArray(), bodyPartsValue.ToArray());
+		EditorGUILayout.EndHorizontal();
 
 
 		EditorGUILayout.BeginHorizontal();
@@ -109,6 +135,7 @@ public class NodeCreater : EditorWindow
 			if(node.requirements.Count > 0)
 			{
 				requirementVectors.RemoveAt(requirementVectors.Count - 1);
+				node.requirements.RemoveAt(node.requirements.Count - 1);
 			}
 
 		}
@@ -129,16 +156,16 @@ public class NodeCreater : EditorWindow
 				EditorGUILayout.BeginHorizontal();
 				GUILayout.Label("배우기 위해 필요한 노드 : ");
 				int cIdx = requirementVectors[i].x, oIdx = requirementVectors[i].y;
-				cIdx = EditorGUILayout.IntField(cIdx);
+				cIdx = EditorGUILayout.IntPopup((int)cIdx, bodyParts.ToArray(), bodyPartsValue.ToArray());
 				GUILayout.Label("번째 동심원의 ");
 				oIdx = EditorGUILayout.IntField(oIdx);
-				GUILayout.Label("번째 노드 (시계방향)");
+				GUILayout.Label("번째 노드 (파일명 숫자)");
 
 				EditorGUILayout.EndHorizontal();
 
 				requirementVectors[i] = new Vector2Int(cIdx, oIdx);
 
-				PlayerNode req = NodeUtility.LoadNodeData(cIdx, oIdx);
+				PlayerNode req = NodeUtility.LoadNodeData(bodyParts[cIdx], oIdx);
 
 				if (req != null)
 				{
@@ -161,7 +188,7 @@ public class NodeCreater : EditorWindow
 		EditorGUILayout.EndVertical();
 		EditorGUILayout.EndHorizontal();
 		GUILayout.Space(20);
-		GUILayout.Label($"파일 이름 미리보기 : {node.circleIndex}_{node.orderIndex}_{node.nodeType}{NodeUtility.NODEFILENAME}.asset");
+		GUILayout.Label($"파일 이름 미리보기 : {node.part}_{node.orderIndex}_{node.nodeType}{NodeUtility.NODEFILENAME}.asset");
 		EditorGUILayout.EndVertical();
 		GUILayout.Space(20);
 
@@ -178,13 +205,13 @@ public class NodeCreater : EditorWindow
 			EditorGUILayout.BeginHorizontal();
 			if (GUILayout.Button("노드 저장하기"))
 			{
-				AssetDatabase.CreateAsset(node, $"{QuestManager.ASSETPATH}{NodeUtility.NODEPATH}{node.circleIndex}_{node.orderIndex}_{node.nodeType}{NodeUtility.NODEFILENAME}.asset");
+				AssetDatabase.CreateAsset(node, $"{QuestManager.ASSETPATH}{NodeUtility.NODEPATH}{node.part}_{node.orderIndex}_{node.nodeType}{NodeUtility.NODEFILENAME}.asset");
 				node = null;
 				requirementVectors.Clear();
 			}
 			if (GUILayout.Button("노드 저장하고 종료하기"))
 			{
-				AssetDatabase.CreateAsset(node, $"{QuestManager.ASSETPATH}{NodeUtility.NODEPATH}{node.circleIndex}_{node.orderIndex}_{node.nodeType}{NodeUtility.NODEFILENAME}.asset");
+				AssetDatabase.CreateAsset(node, $"{QuestManager.ASSETPATH}{NodeUtility.NODEPATH}{node.part}_{node.orderIndex}_{node.nodeType}{NodeUtility.NODEFILENAME}.asset");
 				node = null;
 				requirementVectors.Clear();
 				Close();
