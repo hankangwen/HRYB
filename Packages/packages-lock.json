@@ -41,7 +41,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
-      "version": "1.8.13",
+      "version": "1.8.15",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -285,7 +285,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.8",
+      "version": "3.0.9",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -306,7 +306,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.toonshader": {
-      "version": "0.9.7-preview",
+      "version": "0.10.0-preview",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -334,7 +334,7 @@
       }
     },
     "com.unity.visualscripting": {
-      "version": "1.9.2",
+      "version": "1.9.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {

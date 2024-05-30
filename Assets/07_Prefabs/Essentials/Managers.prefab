@@ -611,7 +611,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed1b8fb0297bd4b48b8a53e677410823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeImage: []
+  typeImage:
+  - {fileID: 21300000, guid: 82763b4eba57f744a810dc7da7d8a1a1, type: 3}
+  - {fileID: 21300000, guid: 82763b4eba57f744a810dc7da7d8a1a1, type: 3}
+  - {fileID: 21300000, guid: 82763b4eba57f744a810dc7da7d8a1a1, type: 3}
 --- !u!1001 &4301595190543772573
 PrefabInstance:
   m_ObjectHideFlags: 0

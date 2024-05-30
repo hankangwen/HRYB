@@ -20,7 +20,7 @@ public class ToolBarManager : MonoBehaviour
     public ToolState state;
 
 	Dictionary<ToolState, GameObject> windows = new Dictionary<ToolState, GameObject>();
-	Dictionary<ToolState, IOpenableWindowUI> openables = new Dictionary<ToolState, IOpenableWindowUI>();
+	internal Dictionary<ToolState, IOpenableWindowUI> openables = new Dictionary<ToolState, IOpenableWindowUI>();
 
 	public List<ToolBtn> toolButtons;
 	List<ToolBtn> parents;

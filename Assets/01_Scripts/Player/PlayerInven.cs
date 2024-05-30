@@ -282,6 +282,8 @@ public class PlayerInven : MonoBehaviour
 	PlayerAnimActions animActions;
 
 	float prevChange;
+
+	public int currentExp = 0;
 	
 	public ItemAmountPair CurHoldingItem 
 	{ 

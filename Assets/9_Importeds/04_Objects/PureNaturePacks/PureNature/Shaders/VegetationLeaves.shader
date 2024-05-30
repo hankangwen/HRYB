@@ -2995,14 +2995,20 @@ Shader "VegetationLeaves"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
 
-			
+			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#pragma shader_feature_local _BASEWINDCHANNEL_R _BASEWINDCHANNEL_G _BASEWINDCHANNEL_B _BASEWINDCHANNEL_A
+			#pragma shader_feature_local _MICROWINDCHANNEL_R _MICROWINDCHANNEL_G _MICROWINDCHANNEL_B _MICROWINDCHANNEL_A
+			#pragma shader_feature_local _HIDESIDES_ON
+
 
 			struct VertexInput
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_tangent : TANGENT;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3017,7 +3023,8 @@ Shader "VegetationLeaves"
 				#endif
 				float3 worldNormal : TEXCOORD2;
 				float4 worldTangent : TEXCOORD3;
-				
+				float4 ase_texcoord4 : TEXCOORD4;
+				float4 ase_texcoord5 : TEXCOORD5;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -3069,7 +3076,16 @@ Shader "VegetationLeaves"
 				int _PassValue;
 			#endif
 
-			
+			float WindSpeed;
+			float WindPower;
+			float WindBurstsSpeed;
+			float WindBurstsScale;
+			float WindBurstsPower;
+			float MicroFrequency;
+			float MicroSpeed;
+			float MicroPower;
+			sampler2D _Diffuse;
+
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/DepthNormalsOnlyPass.hlsl"
@@ -3078,7 +3094,55 @@ Shader "VegetationLeaves"
 			//#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/VisualEffectVertex.hlsl"
 			//#endif
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+			inline float Dither8x8Bayer( int x, int y )
+			{
+				const float dither[ 64 ] = {
+			 1, 49, 13, 61,  4, 52, 16, 64,
+			33, 17, 45, 29, 36, 20, 48, 32,
+			 9, 57,  5, 53, 12, 60,  8, 56,
+			41, 25, 37, 21, 44, 28, 40, 24,
+			 3, 51, 15, 63,  2, 50, 14, 62,
+			35, 19, 47, 31, 34, 18, 46, 30,
+			11, 59,  7, 55, 10, 58,  6, 54,
+			43, 27, 39, 23, 42, 26, 38, 22};
+				int r = y * 8 + x;
+				return dither[r] / 64; // same # of instructions as pre-dividing due to compiler magic
+			}
+			
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -3086,14 +3150,68 @@ Shader "VegetationLeaves"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float temp_output_102_0 = ( _TimeParameters.x * WindSpeed );
+				float2 appendResult139 = (float2(WindBurstsSpeed , WindBurstsSpeed));
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float2 appendResult131 = (float2(ase_worldPos.x , ase_worldPos.z));
+				float2 panner126 = ( 1.0 * _Time.y * appendResult139 + appendResult131);
+				float simplePerlin2D379 = snoise( panner126*( WindBurstsScale / 10.0 ) );
+				simplePerlin2D379 = simplePerlin2D379*0.5 + 0.5;
+				float temp_output_129_0 = ( WindPower * ( simplePerlin2D379 * WindBurstsPower ) );
+				#if defined(_BASEWINDCHANNEL_R)
+				float staticSwitch285 = v.ase_color.r;
+				#elif defined(_BASEWINDCHANNEL_G)
+				float staticSwitch285 = v.ase_color.g;
+				#elif defined(_BASEWINDCHANNEL_B)
+				float staticSwitch285 = v.ase_color.b;
+				#elif defined(_BASEWINDCHANNEL_A)
+				float staticSwitch285 = v.ase_color.a;
+				#else
+				float staticSwitch285 = v.ase_color.b;
+				#endif
+				float BaseWindColor288 = staticSwitch285;
+				float saferPower297 = abs( ( 1.0 - BaseWindColor288 ) );
+				float4 temp_cast_0 = (pow( saferPower297 , _WindTrunkPosition )).xxxx;
+				float4 temp_output_299_0 = saturate( CalculateContrast(_WindTrunkContrast,temp_cast_0) );
+				float3 appendResult113 = (float3(( ( sin( temp_output_102_0 ) * temp_output_129_0 ) * temp_output_299_0 ).r , 0.0 , ( ( cos( temp_output_102_0 ) * ( temp_output_129_0 * 0.5 ) ) * temp_output_299_0 ).r));
+				float4 transform254 = mul(GetWorldToObjectMatrix(),float4( appendResult113 , 0.0 ));
+				float4 BaseWind151 = ( transform254 * _WindMultiplier );
+				float2 temp_cast_4 = (MicroSpeed).xx;
+				float3 appendResult174 = (float3(ase_worldPos.x , ase_worldPos.z , ase_worldPos.y));
+				float2 panner175 = ( 1.0 * _Time.y * temp_cast_4 + appendResult174.xy);
+				float simplePerlin2D176 = snoise( ( panner175 * 1.0 ) );
+				simplePerlin2D176 = simplePerlin2D176*0.5 + 0.5;
+				float3 clampResult49 = clamp( sin( ( MicroFrequency * ( ase_worldPos + simplePerlin2D176 ) ) ) , float3( -1,-1,-1 ) , float3( 1,1,1 ) );
+				#if defined(_MICROWINDCHANNEL_R)
+				float staticSwitch284 = v.ase_color.r;
+				#elif defined(_MICROWINDCHANNEL_G)
+				float staticSwitch284 = v.ase_color.g;
+				#elif defined(_MICROWINDCHANNEL_B)
+				float staticSwitch284 = v.ase_color.b;
+				#elif defined(_MICROWINDCHANNEL_A)
+				float staticSwitch284 = v.ase_color.a;
+				#else
+				float staticSwitch284 = v.ase_color.r;
+				#endif
+				float MicroWindColor287 = staticSwitch284;
+				float3 MicroWind152 = ( ( ( ( clampResult49 * v.ase_normal ) * MicroPower ) * MicroWindColor287 ) * _MicroWindMultiplier );
+				float4 temp_output_115_0 = ( BaseWind151 + float4( MicroWind152 , 0.0 ) );
 				
+				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
+				float4 screenPos = ComputeScreenPos(ase_clipPos);
+				o.ase_texcoord5 = screenPos;
+				
+				o.ase_texcoord4.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord4.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = temp_output_115_0.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
@@ -3132,7 +3250,9 @@ Shader "VegetationLeaves"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_tangent : TANGENT;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3150,7 +3270,8 @@ Shader "VegetationLeaves"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_tangent = v.ase_tangent;
-				
+				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -3190,7 +3311,8 @@ Shader "VegetationLeaves"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3243,11 +3365,31 @@ Shader "VegetationLeaves"
 					#endif
 				#endif
 
+				float2 uv_Diffuse = IN.ase_texcoord4.xy * _Diffuse_ST.xy + _Diffuse_ST.zw;
+				float4 tex2DNode56 = tex2D( _Diffuse, uv_Diffuse );
+				float _Opacity231 = tex2DNode56.a;
+				float4 screenPos = IN.ase_texcoord5;
+				float4 ase_screenPosNorm = screenPos / screenPos.w;
+				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
+				float2 clipScreen217 = ase_screenPosNorm.xy * _ScreenParams.xy;
+				float dither217 = Dither8x8Bayer( fmod(clipScreen217.x, 8), fmod(clipScreen217.y, 8) );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 normalizeResult214 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
+				float dotResult200 = dot( ase_worldViewDir , normalizeResult214 );
+				float clampResult222 = clamp( ( ( _Opacity231 * ( 1.0 - ( ( 1.0 - abs( dotResult200 ) ) * 2.0 ) ) ) * _HidePower ) , 0.0 , 1.0 );
+				dither217 = step( dither217, clampResult222 );
+				float OpacityDither205 = dither217;
+				#ifdef _HIDESIDES_ON
+				float staticSwitch234 = OpacityDither205;
+				#else
+				float staticSwitch234 = _Opacity231;
+				#endif
 				
 
 				float3 Normal = float3(0, 0, 1);
-				float Alpha = 1;
-				float AlphaClipThreshold = 0.5;
+				float Alpha = staticSwitch234;
+				float AlphaClipThreshold = 0.25;
 				#ifdef ASE_DEPTH_WRITE_ON
 					float DepthValue = 0;
 				#endif
@@ -3360,7 +3502,19 @@ Shader "VegetationLeaves"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
-			
+			#define ASE_NEEDS_VERT_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_NORMAL
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#define ASE_NEEDS_FRAG_COLOR
+			#define ASE_NEEDS_FRAG_SCREEN_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#pragma shader_feature_local _BASEWINDCHANNEL_R _BASEWINDCHANNEL_G _BASEWINDCHANNEL_B _BASEWINDCHANNEL_A
+			#pragma shader_feature_local _MICROWINDCHANNEL_R _MICROWINDCHANNEL_G _MICROWINDCHANNEL_B _MICROWINDCHANNEL_A
+			#pragma shader_feature _SEEVERTEXCOLOR_ON
+			#pragma shader_feature _WINDDEBUGVIEW_ON
+			#pragma shader_feature_local _INVERTGRADIENT_ON
+			#pragma shader_feature_local _HIDESIDES_ON
+
 
 			struct VertexInput
 			{
@@ -3370,7 +3524,7 @@ Shader "VegetationLeaves"
 				float4 texcoord : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				
+				float4 ase_color : COLOR;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3391,7 +3545,9 @@ Shader "VegetationLeaves"
 				#if defined(DYNAMICLIGHTMAP_ON)
 				float2 dynamicLightmapUV : TEXCOORD7;
 				#endif
-				
+				float4 ase_texcoord8 : TEXCOORD8;
+				float4 ase_color : COLOR;
+				float3 ase_normal : NORMAL;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -3443,13 +3599,71 @@ Shader "VegetationLeaves"
 				int _PassValue;
 			#endif
 
-			
+			float WindSpeed;
+			float WindPower;
+			float WindBurstsSpeed;
+			float WindBurstsScale;
+			float WindBurstsPower;
+			float MicroFrequency;
+			float MicroSpeed;
+			float MicroPower;
+			sampler2D _ColorVariationNoise;
+			sampler2D _Diffuse;
+
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/PBRGBufferPass.hlsl"
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+			inline float Dither8x8Bayer( int x, int y )
+			{
+				const float dither[ 64 ] = {
+			 1, 49, 13, 61,  4, 52, 16, 64,
+			33, 17, 45, 29, 36, 20, 48, 32,
+			 9, 57,  5, 53, 12, 60,  8, 56,
+			41, 25, 37, 21, 44, 28, 40, 24,
+			 3, 51, 15, 63,  2, 50, 14, 62,
+			35, 19, 47, 31, 34, 18, 46, 30,
+			11, 59,  7, 55, 10, 58,  6, 54,
+			43, 27, 39, 23, 42, 26, 38, 22};
+				int r = y * 8 + x;
+				return dither[r] / 64; // same # of instructions as pre-dividing due to compiler magic
+			}
+			
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -3457,14 +3671,66 @@ Shader "VegetationLeaves"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float temp_output_102_0 = ( _TimeParameters.x * WindSpeed );
+				float2 appendResult139 = (float2(WindBurstsSpeed , WindBurstsSpeed));
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float2 appendResult131 = (float2(ase_worldPos.x , ase_worldPos.z));
+				float2 panner126 = ( 1.0 * _Time.y * appendResult139 + appendResult131);
+				float simplePerlin2D379 = snoise( panner126*( WindBurstsScale / 10.0 ) );
+				simplePerlin2D379 = simplePerlin2D379*0.5 + 0.5;
+				float temp_output_129_0 = ( WindPower * ( simplePerlin2D379 * WindBurstsPower ) );
+				#if defined(_BASEWINDCHANNEL_R)
+				float staticSwitch285 = v.ase_color.r;
+				#elif defined(_BASEWINDCHANNEL_G)
+				float staticSwitch285 = v.ase_color.g;
+				#elif defined(_BASEWINDCHANNEL_B)
+				float staticSwitch285 = v.ase_color.b;
+				#elif defined(_BASEWINDCHANNEL_A)
+				float staticSwitch285 = v.ase_color.a;
+				#else
+				float staticSwitch285 = v.ase_color.b;
+				#endif
+				float BaseWindColor288 = staticSwitch285;
+				float saferPower297 = abs( ( 1.0 - BaseWindColor288 ) );
+				float4 temp_cast_0 = (pow( saferPower297 , _WindTrunkPosition )).xxxx;
+				float4 temp_output_299_0 = saturate( CalculateContrast(_WindTrunkContrast,temp_cast_0) );
+				float3 appendResult113 = (float3(( ( sin( temp_output_102_0 ) * temp_output_129_0 ) * temp_output_299_0 ).r , 0.0 , ( ( cos( temp_output_102_0 ) * ( temp_output_129_0 * 0.5 ) ) * temp_output_299_0 ).r));
+				float4 transform254 = mul(GetWorldToObjectMatrix(),float4( appendResult113 , 0.0 ));
+				float4 BaseWind151 = ( transform254 * _WindMultiplier );
+				float2 temp_cast_4 = (MicroSpeed).xx;
+				float3 appendResult174 = (float3(ase_worldPos.x , ase_worldPos.z , ase_worldPos.y));
+				float2 panner175 = ( 1.0 * _Time.y * temp_cast_4 + appendResult174.xy);
+				float simplePerlin2D176 = snoise( ( panner175 * 1.0 ) );
+				simplePerlin2D176 = simplePerlin2D176*0.5 + 0.5;
+				float3 clampResult49 = clamp( sin( ( MicroFrequency * ( ase_worldPos + simplePerlin2D176 ) ) ) , float3( -1,-1,-1 ) , float3( 1,1,1 ) );
+				#if defined(_MICROWINDCHANNEL_R)
+				float staticSwitch284 = v.ase_color.r;
+				#elif defined(_MICROWINDCHANNEL_G)
+				float staticSwitch284 = v.ase_color.g;
+				#elif defined(_MICROWINDCHANNEL_B)
+				float staticSwitch284 = v.ase_color.b;
+				#elif defined(_MICROWINDCHANNEL_A)
+				float staticSwitch284 = v.ase_color.a;
+				#else
+				float staticSwitch284 = v.ase_color.r;
+				#endif
+				float MicroWindColor287 = staticSwitch284;
+				float3 MicroWind152 = ( ( ( ( clampResult49 * v.ase_normal ) * MicroPower ) * MicroWindColor287 ) * _MicroWindMultiplier );
+				float4 temp_output_115_0 = ( BaseWind151 + float4( MicroWind152 , 0.0 ) );
 				
+				o.ase_texcoord8.xy = v.texcoord.xy;
+				o.ase_color = v.ase_color;
+				o.ase_normal = v.ase_normal;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord8.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = temp_output_115_0.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
@@ -3530,7 +3796,8 @@ Shader "VegetationLeaves"
 				float4 texcoord : TEXCOORD0;
 				float4 texcoord1 : TEXCOORD1;
 				float4 texcoord2 : TEXCOORD2;
-				
+				float4 ase_color : COLOR;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3551,7 +3818,7 @@ Shader "VegetationLeaves"
 				o.texcoord = v.texcoord;
 				o.texcoord1 = v.texcoord1;
 				o.texcoord2 = v.texcoord2;
-				
+				o.ase_color = v.ase_color;
 				return o;
 			}
 
@@ -3594,7 +3861,7 @@ Shader "VegetationLeaves"
 				o.texcoord = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
 				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
 				o.texcoord2 = patch[0].texcoord2 * bary.x + patch[1].texcoord2 * bary.y + patch[2].texcoord2 * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -3662,23 +3929,113 @@ Shader "VegetationLeaves"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
+				#ifdef _INVERTGRADIENT_ON
+				float staticSwitch306 = ( 1.0 - WorldNormal.y );
+				#else
+				float staticSwitch306 = WorldNormal.y;
+				#endif
+				float clampResult39 = clamp( ( ( staticSwitch306 + (-2.0 + (_GradientPosition - 0.0) * (1.0 - -2.0) / (1.0 - 0.0)) ) / _GradientFalloff ) , 0.0 , 1.0 );
+				float4 lerpResult46 = lerp( _MainColor , _GradientColor , clampResult39);
+				float4 blendOpSrc53 = lerpResult46;
+				float4 blendOpDest53 = _ColorVariation;
+				float4 lerpBlendMode53 = lerp(blendOpDest53,( blendOpDest53/ max( 1.0 - blendOpSrc53, 0.00001 ) ),_ColorVariationPower);
+				float2 appendResult71 = (float2(WorldPosition.x , WorldPosition.z));
+				float4 saferPower161 = abs( tex2D( _ColorVariationNoise, ( appendResult71 * ( _NoiseScale / 100.0 ) ) ) );
+				float4 temp_cast_0 = (3.0).xxxx;
+				float4 lerpResult58 = lerp( lerpResult46 , ( saturate( lerpBlendMode53 )) , ( _ColorVariationPower * pow( saferPower161 , temp_cast_0 ) ));
+				float2 uv_Diffuse = IN.ase_texcoord8.xy * _Diffuse_ST.xy + _Diffuse_ST.zw;
+				float4 tex2DNode56 = tex2D( _Diffuse, uv_Diffuse );
+				float4 _Albedo339 = ( lerpResult58 * tex2DNode56 );
+				float temp_output_102_0 = ( _TimeParameters.x * WindSpeed );
+				float2 appendResult139 = (float2(WindBurstsSpeed , WindBurstsSpeed));
+				float2 appendResult131 = (float2(WorldPosition.x , WorldPosition.z));
+				float2 panner126 = ( 1.0 * _Time.y * appendResult139 + appendResult131);
+				float simplePerlin2D379 = snoise( panner126*( WindBurstsScale / 10.0 ) );
+				simplePerlin2D379 = simplePerlin2D379*0.5 + 0.5;
+				float temp_output_129_0 = ( WindPower * ( simplePerlin2D379 * WindBurstsPower ) );
+				#if defined(_BASEWINDCHANNEL_R)
+				float staticSwitch285 = IN.ase_color.r;
+				#elif defined(_BASEWINDCHANNEL_G)
+				float staticSwitch285 = IN.ase_color.g;
+				#elif defined(_BASEWINDCHANNEL_B)
+				float staticSwitch285 = IN.ase_color.b;
+				#elif defined(_BASEWINDCHANNEL_A)
+				float staticSwitch285 = IN.ase_color.a;
+				#else
+				float staticSwitch285 = IN.ase_color.b;
+				#endif
+				float BaseWindColor288 = staticSwitch285;
+				float saferPower297 = abs( ( 1.0 - BaseWindColor288 ) );
+				float4 temp_cast_1 = (pow( saferPower297 , _WindTrunkPosition )).xxxx;
+				float4 temp_output_299_0 = saturate( CalculateContrast(_WindTrunkContrast,temp_cast_1) );
+				float3 appendResult113 = (float3(( ( sin( temp_output_102_0 ) * temp_output_129_0 ) * temp_output_299_0 ).r , 0.0 , ( ( cos( temp_output_102_0 ) * ( temp_output_129_0 * 0.5 ) ) * temp_output_299_0 ).r));
+				float4 transform254 = mul(GetWorldToObjectMatrix(),float4( appendResult113 , 0.0 ));
+				float4 BaseWind151 = ( transform254 * _WindMultiplier );
+				float2 temp_cast_5 = (MicroSpeed).xx;
+				float3 appendResult174 = (float3(WorldPosition.x , WorldPosition.z , WorldPosition.y));
+				float2 panner175 = ( 1.0 * _Time.y * temp_cast_5 + appendResult174.xy);
+				float simplePerlin2D176 = snoise( ( panner175 * 1.0 ) );
+				simplePerlin2D176 = simplePerlin2D176*0.5 + 0.5;
+				float3 clampResult49 = clamp( sin( ( MicroFrequency * ( WorldPosition + simplePerlin2D176 ) ) ) , float3( -1,-1,-1 ) , float3( 1,1,1 ) );
+				#if defined(_MICROWINDCHANNEL_R)
+				float staticSwitch284 = IN.ase_color.r;
+				#elif defined(_MICROWINDCHANNEL_G)
+				float staticSwitch284 = IN.ase_color.g;
+				#elif defined(_MICROWINDCHANNEL_B)
+				float staticSwitch284 = IN.ase_color.b;
+				#elif defined(_MICROWINDCHANNEL_A)
+				float staticSwitch284 = IN.ase_color.a;
+				#else
+				float staticSwitch284 = IN.ase_color.r;
+				#endif
+				float MicroWindColor287 = staticSwitch284;
+				float3 MicroWind152 = ( ( ( ( clampResult49 * IN.ase_normal ) * MicroPower ) * MicroWindColor287 ) * _MicroWindMultiplier );
+				float4 temp_output_115_0 = ( BaseWind151 + float4( MicroWind152 , 0.0 ) );
+				#ifdef _WINDDEBUGVIEW_ON
+				float4 staticSwitch194 = temp_output_115_0;
+				#else
+				float4 staticSwitch194 = _Albedo339;
+				#endif
+				#ifdef _SEEVERTEXCOLOR_ON
+				float4 staticSwitch310 = IN.ase_color;
+				#else
+				float4 staticSwitch310 = staticSwitch194;
+				#endif
+				
+				float _Opacity231 = tex2DNode56.a;
+				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
+				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
+				float2 clipScreen217 = ase_screenPosNorm.xy * _ScreenParams.xy;
+				float dither217 = Dither8x8Bayer( fmod(clipScreen217.x, 8), fmod(clipScreen217.y, 8) );
+				float3 normalizeResult214 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
+				float dotResult200 = dot( WorldViewDirection , normalizeResult214 );
+				float clampResult222 = clamp( ( ( _Opacity231 * ( 1.0 - ( ( 1.0 - abs( dotResult200 ) ) * 2.0 ) ) ) * _HidePower ) , 0.0 , 1.0 );
+				dither217 = step( dither217, clampResult222 );
+				float OpacityDither205 = dither217;
+				#ifdef _HIDESIDES_ON
+				float staticSwitch234 = OpacityDither205;
+				#else
+				float staticSwitch234 = _Opacity231;
+				#endif
+				
+				float3 temp_cast_10 = (_Scattering).xxx;
 				
 
-				float3 BaseColor = float3(0.5, 0.5, 0.5);
+				float3 BaseColor = staticSwitch310.rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Emission = 0;
 				float3 Specular = 0.5;
 				float Metallic = 0;
-				float Smoothness = 0.5;
+				float Smoothness = 0.0;
 				float Occlusion = 1;
-				float Alpha = 1;
-				float AlphaClipThreshold = 0.5;
+				float Alpha = staticSwitch234;
+				float AlphaClipThreshold = 0.25;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
 				float3 RefractionColor = 1;
 				float RefractionIndex = 1;
 				float3 Transmission = 1;
-				float3 Translucency = 1;
+				float3 Translucency = temp_cast_10;
 
 				#ifdef ASE_DEPTH_WRITE_ON
 					float DepthValue = 0;
@@ -3810,20 +4167,27 @@ Shader "VegetationLeaves"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			
+			#define ASE_NEEDS_VERT_NORMAL
+			#pragma shader_feature_local _BASEWINDCHANNEL_R _BASEWINDCHANNEL_G _BASEWINDCHANNEL_B _BASEWINDCHANNEL_A
+			#pragma shader_feature_local _MICROWINDCHANNEL_R _MICROWINDCHANNEL_G _MICROWINDCHANNEL_B _MICROWINDCHANNEL_A
+			#pragma shader_feature_local _HIDESIDES_ON
+
 
 			struct VertexInput
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct VertexOutput
 			{
 				float4 clipPos : SV_POSITION;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
+				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -3875,7 +4239,16 @@ Shader "VegetationLeaves"
 				int _PassValue;
 			#endif
 
-			
+			float WindSpeed;
+			float WindPower;
+			float WindBurstsSpeed;
+			float WindBurstsScale;
+			float WindBurstsPower;
+			float MicroFrequency;
+			float MicroSpeed;
+			float MicroPower;
+			sampler2D _Diffuse;
+
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/SelectionPickingPass.hlsl"
@@ -3884,7 +4257,55 @@ Shader "VegetationLeaves"
 			//#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/VisualEffectVertex.hlsl"
 			//#endif
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+			inline float Dither8x8Bayer( int x, int y )
+			{
+				const float dither[ 64 ] = {
+			 1, 49, 13, 61,  4, 52, 16, 64,
+			33, 17, 45, 29, 36, 20, 48, 32,
+			 9, 57,  5, 53, 12, 60,  8, 56,
+			41, 25, 37, 21, 44, 28, 40, 24,
+			 3, 51, 15, 63,  2, 50, 14, 62,
+			35, 19, 47, 31, 34, 18, 46, 30,
+			11, 59,  7, 55, 10, 58,  6, 54,
+			43, 27, 39, 23, 42, 26, 38, 22};
+				int r = y * 8 + x;
+				return dither[r] / 64; // same # of instructions as pre-dividing due to compiler magic
+			}
+			
+
 			struct SurfaceDescription
 			{
 				float Alpha;
@@ -3900,7 +4321,63 @@ Shader "VegetationLeaves"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float temp_output_102_0 = ( _TimeParameters.x * WindSpeed );
+				float2 appendResult139 = (float2(WindBurstsSpeed , WindBurstsSpeed));
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float2 appendResult131 = (float2(ase_worldPos.x , ase_worldPos.z));
+				float2 panner126 = ( 1.0 * _Time.y * appendResult139 + appendResult131);
+				float simplePerlin2D379 = snoise( panner126*( WindBurstsScale / 10.0 ) );
+				simplePerlin2D379 = simplePerlin2D379*0.5 + 0.5;
+				float temp_output_129_0 = ( WindPower * ( simplePerlin2D379 * WindBurstsPower ) );
+				#if defined(_BASEWINDCHANNEL_R)
+				float staticSwitch285 = v.ase_color.r;
+				#elif defined(_BASEWINDCHANNEL_G)
+				float staticSwitch285 = v.ase_color.g;
+				#elif defined(_BASEWINDCHANNEL_B)
+				float staticSwitch285 = v.ase_color.b;
+				#elif defined(_BASEWINDCHANNEL_A)
+				float staticSwitch285 = v.ase_color.a;
+				#else
+				float staticSwitch285 = v.ase_color.b;
+				#endif
+				float BaseWindColor288 = staticSwitch285;
+				float saferPower297 = abs( ( 1.0 - BaseWindColor288 ) );
+				float4 temp_cast_0 = (pow( saferPower297 , _WindTrunkPosition )).xxxx;
+				float4 temp_output_299_0 = saturate( CalculateContrast(_WindTrunkContrast,temp_cast_0) );
+				float3 appendResult113 = (float3(( ( sin( temp_output_102_0 ) * temp_output_129_0 ) * temp_output_299_0 ).r , 0.0 , ( ( cos( temp_output_102_0 ) * ( temp_output_129_0 * 0.5 ) ) * temp_output_299_0 ).r));
+				float4 transform254 = mul(GetWorldToObjectMatrix(),float4( appendResult113 , 0.0 ));
+				float4 BaseWind151 = ( transform254 * _WindMultiplier );
+				float2 temp_cast_4 = (MicroSpeed).xx;
+				float3 appendResult174 = (float3(ase_worldPos.x , ase_worldPos.z , ase_worldPos.y));
+				float2 panner175 = ( 1.0 * _Time.y * temp_cast_4 + appendResult174.xy);
+				float simplePerlin2D176 = snoise( ( panner175 * 1.0 ) );
+				simplePerlin2D176 = simplePerlin2D176*0.5 + 0.5;
+				float3 clampResult49 = clamp( sin( ( MicroFrequency * ( ase_worldPos + simplePerlin2D176 ) ) ) , float3( -1,-1,-1 ) , float3( 1,1,1 ) );
+				#if defined(_MICROWINDCHANNEL_R)
+				float staticSwitch284 = v.ase_color.r;
+				#elif defined(_MICROWINDCHANNEL_G)
+				float staticSwitch284 = v.ase_color.g;
+				#elif defined(_MICROWINDCHANNEL_B)
+				float staticSwitch284 = v.ase_color.b;
+				#elif defined(_MICROWINDCHANNEL_A)
+				float staticSwitch284 = v.ase_color.a;
+				#else
+				float staticSwitch284 = v.ase_color.r;
+				#endif
+				float MicroWindColor287 = staticSwitch284;
+				float3 MicroWind152 = ( ( ( ( clampResult49 * v.ase_normal ) * MicroPower ) * MicroWindColor287 ) * _MicroWindMultiplier );
+				float4 temp_output_115_0 = ( BaseWind151 + float4( MicroWind152 , 0.0 ) );
 				
+				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
+				float4 screenPos = ComputeScreenPos(ase_clipPos);
+				o.ase_texcoord1 = screenPos;
+				o.ase_texcoord2.xyz = ase_worldPos;
+				
+				o.ase_texcoord.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.zw = 0;
+				o.ase_texcoord2.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -3908,7 +4385,7 @@ Shader "VegetationLeaves"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = temp_output_115_0.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
@@ -3930,7 +4407,9 @@ Shader "VegetationLeaves"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -3947,7 +4426,8 @@ Shader "VegetationLeaves"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -3986,7 +4466,8 @@ Shader "VegetationLeaves"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -4008,10 +4489,31 @@ Shader "VegetationLeaves"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 uv_Diffuse = IN.ase_texcoord.xy * _Diffuse_ST.xy + _Diffuse_ST.zw;
+				float4 tex2DNode56 = tex2D( _Diffuse, uv_Diffuse );
+				float _Opacity231 = tex2DNode56.a;
+				float4 screenPos = IN.ase_texcoord1;
+				float4 ase_screenPosNorm = screenPos / screenPos.w;
+				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
+				float2 clipScreen217 = ase_screenPosNorm.xy * _ScreenParams.xy;
+				float dither217 = Dither8x8Bayer( fmod(clipScreen217.x, 8), fmod(clipScreen217.y, 8) );
+				float3 ase_worldPos = IN.ase_texcoord2.xyz;
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 normalizeResult214 = normalize( cross( ddy( ase_worldPos ) , ddx( ase_worldPos ) ) );
+				float dotResult200 = dot( ase_worldViewDir , normalizeResult214 );
+				float clampResult222 = clamp( ( ( _Opacity231 * ( 1.0 - ( ( 1.0 - abs( dotResult200 ) ) * 2.0 ) ) ) * _HidePower ) , 0.0 , 1.0 );
+				dither217 = step( dither217, clampResult222 );
+				float OpacityDither205 = dither217;
+				#ifdef _HIDESIDES_ON
+				float staticSwitch234 = OpacityDither205;
+				#else
+				float staticSwitch234 = _Opacity231;
+				#endif
 				
 
-				surfaceDescription.Alpha = 1;
-				surfaceDescription.AlphaClipThreshold = 0.5;
+				surfaceDescription.Alpha = staticSwitch234;
+				surfaceDescription.AlphaClipThreshold = 0.25;
 
 				#if _ALPHATEST_ON
 					float alphaClipThreshold = 0.01f;
@@ -4069,20 +4571,27 @@ Shader "VegetationLeaves"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			
+			#define ASE_NEEDS_VERT_NORMAL
+			#pragma shader_feature_local _BASEWINDCHANNEL_R _BASEWINDCHANNEL_G _BASEWINDCHANNEL_B _BASEWINDCHANNEL_A
+			#pragma shader_feature_local _MICROWINDCHANNEL_R _MICROWINDCHANNEL_G _MICROWINDCHANNEL_B _MICROWINDCHANNEL_A
+			#pragma shader_feature_local _HIDESIDES_ON
+
 
 			struct VertexInput
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct VertexOutput
 			{
 				float4 clipPos : SV_POSITION;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
+				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -4134,7 +4643,16 @@ Shader "VegetationLeaves"
 				int _PassValue;
 			#endif
 
-			
+			float WindSpeed;
+			float WindPower;
+			float WindBurstsSpeed;
+			float WindBurstsScale;
+			float WindBurstsPower;
+			float MicroFrequency;
+			float MicroSpeed;
+			float MicroPower;
+			sampler2D _Diffuse;
+
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/SelectionPickingPass.hlsl"
@@ -4143,7 +4661,55 @@ Shader "VegetationLeaves"
 			//#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/VisualEffectVertex.hlsl"
 			//#endif
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+			float4 CalculateContrast( float contrastValue, float4 colorTarget )
+			{
+				float t = 0.5 * ( 1.0 - contrastValue );
+				return mul( float4x4( contrastValue,0,0,t, 0,contrastValue,0,t, 0,0,contrastValue,t, 0,0,0,1 ), colorTarget );
+			}
+			inline float Dither8x8Bayer( int x, int y )
+			{
+				const float dither[ 64 ] = {
+			 1, 49, 13, 61,  4, 52, 16, 64,
+			33, 17, 45, 29, 36, 20, 48, 32,
+			 9, 57,  5, 53, 12, 60,  8, 56,
+			41, 25, 37, 21, 44, 28, 40, 24,
+			 3, 51, 15, 63,  2, 50, 14, 62,
+			35, 19, 47, 31, 34, 18, 46, 30,
+			11, 59,  7, 55, 10, 58,  6, 54,
+			43, 27, 39, 23, 42, 26, 38, 22};
+				int r = y * 8 + x;
+				return dither[r] / 64; // same # of instructions as pre-dividing due to compiler magic
+			}
+			
+
 			struct SurfaceDescription
 			{
 				float Alpha;
@@ -4159,7 +4725,63 @@ Shader "VegetationLeaves"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float temp_output_102_0 = ( _TimeParameters.x * WindSpeed );
+				float2 appendResult139 = (float2(WindBurstsSpeed , WindBurstsSpeed));
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float2 appendResult131 = (float2(ase_worldPos.x , ase_worldPos.z));
+				float2 panner126 = ( 1.0 * _Time.y * appendResult139 + appendResult131);
+				float simplePerlin2D379 = snoise( panner126*( WindBurstsScale / 10.0 ) );
+				simplePerlin2D379 = simplePerlin2D379*0.5 + 0.5;
+				float temp_output_129_0 = ( WindPower * ( simplePerlin2D379 * WindBurstsPower ) );
+				#if defined(_BASEWINDCHANNEL_R)
+				float staticSwitch285 = v.ase_color.r;
+				#elif defined(_BASEWINDCHANNEL_G)
+				float staticSwitch285 = v.ase_color.g;
+				#elif defined(_BASEWINDCHANNEL_B)
+				float staticSwitch285 = v.ase_color.b;
+				#elif defined(_BASEWINDCHANNEL_A)
+				float staticSwitch285 = v.ase_color.a;
+				#else
+				float staticSwitch285 = v.ase_color.b;
+				#endif
+				float BaseWindColor288 = staticSwitch285;
+				float saferPower297 = abs( ( 1.0 - BaseWindColor288 ) );
+				float4 temp_cast_0 = (pow( saferPower297 , _WindTrunkPosition )).xxxx;
+				float4 temp_output_299_0 = saturate( CalculateContrast(_WindTrunkContrast,temp_cast_0) );
+				float3 appendResult113 = (float3(( ( sin( temp_output_102_0 ) * temp_output_129_0 ) * temp_output_299_0 ).r , 0.0 , ( ( cos( temp_output_102_0 ) * ( temp_output_129_0 * 0.5 ) ) * temp_output_299_0 ).r));
+				float4 transform254 = mul(GetWorldToObjectMatrix(),float4( appendResult113 , 0.0 ));
+				float4 BaseWind151 = ( transform254 * _WindMultiplier );
+				float2 temp_cast_4 = (MicroSpeed).xx;
+				float3 appendResult174 = (float3(ase_worldPos.x , ase_worldPos.z , ase_worldPos.y));
+				float2 panner175 = ( 1.0 * _Time.y * temp_cast_4 + appendResult174.xy);
+				float simplePerlin2D176 = snoise( ( panner175 * 1.0 ) );
+				simplePerlin2D176 = simplePerlin2D176*0.5 + 0.5;
+				float3 clampResult49 = clamp( sin( ( MicroFrequency * ( ase_worldPos + simplePerlin2D176 ) ) ) , float3( -1,-1,-1 ) , float3( 1,1,1 ) );
+				#if defined(_MICROWINDCHANNEL_R)
+				float staticSwitch284 = v.ase_color.r;
+				#elif defined(_MICROWINDCHANNEL_G)
+				float staticSwitch284 = v.ase_color.g;
+				#elif defined(_MICROWINDCHANNEL_B)
+				float staticSwitch284 = v.ase_color.b;
+				#elif defined(_MICROWINDCHANNEL_A)
+				float staticSwitch284 = v.ase_color.a;
+				#else
+				float staticSwitch284 = v.ase_color.r;
+				#endif
+				float MicroWindColor287 = staticSwitch284;
+				float3 MicroWind152 = ( ( ( ( clampResult49 * v.ase_normal ) * MicroPower ) * MicroWindColor287 ) * _MicroWindMultiplier );
+				float4 temp_output_115_0 = ( BaseWind151 + float4( MicroWind152 , 0.0 ) );
 				
+				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
+				float4 screenPos = ComputeScreenPos(ase_clipPos);
+				o.ase_texcoord1 = screenPos;
+				o.ase_texcoord2.xyz = ase_worldPos;
+				
+				o.ase_texcoord.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.zw = 0;
+				o.ase_texcoord2.w = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -4167,7 +4789,7 @@ Shader "VegetationLeaves"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = temp_output_115_0.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
@@ -4188,7 +4810,9 @@ Shader "VegetationLeaves"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -4205,7 +4829,8 @@ Shader "VegetationLeaves"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -4244,7 +4869,8 @@ Shader "VegetationLeaves"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -4266,10 +4892,31 @@ Shader "VegetationLeaves"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 uv_Diffuse = IN.ase_texcoord.xy * _Diffuse_ST.xy + _Diffuse_ST.zw;
+				float4 tex2DNode56 = tex2D( _Diffuse, uv_Diffuse );
+				float _Opacity231 = tex2DNode56.a;
+				float4 screenPos = IN.ase_texcoord1;
+				float4 ase_screenPosNorm = screenPos / screenPos.w;
+				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
+				float2 clipScreen217 = ase_screenPosNorm.xy * _ScreenParams.xy;
+				float dither217 = Dither8x8Bayer( fmod(clipScreen217.x, 8), fmod(clipScreen217.y, 8) );
+				float3 ase_worldPos = IN.ase_texcoord2.xyz;
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 normalizeResult214 = normalize( cross( ddy( ase_worldPos ) , ddx( ase_worldPos ) ) );
+				float dotResult200 = dot( ase_worldViewDir , normalizeResult214 );
+				float clampResult222 = clamp( ( ( _Opacity231 * ( 1.0 - ( ( 1.0 - abs( dotResult200 ) ) * 2.0 ) ) ) * _HidePower ) , 0.0 , 1.0 );
+				dither217 = step( dither217, clampResult222 );
+				float OpacityDither205 = dither217;
+				#ifdef _HIDESIDES_ON
+				float staticSwitch234 = OpacityDither205;
+				#else
+				float staticSwitch234 = _Opacity231;
+				#endif
 				
 
-				surfaceDescription.Alpha = 1;
-				surfaceDescription.AlphaClipThreshold = 0.5;
+				surfaceDescription.Alpha = staticSwitch234;
+				surfaceDescription.AlphaClipThreshold = 0.25;
 
 				#if _ALPHATEST_ON
 					float alphaClipThreshold = 0.01f;
@@ -4339,11 +4986,11 @@ Node;AmplifyShaderEditor.RangedFloatNode;101;-5056,2096;Inherit;False;Global;Win
 Node;AmplifyShaderEditor.ViewDirInputsCoordNode;199;-5568,1200;Inherit;True;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.OneMinusNode;295;-4320,2368;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.CommentaryNode;360;-6016,128;Inherit;False;2322;838;Color blend controlled by world-space noise;17;41;71;72;42;162;161;45;53;50;58;56;231;339;63;362;48;367;Color Variation;1,1,1,1;0;0
-Node;AmplifyShaderEditor.RangedFloatNode;28;-6528,-256;Float;False;Property;_GradientPosition;Gradient Position;8;0;Create;True;0;0;0;False;0;False;0.5;0.6;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;28;-6528,-256;Float;False;Property;_GradientPosition;Gradient Position;8;0;Create;True;0;0;0;False;0;False;0.5;1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;100;-5056,1968;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.NormalizeNode;214;-5488,1424;Inherit;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;34;-4992,2880;Float;False;Global;MicroFrequency;MicroFrequency;19;1;[HideInInspector];Create;False;0;0;0;False;0;False;5;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;294;-4336,2480;Inherit;False;Property;_WindTrunkPosition;Wind Trunk Position;18;0;Create;True;0;0;0;False;1;Space(10);False;0;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;294;-4336,2480;Inherit;False;Property;_WindTrunkPosition;Wind Trunk Position;18;0;Create;True;0;0;0;False;1;Space(10);False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;148;-4832,2400;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;102;-4800,1968;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DotProductOpNode;200;-5312,1312;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
@@ -4351,7 +4998,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;107;-4544,2224;Inherit;False;Constant;_
 Node;AmplifyShaderEditor.RangedFloatNode;42;-5968,720;Inherit;False;Property;_NoiseScale;Noise Scale;13;0;Create;True;0;0;0;False;0;False;0.5;0.15;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;155;-6192,-256;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;-2;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;36;-4768,2944;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;296;-4192,2560;Inherit;False;Property;_WindTrunkContrast;Wind Trunk Contrast;19;0;Create;True;0;0;0;False;0;False;10;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;296;-4192,2560;Inherit;False;Property;_WindTrunkContrast;Wind Trunk Contrast;19;0;Create;True;0;0;0;False;0;False;10;10;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;129;-4448,1968;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;306;-6240,-464;Inherit;False;Property;_InvertGradient;Invert Gradient;9;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WorldPosInputsNode;41;-5968,528;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
@@ -4361,7 +5008,7 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;33;-5968,-368;Inherit;True;2;2;0;FLOAT;
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;108;-4288,2160;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleContrastOpNode;298;-3968,2464;Inherit;False;2;1;COLOR;0,0,0,0;False;0;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SinOpNode;103;-4544,1840;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;35;-6016,-64;Float;False;Property;_GradientFalloff;Gradient Falloff;7;0;Create;True;0;0;0;False;0;False;2;2;0;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;35;-6016,-64;Float;False;Property;_GradientFalloff;Gradient Falloff;7;0;Create;True;0;0;0;False;0;False;2;1.81;0;2;0;1;FLOAT;0
 Node;AmplifyShaderEditor.CosOpNode;106;-4544,2096;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;71;-5776,560;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.AbsOpNode;204;-5184,1312;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
@@ -4372,7 +5019,7 @@ Node;AmplifyShaderEditor.OneMinusNode;207;-5056,1312;Inherit;False;1;0;FLOAT;0;F
 Node;AmplifyShaderEditor.ClampOpNode;49;-4352,2944;Inherit;True;3;0;FLOAT3;0,0,0;False;1;FLOAT3;-1,-1,-1;False;2;FLOAT3;1,1,1;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleDivideOpNode;37;-5712,-192;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;284;-6304,-1600;Inherit;False;Property;_MicroWindChannel;Micro Wind Channel;17;0;Create;True;0;0;0;False;0;False;0;0;0;True;;KeywordEnum;4;R;G;B;A;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;56;-4560,528;Inherit;True;Property;_Diffuse;Diffuse;3;0;Create;True;0;0;0;False;0;False;-1;None;dc90df6113cd41d45a04e130493fdda4;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;56;-4560,528;Inherit;True;Property;_Diffuse;Diffuse;3;0;Create;True;0;0;0;False;0;False;-1;None;b682954e37440984fa4135be917ccf68;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;104;-4288,1840;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;362;-5632,640;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SaturateNode;299;-3776,2464;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
@@ -4381,9 +5028,9 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;231;-4176,656;Inherit;False;_Opaci
 Node;AmplifyShaderEditor.RangedFloatNode;162;-5328,848;Inherit;False;Constant;_Float1;Float 1;16;0;Create;True;0;0;0;False;0;False;3;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;114;-3776,1968;Inherit;False;Constant;_Float9;Float 9;18;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;112;-3776,1840;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;38;-5712,-384;Float;False;Property;_GradientColor;Gradient Color;6;0;Create;True;0;0;0;False;3;Space(10);Header(Gradient Parameters);Space(10);False;1,1,1,0;0.1361032,0.7924528,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;38;-5712,-384;Float;False;Property;_GradientColor;Gradient Color;6;0;Create;True;0;0;0;False;3;Space(10);Header(Gradient Parameters);Space(10);False;1,1,1,0;0.8940014,0.9143613,0.9245283,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ClampOpNode;39;-5584,-192;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;43;-5712,-576;Float;False;Property;_MainColor;Main Color;2;0;Create;True;0;0;0;False;2;Header(Main Maps);Space(10);False;1,1,1,0;0.1568627,0.4039216,0.2313725,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;43;-5712,-576;Float;False;Property;_MainColor;Main Color;2;0;Create;True;0;0;0;False;2;Header(Main Maps);Space(10);False;1,1,1,0;0.3486496,0.5849056,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;367;-5456,608;Inherit;True;Property;_ColorVariationNoise;Color Variation Noise;12;0;Create;True;0;0;0;False;0;False;-1;None;56fc026eb79effe4b85400592e33d639;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RegisterLocalVarNode;287;-6016,-1600;Inherit;False;MicroWindColor;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;51;-4096,3200;Float;False;Global;MicroPower;MicroPower;20;0;Create;False;0;0;0;False;0;False;0.05;0;0;0;0;1;FLOAT;0
@@ -4394,18 +5041,18 @@ Node;AmplifyShaderEditor.DynamicAppendNode;113;-3600,1920;Inherit;False;FLOAT3;4
 Node;AmplifyShaderEditor.GetLocalVarNode;289;-4112,3392;Inherit;False;287;MicroWindColor;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;46;-5360,-320;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.PowerNode;161;-5120,784;Inherit;False;True;2;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;45;-5328,400;Inherit;False;Property;_ColorVariationPower;Color Variation Power;11;0;Create;True;0;0;0;False;0;False;1;0;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;45;-5328,400;Inherit;False;Property;_ColorVariationPower;Color Variation Power;11;0;Create;True;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;54;-3888,3104;Inherit;True;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;283;-4752,1200;Inherit;False;231;_Opacity;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;48;-5328,224;Inherit;False;Property;_ColorVariation;Color Variation;10;0;Create;True;0;0;0;False;3;Space(10);Header(Color Variation);Space(10);False;1,0,0,0;1,0.1146138,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;48;-5328,224;Inherit;False;Property;_ColorVariation;Color Variation;10;0;Create;True;0;0;0;False;3;Space(10);Header(Color Variation);Space(10);False;1,0,0,0;0,0.2810894,0.4245283,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;62;-3632,3232;Inherit;True;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;223;-4608,1472;Inherit;False;Property;_HidePower;Hide Power;1;0;Create;True;0;0;0;False;0;False;2.5;2.5;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;50;-4944,704;Inherit;False;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.BlendOpsNode;53;-4944,192;Inherit;True;ColorDodge;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;1;False;1;COLOR;0
 Node;AmplifyShaderEditor.WorldToObjectTransfNode;254;-3344,1920;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;303;-3616,3488;Inherit;False;Property;_MicroWindMultiplier;MicroWind Multiplier;15;0;Create;True;0;0;0;False;3;;;;False;1;0.5;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;303;-3616,3488;Inherit;False;Property;_MicroWindMultiplier;MicroWind Multiplier;15;0;Create;True;0;0;0;False;3;;;;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;215;-4576,1264;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;165;-3376,2208;Inherit;False;Property;_WindMultiplier;BaseWind Multiplier;14;0;Create;False;0;0;0;False;3;Space(10);Header(Multipliers);Space(10);False;0;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;165;-3376,2208;Inherit;False;Property;_WindMultiplier;BaseWind Multiplier;14;0;Create;False;0;0;0;False;3;Space(10);Header(Multipliers);Space(10);False;0;0.1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;304;-3328,3296;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;164;-3136,2096;Inherit;False;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;224;-4384,1328;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -4594,4 +5241,4 @@ WireConnection;381;7;387;0
 WireConnection;381;15;386;0
 WireConnection;381;8;115;0
 ASEEND*/
-//CHKSM=C0A421E578617BC81F63AA0EE1F0566DA0E62EFC
+//CHKSM=808C0C54D2EA0C3586C2D0DA2EDB11FEE5359B36

@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/06_Models/Herb.meta
+guid: f9667a3be0eacd342b3d2b401880a1ef
+folderAsset: yes
+DefaultImporter:
+========
 guid: a67422ed2ef857c40b3b330b2d391d68
 PrefabImporter:
+>>>>>>>> NewMain:Assets/07_Prefabs/MinimapCam.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
