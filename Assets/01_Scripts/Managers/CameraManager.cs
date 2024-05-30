@@ -64,7 +64,7 @@ public class CameraManager : MonoBehaviour
 	}
 
 
-	private void Start()
+	private void Awake()
 	{
 		instance = this;
 		_main = Camera.main;
@@ -72,8 +72,8 @@ public class CameraManager : MonoBehaviour
 
 		aimCam = GameObject.Find("AimCam").GetComponent<CinemachineVirtualCamera>();
 
-		_playerModule = (GameManager.instance.pActor.move as PlayerMove);
-		SwitchTo(CamStatus.Freelook);
+		
+		
 		for (int i = 0; i < 3; i++)
 		{
 			camShakers.Add(pCam.GetRig(i).GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>());
@@ -88,6 +88,12 @@ public class CameraManager : MonoBehaviour
 		}
 
 		originYSpeed = pCam.m_YAxis.m_MaxSpeed;
+	}
+
+	private void Start()
+	{
+		_playerModule = (GameManager.instance.pActor.move as PlayerMove);
+		SwitchTo(CamStatus.Freelook);
 	}
 
 	private void Update()
@@ -194,11 +200,13 @@ public class CameraManager : MonoBehaviour
 	public void FreezeCamY()
 	{
 		pCam.m_YAxis.m_MaxSpeed = 0;
+		Debug.Log("Y가정지됨ㅋㅋㅋㅋ");
 	}
 
 	public void UnfreezeCamY()
 	{
 		pCam.m_YAxis.m_MaxSpeed = originYSpeed;
+		Debug.Log("Y가정지안됨ㅋㅋㅋㅋ");
 	}
 
 	public void ShakeCam(float ampGain, float frqGain)
