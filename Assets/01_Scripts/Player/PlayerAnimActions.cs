@@ -23,6 +23,8 @@ public class PlayerAnimActions : MonoBehaviour
 	public Material[] hairMats;
 	public Material[] eyeMats;
 
+	PlayerAfterAnim _plm;
+
 	PlayerForm form;
 
 	Animator animator;
@@ -43,7 +45,7 @@ public class PlayerAnimActions : MonoBehaviour
 		tail = transform.Find("Rad_Tail").GetComponent<SkinnedMeshRenderer>();
 		foxCloth = transform.Find("FoxCloth").gameObject;
 		humanCloth = transform.Find("HumanCloth").gameObject;
-
+		_plm = GetComponent<PlayerAfterAnim>();
 
 		//holdingBow  = GameObject.Find("HoldingBow");
 		//equipingBow = GameObject.Find("EquipingBow");
@@ -189,16 +191,39 @@ public class PlayerAnimActions : MonoBehaviour
 				ear.enabled = false;
 				hair.material = hairMats[((int)PlayerForm.Magic)];
 				head.materials[1] = eyeMats[((int)PlayerForm.Magic)];
+
+
 				foxCloth.SetActive(false);
+				for (int i =0; i < foxCloth.transform.childCount; i++)
+				{
+					foxCloth.transform.GetChild(i).gameObject.SetActive(false);
+				}
 				humanCloth.SetActive(true);
+				for (int i =0; i < humanCloth.transform.childCount;i++)
+				{
+					humanCloth.transform.GetChild(i).gameObject.SetActive(true);
+				}
+
+
+
 				break;
 			case PlayerForm.Yoho:
 				tail.enabled = true;
 				ear.enabled = true;
 				hair.material = hairMats[((int)PlayerForm.Yoho)];
 				head.materials[1] = eyeMats[((int)PlayerForm.Yoho)];
+
 				foxCloth.SetActive(true);
+				for (int i = 0; i < foxCloth.transform.childCount; i++)
+				{
+					foxCloth.transform.GetChild(i).gameObject.SetActive(true);
+				}
 				humanCloth.SetActive(false);
+				for (int i = 0; i < humanCloth.transform.childCount; i++)
+				{
+					humanCloth.transform.GetChild(i).gameObject.SetActive(false);
+				}
+
 				break;
 			default:
 				break;
@@ -342,5 +367,10 @@ public class PlayerAnimActions : MonoBehaviour
 	public void StartMove()
 	{
 		GameManager.instance.EnableCtrl();
+	}
+
+	public void PlayerAfterImage(float v1, float v2, float v3)
+	{
+		StartCoroutine(_plm.UseAfterEffect(self, v1, v2, v3));
 	}
 }

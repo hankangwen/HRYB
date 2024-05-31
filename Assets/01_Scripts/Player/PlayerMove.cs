@@ -73,7 +73,6 @@ public class PlayerMove : MoveModule
 	Transform[] prevTargets;
 
 
-	Transform target;
 	bool isLocked = false;
 
 	public override bool idling => base.idling || moveModuleStat.Paused;
@@ -307,7 +306,7 @@ public class PlayerMove : MoveModule
 
 		
 
-			if (isLocked && target == null)
+			if (isLocked && (self.atk.target) == null)
 			{
 				ResetTargets();
 			}
@@ -328,7 +327,9 @@ public class PlayerMove : MoveModule
 					break;
 				case CamStatus.Locked:
 					{
-						Vector3 vec = GetDir(target);
+						if((self.atk.target) == null)
+							return;
+						Vector3 vec = GetDir((self.atk.target));
 						to = Quaternion.LookRotation(vec, Vector3.up);
 						if (to != Quaternion.identity)
 						{
@@ -478,7 +479,7 @@ public class PlayerMove : MoveModule
 			dir -= Vector3.up * GameManager.GRAVITY;
 		}
 
-		if (target != null && (target.position - transform.position).sqrMagnitude >= lockOnDist * lockOnDist)
+		if ((self.atk.target) != null && ((self.atk.target).position - transform.position).sqrMagnitude >= lockOnDist * lockOnDist)
 		{
 			ResetTargets();
 		}
@@ -489,10 +490,10 @@ public class PlayerMove : MoveModule
 			DoNearDetection();
 		}
 
-		if (pAttack.target != null && (transform.position - pAttack.target.position).sqrMagnitude > pAttack.targetMaxDist * pAttack.targetMaxDist)
-		{
-			pAttack.target = null;
-		}
+		//if (pAttack.target != null && (transform.position - pAttack.target.position).sqrMagnitude > pAttack.targetMaxDist * pAttack.targetMaxDist)
+		//{
+		//	pAttack.target = null;
+		//}
 
 		ctrl.Move((dir) * Time.fixedDeltaTime);
 
@@ -620,6 +621,21 @@ public class PlayerMove : MoveModule
 		}
 	}
 
+	//float _targetTime = 0;
+	//private void LateUpdate()
+	//{
+	//	if(self.atk.target != null && CameraManager.instance.curCamStat == CamStatus.Freelook)
+	//	{
+	//		_targetTime += Time.deltaTime;
+	//	}
+	//
+	//	if(_targetTime > 2f && CameraManager.instance.curCamStat == CamStatus.Freelook)
+	//	{
+	//		_targetTime = 0;
+	//		CameraManager.instance.SwitchTo(CamStatus.Locked);
+	//	}
+	//}
+
 	public void Lock(InputAction.CallbackContext context)
 	{
 		if (!NoInput.Paused)
@@ -649,17 +665,17 @@ public class PlayerMove : MoveModule
 				if (targets != null)
 				{
 					bool found = false;
-					if (target != null)
+					if ((self.atk.target) != null)
 					{
-						already.Add(target);
+						already.Add((self.atk.target));
 					}
 
 					for (int i = 0; i < targets.Length; i++)
 					{
 						if (!already.Contains(targets[i]))
 						{
-							target = targets[i];
-							pAttack.target = target.Find("Middle");
+							(self.atk.target) = targets[i];
+							pAttack.target = (self.atk.target).Find("Middle");
 
 							CameraManager.instance.SwitchTo(CamStatus.Locked);
 
@@ -744,7 +760,7 @@ public class PlayerMove : MoveModule
 		{
 			if(c[i].TryGetComponent<Actor>(out Actor actor))
 			{
-				if(actor != GetActor())
+				if(actor != GetActor() && actor.life.yy.black.Value >0 && actor.life.yy.white.Value > 0)
 				{
 					targetables.Add(actor);
 				}
@@ -793,7 +809,7 @@ public class PlayerMove : MoveModule
 
 	void ResetTargets()
 	{
-		target = null;
+		(self.atk.target) = null;
 		already.Clear();
 
 		CameraManager.instance.SwitchTo(CamStatus.Freelook);

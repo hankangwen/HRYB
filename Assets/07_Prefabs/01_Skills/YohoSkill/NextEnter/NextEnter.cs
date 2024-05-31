@@ -26,6 +26,7 @@ public class NextEnter : AttackBase
 	public override void OnAnimationStart(Actor self, AnimationEvent evt)
 	{
 		GameManager.instance.DisableCtrl(true);
+		(self.anim as PlayerAnim).AnimAct.PlayerAfterImage(0.2f, 1f, 0.66f);
 	}
 
 	public override void OnAnimationMove(Actor self, AnimationEvent evt)
