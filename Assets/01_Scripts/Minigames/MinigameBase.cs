@@ -28,6 +28,7 @@ public class MinigameBase : MonoBehaviour
 	public virtual void StartGame(ItemAmountPair objName)
 	{
 		minigameTarget = objName;
+		Debug.Log($"아이템 : {minigameTarget.info.MyName}에 대한 미니게임 시작.");
 		minigameZone.SetActive(true);
 	}
 

@@ -128,7 +128,7 @@ public class Frier : MinigameBase
 
 	public void SetRandomTargets()
 	{
-		SetTargets(Random.Range(1, FIREMAXAMOUNT));
+		SetTargets(Random.Range(FIREMAXAMOUNT * adequateErrRange, FIREMAXAMOUNT * (0.85f - adequateErrRange)));
 	}
 
 	public void SetTargets(float amt, float adequater = -1)

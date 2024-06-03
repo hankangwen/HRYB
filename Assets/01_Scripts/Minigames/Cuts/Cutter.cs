@@ -48,7 +48,7 @@ public class Cutter : MinigameBase
 		return (Vector3.Distance(targ.position, cursor.position) < errorDistance);
 	}
 
-	public override bool DoGameCheck() //안씀
+	public override bool DoGameCheck() 
 	{
 		return curSuccessCount >= needSuccessCount;
 	}

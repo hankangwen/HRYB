@@ -50,8 +50,7 @@ public class MedicineDetailUI : MonoBehaviour //이미지, 이름, 필요아이�
 
 		if(med == null || (cur == med && !isRefresh))
 		{
-			gameObject.SetActive(false);
-			cur = null;
+			Close();
 		}
 		else
 		{
@@ -73,6 +72,12 @@ public class MedicineDetailUI : MonoBehaviour //이미지, 이름, 필요아이�
 			cur = med;
 		}
 
+	}
+
+	public void Close()
+	{
+		gameObject.SetActive(false);
+		cur = null;
 	}
 
 	public void RefreshInfo()
