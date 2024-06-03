@@ -135,14 +135,14 @@ public class Item : IComparable // #################
 
 	public static T GetItem<T>(string name) where T : Item
 	{
-		if(nameDataHashT[name] != null)
-			Debug.Log(nameDataHashT[name].GetType().ToString());
+		//if(nameDataHashT[name] != null)
+		//	Debug.Log(nameDataHashT[name].GetType().ToString());
 		if(nameDataHashT[name] is T)
 		{
-			Debug.Log("찾았습니다");
+			//Debug.Log("찾았습니다");
 			return (T)nameDataHashT[name];
 		}
-		Debug.Log("찾지 못했습ㄴ디ㅏ.");
+		//Debug.Log("찾지 못했습ㄴ디ㅏ.");
 		return null;
 	}
 

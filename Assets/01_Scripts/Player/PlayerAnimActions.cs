@@ -33,6 +33,19 @@ public class PlayerAnimActions : MonoBehaviour
 	readonly int fireHash = Animator.StringToHash("Fire");
 	readonly int formHash = Animator.StringToHash("Form");
 
+	public Vector3 lFootOffset;
+	public Vector3 rFootOffset;
+	public float footRayDist;
+	public float footRayRad;
+	public float footRayOffset;
+	Vector3 lFootPos;
+	Vector3 lFootForward;
+	float lFootAngle;
+	Vector3 rFootPos;
+	Vector3 rFootForward;
+	float rFootAngle;
+	RaycastHit hit;
+
 	private void Awake()
 	{
 		self = GetComponentInParent<Actor>();
@@ -59,8 +72,67 @@ public class PlayerAnimActions : MonoBehaviour
 
 	private void Update()
 	{
-		transform.localPosition = new Vector3(0, 0, 0);
-		transform.localRotation = UnityEngine.Quaternion.identity;
+		//transform.localPosition = new Vector3(0, 0, 0);
+		//transform.localRotation = UnityEngine.Quaternion.identity;
+	}
+
+	private void OnAnimatorIK(int layerIndex)
+	{
+		if (self.move.isGrounded && self.move.idling)
+		{
+			lFootPos = animator.GetBoneTransform(HumanBodyBones.LeftFoot).position;
+			lFootForward = animator.GetBoneTransform(HumanBodyBones.LeftFoot).forward;
+			rFootPos = animator.GetBoneTransform(HumanBodyBones.RightFoot).position;
+			rFootForward = animator.GetBoneTransform(HumanBodyBones.RightFoot).forward;
+
+			animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 0);
+			animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 0);
+			animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 0);
+			animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 0);
+			if (Physics.Raycast(lFootPos + Vector3.up * footRayOffset, Vector3.down, out hit, footRayDist, ~(1 << GameManager.PLAYERLAYER | 1 << GameManager.PLAYERATTACKLAYER)))
+			{
+
+				lFootAngle = Mathf.Acos(Vector3.Dot(hit.normal, Vector3.up) / (hit.normal.magnitude)) * Mathf.Rad2Deg;
+				if(lFootAngle > 15)
+				{
+					Vector3 v = Vector3.Cross(Vector3.up, hit.normal);
+					lFootForward = Vector3.Cross(hit.normal, v);
+					animator.SetIKRotation(AvatarIKGoal.LeftFoot,  UnityEngine.Quaternion.LookRotation(lFootForward));
+					animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
+				}
+
+				lFootPos = hit.point + lFootOffset;
+				
+				animator.SetIKPosition(AvatarIKGoal.LeftFoot, hit.point + lFootOffset);
+				animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
+			}
+
+			if (Physics.Raycast(rFootPos + Vector3.up * footRayOffset, Vector3.down, out hit, footRayDist, ~(1 << GameManager.PLAYERLAYER | 1 << GameManager.PLAYERATTACKLAYER)))
+			{
+				rFootAngle = Mathf.Acos(Vector3.Dot(hit.normal, Vector3.up) / (hit.normal.magnitude)) * Mathf.Rad2Deg;
+				if(rFootAngle > 15)
+				{
+					Vector3 v = Vector3.Cross(Vector3.up, hit.normal);
+					rFootForward = Vector3.Cross(hit.normal, v);
+					animator.SetIKRotation(AvatarIKGoal.RightFoot, UnityEngine.Quaternion.LookRotation(rFootForward));
+					animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
+				}
+				
+
+				rFootPos = hit.point + rFootOffset;
+				animator.SetIKPosition(AvatarIKGoal.RightFoot, hit.point + rFootOffset);
+				animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
+			}
+
+			float posDiff = Mathf.Abs(transform.parent.position.y - (lFootPos.y > rFootPos.y ? rFootPos.y : lFootPos.y));
+
+			transform.localPosition = new Vector3(0, -posDiff, 0);
+		}
+		else
+		{
+			transform.localPosition= Vector3.zero;
+		}
+		
 	}
 
 	public void LoadArrow()

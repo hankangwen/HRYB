@@ -69,13 +69,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
+  m_Height: 1.2
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.67, z: 0}
 --- !u!114 &8841136918260268387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,6 +532,7 @@ MonoBehaviour:
   changeCool: 5
   stat: 0
   curHolding: 0
+  currentExp: 0
 --- !u!114 &3965672012114494430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -685,6 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  ignoreAngle: 0
 --- !u!1 &220605965769024690
 GameObject:
   m_ObjectHideFlags: 0
@@ -3906,6 +3908,26 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3443967691586762709, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
+      propertyPath: footRayRad
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3443967691586762709, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
+      propertyPath: footRayDist
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3443967691586762709, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
+      propertyPath: footRayOffset
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3443967691586762709, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
+      propertyPath: lFootOffset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3443967691586762709, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
+      propertyPath: rFootOffset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3443967691586762709, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
       propertyPath: eyeMats.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -4044,6 +4066,18 @@ PrefabInstance:
     - target: {fileID: 3857955673241832805, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861176559253510530, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[0]
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861176559253510530, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[5]
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861176559253510530, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
+      propertyPath: m_BlendShapeWeights.Array.data[14]
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3882027232920943728, guid: 6fd6883851faf24429cb40f1a93edfc9, type: 3}
       propertyPath: m_Layer
