@@ -355,17 +355,17 @@ public class GameManager : MonoBehaviour
 		bHPManager = GameObject.Find("bossHPGroup").GetComponent<BossHPManager>();
 
 		statEff = new StatusEffects();
-		skillLoader = new SkillLoader();
+		
 
 		foxfire = GameObject.Find("Fox Fire").GetComponent<FollowingFoxFire>();
 		shower = GameObject.Find("DamageTextManager").GetComponent<DamageTextShower>();
 		decalCtrl = GameObject.Find("DecalControl").GetComponent<DecalControl>();
 		
-		//minimap = GameObject.Find("MinimapManager").GetComponent<MinimapManager>();
+		minimap = GameObject.Find("MinimapManager").GetComponent<MinimapManager>();
 
 		saver = GameObject.Find("PreservedDataManager").GetComponent<PreservedDataManager>();
-
 		saver.lastSave = -1;
+
 		StartCoroutine(InitializeAll());
 	}
 
@@ -379,13 +379,26 @@ public class GameManager : MonoBehaviour
 	{
 		//아이템을 초기화
 		//제작법을 초기허ㅘ하맙.
-		yield return StartCoroutine(Item.InitializeItem());
+		if (!saver.gameDataLoaded)
+		{
+			yield return StartCoroutine(Item.InitializeItem());
 
-		yield return StartCoroutine(Crafter.InitializeRecipe());
-		yield return StartCoroutine(Crafter.InitializeTrim());
-
+			yield return StartCoroutine(Crafter.InitializeRecipe());
+			yield return StartCoroutine(Crafter.InitializeTrim());
+		}
+		yield return null;
+		saver.gameDataLoaded = true;
 		pedia = new ItemPedia();
-		imageManager.DoLoad();
+		if (!saver.assetbundleLoaded)
+		{
+			imageManager.DoLoad();
+			pManager.DoLoad();
+			skillLoader = new SkillLoader();
+
+			saver.assetbundleLoaded = true;
+		}
+
+		(pActor.cast as PlayerCast).DoInitialize();
 	}
 
 

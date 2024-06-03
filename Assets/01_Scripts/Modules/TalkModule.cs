@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 
 public enum DiaChangeMode
@@ -12,6 +13,12 @@ public enum DiaChangeMode
 public class TalkModule : Module, IInterable
 {
     public Character charInfo;
+
+	public Image qMark;
+
+	public float yOffset = 1.5f;
+
+	public const string QUESTCANVASNAME = "QuestMarkIndicator";
 
 
 	public string Name => charInfo.baseName;
@@ -29,6 +36,31 @@ public class TalkModule : Module, IInterable
 	private void Awake()
 	{
 		charInfo.self = GetActor();
+		
+	}
+
+	private void Start()
+	{
+		GameObject obj = PoolManager.GetObject(QUESTCANVASNAME, transform);
+		obj.transform.localPosition = Vector3.up * yOffset;
+		qMark = obj.transform.Find("QMark").GetComponent<Image>();
+	}
+
+	private void Update()
+	{
+		if (charInfo.Questing)
+		{
+			
+		}
+		else if (charInfo.prevQuesting)
+		{
+
+		}
+		else
+		{
+			
+
+		}
 	}
 
 	public void AltInter()

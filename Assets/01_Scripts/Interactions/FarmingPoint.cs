@@ -5,12 +5,13 @@ using UnityEngine;
 public class FarmingPoint : MonoBehaviour, IInterable
 {
 	const float RECENTERINGTIME = 0.2f;
+	const string CANVASNAME = "IndicatorCanv";
 
 
 	public float interTime = 1.0f;
 	public bool isInterable = true;
 	public bool isDestroyed = true;
-	bool altInterable  =false;
+	bool altInterable = false;
 
 	public bool regenable = true;
 	public float regenSec = 6f;
@@ -18,8 +19,8 @@ public class FarmingPoint : MonoBehaviour, IInterable
 	public List<string> resItem;
 	public int amount;
 
+	public float yOffset = 2;
 	
-
 	public string Name { get => transform.name; }
 	public bool IsInterable { get => isInterable; set => isInterable = value; }
 	public float InterTime { get => interTime; set => interTime = value; }
@@ -31,7 +32,11 @@ public class FarmingPoint : MonoBehaviour, IInterable
 
 	ItemRarity spotStat;
 
-	Renderer r;
+	bool getable;
+
+	GameObject canv;
+
+	List<Renderer> r;
 	Collider c;
 	Material mat;
 
@@ -41,13 +46,35 @@ public class FarmingPoint : MonoBehaviour, IInterable
 
 	private void Awake()
 	{
-		r = GetComponent<Renderer>();
-		mat = r.material;
-		r.material = new Material(mat);
-		mat = r.material;
+		r = new List<Renderer>(GetComponentsInChildren<Renderer>());
+		mat = r[0].material;
+		mat = new Material(mat);
+		foreach (Renderer item in r)
+		{
+			item.material = mat;
+		}
 		c = GetComponent<Collider>();
 		GlowOff();
 		sec = new WaitForSeconds(regenSec);
+		getable = true;
+	}
+
+	private void Start()
+	{
+		canv = PoolManager.GetObject(CANVASNAME, transform);
+		canv.transform.localPosition = Vector3.up * yOffset;
+	}
+
+	private void Update()
+	{
+		if(getable && (transform.position - GameManager.instance.player.transform.position).sqrMagnitude <= GameManager.instance.pActor.sight.GetSightRange() * GameManager.instance.pActor.sight.GetSightRange())
+		{
+			canv.SetActive(true);
+		}
+		else
+		{
+			canv.SetActive(false);
+		}
 	}
 
 	public void GlowOn()
@@ -66,7 +93,10 @@ public class FarmingPoint : MonoBehaviour, IInterable
 
 	public void InteractWith()
 	{
-		Inter();
+		if (getable)
+		{
+			Inter();
+		}
 	}
 
 	public void Inter()
@@ -90,9 +120,14 @@ public class FarmingPoint : MonoBehaviour, IInterable
 		if(regenable && isDestroyed)
 		{
 			c.enabled = false;
-			r.enabled = false;
+			foreach (var item in r)
+			{
+				item.enabled = false;
+			}
+			canv.SetActive(false);
 			IsInterable = false;
 			StartCoroutine(DelRegen());
+			getable = false;
 		}
 		else if (isDestroyed)
 		{
@@ -104,9 +139,14 @@ public class FarmingPoint : MonoBehaviour, IInterable
 	public IEnumerator DelRegen()
 	{
 		yield return sec;
-		r.enabled = true;
+		foreach (var item in r)
+		{
+			item.enabled = true;
+		}
 		c.enabled = true;
 		IsInterable = true;
+		canv.SetActive(true);
+		getable = true;
 	}
 
 
