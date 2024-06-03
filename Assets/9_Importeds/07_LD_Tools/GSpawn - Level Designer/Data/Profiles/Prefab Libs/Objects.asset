@@ -655,7 +655,7 @@ MonoBehaviour:
   _modularSnapVerticalStep: 0
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 3.2025898, y: 1.9873254, z: 2.5418835}
-  _uiSelected: 1
+  _uiSelected: 0
 --- !u!114 &-8406017938747151507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,9 +1170,9 @@ MonoBehaviour:
     _serializedKeys: []
     _serializedValues: []
   _spawnGuideTransformTRS:
-    _position: {x: 0.32797602, y: 0.21, z: 2.8351066}
-    _rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-    _scale: {x: 1, y: 1, z: 1}
+    _position: {x: 829.7741, y: 14.335716, z: 135.12633}
+    _rotation: {x: -0.0000000026635352, y: -0.99254614, z: 0.000000021692786, w: -0.12186949}
+    _scale: {x: 5.2800007, y: 5.2800007, z: 5.2800007}
   _modularSnapVerticalStep: 0
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 0.8919742, y: 0.88195336, z: 0.70162696}
@@ -3133,9 +3133,9 @@ MonoBehaviour:
     _serializedKeys: []
     _serializedValues: []
   _spawnGuideTransformTRS:
-    _position: {x: 0, y: 0, z: 0}
-    _rotation: {x: 0, y: 0, z: 0, w: 1}
-    _scale: {x: 1, y: 1, z: 1}
+    _position: {x: 830.1212, y: 13.689934, z: 134.6506}
+    _rotation: {x: -0, y: -0.8290374, z: -0, w: 0.55919313}
+    _scale: {x: 2.8500004, y: 2.85, z: 2.8500004}
   _modularSnapVerticalStep: 0
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 1.962888, y: 1.2190024, z: 1.5504649}
@@ -5180,9 +5180,9 @@ MonoBehaviour:
     _serializedKeys: []
     _serializedValues: []
   _spawnGuideTransformTRS:
-    _position: {x: -0.8670006, y: 5.279, z: 12.932003}
-    _rotation: {x: 0.77020705, y: 0.20745897, z: -0.58107907, w: 0.16152072}
-    _scale: {x: 0.9999999, y: 1, z: 0.9999998}
+    _position: {x: 829.34467, y: 15.33987, z: 134.89743}
+    _rotation: {x: 0.4524701, y: 0.25628334, z: -0.85214, w: 0.05871155}
+    _scale: {x: 4.1400003, y: 4.14, z: 4.1400003}
   _modularSnapVerticalStep: 0
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 0.9853639, y: 1.956073, z: 0.9665648}
@@ -5903,7 +5903,7 @@ MonoBehaviour:
   - {fileID: -616979180670376927}
   - {fileID: 3733358001091545951}
   - {fileID: -3696828613519582591}
-  _uiSelected: 0
+  _uiSelected: 1
 --- !u!114 &-996132995366591264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7195,13 +7195,13 @@ MonoBehaviour:
     _serializedKeys: []
     _serializedValues: []
   _spawnGuideTransformTRS:
-    _position: {x: 1.6123127, y: 0.21, z: 2.479811}
-    _rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-    _scale: {x: 1, y: 1, z: 1}
+    _position: {x: 840.53174, y: 12.301132, z: 143.75719}
+    _rotation: {x: -0.000000021788335, y: -0.07846051, z: 0.0000000017148036, w: -0.99691725}
+    _scale: {x: 9.268631, y: 9.268632, z: 9.268631}
   _modularSnapVerticalStep: 0
-  _surfaceSnapAppliedOffsetFromSurface: 0
+  _surfaceSnapAppliedOffsetFromSurface: -2.1499996
   _modelSize: {x: 0.7024856, y: 0.7109996, z: 0.5719223}
-  _uiSelected: 0
+  _uiSelected: 1
 --- !u!114 &672512950767082551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9007,7 +9007,7 @@ MonoBehaviour:
   _modularSnapVerticalStep: 0
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 1.1273974, y: 2.1804771, z: 1.1646689}
-  _uiSelected: 0
+  _uiSelected: 1
 --- !u!114 &3331411668556743400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9249,9 +9249,9 @@ MonoBehaviour:
     _serializedKeys: []
     _serializedValues: []
   _spawnGuideTransformTRS:
-    _position: {x: -0, y: 0, z: 0}
-    _rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-    _scale: {x: 1, y: 1, z: 1}
+    _position: {x: 828.2206, y: 11.858346, z: 136.9585}
+    _rotation: {x: 0.000000013754236, y: 0.7771456, z: -0.000000016985057, w: 0.6293209}
+    _scale: {x: 3.8770204, y: 3.877019, z: 3.8770204}
   _modularSnapVerticalStep: 0
   _surfaceSnapAppliedOffsetFromSurface: 0
   _modelSize: {x: 2.1356559, y: 1.0745568, z: 2.1644993}
@@ -10631,7 +10631,7 @@ MonoBehaviour:
   - {fileID: -6386167796765064333}
   - {fileID: 5716971722669578210}
   - {fileID: -3432976443652503206}
-  _uiSelected: 1
+  _uiSelected: 0
 --- !u!114 &5674677296908890922
 MonoBehaviour:
   m_ObjectHideFlags: 0
