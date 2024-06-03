@@ -30,6 +30,7 @@ public class FusionUI : MonoBehaviour, IOpenableWindowUI
 			PoolManager.ReturnObject(buttons[i]);
 		}
 		buttons.Clear();
+		GameManager.instance.uiManager.medicineDetail.Close();
 	}
 
 	public void OnOpen()

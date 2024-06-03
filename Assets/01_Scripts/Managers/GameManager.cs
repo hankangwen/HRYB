@@ -381,6 +381,7 @@ public class GameManager : MonoBehaviour
 		//제작법을 초기허ㅘ하맙.
 		yield return StartCoroutine(Item.InitializeItem());
 
+		yield return StartCoroutine(Crafter.InitializeRecipe());
 		yield return StartCoroutine(Crafter.InitializeTrim());
 
 		pedia = new ItemPedia();
@@ -663,7 +664,8 @@ public class GameManager : MonoBehaviour
 	{
 		if(pinven.CurHoldingItem.info != null)
 		{
-			MinigameManager.LoadMinigame(mode, pinven.CurHoldingItem);
+			ItemAmountPair item = new ItemAmountPair(pinven.CurHoldingItem.info);
+			MinigameManager.LoadMinigame(mode, item);
 		}
 	}
 

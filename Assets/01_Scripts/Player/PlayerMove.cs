@@ -76,6 +76,10 @@ public class PlayerMove : MoveModule
 	Transform target;
 	bool isLocked = false;
 
+	Vector3 initCenter;
+	float initRad;
+	float initHeight;
+
 	public override bool idling => base.idling || moveModuleStat.Paused;
 
 	public override bool isGrounded
@@ -188,6 +192,10 @@ public class PlayerMove : MoveModule
 		ctrl = GetComponent<CharacterController>();
 		middle = transform.Find("Middle");
 		initPos = transform.position;
+
+		initCenter = ctrl.center;
+		initRad = ctrl.radius;
+		initHeight = ctrl.height;
 	}
 
 	private void Start()
@@ -205,9 +213,9 @@ public class PlayerMove : MoveModule
 			{
 				slip = true;
 				Vector3 c = Vector3.Cross(Vector3.up, hit.normal);
-				Debug.DrawRay(transform.position, c, Color.cyan, 1000f);
+				//Debug.DrawRay(transform.position, c, Color.cyan, 1000f);
 				Vector3 u = Vector3.Cross(c, hit.normal);
-				Debug.DrawRay(transform.position, u, Color.red, 1000f);
+				//Debug.DrawRay(transform.position, u, Color.red, 1000f);
 				slipDir = u * slipPower;
 			}
 			else
@@ -237,9 +245,14 @@ public class PlayerMove : MoveModule
 		transform.position = vec;
 		GameManager.instance.pinp.ActivateInput();
 		already.Clear();
-		ctrl.height = 2;
-		ctrl.radius = 0.5f;
-		ctrl.center = Vector3.up;
+		ResetCharacterController();
+	}
+
+	public void ResetCharacterController()
+	{
+		ctrl.height = initHeight;
+		ctrl.radius = initRad;
+		ctrl.center = initCenter;
 	}
 
 	private void Update()
@@ -552,14 +565,14 @@ public class PlayerMove : MoveModule
 				{
 					moveStat = MoveStates.Walk;
 					ctrl.height *= 2f;
-					ctrl.center = Vector3.up;
+					ctrl.center *= 2f;
 				}
 				
 			}
 			else
 			{
 				ctrl.height *= 0.5f;
-				ctrl.center = Vector3.up * 0.5f;
+				ctrl.center *= 0.5f;
 				moveStat = MoveStates.Sit;
 			}
 			GetActor().anim.SetMoveState(((int)moveStat));
@@ -823,9 +836,7 @@ public class PlayerMove : MoveModule
 		//transform.position = initPos;
 		GameManager.instance.pinp.ActivateInput();
 		already.Clear();
-		ctrl.height = 2;
-		ctrl.radius = 0.5f;
-		ctrl.center = Vector3.up;
+		ResetCharacterController();
 		
 	}
 
