@@ -1,18 +1,18 @@
 ManifestFileVersion: 0
-CRC: 2980813311
+CRC: 3765531990
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: itemicons
       Dependencies: {}
     Info_1:
-      Name: inven
+      Name: skilldatabase
       Dependencies: {}
     Info_2:
       Name: hp
       Dependencies: {}
     Info_3:
-      Name: skilldatabase
+      Name: inven
       Dependencies: {}
     Info_4:
       Name: quickslot

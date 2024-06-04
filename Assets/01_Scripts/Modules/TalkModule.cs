@@ -41,9 +41,9 @@ public class TalkModule : Module, IInterable
 
 	private void Start()
 	{
-		GameObject obj = PoolManager.GetObject(QUESTCANVASNAME, transform);
-		obj.transform.localPosition = Vector3.up * yOffset;
-		qMark = obj.transform.Find("QMark").GetComponent<Image>();
+		//GameObject obj = PoolManager.GetObject(QUESTCANVASNAME, transform);
+		//obj.transform.localPosition = Vector3.up * yOffset;
+		//qMark = obj.transform.Find("QMark").GetComponent<Image>();
 	}
 
 	private void Update()
