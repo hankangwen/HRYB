@@ -26,6 +26,33 @@ public class EnemyMoveModule : MoveModule
 	public UnityEngine.AI.NavMeshAgent Agent => agent;
 	public CharacterController Character => _char;
 
+	public override MoveStates moveStat
+	{
+		get => curStat;
+		protected set
+		{
+			switch (value)
+			{
+				case MoveStates.Walk:
+					curStat = MoveStates.Walk;
+					speed = walkSpeed.MaxValue;
+					break;
+				case MoveStates.Run:
+					curStat = MoveStates.Run;
+					speed = runSpeed.MaxValue;
+					break;
+				case MoveStates.Sit:
+					curStat = MoveStates.Sit;
+					speed = crouchSpeed.MaxValue;
+					break;
+				default:
+					break;
+			}
+
+			agent.speed = speed;
+		}
+	}
+
 	public override void Awake()
 	{
 		base.Awake();
@@ -34,12 +61,12 @@ public class EnemyMoveModule : MoveModule
 		agent.acceleration = speed;
 	}
 
-	public void SetTarget(Transform target)
+	public void SetTarget(Transform target, MoveStates moves = MoveStates.Run)
 	{
 		this._target = target;
 		if(agent.enabled)
 		{
-
+			moveStat = moves;
 			agent.isStopped = false;
 			agent.updatePosition = true;
 			agent.updateRotation = false;
