@@ -20,6 +20,8 @@ public class Dialogue : ScriptableObject
 
 	WaitForSeconds ws;
 
+	private readonly int talkingHash = Animator.StringToHash("Talking");
+
 	public virtual Dialogue Copy()
 	{
 		Dialogue ret = new Dialogue();
@@ -70,6 +72,7 @@ public class Dialogue : ScriptableObject
 		else
 		{
 			GameManager.instance.uiManager.dialogueUI.Off();
+			owner.self.anim.Animators.SetBool(talkingHash, false);
 		}
 	}
 
