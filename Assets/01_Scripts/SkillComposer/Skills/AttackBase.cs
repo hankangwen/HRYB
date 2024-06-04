@@ -47,7 +47,9 @@ public abstract class AttackBase : Leaf
 	List<StatusEffectApplyData> originalEff = new List<StatusEffectApplyData>();
 	protected virtual void Awake()
 	{
-		relatedTransform = GameObject.Find(relateTrmName)?.transform;
+		if(relateTrmName != null)
+			relatedTransform = GameObject.Find(relateTrmName)?.transform;
+		
 		originalEff = new List<StatusEffectApplyData>(statEff);
 		if (relatedTransform == null)
 		{
