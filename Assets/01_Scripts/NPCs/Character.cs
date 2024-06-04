@@ -49,27 +49,24 @@ public class Character : ScriptableObject
 		}
 	}
 
-	public bool prevQuesting;
+	public QuestInfo latestQuest;
 
 	Dialogue dia;
 
 	private void Awake()
 	{
-		prevQuesting = Questing;
 		q = null;
 		dia = initDia.Copy();
 	}
 
 	public void SetDialogue(Dialogue dia)
 	{
-		prevQuesting = Questing;
 		q = null;
 		this.dia = dia;
 	}
 
 	public void ResetDialogue()
 	{
-		prevQuesting = Questing;
 		q = null;
 		dia = initDia.Copy();
 	}

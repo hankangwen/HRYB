@@ -1219,7 +1219,7 @@ MonoBehaviour:
   windGap: 1
   windPower: 5
   windResetThreshold: 0.5
-  timeLimit: 6.5
+  timeLimit: 7.5
   fireDecreaseSpeed: 5
   fireAdequateAmt: 50
   adequateErrRange: 10

@@ -163,6 +163,7 @@ public class PoolManager : MonoBehaviour
 				res.transform.SetParent(parent);
 				res.transform.localPosition = Vector3.zero;
 				res.transform.localRotation = Quaternion.identity;
+				res.transform.localScale = Vector3.one;
 				pooleds[idx] = st;
 				return res;
 			}
@@ -184,6 +185,7 @@ public class PoolManager : MonoBehaviour
 				res.transform.SetParent(parent);
 				res.transform.localPosition = Vector3.zero;
 				res.transform.localRotation = Quaternion.identity;
+				res.transform.localScale = Vector3.one;
 				st.data.Pop();
 
 				st.data.Push(added);

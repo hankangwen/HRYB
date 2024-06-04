@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -128,7 +126,7 @@ public class Frier : MinigameBase
 
 	public void SetRandomTargets()
 	{
-		SetTargets(Random.Range(FIREMAXAMOUNT * adequateErrRange, FIREMAXAMOUNT * (0.85f - adequateErrRange)));
+		SetTargets(Random.Range(FIREMAXAMOUNT * (adequateErrRange / 100.0f), FIREMAXAMOUNT * (85f - adequateErrRange) / 100.0f));
 	}
 
 	public void SetTargets(float amt, float adequater = -1)

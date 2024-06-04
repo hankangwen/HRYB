@@ -41,24 +41,26 @@ public class TalkModule : Module, IInterable
 
 	private void Start()
 	{
-		//GameObject obj = PoolManager.GetObject(QUESTCANVASNAME, transform);
-		//obj.transform.localPosition = Vector3.up * yOffset;
-		//qMark = obj.transform.Find("QMark").GetComponent<Image>();
+		GameObject obj = PoolManager.GetObject(QUESTCANVASNAME, transform);
+		obj.transform.localPosition = Vector3.up * yOffset;
+		qMark = obj.transform.Find("QMark").GetComponent<Image>();
 	}
 
 	private void Update()
 	{
-		if (charInfo.Questing)
+		if (charInfo.Questing && charInfo.latestQuest == null) //받지않은 퀘스트 있음.
 		{
-			
+			qMark.enabled = true;
+			qMark.sprite = GameManager.instance.uiManager.questingMark;
 		}
-		else if (charInfo.prevQuesting)
+		else if (charInfo.latestQuest != null && charInfo.latestQuest.IsPendingCompletion) //퀘스트 완성 대기중
 		{
-
+			qMark.enabled = true;
+			qMark.sprite = GameManager.instance.uiManager.questedMark;
 		}
-		else
+		else // ?
 		{
-			
+			qMark.enabled = false;
 
 		}
 	}

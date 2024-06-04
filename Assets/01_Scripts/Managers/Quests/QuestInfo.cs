@@ -54,6 +54,14 @@ public class QuestInfo : ScriptableObject, System.IComparable
 		}
 	}
 
+	public bool IsPendingCompletion
+	{
+		get
+		{
+			return BlankExamine(); //##############
+		}
+	}
+
 	protected virtual void OnEnable()
 	{
 		if (myInfo == null)
@@ -184,6 +192,57 @@ public class QuestInfo : ScriptableObject, System.IComparable
 			if(prevConnection == AfterComplete.FINAL)
 				valid = false;
 			++head;
+		}
+
+		return compStat;
+	}
+
+	bool BlankExamine()
+	{
+		bool compStat = false;
+
+		int head = 0;
+		bool valid = true;
+		AfterComplete prevConnection = AfterComplete.FINAL;
+		while (valid)
+		{
+
+			
+			bool res = myInfo[head].isCompleted;
+
+			if (head == 0)
+			{
+				compStat = res;
+			}
+
+			switch (prevConnection)
+			{
+				case AfterComplete.AND:
+					compStat &= res;
+					break;
+				case AfterComplete.OR:
+					compStat |= res;
+					break;
+				case AfterComplete.AFTER:
+					compStat &= res;
+					break;
+				default:
+					break;
+			}
+
+			
+
+			prevConnection = myInfo[head].afterAct;
+
+			if (prevConnection == AfterComplete.FINAL)
+				valid = false;
+			
+			++head;
+
+			if (myInfo[head].afterAct == AfterComplete.FINAL)
+			{
+				return compStat;
+			}
 		}
 
 		return compStat;

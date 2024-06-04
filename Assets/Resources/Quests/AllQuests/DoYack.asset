@@ -22,7 +22,7 @@ MonoBehaviour:
     everSince: 1
     isVisibleCondition: 1
     itemMode: 0
-    itemRequirement: 1
+    itemRequirement: 0
     defeatMode: 0
     defeatParameter: 
   - objective: 7
