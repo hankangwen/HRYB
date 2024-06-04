@@ -11,6 +11,7 @@ public class SkillLoader
 	private SkillDatabase YohoSkillDb;
 	public SkillLoader()
 	{
+		
 		AssetBundle asset = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "skilldatabase"));
 		AssetBundle asset2 = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "yohoSkilldataBase"));
 		SkillDatabase database = null;

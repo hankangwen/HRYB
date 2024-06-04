@@ -185,7 +185,7 @@ public class PlayerCast : CastModule
 		nowSkillSlot = humanSkillSlot;
 	}
 
-	private void Start()
+	public void DoInitialize()
 	{
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("HumanNormal"), SkillSlotInfo.LClick, PlayerForm.Magic);
 		ConnectSkillDataTo(GameManager.instance.skillLoader.GetHumanSkill("ChargeBowAttack"), SkillSlotInfo.RClick, PlayerForm.Magic);

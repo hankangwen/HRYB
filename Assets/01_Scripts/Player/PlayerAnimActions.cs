@@ -78,6 +78,8 @@ public class PlayerAnimActions : MonoBehaviour
 
 	private void OnAnimatorIK(int layerIndex)
 	{
+		if(self == null)
+			return;
 		if (self.move.isGrounded && self.move.idling)
 		{
 			lFootPos = animator.GetBoneTransform(HumanBodyBones.LeftFoot).position;
@@ -89,7 +91,7 @@ public class PlayerAnimActions : MonoBehaviour
 			animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 0);
 			animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 0);
 			animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 0);
-			if (Physics.Raycast(lFootPos + Vector3.up * footRayOffset, Vector3.down, out hit, footRayDist, ~(1 << GameManager.PLAYERLAYER | 1 << GameManager.PLAYERATTACKLAYER)))
+			if (Physics.Raycast(lFootPos + Vector3.up * footRayOffset, Vector3.down, out hit, footRayDist, ~(1 << GameManager.PLAYERLAYER | 1 << GameManager.PLAYERATTACKLAYER), QueryTriggerInteraction.Ignore))
 			{
 
 				lFootAngle = Mathf.Acos(Vector3.Dot(hit.normal, Vector3.up) / (hit.normal.magnitude)) * Mathf.Rad2Deg;
@@ -107,7 +109,7 @@ public class PlayerAnimActions : MonoBehaviour
 				animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
 			}
 
-			if (Physics.Raycast(rFootPos + Vector3.up * footRayOffset, Vector3.down, out hit, footRayDist, ~(1 << GameManager.PLAYERLAYER | 1 << GameManager.PLAYERATTACKLAYER)))
+			if (Physics.Raycast(rFootPos + Vector3.up * footRayOffset, Vector3.down, out hit, footRayDist, ~(1 << GameManager.PLAYERLAYER | 1 << GameManager.PLAYERATTACKLAYER), QueryTriggerInteraction.Ignore))
 			{
 				rFootAngle = Mathf.Acos(Vector3.Dot(hit.normal, Vector3.up) / (hit.normal.magnitude)) * Mathf.Rad2Deg;
 				if(rFootAngle > 15)
@@ -443,6 +445,8 @@ public class PlayerAnimActions : MonoBehaviour
 
 	public void PlayerAfterImage(float v1, float v2, float v3)
 	{
+		if(self == null || _plm == null)
+			return;
 		StartCoroutine(_plm.UseAfterEffect(self, v1, v2, v3));
 	}
 }

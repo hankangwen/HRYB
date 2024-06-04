@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/9_Importeds/07_LD_Tools/GSpawn - Level Designer/Data/Profiles/Random Prefabs/Bamboos.asset.meta
 guid: ecebe6a34e899d44f8ca9ae2acf978ad
 NativeFormatImporter:
+========
+guid: 8adac7646bf7f0647bfa694127495e43
+PrefabImporter:
+>>>>>>>> Youjunhyun:Assets/07_Prefabs/Pooleds/IndicatorCanv.prefab.meta
   externalObjects: {}
   mainObjectFileID: 11400000
   userData: 
