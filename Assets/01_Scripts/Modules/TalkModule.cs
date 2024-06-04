@@ -21,6 +21,8 @@ public class TalkModule : Module, IInterable
 	public const string QUESTCANVASNAME = "QuestMarkIndicator";
 
 
+	private readonly int talkingHash = Animator.StringToHash("Talking");
+
 	public string Name => charInfo.baseName;
 
 	public bool IsInterable { get;set; }
@@ -89,6 +91,7 @@ public class TalkModule : Module, IInterable
 	{
 		GameManager.instance.qManager.InvokeOnChanged(CompletionAct.InteractWith, transform.name);
 		charInfo.OnTalk();
+		self.anim.Animators.SetBool(talkingHash, true);
 	}
 
 	public void InteractWith()
