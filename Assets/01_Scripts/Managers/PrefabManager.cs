@@ -10,7 +10,7 @@ public class PrefabManager : MonoBehaviour
 	public GameObject bossHPBar;
 	public GameObject HPBar;
 	public GameObject jangsungHP;
-	public void Awake()
+	public void DoLoad()
 	{
 		var inven = AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "inven"));
 		if (inven == null)

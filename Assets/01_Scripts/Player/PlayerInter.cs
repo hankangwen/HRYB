@@ -55,46 +55,46 @@ public class PlayerInter : SightModule
 				checkeds[i].GlowOff();
 			}
 		}
-		if ((hits = Physics.SphereCastAll(r, 1.0f, sightRange.MaxValue, (1 << 8))).Length > 0)
+		if ((hits = Physics.SphereCastAll(r, 1.0f, sightRange.MaxValue, (1 << GameManager.INTERABLELAYER), QueryTriggerInteraction.Collide)).Length > 0)
 		{
 			checkeds = hits.OrderByDescending(item => (transform.position - item.point).sqrMagnitude).Select(item => item.collider.GetComponent<IInterable>()).ToList();
 			curSel %= checkeds.Count;
 			curFocused.GlowOn();
-			if (curFocused.IsInterable)
-			{
-				GameManager.instance.uiManager.preInterUI.On();
-				switch (curFocused.interType)
-				{
-					case InterType.Insert:
-						GameManager.instance.uiManager.preInterUI.SetDescTxt("넣기");
-						break;
-					case InterType.PickUp:
-						GameManager.instance.uiManager.preInterUI.SetDescTxt("획득하기");
-						break;
-				}
-			}
-			else
-			{
-				GameManager.instance.uiManager.preInterUI.SetDescTxt("");
+			//if (curFocused.IsInterable)
+			//{
+			//	GameManager.instance.uiManager.preInterUI.On();
+			//	switch (curFocused.interType)
+			//	{
+			//		case InterType.Insert:
+			//			GameManager.instance.uiManager.preInterUI.SetDescTxt("넣기");
+			//			break;
+			//		case InterType.PickUp:
+			//			GameManager.instance.uiManager.preInterUI.SetDescTxt("획득하기");
+			//			break;
+			//	}
+			//}
+			//else
+			//{
+			//	GameManager.instance.uiManager.preInterUI.SetDescTxt("");
 
-			}
-			if (curFocused.AltInterable)
-			{
-				GameManager.instance.uiManager.preInterUI.On();
-				switch (curFocused.altInterType)
-				{
-					case AltInterType.Process:
-						GameManager.instance.uiManager.preInterUI.SetDescAltTxt("작동");
-						break;
-					case AltInterType.ProcessEnd:
-						GameManager.instance.uiManager.preInterUI.SetDescAltTxt("중단");
-						break;
-				}
-			}
-			else
-			{
-				GameManager.instance.uiManager.preInterUI.SetDescAltTxt("");
-			}
+			//}
+			//if (curFocused.AltInterable)
+			//{
+			//	GameManager.instance.uiManager.preInterUI.On();
+			//	switch (curFocused.altInterType)
+			//	{
+			//		case AltInterType.Process:
+			//			GameManager.instance.uiManager.preInterUI.SetDescAltTxt("작동");
+			//			break;
+			//		case AltInterType.ProcessEnd:
+			//			GameManager.instance.uiManager.preInterUI.SetDescAltTxt("중단");
+			//			break;
+			//	}
+			//}
+			//else
+			//{
+			//	GameManager.instance.uiManager.preInterUI.SetDescAltTxt("");
+			//}
 		}
 		else
 		{

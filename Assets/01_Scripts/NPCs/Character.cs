@@ -21,20 +21,56 @@ public class Character : ScriptableObject
 
 	public Dialogue initDia;
 
+	bool? q = null;
+	public bool Questing
+	{
+		get
+		{
+			if(q == null)
+			{
+				q = false;
+				Dialogue nxt = null;
+				while (true)
+				{
+					nxt = initDia.next;
+					if(nxt == null)
+					{
+						break;
+					}
+					if((nxt as QuestDialogue) != null)
+					{
+						q = true;
+						break;
+					}
+
+				}
+			}
+			return (bool)q;
+		}
+	}
+
+	public bool prevQuesting;
+
 	Dialogue dia;
 
 	private void Awake()
 	{
+		prevQuesting = Questing;
+		q = null;
 		dia = initDia.Copy();
 	}
 
 	public void SetDialogue(Dialogue dia)
 	{
+		prevQuesting = Questing;
+		q = null;
 		this.dia = dia;
 	}
 
 	public void ResetDialogue()
 	{
+		prevQuesting = Questing;
+		q = null;
 		dia = initDia.Copy();
 	}
 	

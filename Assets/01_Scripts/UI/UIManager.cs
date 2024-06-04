@@ -62,6 +62,9 @@ using System.Linq;
 	public List<GetItemBack> getItemList = new List<GetItemBack>();
 
 	public Transform getUIDefault;
+
+	public Sprite questingMark;
+	public Sprite questedMark;
 	float getUITime = 0.3f;
 
 	public bool isWholeScreenUIOn
