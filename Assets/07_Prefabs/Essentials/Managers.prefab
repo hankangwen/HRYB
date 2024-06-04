@@ -91,6 +91,8 @@ MonoBehaviour:
   DropPoint: 0
   getItemList: []
   getUIDefault: {fileID: 0}
+  questingMark: {fileID: 21300000, guid: 95aebf16c3f09ec40b9ebb24ea6ae2ea, type: 3}
+  questedMark: {fileID: 21300000, guid: c28d4672cea23e74cac6d55ef8ea6b01, type: 3}
   getItemUiSlot: []
 --- !u!1 &890565345230820585
 GameObject:
@@ -642,7 +644,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270977, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_Intensity
-      value: 2.2692857
+      value: 1.7019643
       objectReference: {fileID: 0}
     - target: {fileID: 8980631772532270977, guid: bb8ccaed090ae264f9d2f3d13991c588, type: 3}
       propertyPath: m_Shadows.m_Strength
@@ -723,7 +725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationsPerHour: 60
   automaticLightIntensity: 1
-  maximumLightIntensity: 4
+  maximumLightIntensity: 3
   _dayColor: {r: 1, g: 0.98039216, b: 0.8235294, a: 0}
   _eveningColor: {r: 1, g: 0.6666667, b: 0.5019608, a: 0}
 --- !u!114 &7989709215965616188
@@ -873,4 +875,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationsPerHour: 60
   automaticLightIntensity: 1
-  maximumLightIntensity: 0.3
+  maximumLightIntensity: 0.5
