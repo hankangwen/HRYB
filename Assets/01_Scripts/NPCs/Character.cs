@@ -29,10 +29,10 @@ public class Character : ScriptableObject
 			if(q == null)
 			{
 				q = false;
-				Dialogue nxt = null;
+				Dialogue nxt = initDia;
 				while (true)
 				{
-					nxt = initDia.next;
+					nxt = nxt.next;
 					if(nxt == null)
 					{
 						break;
