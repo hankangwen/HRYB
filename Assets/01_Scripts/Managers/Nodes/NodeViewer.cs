@@ -50,7 +50,7 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 
 	private void Start()
 	{
-		
+
 		ResetView();
 	}
 
@@ -62,6 +62,7 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 			partedNode[i].SetActive(false);
 		}
 		SetSelected(null);
+		UnshowLearner();
 	}
 	//public void GenerateView()
 	//{
@@ -101,7 +102,7 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 
 	public void ShowLearner(PlayerNode node)
 	{
-		if (ongoing == null)
+		if (!nodeLearner.isOn && ongoing == null)
 		{
 			nodeLearner.On(node);
 			ongoing = GameManager.instance.StartCoroutine(DelMoveViewport(false));
@@ -111,7 +112,7 @@ public class NodeViewer : MonoBehaviour, IOpenableWindowUI
 
 	public void UnshowLearner()
 	{
-		if(ongoing == null)
+		if(nodeLearner.isOn && ongoing == null)
 		{
 			nodeLearner.Off();
 			ongoing = GameManager.instance.StartCoroutine(DelMoveViewport(true));

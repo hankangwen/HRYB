@@ -10,6 +10,9 @@ public enum CraftMethod
 	Base,
 	Medicine,
 	Trimmer,
+
+
+	All
 }
 
 public struct ItemAmountPair
@@ -119,9 +122,12 @@ public struct Recipe
 			sb.Append($" [{item.info.MyName} : {item.num}] , ");
 		}
 		sb.Append(")(Requirements : ");
-		foreach (var item in requirement)
+		if(requirement != null)
 		{
-			sb.Append($" [{item}] , ");
+			foreach (var item in requirement)
+			{
+				sb.Append($" [{item}] , ");
+			}
 		}
 		sb.Append("), ->");
 		sb.Append(category);
@@ -147,9 +153,13 @@ public struct Recipe
 		}
 
 		long hash2 = 31;
-		foreach (var item in requirement)
+		if(requirement != null)
 		{
-			hash2 += 17 * HashCode.Combine(item.ToString());
+
+			foreach (var item in requirement)
+			{
+				hash2 += 17 * HashCode.Combine(item.ToString());
+			}
 		}
 		return HashCode.Combine(hash1, hash2);
 	}
@@ -159,6 +169,7 @@ public struct Recipe
 public class Crafter
 {
 	const int TRIMPARSEFROM = 6;
+	const int RECIPEPARSEFROM = 2;
 	const int ORIGINALNAME = 1;
 
 
@@ -178,6 +189,62 @@ public class Crafter
 		//{ new ItemAmountPair("산삼") , new HashSet<ItemAmountPair>{ new ItemAmountPair("잘린 산삼", 3) } },
 	};
 
+	public static YinyangItem GetItemWithProcess(string originalName, string afterName)
+	{
+		YinyangItem resItem = Item.GetItem<YinyangItem>(originalName);
+		if (resItem == null)
+		{
+			resItem = new YinyangItem(originalName, "", ItemType.None, 9999, null, true, -1, DetailAmount.Empty, false);
+		}
+		resItem = new YinyangItem(resItem);
+		if (afterName.Contains(PreProcess.STIRPREFIX))
+		{
+			resItem.processes.Add(ProcessType.Stir);
+		}
+		if (afterName.Contains(PreProcess.FRYPREFIX))
+		{
+			resItem.processes.Add(ProcessType.Fry);
+		}
+		if (afterName.Contains(PreProcess.BURNPREFIX))
+		{
+			resItem.processes.Add(ProcessType.Burn);
+		}
+		if (afterName.Contains(PreProcess.MASHPREFIX))
+		{
+			resItem.processes.Add(ProcessType.Mash);
+		}
+		resItem.InsertToTable();
+
+		return resItem;
+	}
+
+	public static IEnumerator InitializeRecipe() //아이템이 이미 완전하다는 가정하에 ㅈ진행할거임.
+	{
+		SheetParser data = new SheetParser("https://docs.google.com/spreadsheets/d/1U_d85oU7k3LJym1HeIO90zeiGZhk2D-k8w3PR9CgzaQ/export?format=tsv&gid=1875583106&range=B3:R", "B", "R");
+		yield return new WaitUntil(() => data.inited);
+		string originalName;
+		string afterName;
+		for (int i = 0; i < data.cardinality; i++)
+		{
+			HashSet<ItemAmountPair> recipeReq = new HashSet<ItemAmountPair>();
+			ItemAmountPair resultItem = new ItemAmountPair(data.GetAttribute(i, 0), int.Parse(data.GetAttribute(i, 1)));
+			for (int j = RECIPEPARSEFROM; j < data.attributeCount - 2; j+= 3)
+			{
+				originalName = data.GetAttribute(i, j);
+				afterName = data.GetAttribute(i, j + 1);
+				if(originalName.Length <= 0 || originalName == "")
+					break;
+				YinyangItem reqItem = GetItemWithProcess(originalName,afterName);
+
+				ItemAmountPair item = new ItemAmountPair(reqItem.MyName, int.Parse(data.GetAttribute(i, j + 2)));
+				recipeReq.Add(item);
+			}
+			Recipe recipe = new Recipe(recipeReq, null, "");
+
+			AddRecipe(resultItem, recipe);
+			Debug.Log($"{resultItem.info.MyName} * {resultItem.num} <== {recipe.ToString()}");
+		}
+	}
 
 	public static IEnumerator InitializeTrim() //일단됨.
 	{
@@ -196,29 +263,7 @@ public class Crafter
 			}
 			string originalName = data.GetAttribute(i, ORIGINALNAME);
 			string afterName = data.GetAttribute(i, TRIMPARSEFROM);
-			YinyangItem item = Item.GetItem<YinyangItem>(originalName);
-			if(item == null)
-				item = new YinyangItem(originalName, "", ItemType.None, 9999, null, true, -1, DetailAmount.Empty, false);
-			item = new YinyangItem(item);
-			
-			if (afterName.Contains(PreProcess.STIRPREFIX))
-			{
-				item.processes.Add(ProcessType.Stir);
-			}
-			if (afterName.Contains(PreProcess.FRYPREFIX))
-			{
-				item.processes.Add(ProcessType.Fry);
-			}
-			if (afterName.Contains(PreProcess.BURNPREFIX))
-			{
-				item.processes.Add(ProcessType.Burn);
-			}
-			if (afterName.Contains(PreProcess.MASHPREFIX))
-			{
-				item.processes.Add(ProcessType.Mash);
-			}
-			item.InsertToTable();
-
+			YinyangItem item = GetItemWithProcess(originalName, afterName);
 
 			recipeItemTableTrim.Add(new ItemAmountPair(item), res);
 		}
@@ -237,7 +282,7 @@ public class Crafter
 
 	public static void AddRecipe(ItemAmountPair resItem, Recipe recipe)
 	{
-		recipeItemTable.Add(resItem, recipe);
+		recipeItemTable.Add(recipe, resItem);
 	}
 
 	public bool TrimItem(string itemName)
@@ -272,7 +317,7 @@ public class Crafter
 		if (recipeItemTable.ContainsKey(recipe))
 		{
 			ItemAmountPair result = (ItemAmountPair)recipeItemTable[recipe];
-			if (recipe.requirement.Contains(curMethod))
+			if (true/*recipe.requirement.Contains(curMethod)*/)
 			{
 				foreach (ItemAmountPair items in recipe.recipe)
 				{

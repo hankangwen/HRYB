@@ -7,7 +7,7 @@ using TMPro;
 public class NodeLearnUI : MonoBehaviour
 {
 	PlayerNode showing;
-	bool isOn = false;
+	internal bool isOn = false;
 	Transform scroller;
 	public const float SCROLLMAX = 1030;
 	Coroutine ongoing;

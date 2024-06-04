@@ -92,8 +92,7 @@ public class PlayerLife : LifeModule
 		GetActor().anim.SetDieTrigger();
 		GetActor().move.moveDir = Vector3.zero;
 		GetActor().move.forceDir = Vector3.zero;
-		(GetActor().move as PlayerMove).ctrl.center = Vector3.up;
-		(GetActor().move as PlayerMove).ctrl.height = 1;
+		(GetActor().move as PlayerMove).ResetCharacterController();
 
 		for (int i = 0; i < GameManager.instance.qManager.currentAbleQuest.Count; i++)
 		{

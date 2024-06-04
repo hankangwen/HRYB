@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffcb0ab658f16f7449753808851e411d, type: 3}
+  m_Name: YohoSkilldataBase
+  m_EditorClassIdentifier: 
+  info:
+    keyValues:
+    - name: YohoNormalAttack
+      skill: {fileID: 11400000, guid: e1665d5cb279bff4aa5a03d3bf0a4422, type: 2}
+    - name: YusungSmith
+      skill: {fileID: 11400000, guid: bc41aa373e5bf1746ba79c21c2e2d2dd, type: 2}
+    - name: SkyBritgh
+      skill: {fileID: 11400000, guid: 952d763e661f3b24fb436b50e4edcf6f, type: 2}
+    - name: YohoSharpnessAtt
+      skill: {fileID: 11400000, guid: 23b9733173d1c494dbc63db73eecfe95, type: 2}
+    - name: NextEnter
+      skill: {fileID: 11400000, guid: 2d9e6a5e014ff3645a5af7adf479a6ac, type: 2}
+    - name: YohoGrab
+      skill: {fileID: 11400000, guid: 361d4ea8d797ac04b97a9efbb3b590d5, type: 2}

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb98b46ddc9f9e4b92601274f120690, type: 3}
+  m_Name: HumanNormalRoot
+  m_EditorClassIdentifier: 
+  animClip: {fileID: 7400000, guid: ca82895921c50b747a26836f05047761, type: 2}
+  animClipLoopings: {fileID: 0}
+  animClipDisop: {fileID: 0}
+  audioClipName: 
+  tags:
+    value: 0
+  level: 0
+  childs:
+  - {fileID: 11400000, guid: bceb9f5383d58854a834020f4dc8edb6, type: 2}
+  - {fileID: 11400000, guid: 85df06792009417469dbeb71fff25271, type: 2}
+  - {fileID: 11400000, guid: 39a5cf3dd4b6b6940b1e386ac7f69b64, type: 2}
+  - {fileID: 11400000, guid: 30ccf22242d7ae3469a08e1058465669, type: 2}
+  composeDel: 0.3
+  isPlayAnim: 1
+  isPlayDisopAnim: 0
+  wx: 0
+  useType: 0
+  castTime: 0
+  cooldown: 0.25
+  skillIcon: {fileID: 0}
+  isSuperArmor: 0
+  initCombo: 0
+  resetSec: 2
+  resetThreshold: 0
