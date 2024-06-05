@@ -1800,9 +1800,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDir: {x: 0, y: 0, z: 0}
-  initRunSpeed: 0
-  initWalkSpeed: 0
-  initCrouchSpeed: 0
+  initRunSpeed: 2
+  initWalkSpeed: 4
+  initCrouchSpeed: 2
   gravity: 1
   groundThreshold: 0.5
   _isCanMove: 0
@@ -1836,7 +1836,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initSightRange: 0
-  sightRange: 0
 --- !u!114 &6537673370032574644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1880,8 +1879,9 @@ MonoBehaviour:
   sight: {fileID: 0}
   cast: {fileID: 0}
   anim: {fileID: 0}
-  talk: {fileID: 0}
   wallet: {fileID: 0}
+  talk: {fileID: 0}
+  show: {fileID: 0}
   _ai: {fileID: 0}
 --- !u!95 &4203293574204152503
 Animator:
