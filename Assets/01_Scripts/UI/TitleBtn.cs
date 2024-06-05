@@ -30,6 +30,8 @@ public class TitleBtn : MonoBehaviour
 		text.color = Color.white;
 		optionUI.gameObject.SetActive(false);
 		Cursor.visible = true;
+
+		Cursor.lockState = CursorLockMode.None;
 	}
 
 	public void OnOption()
