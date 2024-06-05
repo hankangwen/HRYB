@@ -25,15 +25,15 @@ MonoBehaviour:
     duration: 0.2
   relateTrmName: 
   _dmgs:
-  - black: 1
-    white: 1
+  - black: 0
+    white: 0.5
     _grogeDamage: 0
     _comboDamage: 40
-  - black: 1
-    white: 1
+  - black: 0
+    white: 0.5
     _grogeDamage: 0
     _comboDamage: 30
-  - black: 1
-    white: 1
+  - black: 0
+    white: 2
     _grogeDamage: 500
     _comboDamage: 60

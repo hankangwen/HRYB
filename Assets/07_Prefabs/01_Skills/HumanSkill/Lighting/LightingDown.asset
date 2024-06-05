@@ -20,6 +20,13 @@ MonoBehaviour:
     value: 0
   level: 0
   statEff: []
-  damageMult: 2
   relateTrmName: 
-  _baseInfo: 2
+  _dmgs:
+  - black: 1
+    white: 0
+    _grogeDamage: 0
+    _comboDamage: 0
+  - black: 1
+    white: 0
+    _grogeDamage: 0
+    _comboDamage: 0
