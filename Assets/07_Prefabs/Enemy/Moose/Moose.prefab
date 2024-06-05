@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDir: {x: 0, y: 0, z: 0}
-  initRunSpeed: 0
+  initRunSpeed: 6
   initWalkSpeed: 0
   initCrouchSpeed: 0
   gravity: 1
@@ -158,8 +158,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isImmune: 0
-  initBlack: 500
-  initWhite: 500
+  initBlack: 520
+  initWhite: 520
   initAdeBlack: 1
   initAdeWhite: 1
   regenThreshold: 10
@@ -177,7 +177,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initSightRange: 0
-  sightRange: 0
 --- !u!114 &5685831916571396881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,8 +220,9 @@ MonoBehaviour:
   sight: {fileID: 0}
   cast: {fileID: 0}
   anim: {fileID: 0}
-  talk: {fileID: 0}
   wallet: {fileID: 0}
+  talk: {fileID: 0}
+  show: {fileID: 0}
   _ai: {fileID: 0}
 --- !u!65 &5789941360700571784
 BoxCollider:

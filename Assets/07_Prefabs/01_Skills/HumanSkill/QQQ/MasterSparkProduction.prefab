@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 495a3d84d8c28024aa80bddbacec75f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shakes: {fileID: 0}
 --- !u!1 &8581588810446975132
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +119,7 @@ GameObject:
   - component: {fileID: 8895730185993230054}
   - component: {fileID: 3597091661081838911}
   m_Layer: 0
-  m_Name: dd
+  m_Name: MasterSparkProduction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

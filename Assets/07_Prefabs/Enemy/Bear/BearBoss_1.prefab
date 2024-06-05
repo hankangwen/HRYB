@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDir: {x: 0, y: 0, z: 0}
-  initRunSpeed: 0
+  initRunSpeed: 5
   initWalkSpeed: 0
   initCrouchSpeed: 0
   gravity: 1
@@ -369,7 +369,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initSightRange: 0
-  sightRange: 0
 --- !u!114 &2393236491461230480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,8 +412,9 @@ MonoBehaviour:
   sight: {fileID: 0}
   cast: {fileID: 0}
   anim: {fileID: 0}
-  talk: {fileID: 0}
   wallet: {fileID: 0}
+  talk: {fileID: 0}
+  show: {fileID: 0}
   _ai: {fileID: 0}
 --- !u!114 &-510076408697515796
 MonoBehaviour:
@@ -429,10 +429,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isImmune: 0
-  initBlack: 450
-  initWhite: 450
-  initAdeBlack: 30
-  initAdeWhite: 70
+  initBlack: 600
+  initWhite: 600
+  initAdeBlack: 1
+  initAdeWhite: 1
   regenThreshold: 10
   superArmor: 0
   _isItGroge: 0

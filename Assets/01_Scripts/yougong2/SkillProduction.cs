@@ -8,6 +8,8 @@ public class SkillProduction : MonoBehaviour
 	CinemachineVirtualCamera _cam;
 	public CinemachineBasicMultiChannelPerlin _shakes;
 
+	Coroutine _co;
+
 	private void Awake()
 	{
 		_cam = GetComponentInChildren<CinemachineVirtualCamera>();
@@ -34,14 +36,15 @@ public class SkillProduction : MonoBehaviour
 	public void End()
 	{
 		_cam.Priority = 0;
-		StartCoroutine(ReturnLate());
+		if(_co == null)
+		_co = StartCoroutine(ReturnLate());
 	}
 
 
 	IEnumerator ReturnLate()
 	{
 		yield return new WaitForSeconds(3f);
-
+		_co = null;
 		PoolManager.ReturnObject(gameObject);
 	}
 
