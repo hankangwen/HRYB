@@ -105,27 +105,27 @@ public class ComboRank : MonoBehaviour
 		if(_value >= VeryHigh)
 		{
 			for (int i = 0; i < 5; i++)
-				OutValue(Player.yy.black.MaxValue * 1f);
+				OutValue(Player.yy.black.MaxValue * 1.5f);
 		}
 		else if(_value >= High)
 		{
 			for (int i = 0; i < 7; i++)
-				OutValue(Player.yy.black.MaxValue * 0.6f);
+				OutValue(Player.yy.black.MaxValue * 0.9f);
 		}
 		else if(_value >= Middle)
 		{
 			for (int i = 0; i < 7; i++)
-				OutValue(Player.yy.black.MaxValue * 0.4f);
+				OutValue(Player.yy.black.MaxValue * 0.6f);
 		}
 		else if(_value >= Low)
 		{
 			for (int i = 0; i < 8; i++)
-				OutValue(Player.yy.black.MaxValue * 0.2f);
+				OutValue(Player.yy.black.MaxValue * 0.4f);
 		}
 		else if(_value >= VeryLow)
 		{
 			for (int i = 0; i < 4; i++)
-				OutValue(Player.yy.black.MaxValue * 0.1f);
+				OutValue(Player.yy.black.MaxValue * 0.2f);
 		}
 
 		//for (int i = 0; i < 10; i++)
