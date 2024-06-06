@@ -30,7 +30,7 @@ public class YinYang
 
     public YinYang(float blk, float wht)
 	{
-		Debug.Log(blk + " : " + wht);
+		//Debug.Log(blk + " : " + wht);
 		black= new UpgradableStatus(2, blk);
 		white = new UpgradableStatus(2, wht);
 	}

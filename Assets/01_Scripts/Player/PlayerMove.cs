@@ -484,7 +484,7 @@ public class PlayerMove : MoveModule
 		}
 		catch
 		{
-			Debug.Log("사운드 혐오");
+			Debug.LogWarning("사운드 혐오");
 		}
 
 		if (IsActualGrounded)
