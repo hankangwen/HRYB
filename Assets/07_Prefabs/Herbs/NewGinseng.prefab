@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb441ae724af6f745809f03081fed471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interTime: 1
+  interTime: 2
   isInterable: 1
   isDestroyed: 1
   regenable: 1
@@ -136,6 +136,7 @@ MonoBehaviour:
   resItem:
   - "\uC778\uC0BC"
   amount: 1
+  yOffset: 2
 --- !u!135 &2307955002277881236
 SphereCollider:
   m_ObjectHideFlags: 0
