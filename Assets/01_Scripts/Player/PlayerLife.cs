@@ -54,6 +54,7 @@ public class PlayerLife : LifeModule
 		cols.End();
 		// t == 총 회복량
 		float time = 0;
+		Debug.Log(t);
 		while(time <= 0.5f)
 		{
 			yield return null;
