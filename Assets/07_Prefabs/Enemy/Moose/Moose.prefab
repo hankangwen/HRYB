@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1028486988875783229}
   - component: {fileID: 1757168886258243897}
   - component: {fileID: 7707292167180355763}
-  - component: {fileID: 1242624076525264972}
   - component: {fileID: 5366181968401801725}
   - component: {fileID: 5685831916571396881}
   - component: {fileID: 6464763268537851122}
@@ -145,25 +144,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1242624076525264972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2238219135556919863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cd1cfdc8b01b404f8b56a0e6ede7766, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isImmune: 0
-  initBlack: 0
-  initWhite: 3000
-  initAdeBlack: 0.3
-  initAdeWhite: 0.7
-  regenThreshold: 10
-  superArmor: 0
 --- !u!114 &5366181968401801725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,9 +265,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImmune: 0
   initBlack: 0
-  initWhite: 0
-  initAdeBlack: 0
-  initAdeWhite: 0
+  initWhite: 3000
+  initAdeBlack: 0.7
+  initAdeWhite: 0.3
   regenThreshold: 10
   superArmor: 0
   _isItGroge: 0
