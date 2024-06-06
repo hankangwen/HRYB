@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class JangsungGirlLifeModule : LifeModule
 {
@@ -13,6 +14,8 @@ public class JangsungGirlLifeModule : LifeModule
 
 	GameObject _objs;
 
+	Transform middle;
+
 	public void BarrierON(int a)
 	{
 		_objs = Instantiate(_barrierEffect, transform);
@@ -20,10 +23,61 @@ public class JangsungGirlLifeModule : LifeModule
 		_isBarrier = true;
 	}
 
+	public override void Awake()
+	{
+		base.Awake();
+		if (transform.Find("Middle"))
+		{
+			middle = transform.Find("Middle");
+		}
+		else
+		{
+			middle = transform;
+		}
+	}
+
+
+	protected override void DecreaseYY(float amt, YYInfo to, DamageChannel chn = DamageChannel.Normal)
+	{
+		float value = amt * adequity[((int)to)];
+		yy.white.Value -= value;
+
+		if (value > 0)
+		{
+			GameManager.instance.shower.GenerateDamageText(middle.position, value, to, chn);
+		}
+		if (isDead)
+		{
+			OnDead();
+			StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, 10);
+		}
+	}
 
 	public override void DamageYY(YinYang data, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel = DamageChannel.None)
 	{
-		DamageYY(data.black.Value, data.white.Value, type, dur,tick,attacker,channel);
+		if (_isBarrier == false)
+		{
+			base.DamageYY(data, type, dur, tick, attacker, channel);
+		}
+		else
+		{
+
+			if (DamageType.DirectHit == type)
+			{
+				_barrierNums--;
+			}
+			Debug.LogError($"보호막 : {_barrierNums}");
+
+			if (_barrierNums <= 0)
+			{
+				_isBarrier = false;
+				// 대충 베리어 이팩트 같은거 터지게 만들기
+				JangsungGirlAttack a = self.atk as JangsungGirlAttack;
+				a.OnAnimationEnd();
+
+				DeleteBarrier();
+			}
+		}
 	}
 	
 	public override void DamageYY(float black, float white, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel= DamageChannel.None)
@@ -31,38 +85,7 @@ public class JangsungGirlLifeModule : LifeModule
 		Debug.Log("DD");
 		if(_isBarrier == false)
 		{
-			YinYang data = new YinYang(black, white);
-			switch (type)
-			{
-				case DamageType.DirectHit:
-					if (!(isImmune))
-					{
-						DamageYYBase(data);
-						GetActor().anim.SetHitTrigger();
-						
-
-						GameManager.instance.audioPlayer.PlayPoint("HitSound", self.transform.position);
-						
-						
-						_hitEvent?.Invoke();
-						
-						StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, IMMUNETIME);
-					}
-					break;
-				case DamageType.DotDamage:
-				case DamageType.Continuous:
-					Debug.Log(((int)channel));
-					ongoingTickDamages[((int)channel)].Add(StartCoroutine(DelDmgYYWX(data, dur, tick, type, channel)));
-					break;
-				case DamageType.NoEvadeHit:
-					DamageYYBase(data);
-					GetActor().anim.SetHitTrigger();
-					StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, IMMUNETIME);
-					break;
-				default:
-					break;
-			}
-			
+			base.DamageYY(black, white, type,dur,tick,attacker,channel);
 		}
 		else
 		{

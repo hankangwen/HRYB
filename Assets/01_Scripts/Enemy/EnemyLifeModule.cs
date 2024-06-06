@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class EnemyLifeModule : LifeModule
 {
@@ -19,12 +20,25 @@ public class EnemyLifeModule : LifeModule
 	[SerializeField] bool _33PercentWhite = false;
 	[SerializeField] bool _isDie = false;
 
+
+	Transform middle;
+
 	public override void Awake()
 	{
 		base.Awake();
 		_currentGrogeValue = _grogeInitValue;
 
 		_dieEvent += OutJeungGi;
+
+		if(transform.Find("Middle"))
+		{
+			middle = transform.Find("Middle");
+		}
+		else
+		{
+			middle = transform;
+		}
+
 	}
 	public override void Update()
 	{
@@ -67,6 +81,22 @@ public class EnemyLifeModule : LifeModule
 
 		base.DamageYY(data, type, dur, tick, attacker, channel);
 		OutJeungGi();
+	}
+
+	protected override void DecreaseYY(float amt, YYInfo to, DamageChannel chn = DamageChannel.Normal)
+	{
+		float value = amt * adequity[((int)to)];
+		yy.white.Value -= value;
+		
+		if(value > 0)
+		{
+			GameManager.instance.shower.GenerateDamageText(middle.position, value, to, chn);
+		}
+		if (isDead)
+		{
+			OnDead();
+			StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, 10);
+		}
 	}
 
 	public void OutJeungGi()

@@ -29,8 +29,8 @@ public class YusungSmith : AttackBase
     {
 	    // 이팩트 기타등등셋팅
 	    GameManager.instance.DisableCtrl(true);
-			
-		if(_pro != null)
+		(self.anim as PlayerAnim).AnimAct.PlayerAfterImage(0.2f, 1.5f, 0.66f);
+		if (_pro != null)
 		{
 			_pro.End();
 			_pro = null;

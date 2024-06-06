@@ -165,7 +165,7 @@ public class LifeModule : Module
 		//}
 	}
 
-	void DecreaseYY(float amt, YYInfo to)
+	protected virtual void DecreaseYY(float amt, YYInfo to, DamageChannel chn = DamageChannel.Normal)
 	{
 		yy.white.Value -= amt * adequity[((int)to)];
 		if (isDead)
@@ -341,10 +341,10 @@ public class LifeModule : Module
 		//}
 	}
 
-	protected virtual void DamageYYBase(YinYang data)
+	protected virtual void DamageYYBase(YinYang data, DamageChannel chn = DamageChannel.Normal)
 	{
-		DecreaseYY(data.black.Value, YYInfo.Black);
-		DecreaseYY(data.white.Value, YYInfo.White);
+		DecreaseYY(data.black.Value, YYInfo.Black, chn);
+		DecreaseYY(data.white.Value, YYInfo.White, chn);
 	}
 
 	public virtual void DamageYY(float black, float white, DamageType type, float dur = 0, float tick = 0, Actor attacker = null, DamageChannel channel= DamageChannel.None)
@@ -443,16 +443,8 @@ public class LifeModule : Module
 						curT += Time.deltaTime;
 					}
 					yield return w;
-					DamageYYBase(data);
+					DamageYYBase(data, channel);
 					Debug.Log("DAMAGED OF" + channel + ": " + data.white);
-					if (data.white.Value > 0)
-					{
-						GameManager.instance.shower.GenerateDamageText(transform.position, data.white.Value, YYInfo.White, channel, 0.7f);
-					}
-					if (data.black.Value > 0)
-					{
-						GameManager.instance.shower.GenerateDamageText(transform.position, data.black.Value, YYInfo.Black, channel, 0.7f);
-					}
 				}
 				break;
 			case DamageType.Continuous:
@@ -464,15 +456,7 @@ public class LifeModule : Module
 						curT += Time.deltaTime;
 					}
 					yield return w;
-					DamageYYBase(incPerSec * Time.deltaTime);
-					if (incPerSec.white.Value > 0)
-					{
-						GameManager.instance.shower.GenerateDamageText(transform.position, incPerSec.white.Value, YYInfo.White, channel, 0.7f);
-					}
-					if (incPerSec.black.Value > 0)
-					{
-						GameManager.instance.shower.GenerateDamageText(transform.position, incPerSec.black.Value, YYInfo.Black, channel, 0.7f);
-					}
+					DamageYYBase(incPerSec * Time.deltaTime, channel);
 				}
 				break;
 			default:

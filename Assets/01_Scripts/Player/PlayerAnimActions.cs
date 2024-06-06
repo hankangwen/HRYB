@@ -364,54 +364,61 @@ public class PlayerAnimActions : MonoBehaviour
 	
 	public void MoveSound(AnimationEvent evt)
 	{
-		
-		string[] values = new string[] { "Walk", "Jump","Land", "Run", "Crouch" };
-		bool isContains = false;
-		for(int i = 0; i < values.Length; i++)
+		try
 		{
-			if (evt.stringParameter.Contains(values[i])) isContains = true;
-		}
-
-		if (isContains)
-		{
-			
-			if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 0.2f))
+			string[] values = new string[] { "Walk", "Jump", "Land", "Run", "Crouch" };
+			bool isContains = false;
+			for (int i = 0; i < values.Length; i++)
 			{
-				if (hit.collider.GetComponent<Terrain>())
-				{
-					string layerName = GameManager.GetLayerName(transform.position, GameManager.instance.terrain);
-
-					if (layerName.Contains("Grass"))
-					{
-						playerSound.FootStepSound(GroundType.Grass, evt.stringParameter);
-					}
-					else if (layerName.Contains("Sand"))
-					{
-						playerSound.FootStepSound(GroundType.Sand, evt.stringParameter);
-					}
-					else if (layerName.Contains("Dirt"))
-					{
-						playerSound.FootStepSound(GroundType.Dirt, evt.stringParameter);
-					}
-					else
-					{
-						playerSound.FootStepSound(GroundType.Stone, evt.stringParameter);
-					}
-				}
-				else if (hit.collider.TryGetComponent<MeshCollider>(out MeshCollider mc))
-				{
-					if (mc.material.name.Contains("Grass"))
-					{
-						playerSound.FootStepSound(GroundType.Grass, evt.stringParameter);
-					}
-					else
-					{
-						playerSound.FootStepSound(GroundType.Stone, evt.stringParameter);
-					}
-				}
+				if (evt.stringParameter.Contains(values[i])) isContains = true;
 			}
-		
+
+			if (isContains)
+			{
+
+				if (Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, 0.2f))
+				{
+					if (hit.collider.GetComponent<Terrain>())
+					{
+						string layerName = GameManager.GetLayerName(transform.position, GameManager.instance.terrain);
+
+						if (layerName.Contains("Grass"))
+						{
+							playerSound.FootStepSound(GroundType.Grass, evt.stringParameter);
+						}
+						else if (layerName.Contains("Sand"))
+						{
+							playerSound.FootStepSound(GroundType.Sand, evt.stringParameter);
+						}
+						else if (layerName.Contains("Dirt"))
+						{
+							playerSound.FootStepSound(GroundType.Dirt, evt.stringParameter);
+						}
+						else
+						{
+							playerSound.FootStepSound(GroundType.Stone, evt.stringParameter);
+						}
+					}
+					else if (hit.collider.TryGetComponent<MeshCollider>(out MeshCollider mc))
+					{
+						if (mc.material.name.Contains("Grass"))
+						{
+							playerSound.FootStepSound(GroundType.Grass, evt.stringParameter);
+						}
+						else
+						{
+							playerSound.FootStepSound(GroundType.Stone, evt.stringParameter);
+						}
+					}
+				}
+
+			}
 		}
+		catch
+		{
+			Debug.Log("나중에 고쳐라");
+		}
+		
 	}
 
 	public void OnAnimationEvent(AnimationEvent evt)
@@ -447,6 +454,6 @@ public class PlayerAnimActions : MonoBehaviour
 	{
 		if(self == null || _plm == null)
 			return;
-		StartCoroutine(_plm.UseAfterEffect(self, v1, v2, v3));
+		StartCoroutine(_plm.UseAfterEffect(self, 0.12f, v2, 0.3f));
 	}
 }

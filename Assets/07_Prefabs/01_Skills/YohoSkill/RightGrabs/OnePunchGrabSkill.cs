@@ -46,25 +46,6 @@ public class OnePunchGrabSkill : YGComboAttackBase
 
 				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
 
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-				StatusEffects.ApplyStat(_life.GetActor(), self, StatEffID.Bleeding, 4f);
-
 				CameraManager.instance.ShakeCamFor(0.12f, 12, 12);
 				int t = 0;
 				foreach (var value in _life.appliedDebuff)
@@ -88,7 +69,7 @@ public class OnePunchGrabSkill : YGComboAttackBase
 
 
 
-				if (t >= 10)
+				if (t >= 10 && _life.tag != "Jansung")
 				{
 					if((_life.yy.black.Value > 0 && _life.yy.white.Value > 0))
 					{
@@ -124,6 +105,22 @@ public class OnePunchGrabSkill : YGComboAttackBase
 				{
 					_nextTo?.Invoke();
 
+					GameObject obj2 = PoolManager.GetObject("MasterSparkCols", self.transform);
+
+					EffectObject effFailed = PoolManager.GetEffect("Softbluebuff", self.transform);
+					effFailed.Begin();
+
+					if (obj2.TryGetComponent<ColliderCast>(out ColliderCast _cols2))
+					{
+						_cols2.Now(self.transform, (_life2) =>
+						{
+							DoDamage(_life2.GetActor(), self, _dmgs[1], default, t * 0.25f);
+						}, (tls, tl2) =>
+						{
+
+							CameraManager.instance.ShakeCamFor(0.12f, 24, 24);
+						}, default, 0.5f, 0.7f);
+					}
 
 					//(self.cast as PlayerCast).SetCooldownTo(SkillSlotInfo.RClick, 0.2f);
 					//_life.RemoveAllStatEff(StatEffID.Bleeding);
