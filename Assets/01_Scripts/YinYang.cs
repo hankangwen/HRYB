@@ -30,14 +30,15 @@ public class YinYang
 
     public YinYang(float blk, float wht)
 	{
-		black= new UpgradableStatus(0, blk);
-		white = new UpgradableStatus(0, wht);
+		Debug.Log(blk + " : " + wht);
+		black= new UpgradableStatus(2, blk);
+		white = new UpgradableStatus(2, wht);
 	}
 
 	public YinYang(float v)
 	{
-		black = new UpgradableStatus(0,v);
-		white = new UpgradableStatus(0, v);
+		black = new UpgradableStatus(2,v);
+		white = new UpgradableStatus(2, v);
 	}
 
 	public YinYang(YinYang origin)
@@ -86,9 +87,13 @@ public class YinYang
 		System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
 		sb.Append('(');
-		sb.Append(black);
+		sb.Append(black.Value);
+		sb.Append('/');
+		sb.Append(black.MaxValue);
 		sb.Append(':');
-		sb.Append(white);
+		sb.Append(white.Value);
+		sb.Append('/');
+		sb.Append(white.MaxValue);
 		sb.Append(')');
 		return sb.ToString();
 	}

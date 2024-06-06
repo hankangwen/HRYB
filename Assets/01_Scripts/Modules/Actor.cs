@@ -256,9 +256,9 @@ public class UpgradableStatus
 		modValueAdd= 0;
 		modValueMult = 0;
 
+		roundThreshold = roundFrom;
 		value = MaxValue;
 
-		roundThreshold = roundFrom;
 	}
 
 	public UpgradableStatus(UpgradableStatus origin)
@@ -266,7 +266,7 @@ public class UpgradableStatus
 		value = origin.value;
 		modValueAdd = origin.modValueAdd;
 		modValueMult = origin.modValueMult;
-		maxValue = origin.maxValue;
 		roundThreshold = origin.roundThreshold;
+		maxValue = origin.maxValue;
 	}
 }

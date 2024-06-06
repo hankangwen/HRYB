@@ -85,6 +85,7 @@ public class EnemyLifeModule : LifeModule
 	protected override void DecreaseYY(float amt, YYInfo to, DamageChannel chn = DamageChannel.Normal)
 	{
 		float value = amt * adequity[((int)to)];
+		Debug.Log($"{amt} * {adequity[((int)to)]} = {value}");
 		yy.white.Value -= value;
 		
 		if(value > 0)
