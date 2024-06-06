@@ -85,6 +85,6 @@ public class DamageArea : DamageObject
 	public void Returner()
 	{
 		PoolManager.ReturnObject(gameObject);
-
+		Debug.Log("RETURNRED");
 	}
 }

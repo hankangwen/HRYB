@@ -44,7 +44,7 @@ public class RangeAttack : AttackBase
 		{
 			DamageArea ar = PoolManager.GetObject(prefName, targetPt, Quaternion.Euler(rotationOffset)).GetComponent<DamageArea>();
 			ar.transform.localScale = scaleOffset;
-			//ar.SetInfo(totalRemainSec ,self.atk.Damage * _dmgs[0]._skillDamage, isOnce, checkGap, checkDur, self, statEff);
+			ar.SetInfo(totalRemainSec ,self.atk.Damage * _dmgs[0].black, isOnce, checkGap, checkDur, self, statEff);
 			GameManager.instance.audioPlayer.PlayPoint(audioClipName, targetPt);
 		}
 		catch

@@ -38,7 +38,7 @@ public class TalkModule : Module, IInterable
 	private void Awake()
 	{
 		charInfo.self = GetActor();
-		
+		charInfo.latestQuest = null;
 	}
 
 	private void Start()

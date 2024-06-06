@@ -28,7 +28,7 @@ public class TitleBtn : MonoBehaviour
 	{
 		img.sprite = BtnUI;
 		text.color = Color.white;
-		optionUI.gameObject.SetActive(false);
+		optionUI?.gameObject.SetActive(false);
 		Cursor.visible = true;
 
 		Cursor.lockState = CursorLockMode.None;

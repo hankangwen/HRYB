@@ -129,9 +129,12 @@ public class PlayerAttack : AttackModule
 	{
 		//if (GameManager.instance.pinven.stat == HandStat.Weapon)
 		//{
-		if (context.started && GameManager.instance.uiManager.dialogueUI.currentShown != null)
+		if (GameManager.instance.uiManager.dialogueUI.currentShown != null)
 		{
-			GameManager.instance.uiManager.dialogueUI.currentShown.OnClick();
+			if (context.canceled)
+			{
+				GameManager.instance.uiManager.dialogueUI.currentShown.OnClick();
+			}
 		}
 		else if (!clickR)
 		{

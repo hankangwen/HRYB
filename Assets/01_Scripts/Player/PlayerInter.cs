@@ -139,9 +139,12 @@ public class PlayerInter : SightModule
     public void Interact(InputAction.CallbackContext context)
 	{
 		// GameManager.instance.pinven.stat == PlayerForm.Magic || GameManager.instance.pinven.stat == PlayerForm.Yoho
-		if(context.started && GameManager.instance.uiManager.dialogueUI.currentShown != null)
+		if(GameManager.instance.uiManager.dialogueUI.currentShown != null)
 		{
-			GameManager.instance.uiManager.dialogueUI.currentShown.OnClick();
+			if (context.canceled)
+			{
+				GameManager.instance.uiManager.dialogueUI.currentShown.OnClick();
+			}
 		}
 		else if(true)
 		{

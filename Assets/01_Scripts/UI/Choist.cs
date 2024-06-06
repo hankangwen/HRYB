@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class Choist : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
-{
+public class Choist : MonoBehaviour 
+{ 
 	public Sprite hoverSprite;
 	Sprite original;
 	
@@ -38,13 +38,15 @@ public class Choist : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		GameManager.instance.uiManager.dialogueUI.chosen = choiceNum;
 	}
 
-	public void OnPointerEnter(PointerEventData eventData)
+	public void OnHover()
 	{
+		//Debug.Log("ENTEREFD");
 		icon.sprite = hoverSprite;
 	}
 
-	public void OnPointerExit(PointerEventData eventData)
+	public void OnDeHover()
 	{
-		icon.sprite=  original;
+		//Debug.Log("EXITITITITI");
+		icon.sprite =  original;
 	}
 }
