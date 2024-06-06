@@ -40,7 +40,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1312506519089647078}
@@ -158,10 +158,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isImmune: 0
-  initBlack: 500
-  initWhite: 500
-  initAdeBlack: 1
-  initAdeWhite: 1
+  initBlack: 0
+  initWhite: 3000
+  initAdeBlack: 0.3
+  initAdeWhite: 0.7
   regenThreshold: 10
   superArmor: 0
 --- !u!114 &5366181968401801725
