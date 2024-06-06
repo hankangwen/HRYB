@@ -22,7 +22,7 @@ MonoBehaviour:
   statEff: []
   relateTrmName: 
   _dmgs:
-  - black: 3
+  - black: 3.5
     white: 0
     _grogeDamage: 0
-    _comboDamage: 0
+    _comboDamage: 250

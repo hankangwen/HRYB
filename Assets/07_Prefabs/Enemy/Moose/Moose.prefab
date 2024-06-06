@@ -98,9 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDir: {x: 0, y: 0, z: 0}
-  initRunSpeed: 2
-  initWalkSpeed: 4
-  initCrouchSpeed: 2
+  initRunSpeed: 5
+  initWalkSpeed: 7
+  initCrouchSpeed: 5
   gravity: 1
   groundThreshold: 0.5
   _isCanMove: 0
@@ -265,9 +265,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImmune: 0
   initBlack: 0
-  initWhite: 3000
+  initWhite: 4000
   initAdeBlack: 0.2
-  initAdeWhite: 1.4
+  initAdeWhite: 1.2
   regenThreshold: 10
   superArmor: 0
   _isItGroge: 0
