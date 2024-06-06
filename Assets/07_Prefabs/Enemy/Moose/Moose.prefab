@@ -266,8 +266,8 @@ MonoBehaviour:
   isImmune: 0
   initBlack: 0
   initWhite: 3000
-  initAdeBlack: 0.7
-  initAdeWhite: 0.3
+  initAdeBlack: 0.2
+  initAdeWhite: 1.4
   regenThreshold: 10
   superArmor: 0
   _isItGroge: 0
