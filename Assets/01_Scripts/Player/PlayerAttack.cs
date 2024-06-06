@@ -124,25 +124,30 @@ public class PlayerAttack : AttackModule
 		}
 	}
 
+
 	public void OnAttack(InputAction.CallbackContext context) // 좌 우클릭
 	{
 		//if (GameManager.instance.pinven.stat == HandStat.Weapon)
 		//{
-			if (!clickR)
+		if (context.started && GameManager.instance.uiManager.dialogueUI.currentShown != null)
+		{
+			GameManager.instance.uiManager.dialogueUI.currentShown.OnClick();
+		}
+		else if (!clickR)
+		{
+			if ((NoClick.Paused || attackModuleStat.Paused) && !clickL)
+				return;
+			if (context.started && !clickL)
 			{
-				if ((NoClick.Paused || attackModuleStat.Paused) && !clickL)
-					return;
-				if (context.started && !clickL)
-				{
-					clickL = true;
-					(GetActor().cast as PlayerCast).SetSkillUse(SkillSlotInfo.LClick);
-				}
-				else if (context.canceled && clickL)
-				{
-					clickL = false;
-					(GetActor().cast as PlayerCast).ResetSkillUse(SkillSlotInfo.LClick);
-				}
+				clickL = true;
+				(GetActor().cast as PlayerCast).SetSkillUse(SkillSlotInfo.LClick);
 			}
+			else if (context.canceled && clickL)
+			{
+				clickL = false;
+				(GetActor().cast as PlayerCast).ResetSkillUse(SkillSlotInfo.LClick);
+			}
+		}
 				
 		//}
 		//else if (GameManager.instance.pinven.stat == HandStat.Item && context.performed)

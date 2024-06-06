@@ -180,9 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'E
-
-'
+  m_text: F
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bda310b57c97d4a4f8761a0ef2fe6252, type: 2}
   m_sharedMaterial: {fileID: -931324035390038609, guid: bda310b57c97d4a4f8761a0ef2fe6252, type: 2}
