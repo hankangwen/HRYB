@@ -1986,10 +1986,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isImmune: 0
-  initBlack: 125
-  initWhite: 125
-  initAdeBlack: 1
-  initAdeWhite: 1
+  initBlack: 0
+  initWhite: 1000
+  initAdeBlack: 0.5
+  initAdeWhite: 0.5
   regenThreshold: 10
   superArmor: 0
   _isItGroge: 0
@@ -2284,6 +2284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HPBar
       objectReference: {fileID: 0}
+    - target: {fileID: 3931014227673123786, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
+      propertyPath: name
+      value: "\uB291\uB300"
+      objectReference: {fileID: 0}
     - target: {fileID: 8063281413345801639, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2323,6 +2327,10 @@ PrefabInstance:
     - target: {fileID: 8063281413345801639, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200637863505297546, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8913458165041896682, guid: 6a0ae07762cf24041a988d23785d7e89, type: 3}
       propertyPath: m_AnchoredPosition.y
