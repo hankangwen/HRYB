@@ -20,7 +20,7 @@ public class DialogueUI : MonoBehaviour
 
 	List<Choist> choists = new List<Choist>();
 
-	bool stat;
+	internal bool stat;
 	bool choiceStat;
 
 	private void Awake()
@@ -36,13 +36,13 @@ public class DialogueUI : MonoBehaviour
 	}
 
 
-	private void Update()
-	{
-		if(Input.GetMouseButtonDown(0))
-		{
-			currentShown?.OnClick();
-		}
-	}
+	//private void Update()
+	//{
+	//	if(Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.F))
+	//	{
+	//		currentShown?.OnClick();
+	//	}
+	//}
 
 	public void ShowText(string text)
 	{
