@@ -343,9 +343,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImmune: 0
   initBlack: 0
-  initWhite: 20000
-  initAdeBlack: 0
-  initAdeWhite: 1
+  initWhite: 10000
+  initAdeBlack: 0.1
+  initAdeWhite: 0.9
   regenThreshold: 10
   superArmor: 0
   _barrierEffect: {fileID: 8001687956726767954, guid: a17e70a02f8d081468e767010cf9643f, type: 3}
