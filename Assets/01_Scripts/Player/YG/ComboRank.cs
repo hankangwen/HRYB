@@ -115,17 +115,17 @@ public class ComboRank : MonoBehaviour
 		else if(_value >= Middle)
 		{
 			for (int i = 0; i < 7; i++)
-				OutValue(Player.yy.black.MaxValue * 0.3f);
+				OutValue(Player.yy.black.MaxValue * 0.4f);
 		}
 		else if(_value >= Low)
 		{
 			for (int i = 0; i < 8; i++)
-				OutValue(Player.yy.black.MaxValue * 0.15f);
+				OutValue(Player.yy.black.MaxValue * 0.2f);
 		}
 		else if(_value >= VeryLow)
 		{
 			for (int i = 0; i < 4; i++)
-				OutValue(Player.yy.black.MaxValue * 0.075f);
+				OutValue(Player.yy.black.MaxValue * 0.1f);
 		}
 
 		//for (int i = 0; i < 10; i++)

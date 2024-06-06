@@ -31,9 +31,11 @@ MonoBehaviour:
   wx: 0
   useType: 0
   castTime: 0
-  cooldown: 1
+  cooldown: 30
   skillIcon: {fileID: 21300000, guid: 40f031cb21f43d441b822a8ebdbc24b1, type: 3}
   isSuperArmor: 1
+  _superArmorTime: 0
+  _useMana: 90
   maxChargeSec: 15
   chargeThreshold: 1
   chargeEffect: 
