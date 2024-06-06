@@ -766,14 +766,14 @@ public class PlayerMove : MoveModule
 
 	public void DoTargetDetection()
 	{
-		//Debug.Log("DETECTED");
 		targetables.Clear();
-		Collider[] c = Physics.OverlapSphere(transform.position, pAttack.targetMaxDist, ~((1 << GameManager.PLAYERATTACKLAYER) | (1 << GameManager.PLAYERLAYER | 1 << GameManager.GROUNDLAYER)));
+		Collider[] c = Physics.OverlapSphere(transform.position, pAttack.targetMaxDist, ~((1 << GameManager.PLAYERATTACKLAYER | 1 << GameManager.PLAYERLAYER | 1 << GameManager.GROUNDLAYER)));
+		//Debug.Log("HIT OF  + " + c.Length);
 		for (int i = 0; i < c.Length; i++)
 		{
 			if(c[i].TryGetComponent<Actor>(out Actor actor))
 			{
-				if(actor != GetActor() && actor.life.yy.black.Value >0 && actor.life.yy.white.Value > 0)
+				if(actor != GetActor() && actor.life.yy.white.Value > 0)
 				{
 					targetables.Add(actor);
 				}
@@ -783,6 +783,7 @@ public class PlayerMove : MoveModule
 		prevDetectPos = transform.position;
 		prevDetectTime = Time.time;
 
+		//Debug.Log("DETECTED " + targetables.Count);
 		SetNearestEnemy();
 	}
 
@@ -803,6 +804,7 @@ public class PlayerMove : MoveModule
 				{
 					nearestDist = distVec.sqrMagnitude;
 					pAttack.target = item.transform;
+					Debug.Log("ATARETEGET");
 				}
 
 			}
