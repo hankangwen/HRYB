@@ -100,10 +100,10 @@ public class PlayerLife : LifeModule
 			GameManager.instance.qManager.currentAbleQuest[i].ResetQuestStartTime(CompletionAct.CountSecond);
 		}
 
+		GameManager.instance.DisableCtrl();
 		StartCoroutine(DieTel());
 		
 
-		GameManager.instance.DisableCtrl();
 
 		Debug.Log("Player dead");
 	}

@@ -133,6 +133,7 @@ public class PlayerAnimActions : MonoBehaviour
 		else
 		{
 			transform.localPosition= Vector3.zero;
+			transform.localRotation= UnityEngine. Quaternion.identity;
 		}
 		
 	}
