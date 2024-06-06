@@ -109,10 +109,14 @@ public class StoneLamp : MonoBehaviour
 			}
 		}
 	}
+
+	float healTime = 0;
 	private IEnumerator Heal()
 	{
 		WaitForSeconds wait = new WaitForSeconds(1.0f);
+		
 
+		healTime += Time.deltaTime;
 		while (true)
 		{
 			if (isEffect == false)
@@ -127,18 +131,24 @@ public class StoneLamp : MonoBehaviour
 			else
 			{
 				//플레이어가 체력이 없을때
-				if (!((GameManager.instance.pActor.life.yy.white.Value + GameManager.instance.pActor.life.yy.white.MaxValue * 0.02f) >= GameManager.instance.pActor.life.yy.white.MaxValue))
+				if (healTime >= 1f)
 				{
-					GameManager.instance.pActor.life.yy.white.Value += GameManager.instance.pActor.life.yy.white.MaxValue * 0.02f;
-
-					if (effectObj == null)
+					if (!((GameManager.instance.pActor.life.yy.white.Value + GameManager.instance.pActor.life.yy.white.MaxValue * 0.1f) >= GameManager.instance.pActor.life.yy.white.MaxValue) 
+						|| !((GameManager.instance.pActor.life.yy.black.Value + GameManager.instance.pActor.life.yy.black.MaxValue * 0.1f) >= GameManager.instance.pActor.life.yy.black.MaxValue))
 					{
-						effectObj = PoolManager.GetObject($"Heal", transform);
+						GameManager.instance.pActor.life.yy.white.Value += GameManager.instance.pActor.life.yy.white.MaxValue * 0.1f;
+						GameManager.instance.pActor.life.yy.black.Value += GameManager.instance.pActor.life.yy.black.MaxValue * 0.1f;
+
+						if (effectObj == null)
+						{
+							effectObj = PoolManager.GetObject($"Heal", transform);
+						}
+
+						effectObj.transform.position = GameManager.instance.player.transform.position;
+
+						GameManager.instance.audioPlayer.PlayPoint("LightHeal", transform.position);
+						healTime = 0;
 					}
-
-					effectObj.transform.position = GameManager.instance.player.transform.position;
-
-					GameManager.instance.audioPlayer.PlayPoint("LightHeal", transform.position);
 				}
 			}
 
