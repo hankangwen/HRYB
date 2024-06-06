@@ -32,7 +32,7 @@ MonoBehaviour:
   skillIcon: {fileID: 0}
   isSuperArmor: 1
   _superArmorTime: 2
-  _useMana: 0
+  _useMana: 10
   initCombo: 0
   resetSec: 2
   resetThreshold: 0
