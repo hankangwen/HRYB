@@ -23,8 +23,12 @@ MonoBehaviour:
   - id: 11
     power: 15
     duration: 3
-  damageMult: 0.7
   relateTrmName: Main Camera (1)
+  _dmgs:
+  - black: 0.3
+    white: 0
+    _grogeDamage: 0
+    _comboDamage: 100
   rangeName: PlayerDecalObject
   prefName: Effect_21_GroundScatter(Base)
   maxDistance: 15

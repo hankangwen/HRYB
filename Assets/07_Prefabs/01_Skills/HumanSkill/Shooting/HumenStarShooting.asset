@@ -31,4 +31,4 @@ MonoBehaviour:
   skillIcon: {fileID: 21300000, guid: 16d84848ce4c3694a9261da471b29460, type: 3}
   isSuperArmor: 0
   _superArmorTime: 0
-  _useMana: 15
+  _useMana: 20
