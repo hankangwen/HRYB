@@ -160,10 +160,10 @@ public class FollowingFoxFire : MonoBehaviour
 
 		ac.life.DamageYY(0, dmg, DamageType.NoEvadeHit, 0, 0, GameManager.instance.pActor);
 		GameManager.instance.audioPlayer.PlayPoint("FoxFireExp", transform.position);
-		if (dmg > 0)
-		{
-			GameManager.instance.shower.GenerateDamageText(transform.position, dmg, YYInfo.White);
-		}
+		//if (dmg > 0)
+		//{
+		//	GameManager.instance.shower.GenerateDamageText(transform.position, dmg, YYInfo.White);
+		//}
 
 		Debug.Log($"펑. {dmg}댐");
 		

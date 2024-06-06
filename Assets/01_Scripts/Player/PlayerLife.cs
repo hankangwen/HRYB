@@ -79,9 +79,9 @@ public class PlayerLife : LifeModule
 		}
 	}
 
-	protected override void DamageYYBase(YinYang data)
+	protected override void DamageYYBase(YinYang data, DamageChannel chn = DamageChannel.Normal)
 	{
-		base.DamageYYBase(data);
+		base.DamageYYBase(data, chn);
 		GameManager.instance.uiManager.yinYangUI.RefreshValues();
 	}
 

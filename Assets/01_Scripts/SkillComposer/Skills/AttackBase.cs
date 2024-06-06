@@ -81,17 +81,18 @@ public abstract class AttackBase : Leaf
 		float white = by.atk.Damage.white.Value * value.white * AddValue;
 		float black = by.atk.Damage.black.Value * value.black * AddValue;
 
+		white = white + ( white * UnityEngine.Random.Range(-0.2f, 0.2f));
+		black = black + (black * UnityEngine.Random.Range(-0.2f, 0.2f));
 		Debug.LogError($"DMGS : {value.white} | {value.black}");
 
 		if (white > 0)
 		{
 			to.life.DamageYY(0, white, DamageType.DirectHit, 0, 0, by);
-			GameManager.instance.shower.GenerateDamageText(pos, white, YYInfo.White);
+
 		}
 		if (black > 0 )
 		{
 			to.life.DamageYY(black, 0, DamageType.DirectHit, 0, 0, by);
-			GameManager.instance.shower.GenerateDamageText(pos, black, YYInfo.Black);
 		}
 
 		if (to.TryGetComponent<EnemyLifeModule>(out EnemyLifeModule eme))
