@@ -79,7 +79,31 @@ public class DamageArea : DamageObject
 
 	public override void Damage(LifeModule to)
 	{
-		to.DamageYY(yy, DamageType.NoEvadeHit, 0, 0, owner);
+		//to.DamageYY(yy, DamageType.NoEvadeHit, 0, 0, owner);
+		DoDamage(to.GetActor());
+	}
+
+	protected virtual void DoDamage(Actor to)
+	{
+
+
+		float white = yy.white.Value;
+		float black = yy.black.Value;
+
+		white = white + (white * UnityEngine.Random.Range(-0.2f, 0.2f));
+		black = black + (black * UnityEngine.Random.Range(-0.2f, 0.2f));
+		//Debug.LogError($"DMGS : {value.white} | {value.black}");
+
+		if (white > 0)
+		{
+			to.life.DamageYY(0, white, DamageType.NoEvadeHit, 0, 0, owner);
+
+		}
+		if (black > 0)
+		{
+			to.life.DamageYY(black, 0, DamageType.NoEvadeHit, 0, 0, owner);
+		}
+
 	}
 
 	public void Returner()
