@@ -15,4 +15,4 @@ MonoBehaviour:
   baseName: "\uCD5C\uC528"
   subName: "\uC758\uBB38\uC758 \uBB34\uC0AC"
   initDia: {fileID: 11400000, guid: 837612efa080e2c45aa55c371025ff12, type: 2}
-  latestQuest: {fileID: 11400000, guid: 4f940c2d4fe48444bbf4141e8cc45b8b, type: 2}
+  latestQuest: {fileID: 0}
