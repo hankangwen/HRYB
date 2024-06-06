@@ -12,22 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb5693b5430445429919af49ea1c1e6, type: 3}
   m_Name: DemoQuest
   m_EditorClassIdentifier: 
-  questName: "\uC778\uC0BC\uACFC \uAC1C\uB625\uC465 \uAD6C\uD558\uAE30"
+  questName: "\uC778\uC219\uD0D5 \uB9CC\uB4E4\uAE30"
   myInfo:
   - objective: 0
-    parameter: "\uC778\uC0BC"
+    parameter: "\uC778\uC219\uD0D5"
     repeatCount: 1
     afterAct: 0
     inverted: 0
     everSince: 0
-    isVisibleCondition: 0
+    isVisibleCondition: 1
     itemMode: 1
     itemRequirement: 0
     defeatMode: 0
     defeatParameter: 
-  - objective: 0
-    parameter: "\uAC1C\uB625\uC465"
-    repeatCount: 3
+  - objective: 7
+    parameter: SKM_Soldier_1
+    repeatCount: 1
     afterAct: 3
     inverted: 0
     everSince: 0
@@ -49,5 +49,6 @@ MonoBehaviour:
       m_Calls: []
   questingDia: {fileID: 11400000, guid: d45b4cd249732b14185166f40f872074, type: 2}
   questedDia: {fileID: 11400000, guid: 4096a888a2bf15d4781cc94c11ed61f0, type: 2}
-  descriptions: "\uC778\uC0BC\uACFC \uAC1C\uB625\uC465\uC744 \uAD6C\uD558\uB294 \uD018\uC2A4\uD2B8"
+  descriptions: "\uC778\uC0BC 1\uAC1C\uC640 \uAC1C\uB625\uC465 1\uAC1C\uB85C \uC778\uC219\uD0D5\uC744
+    \uB9CC\uB4E4 \uC218 \uC788\uB2E4."
   type: 0
