@@ -26,6 +26,6 @@ MonoBehaviour:
   relateTrmName: 
   _dmgs:
   - black: 0
-    white: 0.7
+    white: 0.55
     _grogeDamage: 10
     _comboDamage: 20

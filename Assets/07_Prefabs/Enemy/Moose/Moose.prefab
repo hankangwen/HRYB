@@ -82,7 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initAtkDist: 0
   initAtkGap: 0
-  blackDamage: 15
+  blackDamage: 0
   whiteDamage: 15
   target: {fileID: 0}
 --- !u!114 &1028486988875783229
