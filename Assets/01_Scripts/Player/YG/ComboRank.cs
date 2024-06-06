@@ -13,7 +13,7 @@ public class ComboRank : MonoBehaviour
 	public float Middle = 1200;
 	public float High = 1600;
 	public float VeryHigh = 2000;
-	public float Z = 10000;
+	public float Z = 4000;
 
 	public ComboRankSO _comboImage;
 
@@ -105,27 +105,27 @@ public class ComboRank : MonoBehaviour
 		if(_value >= VeryHigh)
 		{
 			for (int i = 0; i < 5; i++)
-				OutValue(Player.yy.black.MaxValue * 0.2f);
+				OutValue(Player.yy.black.MaxValue * 0.6f);
 		}
 		else if(_value >= High)
 		{
 			for (int i = 0; i < 7; i++)
-				OutValue(Player.yy.black.MaxValue * 0.1f);
+				OutValue(Player.yy.black.MaxValue * 0.3f);
 		}
 		else if(_value >= Middle)
 		{
 			for (int i = 0; i < 7; i++)
-				OutValue(Player.yy.black.MaxValue * 0.05f);
+				OutValue(Player.yy.black.MaxValue * 0.15f);
 		}
 		else if(_value >= Low)
 		{
 			for (int i = 0; i < 8; i++)
-				OutValue(Player.yy.black.MaxValue * 0.025f);
+				OutValue(Player.yy.black.MaxValue * 0.075f);
 		}
 		else if(_value >= VeryLow)
 		{
 			for (int i = 0; i < 4; i++)
-				OutValue(Player.yy.black.MaxValue * 0.025f);
+				OutValue(Player.yy.black.MaxValue * 0.075f);
 		}
 
 		//for (int i = 0; i < 10; i++)
