@@ -343,8 +343,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isImmune: 0
   initBlack: 0
-  initWhite: 20000
-  initAdeBlack: 0
+  initWhite: 40000
+  initAdeBlack: 0.05
   initAdeWhite: 2
   regenThreshold: 10
   superArmor: 0
