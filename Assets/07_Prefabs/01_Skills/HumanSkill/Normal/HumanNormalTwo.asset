@@ -20,5 +20,9 @@ MonoBehaviour:
     value: 0
   level: 0
   statEff: []
-  damageMult: 1
   relateTrmName: 
+  _dmgs:
+  - black: 1
+    white: 0
+    _grogeDamage: 0
+    _comboDamage: 0

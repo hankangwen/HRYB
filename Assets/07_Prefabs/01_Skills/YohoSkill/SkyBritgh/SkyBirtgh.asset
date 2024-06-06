@@ -36,4 +36,4 @@ MonoBehaviour:
   - black: 0
     white: 2
     _grogeDamage: 500
-    _comboDamage: 60
+    _comboDamage: 70

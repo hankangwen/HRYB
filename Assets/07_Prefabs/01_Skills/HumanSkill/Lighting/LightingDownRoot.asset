@@ -30,4 +30,5 @@ MonoBehaviour:
   cooldown: 4
   skillIcon: {fileID: 21300000, guid: 028b59852be21494b926c4fdedb638cf, type: 3}
   isSuperArmor: 1
-  _useMana: 20
+  _superArmorTime: 0
+  _useMana: 10
