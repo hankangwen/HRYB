@@ -1986,10 +1986,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isImmune: 0
-  initBlack: 125
-  initWhite: 125
-  initAdeBlack: 1
-  initAdeWhite: 1
+  initBlack: 0
+  initWhite: 1000
+  initAdeBlack: 0.5
+  initAdeWhite: 0.5
   regenThreshold: 10
   superArmor: 0
   _isItGroge: 0

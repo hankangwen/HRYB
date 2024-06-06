@@ -21,6 +21,7 @@ public class JangsungManAI : AISetter
 		StopExamine();
 		JangSungMoveModule _jsMoveModule = self.move as JangSungMoveModule;
 		_jsMoveModule.ResetDest();
+		GetComponent<BoxCollider>().enabled = false;
 	}
 
     protected override void StartInvoke()
@@ -39,7 +40,7 @@ public class JangsungManAI : AISetter
 			JangSungMoveModule _jsMoveModule = self.move as JangSungMoveModule;
 			_jsAttckModule.SetTarget(player);
 			_jsMoveModule.SetTarget(player);
-
+			GetComponent<BoxCollider>().enabled = true;
 			#region 조우
 
 			//IsFirstTime firstFound = new IsFirstTime();
@@ -57,7 +58,7 @@ public class JangsungManAI : AISetter
 			//Selecter wakeUper = new Selecter();
 			//wakeUper.connecteds.Add(passed);
 			//wakeUper.connecteds.Add(isAwake);
-//
+			//
 
 			#endregion
 

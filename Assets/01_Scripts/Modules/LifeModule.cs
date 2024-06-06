@@ -167,8 +167,8 @@ public class LifeModule : Module
 
 	void DecreaseYY(float amt, YYInfo to)
 	{
-		yy[((int)to)] -= amt * adequity[((int)to)];
-		if (to == YYInfo.White && isDead)
+		yy.white.Value -= amt * adequity[((int)to)];
+		if (isDead)
 		{
 			OnDead();
 			StatusEffects.ApplyStat(GetActor(), GetActor(), StatEffID.Immune, 10);
