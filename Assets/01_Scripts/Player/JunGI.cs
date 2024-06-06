@@ -12,6 +12,8 @@ public class JungGI : MonoBehaviour
 	bool _init = false;
 	bool _followPlayer = false;
 	bool _goPlayer = false;
+
+	float mpValue = 0;
 	Transform tls;
 
 	public void Init(Vector3 enemyPos, float t)
@@ -26,6 +28,7 @@ public class JungGI : MonoBehaviour
 		_init = true;
 		_goPlayer = false;
 		_followPlayer = false;
+		mpValue = t;
 		tls = GameManager.instance.player.transform;
 	}
 
@@ -71,7 +74,7 @@ public class JungGI : MonoBehaviour
 				if (_life.TryGetComponent<PlayerLife>(out PlayerLife pl))
 				{
 
-					pl.StartCoroutine(pl.JunGIUP(cols, t));
+					pl.StartCoroutine(pl.JunGIUP(cols, mpValue));
 
 				}
 			});
