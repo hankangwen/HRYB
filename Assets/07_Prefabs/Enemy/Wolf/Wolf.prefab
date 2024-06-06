@@ -1988,8 +1988,8 @@ MonoBehaviour:
   isImmune: 0
   initBlack: 0
   initWhite: 1000
-  initAdeBlack: 0.5
-  initAdeWhite: 0.5
+  initAdeBlack: 1
+  initAdeWhite: 1
   regenThreshold: 10
   superArmor: 0
   _isItGroge: 0
