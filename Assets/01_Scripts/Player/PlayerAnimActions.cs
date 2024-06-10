@@ -32,6 +32,7 @@ public class PlayerAnimActions : MonoBehaviour
 	readonly int aimHash = Animator.StringToHash("Aim");
 	readonly int fireHash = Animator.StringToHash("Fire");
 	readonly int formHash = Animator.StringToHash("Form");
+	const string FOOTSTEPEFF = "FootstepEff";
 
 	public Vector3 lFootOffset;
 	public Vector3 rFootOffset;
@@ -399,6 +400,9 @@ public class PlayerAnimActions : MonoBehaviour
 						{
 							playerSound.FootStepSound(GroundType.Stone, evt.stringParameter);
 						}
+						//ParticleSystem eff = PoolManager.GetObject(FOOTSTEPEFF, hit.point + Vector3.up * 0.2f, UnityEngine.Quaternion.identity, 0.5f).GetComponent<ParticleSystem>();
+						//eff.Stop();
+						//eff.Play();
 					}
 					else if (hit.collider.TryGetComponent<MeshCollider>(out MeshCollider mc))
 					{
@@ -410,6 +414,9 @@ public class PlayerAnimActions : MonoBehaviour
 						{
 							playerSound.FootStepSound(GroundType.Stone, evt.stringParameter);
 						}
+						//ParticleSystem eff= PoolManager.GetObject(FOOTSTEPEFF, hit.point, UnityEngine.Quaternion.identity, 0.5f).GetComponent<ParticleSystem>();
+						//eff.Stop();
+						//eff.Play();
 					}
 				}
 
