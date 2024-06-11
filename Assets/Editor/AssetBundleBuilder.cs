@@ -10,7 +10,7 @@ using UnityEngine;
 public class AssetBundleBuilder
 {
 	[MenuItem("Assets/Build AssetBundles")]
-	static void BuildAllAssetBundles()
+	internal static void BuildAllAssetBundles()
 	{
 		try
 		{
@@ -22,9 +22,9 @@ public class AssetBundleBuilder
 			BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
 			Debug.Log("BUILDED");
 		}
-		catch
+		catch(System.Exception e)
 		{
-			Debug.LogError("BUILD FAILED");
+			Debug.LogError($"BUILD FAILED : {e}");
 		}
 	}
 

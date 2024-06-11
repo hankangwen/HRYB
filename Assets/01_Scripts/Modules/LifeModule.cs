@@ -126,8 +126,8 @@ public class LifeModule : Module
 		yy = new YinYang(initBlack, initWhite);
 
 		adequity = new YinYang(initAdeBlack, initAdeWhite);
-		Debug.Log("INITADE : " + initAdeBlack + " : " + initAdeWhite);
-		Debug.Log("ADE : " + adequity.ToString());
+		//Debug.Log("INITADE : " + initAdeBlack + " : " + initAdeWhite);
+		//Debug.Log("ADE : " + adequity.ToString());
 	}
 	protected virtual IEnumerator PlayWakeAgain(float t)
 	{
