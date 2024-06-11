@@ -28,7 +28,8 @@ public class TitleBtn : MonoBehaviour
 	{
 		img.sprite = BtnUI;
 		text.color = Color.white;
-		optionUI?.gameObject.SetActive(false);
+		if(optionUI)
+			optionUI.gameObject.SetActive(false);
 		Cursor.visible = true;
 
 		Cursor.lockState = CursorLockMode.None;
@@ -36,12 +37,14 @@ public class TitleBtn : MonoBehaviour
 
 	public void OnOption()
 	{
-		optionUI.gameObject.SetActive(true);
+		if (optionUI)
+			optionUI.gameObject.SetActive(true);
 	}
 
 	public void OffOption()
 	{
-		optionUI.gameObject.SetActive(false);
+		if (optionUI)
+			optionUI.gameObject.SetActive(false);
 	}
 
 	public void OffOption2()

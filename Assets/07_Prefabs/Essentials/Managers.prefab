@@ -144,7 +144,7 @@ MonoBehaviour:
   High: 1600
   VeryHigh: 2000
   Z: 10000
-  _comboImage: {fileID: 0}
+  _comboImage: {fileID: 11400000, guid: 1a51b48a959a30246997988e9197582d, type: 2}
 --- !u!1 &4008154885341576432
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 577429638832086463}
   - component: {fileID: 692009439245406361}
   - component: {fileID: 2385463462588017491}
+  - component: {fileID: 1912344361705788251}
   m_Layer: 0
   m_Name: GM
   m_TagString: Untagged
@@ -248,8 +249,29 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: eb4b6aac6e0c136489447c201511bfd1, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 4c32daa94ee5ebb43a43a6336d7e2661, type: 2}
   m_BuildHeightMesh: 0
+--- !u!95 &1912344361705788251
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4008154885341576432}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4288889470713400890
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,7 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd543c84a5b59c541b325244b881a706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationsPerHour: 60
+  rotationsPerHour: 12
   automaticLightIntensity: 1
   maximumLightIntensity: 3
   _dayColor: {r: 1, g: 0.98039216, b: 0.8235294, a: 0}
@@ -873,6 +895,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162079df74f2f094ab771f7e0e70151b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationsPerHour: 60
+  rotationsPerHour: 12
   automaticLightIntensity: 1
   maximumLightIntensity: 0.5
